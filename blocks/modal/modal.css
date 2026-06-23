@@ -149,6 +149,11 @@ body.modal-open { /* @boilerplate */
   margin: 0;
 }
 
+/* equal fixed-width buttons matching the source */
+.modal dialog.modal-entrance .modal-actions a.button {
+  width: var(--modal-entrance-button-width);
+}
+
 /* source Yep/Nope buttons have no trailing arrow */
 .modal dialog.modal-entrance .modal-actions a.button::after {
   content: none;

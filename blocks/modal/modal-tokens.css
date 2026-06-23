@@ -25,4 +25,5 @@
   --modal-entrance-heading-size: var(--heading-font-size-xl);
   --modal-entrance-text-gap: 8px;
   --modal-entrance-actions-gap: 30px;
+  --modal-entrance-button-width: 140px;
 }
