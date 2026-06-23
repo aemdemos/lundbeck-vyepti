@@ -157,6 +157,29 @@
   --button-on-dark-secondary-hover-border-color: var(--background-color); /* @libs */
   --button-on-dark-secondary-hover-color: var(--brand-primary); /* @libs */
 
+  /* entrance modal — VYEPTI first-visit prompt (CSS-only, columns-based).
+     Lives here (not modal-tokens.css) because the modal is authored on the
+     page as a columns block, so only the always-loaded styles.css applies. */
+  --modal-entrance-backdrop: rgb(19 19 19 / 75%);
+  --modal-entrance-background: var(--card-bg-light);
+  --modal-entrance-border-radius: 12px;
+  --modal-entrance-max-width: 1080px;
+  --modal-entrance-top-offset: 172px;
+  --modal-entrance-z-index: 100;
+  --modal-entrance-padding-mobile: 48px 24px 32px;
+  --modal-entrance-padding-desktop: 64px 61px 85px;
+  --modal-entrance-gap: 32px;
+  --modal-entrance-logo-gap: 49px;
+  --modal-entrance-text-actions-gap: 29px;
+  --modal-entrance-logo-width: 138px;
+  --modal-entrance-heading-size: var(--heading-font-size-xl);
+  --modal-entrance-text-gap: 8px;
+  --modal-entrance-actions-gap: 30px;
+  --modal-entrance-button-width: 140px;
+  --modal-entrance-close-size: 44px;
+  --modal-entrance-close-icon-size: var(--icon-size);
+  --modal-entrance-close-icon-thickness: 2px;
+
 }
 
 /* fallback font for proxima-nova */
@@ -714,5 +737,171 @@ main .section.stats-callout > div:not(.bg-image) {
 
   main .section.stats-callout > div:not(.bg-image) {
     max-width: 1140px;
+  }
+}
+
+/* ==========================================================================
+   Entrance modal — VYEPTI first-visit prompt (CSS-only, columns-based)
+   Authored on the page as a section styled `entrance-modal` containing a
+   3-cell columns block (logo | text | actions). The overlay shows on load;
+   the close "X" and backdrop are anchors that use the :target hack to hide
+   the section — no JavaScript. All appearance flows through design tokens.
+   ========================================================================== */
+
+/* full-screen overlay + backdrop, shown by default.
+   Note: the top offset lives on the modal box (margin-top) rather than the
+   section's padding-top, because the fragment block's
+   `.fragment-wrapper > .section:first-of-type` rule resets padding-top to 0. */
+main .section.entrance-modal {
+  position: fixed;
+  inset: 0;
+  z-index: var(--modal-entrance-z-index);
+  margin: 0;
+  padding: 0 24px 24px;
+  background-color: var(--modal-entrance-backdrop);
+  overflow-y: auto;
+  overscroll-behavior: none;
+}
+
+/* The modal is delivered via the fragment block, which copies the fragment's
+   `entrance-modal` section class onto the host section and keeps the inlined
+   section too. Neutralize the outer host so only the inner section is the
+   overlay (avoids a doubled backdrop). */
+main .section.fragment-container.entrance-modal {
+  position: static;
+  padding: 0;
+  background: none;
+  overflow: visible;
+}
+
+/* :target close — clicking the X or backdrop (href="#entrance-x") hides it */
+main:has(#entrance-x:target) .section.entrance-modal {
+  display: none;
+}
+
+/* backdrop click target: covers the whole overlay, behind the modal box */
+main .section.entrance-modal .modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  font-size: 0;
+  color: transparent;
+}
+
+/* the modal surface (light-blue rounded box) */
+main .section.entrance-modal > .columns-wrapper {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: var(--modal-entrance-max-width);
+  margin: var(--modal-entrance-top-offset) auto 0;
+  border-radius: var(--modal-entrance-border-radius);
+  background-color: var(--modal-entrance-background);
+}
+
+main .section.entrance-modal .columns {
+  margin: 0;
+  padding: var(--modal-entrance-padding-mobile);
+}
+
+/* layout: stacked on mobile, single row on desktop (logo | text | actions) */
+main .section.entrance-modal .columns > div {
+  align-items: center;
+  gap: var(--modal-entrance-gap);
+  text-align: center;
+}
+
+/* logo cell */
+main .section.entrance-modal .columns-img-col {
+  flex: 0 0 auto;
+}
+
+main .section.entrance-modal .columns-img-col img {
+  width: var(--modal-entrance-logo-width);
+  height: auto;
+}
+
+/* text cell */
+main .section.entrance-modal .columns > div > div:not(.columns-img-col, .modal-buttons) h2 {
+  margin: 0;
+  font-size: var(--modal-entrance-heading-size);
+}
+
+main .section.entrance-modal .columns > div > div:not(.columns-img-col, .modal-buttons) p {
+  margin: 0;
+}
+
+/* actions cell (Yep / Nope) */
+main .section.entrance-modal .modal-buttons {
+  display: flex;
+  flex: 0 0 auto;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--modal-entrance-actions-gap);
+}
+
+main .section.entrance-modal .modal-buttons p {
+  margin: 0;
+}
+
+/* equal fixed-width outline buttons, matching the source (no trailing arrow) */
+main .section.entrance-modal .modal-buttons a.button {
+  width: var(--modal-entrance-button-width);
+}
+
+main .section.entrance-modal .modal-buttons a.button::after {
+  content: none;
+}
+
+/* close "X" — drawn via CSS pseudo-elements on the authored anchor */
+main .section.entrance-modal .modal-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: var(--modal-entrance-close-size);
+  height: var(--modal-entrance-close-size);
+  font-size: 0;
+  color: var(--text-color);
+}
+
+main .section.entrance-modal .modal-close::before,
+main .section.entrance-modal .modal-close::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--modal-entrance-close-icon-size);
+  height: var(--modal-entrance-close-icon-thickness);
+  border-radius: var(--modal-entrance-close-icon-thickness);
+  background-color: currentcolor;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+main .section.entrance-modal .modal-close::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+@media (width >= 992px) {
+  main .section.entrance-modal .columns {
+    padding: var(--modal-entrance-padding-desktop);
+  }
+
+  main .section.entrance-modal .columns > div {
+    align-items: center;
+    gap: 0; /* asymmetric spacing handled by cell margins below */
+    text-align: left;
+  }
+
+  /* logo and actions keep natural width; text cell fills the middle so the
+     buttons sit at the right edge, matching the source row layout */
+  main .section.entrance-modal .columns > div > div:not(.columns-img-col, .modal-buttons) {
+    flex: 1 1 auto;
+    margin-left: var(--modal-entrance-logo-gap);
+  }
+
+  main .section.entrance-modal .modal-buttons {
+    flex-wrap: nowrap;
+    margin-left: var(--modal-entrance-text-actions-gap);
   }
 }
