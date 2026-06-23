@@ -9,13 +9,50 @@ import {
   Other blocks can also use the createModal() and openModal() functions.
 */
 
-export async function createModal(contentNodes) {
+/**
+ * Groups the entrance modal's decorated content into three layout zones
+ * (logo, text, actions) so CSS can arrange them in a row. Structural only —
+ * all copy and links remain authored in the fragment.
+ * @param {HTMLElement} root The modal-content element
+ */
+function groupEntranceLayout(root) {
+  const wrapper = root.querySelector('.default-content-wrapper') || root;
+  const logo = wrapper.querySelector(':scope > p:has(picture), :scope > p:has(img)');
+  const heading = wrapper.querySelector(':scope > h1, :scope > h2, :scope > h3');
+  const actions = [...wrapper.querySelectorAll(':scope > .button-wrapper')];
+  // body = paragraphs that are neither the logo nor a button wrapper
+  const body = [...wrapper.querySelectorAll(':scope > p')]
+    .filter((p) => p !== logo && !p.classList.contains('button-wrapper'));
+
+  if (logo) logo.classList.add('modal-logo');
+
+  if (heading || body.length) {
+    const text = document.createElement('div');
+    text.className = 'modal-text';
+    if (heading) text.append(heading);
+    body.forEach((p) => text.append(p));
+    wrapper.insertBefore(text, actions[0] || null);
+  }
+
+  if (actions.length) {
+    const group = document.createElement('div');
+    group.className = 'modal-actions';
+    actions.forEach((a) => group.append(a));
+    wrapper.append(group);
+  }
+}
+
+export async function createModal(contentNodes, options = {}) {
   await loadCSS(`${window.hlx.codeBasePath}/blocks/modal/modal.css`);
   const dialog = document.createElement('dialog');
   const dialogContent = document.createElement('div');
   dialogContent.classList.add('modal-content');
   dialogContent.append(...contentNodes);
   dialog.append(dialogContent);
+
+  const { variant } = options;
+  if (variant) dialog.classList.add(`modal-${variant}`);
+  if (variant === 'entrance') groupEntranceLayout(dialogContent);
 
   const closeButton = document.createElement('button');
   closeButton.classList.add('close-button');
@@ -62,12 +99,12 @@ export async function createModal(contentNodes) {
   };
 }
 
-export async function openModal(fragmentUrl) {
+export async function openModal(fragmentUrl, options = {}) {
   const path = fragmentUrl.startsWith('http')
     ? new URL(fragmentUrl, window.location).pathname
     : fragmentUrl;
 
   const fragment = await loadFragment(path);
-  const { showModal } = await createModal(fragment.childNodes);
+  const { showModal } = await createModal(fragment.childNodes, options);
   showModal();
 }

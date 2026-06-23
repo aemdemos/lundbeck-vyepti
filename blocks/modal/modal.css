@@ -84,3 +84,78 @@ body.modal-open { /* @boilerplate */
     padding-top: 0; /* @boilerplate */
   }
 }
+
+/* entrance variant — VYEPTI first-visit prompt */
+.modal dialog.modal-entrance {
+  max-width: var(--modal-entrance-max-width);
+  border: none;
+  border-radius: var(--modal-entrance-border-radius);
+  background-color: var(--modal-entrance-background);
+}
+
+.modal dialog.modal-entrance .modal-content {
+  margin-top: 0;
+  padding: var(--modal-entrance-padding-mobile);
+}
+
+.modal dialog.modal-entrance .default-content-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--modal-entrance-gap);
+  text-align: center;
+}
+
+.modal dialog.modal-entrance .modal-logo {
+  margin: 0;
+}
+
+.modal dialog.modal-entrance .modal-logo img {
+  width: var(--modal-entrance-logo-width);
+  height: auto;
+}
+
+.modal dialog.modal-entrance .modal-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--modal-entrance-text-gap);
+}
+
+.modal dialog.modal-entrance .modal-text h2 {
+  margin: 0;
+  font-size: var(--modal-entrance-heading-size);
+}
+
+.modal dialog.modal-entrance .modal-text p {
+  margin: 0;
+}
+
+.modal dialog.modal-entrance .modal-actions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: var(--modal-entrance-actions-gap);
+}
+
+.modal dialog.modal-entrance .modal-actions .button-wrapper {
+  margin: 0;
+}
+
+/* source Yep/Nope buttons have no trailing arrow */
+.modal dialog.modal-entrance .modal-actions a.button::after {
+  content: none;
+}
+
+@media (width >= 992px) {
+  .modal dialog.modal-entrance .modal-content {
+    padding: var(--modal-entrance-padding-desktop);
+  }
+
+  .modal dialog.modal-entrance .default-content-wrapper {
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: left;
+  }
+}

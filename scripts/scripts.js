@@ -874,7 +874,7 @@ async function loadLazy(doc) {
   const entranceModal = getMetadata('entrance-modal');
   if (entranceModal) {
     import(`${window.hlx.codeBasePath}/blocks/modal/modal.js`)
-      .then(({ openModal }) => openModal(entranceModal));
+      .then(({ openModal }) => openModal(entranceModal, { variant: 'entrance' }));
   }
 }
 
