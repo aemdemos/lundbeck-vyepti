@@ -54,19 +54,6 @@ export async function createModal(contentNodes, options = {}) {
   if (variant) dialog.classList.add(`modal-${variant}`);
   if (variant === 'entrance') groupEntranceLayout(dialogContent);
 
-  // When dismissUrl is set, dismissing the modal (X, click-outside, Escape)
-  // navigates there instead of just closing — unless already on that path,
-  // in which case it closes to avoid reloading the current page.
-  const { dismissUrl } = options;
-  const dismiss = () => {
-    if (dismissUrl
-      && window.location.pathname !== new URL(dismissUrl, window.location).pathname) {
-      window.location.href = dismissUrl;
-    } else {
-      dialog.close();
-    }
-  };
-
   const closeButton = document.createElement('button');
   closeButton.classList.add('close-button');
   closeButton.setAttribute('aria-label', 'Close');
@@ -74,21 +61,13 @@ export async function createModal(contentNodes, options = {}) {
   const closeIcon = document.createElement('span');
   closeIcon.className = 'icon icon-close';
   closeButton.appendChild(closeIcon);
-  closeButton.addEventListener('click', dismiss);
+  closeButton.addEventListener('click', () => dialog.close());
   dialog.prepend(closeButton);
 
   const block = buildBlock('modal', '');
   document.querySelector('main').append(block);
   decorateBlock(block);
   await loadBlock(block);
-
-  // dismiss on Escape (native dialog 'cancel') so it follows dismissUrl too
-  dialog.addEventListener('cancel', (e) => {
-    if (dismissUrl) {
-      e.preventDefault();
-      dismiss();
-    }
-  });
 
   // close on click outside the dialog
   dialog.addEventListener('click', (e) => {
@@ -97,7 +76,7 @@ export async function createModal(contentNodes, options = {}) {
     } = dialog.getBoundingClientRect();
     const { clientX, clientY } = e;
     if (clientX < left || clientX > right || clientY < top || clientY > bottom) {
-      dismiss();
+      dialog.close();
     }
   });
 
