@@ -88,6 +88,10 @@ body.modal-open { /* @boilerplate */
 /* entrance variant — VYEPTI first-visit prompt */
 .modal dialog.modal-entrance {
   max-width: var(--modal-entrance-max-width);
+
+  /* anchor near the top of the viewport like the source, not vertically centered */
+  margin-top: var(--modal-entrance-top-offset);
+  margin-bottom: auto;
   border: none;
   border-radius: var(--modal-entrance-border-radius);
   background-color: var(--modal-entrance-background);
@@ -107,6 +111,7 @@ body.modal-open { /* @boilerplate */
 }
 
 .modal dialog.modal-entrance .modal-logo {
+  flex: 0 0 auto;
   margin: 0;
 }
 
@@ -133,6 +138,7 @@ body.modal-open { /* @boilerplate */
 
 .modal dialog.modal-entrance .modal-actions {
   display: flex;
+  flex: 0 0 auto;
   flex-direction: row;
   align-items: center;
   justify-content: center;
@@ -155,7 +161,19 @@ body.modal-open { /* @boilerplate */
 
   .modal dialog.modal-entrance .default-content-wrapper {
     flex-direction: row;
-    justify-content: space-between;
+    align-items: center;
+    gap: 0; /* asymmetric spacing handled by zone margins below */
     text-align: left;
+  }
+
+  /* logo and buttons keep natural width; text fills the middle so the
+     buttons sit at the right edge, matching the source row layout */
+  .modal dialog.modal-entrance .modal-text {
+    flex: 1 1 auto;
+    margin-left: var(--modal-entrance-logo-gap);
+  }
+
+  .modal dialog.modal-entrance .modal-actions {
+    margin-left: var(--modal-entrance-text-actions-gap);
   }
 }
