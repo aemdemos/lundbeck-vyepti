@@ -5,3 +5,191 @@
   --tabs-border-color: var(--border-color); /* @boilerplate */
   --tabs-transition-duration: var(--transition-duration); /* @boilerplate */
 }
+
+/*
+ * "prepare-tabs" variant — the framed "Prepare for each step" card from
+ * vyepti.com/what-to-expect. Applied as a Section Style so the framed card can
+ * wrap both the heading (pink bar) and the tabs block (white body). The tab
+ * icons are supplied here by position because the boilerplate tabs.js renders
+ * each tab label as plain text, discarding any authored markup.
+ */
+:root {
+  --tabs-prepare-card-radius: 12px;
+  --tabs-prepare-card-shadow: 0 2px 8px #e0e0e0;
+  --tabs-prepare-header-bg: var(--brand-rose);
+  --tabs-prepare-header-color: #fff;
+  --tabs-prepare-header-font-size: 22px;
+  --tabs-prepare-header-line-height: 27px;
+  --tabs-prepare-tab-width: 88px;
+  --tabs-prepare-tab-gap: 24px;
+  --tabs-prepare-icon-size: 49px;
+  --tabs-prepare-icon-gap: 15px;
+  --tabs-prepare-tab-label-font-size: 18px;
+  --tabs-prepare-tab-label-line-height: 22px;
+  --tabs-prepare-tab-color: var(--brand-teal);
+  --tabs-prepare-tab-active-bg: var(--brand-teal);
+  --tabs-prepare-tab-active-color: #fff;
+  --tabs-prepare-tab-inactive-bg: rgb(4 97 131 / 3%);
+  --tabs-prepare-tab-border: 1px solid var(--brand-teal-light);
+  --tabs-prepare-divider-color: #e0e0e0;
+  --tabs-prepare-subheading-color: var(--brand-rose);
+  --tabs-prepare-panel-fade-duration: 1s;
+  --tabs-prepare-outer-gap: 15px;
+}
+
+/* Fade-in used when switching tab panels (matches source vyepti.com timing). */
+@keyframes tabs-prepare-fade-in {
+  from { opacity: 0; }
+
+  to { opacity: 1; }
+}
+
+/* Framed card: pink heading bar (default content) + white tabs body.
+   Width is intentionally left at 100% — outer layout (column/section width) is
+   set separately via section-style enhancement, not forced here. The horizontal
+   margin keeps the box off the section edge (boilerplate zeroes section margins
+   and only the inner wrapper carries gutters, which prepare-tabs overrides). */
+main .section.prepare-tabs {
+  margin: 40px var(--tabs-prepare-outer-gap);
+  padding: 0 0 24px;
+  border-radius: var(--tabs-prepare-card-radius);
+  background-color: var(--background-color);
+  box-shadow: var(--tabs-prepare-card-shadow);
+  overflow: hidden;
+}
+
+@media (width >= 900px) {
+  main .section.prepare-tabs {
+    --tabs-prepare-outer-gap: 32px;
+  }
+}
+
+main .section.prepare-tabs > div {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+main .section.prepare-tabs .default-content-wrapper {
+  padding: 8px;
+  background-color: var(--tabs-prepare-header-bg);
+}
+
+main .section.prepare-tabs .default-content-wrapper :is(h1, h2, h3, h4, h5, h6) {
+  margin: 0;
+  color: var(--tabs-prepare-header-color);
+  font-size: var(--tabs-prepare-header-font-size);
+  line-height: var(--tabs-prepare-header-line-height);
+  font-weight: 700;
+  text-align: center;
+}
+
+main .section.prepare-tabs .tabs-wrapper {
+  padding: 24px 15px 0;
+}
+
+/* Tab row — centered pills. The author places an icon/image above the label in
+   each tab-name cell; tabs.js preserves that markup inside the button. The icon
+   sits above the row of pills, so the icon area is reserved with padding-top. */
+main .section.prepare-tabs .tabs .tabs-list {
+  justify-content: center;
+  align-items: flex-start;
+  gap: var(--tabs-prepare-tab-gap);
+  padding-top: calc(var(--tabs-prepare-icon-size) + var(--tabs-prepare-icon-gap));
+  overflow: visible;
+}
+
+main .section.prepare-tabs .tabs .tabs-list button.tabs-tab {
+  position: relative;
+  display: flex;
+  flex: 0 0 var(--tabs-prepare-tab-width);
+  flex-direction: column;
+  align-items: center;
+  width: var(--tabs-prepare-tab-width);
+  padding: 4px;
+  border: var(--tabs-prepare-tab-border);
+  border-radius: 6px;
+  background-color: var(--tabs-prepare-tab-inactive-bg);
+  color: var(--tabs-prepare-tab-color);
+  font-size: var(--tabs-prepare-tab-label-font-size);
+  line-height: var(--tabs-prepare-tab-label-line-height);
+  font-weight: 700;
+  text-align: center;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+  transition: background-color var(--tabs-transition-duration);
+}
+
+/* Authored icon: pulled up so it floats above the pill, centered horizontally. */
+main .section.prepare-tabs .tabs .tabs-list button.tabs-tab :is(picture, img, .icon) {
+  position: absolute;
+  top: calc((var(--tabs-prepare-icon-size) + var(--tabs-prepare-icon-gap)) * -1);
+  left: 50%;
+  width: var(--tabs-prepare-icon-size);
+  height: var(--tabs-prepare-icon-size);
+  transform: translateX(-50%);
+}
+
+main .section.prepare-tabs .tabs .tabs-list button.tabs-tab img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+main .section.prepare-tabs .tabs .tabs-list button.tabs-tab[aria-selected="true"] {
+  background-color: var(--tabs-prepare-tab-active-bg);
+  color: var(--tabs-prepare-tab-active-color);
+  cursor: pointer;
+}
+
+/* Panel body */
+main .section.prepare-tabs .tabs .tabs-panel {
+  margin-top: 24px;
+  padding: 24px 0 0;
+  border: 0;
+  border-top: 1px solid var(--tabs-prepare-divider-color);
+  overflow: visible;
+}
+
+/* Fade the panel in each time it becomes the visible one. */
+main .section.prepare-tabs .tabs .tabs-panel[aria-hidden="false"] {
+  animation: tabs-prepare-fade-in var(--tabs-prepare-panel-fade-duration) ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  main .section.prepare-tabs .tabs .tabs-panel[aria-hidden="false"] {
+    animation: none;
+  }
+}
+
+main .section.prepare-tabs .tabs .tabs-panel hr {
+  margin: 16px 0;
+  border: 0;
+  border-top: 1px solid var(--tabs-prepare-divider-color);
+}
+
+main .section.prepare-tabs .tabs .tabs-panel ul {
+  margin: 0.5em 0;
+  padding-left: 1.2em;
+}
+
+main .section.prepare-tabs .tabs .tabs-panel li {
+  margin-bottom: 0.5em;
+}
+
+main .section.prepare-tabs .tabs .tabs-panel li::marker {
+  color: var(--brand-rose);
+}
+
+/* Authored headings inside a panel render as pink sub-headings, matching the source */
+main .section.prepare-tabs .tabs .tabs-panel :is(h3, h4, h5, h6) {
+  margin: 0 0 0.5em;
+  color: var(--tabs-prepare-subheading-color);
+  font-size: var(--body-font-size-ms);
+  line-height: 1.3;
+}
+
+main .section.prepare-tabs .tabs .tabs-panel :is(h3, h4, h5, h6):not(:first-child) {
+  margin-top: 1em;
+}

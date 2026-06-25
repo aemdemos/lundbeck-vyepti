@@ -102,9 +102,6 @@ export function resyncTabsBlock(block) {
       if (!tabCell || !tabCell.children.length) {
         return;
       }
-      const labelText = tabCell.textContent;
-      tabCell.remove();
-
       row.className = 'tabs-panel';
       row.id = id;
       row.setAttribute('data-tab-index', String(i));
@@ -112,13 +109,13 @@ export function resyncTabsBlock(block) {
       row.setAttribute('role', 'tabpanel');
 
       button.id = buttonId;
-      button.textContent = labelText;
+      // Preserve authored markup (e.g. an icon/image above the label) by moving
+      // the tab cell's child nodes into the button, rather than flattening to text.
+      moveInstrumentation(tabCell, button);
+      button.replaceChildren(...tabCell.childNodes);
+      tabCell.remove();
       button.setAttribute('aria-controls', id);
       button.setAttribute('aria-selected', 'false');
-
-      if (button.firstElementChild) {
-        moveInstrumentation(button.firstElementChild, null);
-      }
     } else {
       row.className = 'tabs-panel';
       row.id = id;
