@@ -28,7 +28,7 @@
   /* vertical space reserved above each pill for the icon + its gap to the label,
      and the matching upward offset that floats the icon into that space */
   --tabs-prepare-icon-offset: 64px;
-  --tabs-prepare-icon-top: -64px;
+  --tabs-prepare-icon-top: -32px;
   --tabs-prepare-tab-label-font-size: 18px;
   --tabs-prepare-tab-label-line-height: 22px;
   --tabs-prepare-tab-color: var(--brand-teal);
