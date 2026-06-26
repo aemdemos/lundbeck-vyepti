@@ -59,6 +59,7 @@
   --section-divider-width: 1px; /* @libs */
   --section-divider-color: var(--link-hover-color); /* @libs */
   --section-padding: 24px;
+  --flex-group-gap: 24px;
   
   /* fonts */
   --body-font-family: proxima-nova, proxima-nova-fallback, sans-serif; /* @libs */
@@ -576,6 +577,32 @@ main > .section > div { /* @libs */
   max-width: 540px; /* @libs */
   margin: auto; /* @libs */
   padding: 0 15px; /* @libs */
+}
+
+/* flex sections — a run of adjacent style=flex sections is wrapped by JS in a
+   .flex-group; the group is its own independent flex context (no crossover with
+   other groups). Section-level only: equal-width columns regardless of block type.
+   Stacks below 900px, side-by-side at >=900px. */
+main .flex-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--flex-group-gap);
+}
+
+main .flex-group > .section.flex {
+  margin: 0;
+}
+
+@media (width >= 900px) {
+  main .flex-group {
+    flex-direction: row;
+    align-items: stretch;
+  }
+
+  main .flex-group > .section.flex {
+    flex: 1 1 0;
+    min-width: 0;
+  }
 }
 
 /* section metadata - accent (light blue help strip) */

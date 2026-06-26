@@ -376,6 +376,38 @@ export function decorateSections(main) {
   }
 }
 
+/**
+ * Wraps each run of 2+ consecutive sections carrying the `flex` class into its own
+ * `.flex-group` container, so CSS can lay them out side-by-side. Operates purely on
+ * section elements and their classes — no inspection of inner block types. A run is
+ * broken by any non-flex section or the end of main; each run becomes an independent
+ * flex context. A lone flex section (no adjacent flex sibling) is left untouched.
+ * @param {Element} main The main element
+ */
+export function groupFlexSections(main) {
+  const sections = [...main.querySelectorAll(':scope > .section')].slice(0, MAX_SECTIONS);
+  let i = 0;
+  while (i < sections.length) {
+    if (!sections[i].classList.contains('flex')) {
+      i += 1;
+    } else {
+      let j = i + 1;
+      while (j < sections.length && sections[j].classList.contains('flex')) {
+        j += 1;
+      }
+      const run = sections.slice(i, j);
+      if (run.length > 1) {
+        const group = document.createElement('div');
+        group.className = 'flex-group';
+        group.setAttribute('data-flex-count', String(run.length));
+        main.insertBefore(group, run[0]);
+        run.forEach((section) => group.append(section));
+      }
+      i = j;
+    }
+  }
+}
+
 /* === END SECTIONS === */
 
 /** Max lists / items to process for icon bullets (CWE-770). */
@@ -789,6 +821,7 @@ export function decorateMain(main) {
   decorateIconsAndBullets(main);
   buildAutoBlocks(main);
   decorateSections(main);
+  groupFlexSections(main);
   decorateBlocks(main);
   decorateButtons(main);
   a11yLinks(main);
