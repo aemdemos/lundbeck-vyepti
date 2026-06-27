@@ -1,13 +1,29 @@
 /* modal design tokens */
-:root { /* @boilerplate */
-  --modal-backdrop-background: rgb(19 19 19 / 75%); /* @boilerplate */
-  --modal-width-mobile: calc(100vw - 48px); /* @boilerplate */
-  --modal-width-desktop: calc(100vw - 64px); /* @boilerplate */
-  --modal-max-width: 900px; /* @boilerplate */
-  --modal-content-padding: var(--spacing-m); /* @boilerplate */
-  --modal-content-padding-desktop: var(--spacing-l); /* @boilerplate */
-  --modal-content-margin-top: 44px; /* @boilerplate */
-  --modal-close-button-size: 44px; /* @boilerplate */
-  --modal-close-icon-size: var(--icon-size); /* @boilerplate */
-  --modal-close-icon-thickness: 2px; /* @boilerplate */
+:root {
+  --modal-backdrop-background: rgb(19 19 19 / 75%);
+  --modal-width-mobile: calc(100vw - 48px);
+  --modal-width-desktop: calc(100vw - 64px);
+  --modal-max-width: 900px;
+  --modal-content-padding: 24px;
+  --modal-content-padding-desktop: 32px;
+  --modal-content-margin-top: 44px;
+  --modal-close-button-size: 44px;
+  --modal-close-icon-size: var(--icon-size);
+  --modal-close-icon-thickness: 2px;
+
+  /* entrance variant — VYEPTI first-visit prompt (columns-based, shown via
+     the JS <dialog>). Appearance values measured from the source modal. */
+  --modal-entrance-background: var(--card-bg-light);
+  --modal-entrance-border-radius: 12px;
+  --modal-entrance-max-width: 1080px;
+  --modal-entrance-top-offset: 172px;
+  --modal-entrance-padding-mobile: 48px 24px 32px;
+  --modal-entrance-padding-desktop: 64px 61px 85px;
+  --modal-entrance-gap: 32px;
+  --modal-entrance-logo-gap: 49px;
+  --modal-entrance-text-actions-gap: 29px;
+  --modal-entrance-logo-width: 138px;
+  --modal-entrance-heading-size: var(--heading-font-size-xl);
+  --modal-entrance-actions-gap: 30px;
+  --modal-entrance-button-width: 140px;
 }
