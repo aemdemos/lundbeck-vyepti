@@ -257,8 +257,10 @@
   mask: url("/icons/icon-sign.svg") no-repeat center / contain; /* @libs */
 }
 
-.accordion-cards-email-modal-body { /* @libs */
-  padding: 0 20px 32px; /* @libs */
+/* inline email signup revealed beneath a card when its Email link is clicked */
+.accordion-cards .accordion-cards-email-panel { /* @libs */
+  grid-column: 1 / -1; /* @libs */
+  margin-top: 16px; /* @libs */
 }
 
 @media (width >= 768px) { /* @libs */
@@ -323,10 +325,6 @@
   .accordion-cards .accordion-cards-card-actions { /* @libs */
     text-align: left; /* @libs */
   }
-
-  .accordion-cards-email-modal-body { /* @libs */
-    padding: 0 84px 32px; /* @libs */
-  }
 }
 
 @media (width >= 992px) { /* @libs */
@@ -355,138 +353,4 @@
   .accordion-cards .accordion-cards-card-image img { /* @libs */
     padding-left: 40px; /* @libs */
   }
-}
-
-/* email resource modal — layered on the shared modal block (.modal.email-resource) */
-.modal.email-resource dialog { /* @libs */
-  width: min(535px, calc(100vw - 30px)); /* @libs */
-  max-width: 535px; /* @libs */
-  background: var(--card-bg-light); /* @libs */
-  color: var(--text-color); /* @libs */
-}
-
-.modal.email-resource dialog .modal-content { /* @libs */
-  padding: 0 20px 32px; /* @libs */
-  margin-top: 0; /* @libs */
-}
-
-@media (width >= 768px) { /* @libs */
-  .modal.email-resource dialog .modal-content { /* @libs */
-    padding: 0 84px 32px; /* @libs */
-  }
-}
-
-.modal.email-resource .accordion-cards-email-modal-title { /* @libs */
-  margin: 24px 57px 16px; /* @libs */
-  color: var(--brand-primary); /* @libs */
-  font-family: var(--heading-font-family); /* @libs */
-  font-size: 24px; /* @libs */
-  font-weight: 700; /* @libs */
-  line-height: 29px; /* @libs */
-  text-align: center; /* @libs */
-}
-
-.modal.email-resource .accordion-cards-email-form { /* @libs */
-  padding: 0 11px; /* @libs */
-  text-align: center; /* @libs */
-}
-
-.modal.email-resource .accordion-cards-email-field { /* @libs */
-  margin-bottom: 22px; /* @libs */
-  text-align: left; /* @libs */
-}
-
-.modal.email-resource .accordion-cards-email-required-note { /* @libs */
-  margin: 0 0 8px; /* @libs */
-  font-size: 14px; /* @libs */
-  font-style: italic; /* @libs */
-  line-height: 20px; /* @libs */
-  text-align: left; /* @libs */
-}
-
-.modal.email-resource .accordion-cards-email-field label { /* @libs */
-  display: block; /* @libs */
-  margin-bottom: 8px; /* @libs */
-  color: var(--brand-primary); /* @libs */
-  font-size: 18px; /* @libs */
-  font-weight: 600; /* @libs */
-  line-height: 24px; /* @libs */
-}
-
-.modal.email-resource .accordion-cards-email-field input { /* @libs */
-  box-sizing: border-box; /* @libs */
-  width: 100%; /* @libs */
-  padding: 8px 12px; /* @libs */
-  border: 1px solid #484848; /* @libs */
-  border-radius: 8px; /* @libs */
-  background: #fff; /* @libs */
-  color: var(--text-color); /* @libs */
-  font-size: 16px; /* @libs */
-  line-height: 22px; /* @libs */
-}
-
-.modal.email-resource .accordion-cards-email-field-error { /* @libs */
-  margin: 8px 0 0; /* @libs */
-  color: var(--brand-secondary); /* @libs */
-  font-size: 14px; /* @libs */
-  line-height: 21px; /* @libs */
-}
-
-.modal.email-resource .accordion-cards-email-submit { /* @libs */
-  display: inline-flex; /* @libs */
-  align-items: center; /* @libs */
-  justify-content: center; /* @libs */
-  gap: 10px; /* @libs */
-  min-width: 128px; /* @libs */
-  margin: 16px auto 0; /* @libs */
-  padding: 10px 24px; /* @libs */
-  border: 0; /* @libs */
-  border-radius: 999px; /* @libs */
-  background: var(--brand-primary); /* @libs */
-  color: #fff; /* @libs */
-  font-size: 18px; /* @libs */
-  font-weight: 700; /* @libs */
-  line-height: 20px; /* @libs */
-  cursor: pointer; /* @libs */
-}
-
-.modal.email-resource .accordion-cards-email-submit-icon { /* @libs */
-  width: 20px; /* @libs */
-  height: 8px; /* @libs */
-  background-color: currentcolor; /* @libs */
-  mask: url("/icons/icon-forward-arrow.svg") no-repeat center / contain; /* @libs */
-}
-
-.modal.email-resource .accordion-cards-email-terms { /* @libs */
-  margin-top: 16px; /* @libs */
-  text-align: center; /* @libs */
-}
-
-.modal.email-resource .accordion-cards-email-terms p { /* @libs */
-  margin: 0; /* @libs */
-  font-size: 16px; /* @libs */
-  line-height: 22px; /* @libs */
-}
-
-.modal.email-resource .accordion-cards-email-terms a { /* @libs */
-  text-decoration: underline; /* @libs */
-}
-
-.modal.email-resource .accordion-cards-email-success { /* @libs */
-  padding: 0 20px 40px; /* @libs */
-  text-align: center; /* @libs */
-}
-
-.modal.email-resource .accordion-cards-email-success-title { /* @libs */
-  margin: 0 0 8px; /* @libs */
-  color: var(--brand-primary); /* @libs */
-  font-size: 22px; /* @libs */
-  font-weight: 700; /* @libs */
-  line-height: 28px; /* @libs */
-}
-
-.modal.email-resource .accordion-cards-email-success-text { /* @libs */
-  margin: 0; /* @libs */
-  font-size: 22px; /* @libs */
-  line-height: 28px; /* @libs */
 }

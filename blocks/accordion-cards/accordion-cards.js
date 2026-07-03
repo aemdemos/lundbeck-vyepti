@@ -1,6 +1,5 @@
 import { createOptimizedPicture } from '../../scripts/aem.js';
 import { moveInstrumentation } from '../../scripts/scripts.js';
-import { createModal } from '../modal/modal.js';
 import { loadFragment } from '../fragment/fragment.js';
 
 const SCROLL_OFFSET_TOKEN = 'accordion-cards-scroll-offset';
@@ -62,34 +61,25 @@ function isDownloadActionLink(anchor) {
   }
 }
 
-// Resolves an anchor's href against the current page; null if it can't be parsed.
-function getActionUrl(anchor) {
+// Returns the fragment path an email/form link points at, or null. The author wires
+// the Email link to a fragment (e.g. /modals/email); that fragment holds the
+// form-email block revealed inline. Both relative (/modals/email) and full
+// (https://…/modals/email) hrefs are accepted; only the pathname is used.
+function getEmailFragmentPath(anchor) {
   try {
-    return new URL(anchor.href, window.location.href);
+    const { pathname } = new URL(anchor.href, window.location.href);
+    return /^\/modals?\//i.test(pathname) ? pathname.replace(/\/$/, '') : null;
   } catch {
     return null;
   }
 }
 
-// A "navigation" action goes somewhere real: an external URL, or an internal page
-// with an actual path. Sign-up (/stay-connected) and find-a-location (/vyepti-locator)
-// are navigation links. Placeholder hrefs (#, /, /modal, /modals/*) are NOT navigation.
-function isNavigationActionLink(anchor) {
-  const url = getActionUrl(anchor);
-  if (!url || !url.protocol.startsWith('http')) return false;
-  let path = url.pathname;
-  while (path.endsWith('/')) path = path.slice(0, -1);
-  const isPlaceholder = path === '' || /^\/modals?\b/i.test(path);
-  if (isPlaceholder && url.origin === window.location.origin) return false;
-  return true;
-}
-
-// The email action is whatever action link is left after excluding the ones that go
-// somewhere real: downloads (files) and navigation links (sign-up, find-a-location).
-// This avoids hardcoding the "Email" label or a specific icon name, so the visible
-// text is free-form — only the placeholder href identifies it as the modal trigger.
+// The email action is any non-download link that points at a /modals/ fragment. This
+// keeps the visible label free-form (it need not say "Email") — the fragment href is
+// what marks it as the inline-form trigger. Real navigation links (sign-up,
+// find-a-location) point elsewhere and are left as normal links.
 function isEmailActionLink(anchor) {
-  return !isDownloadActionLink(anchor) && !isNavigationActionLink(anchor);
+  return !isDownloadActionLink(anchor) && getEmailFragmentPath(anchor) !== null;
 }
 
 function buildActionLink(anchor) {
@@ -104,10 +94,14 @@ function buildActionLink(anchor) {
   if (isDownloadActionLink(anchor)) {
     anchor.setAttribute('target', '_blank');
     anchor.setAttribute('rel', 'noopener noreferrer');
-  } else if (isEmailActionLink(anchor)) {
-    anchor.setAttribute('href', '#');
-    anchor.setAttribute('role', 'button');
-    anchor.classList.add('accordion-cards-action-email');
+  } else {
+    const fragmentPath = isEmailActionLink(anchor) ? getEmailFragmentPath(anchor) : null;
+    if (fragmentPath) {
+      anchor.dataset.emailFragment = fragmentPath;
+      anchor.setAttribute('href', '#');
+      anchor.setAttribute('role', 'button');
+      anchor.classList.add('accordion-cards-action-email');
+    }
   }
 
   return anchor;
@@ -428,298 +422,47 @@ function scheduleAccordionCardsScroll(header) {
 }
 
 /* eslint-disable secure-coding/no-hardcoded-credentials -- 'email' class names and labels, not secrets */
-const PRIVACY_POLICY_PATH = '/us/privacy-policy';
-const PRIVACY_POLICY_HOST = 'https://www.lundbeck.com';
-// This block loads the fragment only as a copy source (via loadFragment/fetch); it
-// never renders a link to it, so scripts.js autolinkModals won't auto-open it here.
-const EMAIL_MODAL_FRAGMENT_PATH = '/modals/email';
-
-// Default copy — used as-is until an author overrides it in the /modals/email fragment.
-const DEFAULT_EMAIL_MODAL_COPY = {
-  title: 'Email this resource',
-  requiredNote: 'All fields are required',
-  firstNameLabel: 'First Name',
-  lastNameLabel: 'Last Name',
-  emailLabel: 'Email address',
-  submitLabel: 'Send',
-  successTitle: 'Thank you!',
-  successText: 'Your resource is on its way to your inbox.',
-  privacyText: 'Lundbeck will not save your personal information. See our ',
-  privacyLinkLabel: 'Privacy Policy',
-};
-
-// Cache the authored copy so the fragment is fetched only once per page.
-let emailModalCopyPromise = null;
-
-function getPrivacyPolicyUrl() {
-  return new URL(PRIVACY_POLICY_PATH, PRIVACY_POLICY_HOST).href;
+// Loads the authored fragment at `path` and returns its decorated .form-email element.
+// loadFragment fetches + decorates on each call, so every card gets a working form
+// (with its own submit listener) rather than a listener-less clone.
+async function loadEmailForm(path) {
+  const fragment = await loadFragment(path);
+  if (!(fragment instanceof Element)) return null;
+  return fragment.querySelector('.form-email');
 }
 
-// Reads optional authored overrides from the /modals/email fragment. Each row is a
-// key/value pair (label | text). Missing fragment or keys fall back to defaults.
-function parseEmailModalCopy(fragment) {
-  const copy = { ...DEFAULT_EMAIL_MODAL_COPY };
-  if (!(fragment instanceof Element)) return copy;
+// Reveals (or toggles) an inline form-email beneath the card whose Email link was
+// clicked. The fragment path comes from the author-supplied href (data-email-fragment).
+// The form is loaded lazily on first open and cached on the card.
+function toggleCardEmailForm(card, link) {
+  let panel = card.querySelector(':scope > .accordion-cards-email-panel');
 
-  // collect authored key/value rows into a Map (avoids dynamic object writes)
-  const overrides = new Map();
-  fragment.querySelectorAll(':scope > div > div, :scope div.metadata > div, table tr').forEach((row) => {
-    const cells = [...row.children];
-    if (cells.length < 2) return;
-    overrides.set(cells[0].textContent.trim(), cells[1].textContent.trim());
-  });
-
-  // apply only the known copy keys, keeping defaults when an override is absent/empty
-  Object.keys(DEFAULT_EMAIL_MODAL_COPY).forEach((key) => {
-    const value = overrides.get(key);
-    // key is a literal from DEFAULT_EMAIL_MODAL_COPY, not user input — no pollution risk
-    // eslint-disable-next-line secure-coding/detect-object-injection
-    if (value) copy[key] = value;
-  });
-
-  const privacyLink = fragment.querySelector('a[href]');
-  if (privacyLink) copy.privacyHref = privacyLink.href;
-
-  return copy;
-}
-
-async function getEmailModalCopy() {
-  if (!emailModalCopyPromise) {
-    emailModalCopyPromise = loadFragment(EMAIL_MODAL_FRAGMENT_PATH)
-      .then((fragment) => parseEmailModalCopy(fragment))
-      .catch(() => ({ ...DEFAULT_EMAIL_MODAL_COPY }));
+  if (panel) {
+    const isOpen = !panel.hidden;
+    panel.hidden = isOpen;
+    link.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
+    return;
   }
-  return emailModalCopyPromise;
-}
 
-function normalizeName(value) {
-  return value.replace(/['‘’]/g, "'").trim();
-}
+  const fragmentPath = link.dataset.emailFragment;
+  if (!fragmentPath) return;
 
-function isValidName(value) {
-  if (!value || value.length > 20) return false;
-  let hasLetter = false;
-  for (let i = 0; i < value.length; i += 1) {
-    const char = value[i];
-    const code = value.charCodeAt(i);
-    const isLetter = (code >= 65 && code <= 90) || (code >= 97 && code <= 122);
-    if (isLetter) hasLetter = true;
-    if (!(isLetter || char === ' ' || char === "'" || char === '-')) return false;
-  }
-  return hasLetter;
-}
+  panel = document.createElement('div');
+  panel.className = 'accordion-cards-email-panel';
+  card.append(panel);
+  link.setAttribute('aria-expanded', 'true');
 
-function isValidEmail(value) {
-  if (!value || value.length < 6 || value.length > 50) return false;
-  const probe = document.createElement('input');
-  probe.type = 'email';
-  probe.value = value;
-  return probe.checkValidity();
-}
-
-function getCardResource(card) {
-  const titleEl = card.querySelector('.accordion-cards-card-title, h3, h4');
-  const downloadLink = [...card.querySelectorAll('.accordion-cards-action-link')]
-    .find((link) => {
-      try {
-        return /\.pdf$/i.test(new URL(link.href, window.location.href).pathname);
-      } catch {
-        return false;
-      }
-    });
-  const img = card.querySelector('.accordion-cards-card-image img');
-
-  return {
-    title: titleEl?.textContent?.trim() || '',
-    resourcePath: downloadLink?.href ? encodeURI(downloadLink.href) : '',
-    thumbnailImagePath: img?.src ? encodeURI(img.src) : '',
-    altText: img?.alt || '',
-  };
-}
-
-function showFieldError(input, message) {
-  const errorEl = input.closest('.accordion-cards-email-field')?.querySelector('.accordion-cards-email-field-error');
-  if (errorEl instanceof HTMLElement) {
-    errorEl.textContent = message;
-    errorEl.hidden = false;
-  }
-  input.setAttribute('aria-invalid', 'true');
-}
-
-function clearFieldError(input) {
-  const errorEl = input.closest('.accordion-cards-email-field')?.querySelector('.accordion-cards-email-field-error');
-  if (errorEl instanceof HTMLElement) {
-    errorEl.hidden = true;
-    errorEl.textContent = '';
-  }
-  input.removeAttribute('aria-invalid');
-}
-
-function validateEmailForm(form) {
-  let valid = true;
-  const firstName = form.querySelector('input[name="FirstName"]');
-  const lastName = form.querySelector('input[name="LastName"]');
-  const email = form.querySelector('input[name="Email"]');
-
-  [firstName, lastName, email].forEach((input) => {
-    if (input instanceof HTMLInputElement) clearFieldError(input);
-  });
-
-  if (firstName instanceof HTMLInputElement) {
-    const value = normalizeName(firstName.value);
-    if (!value) {
-      showFieldError(firstName, 'Please enter your first name');
-      valid = false;
-    } else if (!isValidName(value)) {
-      showFieldError(firstName, 'Please enter a valid first name');
-      valid = false;
+  loadEmailForm(fragmentPath).then((form) => {
+    if (form instanceof Element) {
+      panel.append(form);
+    } else {
+      panel.remove();
+      link.setAttribute('aria-expanded', 'false');
     }
-  }
-
-  if (lastName instanceof HTMLInputElement) {
-    const value = normalizeName(lastName.value);
-    if (!value) {
-      showFieldError(lastName, 'Please enter your last name');
-      valid = false;
-    } else if (!isValidName(value)) {
-      showFieldError(lastName, 'Please enter a valid last name');
-      valid = false;
-    }
-  }
-
-  if (email instanceof HTMLInputElement) {
-    const value = email.value.trim();
-    if (!isValidEmail(value)) {
-      showFieldError(email, 'Please enter a valid email address');
-      valid = false;
-    }
-  }
-
-  return valid;
-}
-
-// Placeholder submit: the live endpoint (POST /api/dtc/vyeptidownloadableresources)
-// is wired up separately. For now, a valid form transitions straight to the success state.
-function submitEmailForm(form, resource) {
-  const bodyEl = form.closest('.accordion-cards-email-modal-body');
-  const successEl = form.closest('.modal-content')?.querySelector('.accordion-cards-email-success');
-  if (!(bodyEl instanceof HTMLElement) || !(successEl instanceof HTMLElement)) return;
-
-  // resource holds the selected card's { title, resourcePath, thumbnailImagePath, altText }
-  // to be sent to the share endpoint once submission is wired up.
-  form.dataset.resource = resource ? JSON.stringify(resource) : '';
-  bodyEl.hidden = true;
-  successEl.hidden = false;
-}
-
-function createEmailField(id, labelText, inputName, inputType, autocomplete) {
-  const field = document.createElement('div');
-  field.className = 'accordion-cards-email-field';
-
-  const label = document.createElement('label');
-  label.htmlFor = id;
-  label.textContent = labelText;
-
-  const input = document.createElement('input');
-  input.id = id;
-  input.name = inputName;
-  input.type = inputType;
-  input.maxLength = inputName === 'Email' ? 50 : 20;
-  input.autocomplete = autocomplete;
-  input.required = true;
-
-  const error = document.createElement('p');
-  error.className = 'accordion-cards-email-field-error';
-  error.hidden = true;
-
-  field.append(label, input, error);
-  return field;
-}
-
-// Builds the modal's inner content nodes. Copy comes from the authored /modals/email
-// fragment (or defaults); the input fields + validation stay in code because form
-// controls can't be authored as plain document content. The dialog shell, backdrop,
-// close button, and scroll-lock are provided by the shared modal block (createModal).
-function buildEmailModalContent(resource, copy) {
-  const nodes = [];
-
-  const title = document.createElement('h2');
-  title.className = 'accordion-cards-email-modal-title';
-  title.textContent = copy.title;
-  nodes.push(title);
-
-  const body = document.createElement('div');
-  body.className = 'accordion-cards-email-modal-body';
-
-  const form = document.createElement('form');
-  form.className = 'accordion-cards-email-form';
-  form.noValidate = true;
-
-  const requiredNote = document.createElement('p');
-  requiredNote.className = 'accordion-cards-email-required-note';
-  requiredNote.textContent = copy.requiredNote;
-
-  const submitButton = document.createElement('button');
-  submitButton.type = 'submit';
-  submitButton.className = 'accordion-cards-email-submit';
-  submitButton.append(document.createTextNode(`${copy.submitLabel} `));
-  const submitIcon = document.createElement('span');
-  submitIcon.className = 'accordion-cards-email-submit-icon';
-  submitIcon.setAttribute('aria-hidden', 'true');
-  submitButton.append(submitIcon);
-
-  form.append(
-    requiredNote,
-    createEmailField('accordion-cards-email-first-name', copy.firstNameLabel, 'FirstName', 'text', 'given-name'),
-    createEmailField('accordion-cards-email-last-name', copy.lastNameLabel, 'LastName', 'text', 'family-name'),
-    createEmailField('accordion-cards-email-address', copy.emailLabel, 'Email', 'email', 'email'),
-    submitButton,
-  );
-
-  const terms = document.createElement('div');
-  terms.className = 'accordion-cards-email-terms';
-  const termsParagraph = document.createElement('p');
-  termsParagraph.append(document.createTextNode(copy.privacyText));
-  const privacyLink = document.createElement('a');
-  privacyLink.href = copy.privacyHref || getPrivacyPolicyUrl();
-  privacyLink.target = '_blank';
-  privacyLink.rel = 'noopener noreferrer';
-  privacyLink.textContent = copy.privacyLinkLabel;
-  termsParagraph.append(privacyLink, document.createTextNode('.'));
-  terms.append(termsParagraph);
-
-  body.append(form, terms);
-  nodes.push(body);
-
-  const success = document.createElement('div');
-  success.className = 'accordion-cards-email-success';
-  success.hidden = true;
-  const successTitle = document.createElement('p');
-  successTitle.className = 'accordion-cards-email-success-title';
-  successTitle.textContent = copy.successTitle;
-  const successText = document.createElement('p');
-  successText.className = 'accordion-cards-email-success-text';
-  successText.textContent = copy.successText;
-  success.append(successTitle, successText);
-  nodes.push(success);
-
-  form.addEventListener('submit', (event) => {
-    event.preventDefault();
-    if (!validateEmailForm(form)) return;
-    submitEmailForm(form, resource);
   });
-
-  return nodes;
 }
 
-async function openAccordionCardsEmailModal(resource) {
-  const copy = await getEmailModalCopy();
-  const { block, showModal } = await createModal(buildEmailModalContent(resource, copy));
-  block.classList.add('email-resource');
-  showModal();
-}
-
-function setupAccordionCardsEmailModal(block) {
+function setupAccordionCardsEmailForm(block) {
   block.addEventListener('click', (event) => {
     const link = event.target.closest('.accordion-cards-action-email');
     if (!(link instanceof HTMLAnchorElement)) return;
@@ -728,7 +471,7 @@ function setupAccordionCardsEmailModal(block) {
     const card = link.closest('.accordion-cards-card');
     if (!(card instanceof Element)) return;
 
-    openAccordionCardsEmailModal(getCardResource(card));
+    toggleCardEmailForm(card, link);
   });
 }
 /* eslint-enable secure-coding/no-hardcoded-credentials */
@@ -775,5 +518,5 @@ export default function decorate(block) {
 
   block.textContent = '';
   block.append(wrapper);
-  setupAccordionCardsEmailModal(block);
+  setupAccordionCardsEmailForm(block);
 }
