@@ -197,6 +197,25 @@ function a11yLinks(main) {
 }
 
 /**
+ * Opens links to PDF documents in a new tab.
+ * @param {HTMLElement} main The main container element
+ */
+export function decoratePdfLinks(main) {
+  main.querySelectorAll('a[href]').forEach((link) => {
+    let pathname;
+    try {
+      ({ pathname } = new URL(link.href, window.location.href));
+    } catch {
+      return;
+    }
+    if (/\.pdf$/i.test(pathname)) {
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+    }
+  });
+}
+
+/**
  * Decorates formatted links to style them as buttons.
  * @param {HTMLElement} main The main container element
  */
@@ -388,13 +407,14 @@ export function decorateSections(main) {
  */
 export function groupFlexSections(main) {
   const sections = [...main.querySelectorAll(':scope > .section')].slice(0, MAX_SECTIONS);
+  const sectionLimit = Math.min(sections.length, MAX_SECTIONS);
   let i = 0;
-  while (i < sections.length) {
+  while (i < sectionLimit) {
     if (!sections[i].classList.contains('flex')) {
       i += 1;
     } else {
       let j = i + 1;
-      while (j < sections.length && sections[j].classList.contains('flex')) {
+      while (j < sectionLimit && sections[j].classList.contains('flex')) {
         j += 1;
       }
       const run = sections.slice(i, j);
@@ -974,7 +994,6 @@ function decorateNestedSections(main) {
  * Decorates the main element.
  * @param {Element} main The main element
  */
-// eslint-disable-next-line import/prefer-default-export
 export function decorateMain(main) {
   // hopefully forward compatible button decoration
   decorateIconsAndBullets(main);
@@ -985,6 +1004,7 @@ export function decorateMain(main) {
   decorateNestedSections(main);
   decorateButtons(main);
   a11yLinks(main);
+  decoratePdfLinks(main);
   decorateSpanTags(main);
 }
 
@@ -1161,7 +1181,6 @@ async function loadLazy(doc) {
  * without impacting the user experience.
  */
 function loadDelayed() {
-  // eslint-disable-next-line import/no-cycle
   const importDelayed = () => import('./delayed.js');
 
   if ('requestIdleCallback' in window) {
@@ -1193,7 +1212,6 @@ export async function loadPage() {
 
 // DA UE Editor support before page load
 if (window.location.hostname.includes('ue.da.live')) {
-  // eslint-disable-next-line import/no-unresolved
   await import(`${window.hlx.codeBasePath}/ue/scripts/ue.js`).then(({ default: ue }) => ue());
 }
 loadPage();
