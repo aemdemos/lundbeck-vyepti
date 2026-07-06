@@ -886,6 +886,17 @@ header nav.nav-mobile-open .nav-dropdown-menu a:hover {
     left: -26px;
   }
 
+  /* Transparent hover bridge: spans any vertical gap between the trigger and
+     the panel so the pointer never leaves the hovered item on the way down. */
+  header .nav-links-list > li.nav-drop[aria-expanded='true'] > .nav-dropdown-menu::before {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    width: 100%;
+    height: var(--header-dropdown-bridge-height);
+  }
+
   header .nav-dropdown-menu a {
     padding: 6px 20px;
     margin: 0;

@@ -1,6 +1,10 @@
 import { getMetadata, decorateBlock, loadBlock } from '../../scripts/aem.js';
 import { loadFragment } from '../fragment/fragment.js';
 
+// Grace period before a hovered dropdown closes, so the pointer can cross the
+// small gap between the trigger and its panel without dismissing the menu.
+const NAV_DROPDOWN_CLOSE_DELAY_MS = 200;
+
 function toggleAllNavSections(sections, expanded = false) {
   if (!sections) return;
   sections.querySelectorAll(':scope > ul > li').forEach((section) => {
@@ -343,15 +347,22 @@ function decorateNavLinks(sectionsEl) {
         li.setAttribute('tabindex', '0');
         subUl.className = 'nav-dropdown-menu';
 
-        // Hover open/close (desktop only)
+        // Hover open/close (desktop only). A short close delay tolerates brief
+        // pointer travel across the trigger→panel seam so the menu doesn't
+        // collapse before the user reaches it (see issue #35).
+        let closeTimer;
         li.addEventListener('mouseenter', () => {
           if (!isDesktop()) return;
+          clearTimeout(closeTimer);
           toggleAllNavSections(navList);
           li.setAttribute('aria-expanded', 'true');
         });
         li.addEventListener('mouseleave', () => {
           if (!isDesktop()) return;
-          li.setAttribute('aria-expanded', 'false');
+          clearTimeout(closeTimer);
+          closeTimer = setTimeout(() => {
+            li.setAttribute('aria-expanded', 'false');
+          }, NAV_DROPDOWN_CLOSE_DELAY_MS);
         });
 
         // Click toggle
