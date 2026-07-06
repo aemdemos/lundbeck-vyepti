@@ -18,6 +18,11 @@
   --header-font-size-m: 18px;
   --header-padding-container: 15px;
 
+  /* vertical padding below each top-level nav link; the dropdown is pulled up
+     by this amount so it sits directly under the label instead of below the
+     link's padding box (which otherwise reads as a gap). */
+  --header-nav-link-padding-y: 16px;
+
   /* dropdown: transparent hover bridge that keeps the pointer within the
      trigger while travelling down into the submenu (prevents hover loss) */
   --header-dropdown-bridge-height: 14px;
