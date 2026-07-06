@@ -196,7 +196,8 @@ body.appear { /* @libs */
 }
 
 header { /* @libs */
-  height: var(--header-height); /* @libs */
+  min-height: var(--header-height); /* @libs */
+  height: auto; /* fit nav content so it never overflows onto main */
 }
 
 header .header,
@@ -767,7 +768,8 @@ main .section.stats-callout h4 {
   }
   
   header { /* @libs */
-    height: calc(var(--nav-height) + 23px); /* @libs */
+    min-height: calc(var(--nav-height) + 23px); /* @libs */
+    height: auto;
 }
 
 main > .section > div { /* @libs */
@@ -797,7 +799,8 @@ main .section.stats-callout > div:not(.bg-image) {
 
 @media (width >= 1200px) {
   header { /* @libs */
-    height: var(--nav-height); /* @libs */
+    min-height: var(--nav-height); /* @libs */
+    height: auto;
   }
 
   main .section.stats-callout > div:not(.bg-image) {
