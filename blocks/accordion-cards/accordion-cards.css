@@ -188,9 +188,10 @@
   text-align: center; /* @libs */
 }
 
-/* Action links are authored bold, so decorateButtons() renders them as a.button.
-   Override the pill/button chrome so they read as plain text links + icon, matching
-   the live .tile-link row. download+icon / email+icon are one link — hover changes both. */
+/* Action links get the .button class so they carry standard button semantics, but here
+   they read as plain text links + authored icon (matching the live .tile-link row).
+   Override the pill/button chrome. download+icon / email+icon are one link — hover
+   changes both. */
 .accordion-cards .accordion-cards-card-actions .accordion-cards-action-link,
 .accordion-cards .accordion-cards-card-actions .accordion-cards-action-link:hover,
 .accordion-cards .accordion-cards-card-actions .accordion-cards-action-link:focus { /* @libs */
@@ -216,6 +217,11 @@
 
 .accordion-cards .accordion-cards-card-actions .accordion-cards-action-link { /* @libs */
   color: var(--accordion-cards-link-color); /* @libs */
+}
+
+/* suppress the global a.button default arrow — icons here are author-driven only */
+.accordion-cards .accordion-cards-card-actions .accordion-cards-action-link::after { /* @libs */
+  content: none; /* @libs */
 }
 
 .accordion-cards .accordion-cards-card-actions .accordion-cards-action-link + .accordion-cards-action-link { /* @libs */
