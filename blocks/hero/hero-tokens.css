@@ -73,22 +73,16 @@
   --hero-single-cta-color: var(--background-color);
   --hero-single-cta-arrow: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="22" height="9" viewBox="0 0 22 9" fill="none"><path d="M0 4.5h20M16.5 1 20 4.5 16.5 8" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>');
 
-  /* teaser variant (non-homepage sub-banner) — left-aligned overlay matching
-     vyepti.com .teaser.sub-banner-teaser. Colours/fonts reuse global tokens. */
-  --hero-teaser-overlay-top: 5.5%;
-  --hero-teaser-overlay-top-desktop: 23%;
-  --hero-teaser-overlay-inset-x: 15px;
-  --hero-teaser-overlay-inset-x-desktop: 5%;
-  --hero-teaser-overlay-max-width: 429px;
+  /* teaser variant (non-homepage sub-banner) — mirrors the single-dark
+     container-centred overlay, with a dark eyebrow + teal headline and
+     left-aligned text per vyepti.com .teaser.sub-banner-teaser. Colours and
+     fonts reuse global tokens; layout reuses the single-* container tokens. */
   --hero-teaser-eyebrow-color: var(--text-color);
   --hero-teaser-eyebrow-font-size: 18px;
+  --hero-teaser-eyebrow-font-size-desktop: 24px;
   --hero-teaser-eyebrow-font-weight: 600;
   --hero-teaser-eyebrow-line-height: 32px;
   --hero-teaser-heading-color: var(--brand-primary);
-  --hero-teaser-heading-font-size: 24px;
-  --hero-teaser-heading-font-size-desktop: 32px;
-  --hero-teaser-heading-font-weight: 800;
-  --hero-teaser-heading-line-height: 1.25;
   --hero-teaser-caption-color: var(--hero-text-color-light);
 
   /* z-index layers */
