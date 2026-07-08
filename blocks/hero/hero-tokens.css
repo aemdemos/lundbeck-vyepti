@@ -124,7 +124,7 @@
    to the panel height, so the text sits ~10.5% down regardless of image size). */
 .hero.teaser .hero-panel-content {
   inset: var(--hero-teaser-content-top-mobile) 0 auto;
-  padding: 0 15px;
+  padding: 0 30px;
   justify-content: flex-start;
   align-items: center;
   text-align: center;
@@ -136,11 +136,11 @@
 .hero.teaser .hero-panel-dark .hero-panel-description > p:first-child,
 .hero.teaser h3 {
   color: var(--hero-teaser-eyebrow-color);
-  font-family: var(--hero-font-family-display);
+  font-family: var(--heading-font-family);
   font-size: var(--hero-teaser-eyebrow-font-size);
   font-weight: var(--hero-teaser-eyebrow-font-weight);
   line-height: var(--hero-teaser-eyebrow-line-height);
-  margin: 0 0 var(--hero-eyebrow-gap);
+  margin: 0;
   padding: 0;
   text-align: center;
 }
@@ -156,7 +156,7 @@
 .hero.teaser .hero-panel-description > h1,
 .hero.teaser h1 {
   color: var(--hero-teaser-heading-color);
-  font-family: var(--hero-font-family-display);
+  font-family: var(--heading-font-family);
   font-size: var(--hero-single-heading-font-size-m);
   font-weight: var(--heading-font-weight);
   line-height: var(--hero-teaser-heading-line-height);
