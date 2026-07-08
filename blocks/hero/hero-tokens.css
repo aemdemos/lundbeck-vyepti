@@ -81,7 +81,9 @@
   --hero-teaser-eyebrow-font-size: 18px;
   --hero-teaser-eyebrow-font-size-desktop: 24px;
   --hero-teaser-eyebrow-font-weight: 600;
-  --hero-teaser-eyebrow-line-height: 32px;
+  --hero-teaser-eyebrow-line-height: 22px;
+  --hero-teaser-eyebrow-line-height-desktop: 32px;
+  --hero-teaser-heading-line-height: 36px;
   --hero-teaser-heading-color: var(--brand-primary);
   --hero-teaser-caption-color: var(--hero-text-color-light);
 
@@ -157,7 +159,7 @@
   font-family: var(--hero-font-family-display);
   font-size: var(--hero-single-heading-font-size-m);
   font-weight: var(--heading-font-weight);
-  line-height: var(--hero-heading-line-height);
+  line-height: var(--hero-teaser-heading-line-height);
   margin: 0;
   max-width: 100%;
   text-align: center;
@@ -196,6 +198,7 @@
   .hero.teaser .hero-panel-dark .hero-panel-description > p:first-child,
   .hero.teaser h3 {
     font-size: var(--hero-teaser-eyebrow-font-size-desktop);
+    line-height: var(--hero-teaser-eyebrow-line-height-desktop);
     text-align: left;
   }
 

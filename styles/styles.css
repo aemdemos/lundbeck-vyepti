@@ -93,6 +93,7 @@
 
   /* nav heights */
   --nav-height: 200px; /* @libs */
+  --nav-height-mobile: 124px; /* fits the mobile nav content (no dead space) */
   --nav-brand-row-height-mobile: 97px; /* @libs */
   --breadcrumbs-height: 34px; /* @libs */
   --header-height: var(--nav-height); /* @libs */
@@ -196,7 +197,7 @@ body.appear { /* @libs */
 }
 
 header { /* @libs */
-  min-height: var(--header-height); /* @libs */
+  min-height: var(--nav-height-mobile); /* fits mobile nav; grows to --nav-height at 992px+ */
   height: auto; /* fit nav content so it never overflows onto main */
 }
 
