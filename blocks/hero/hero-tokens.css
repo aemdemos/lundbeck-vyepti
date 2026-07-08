@@ -83,6 +83,7 @@
   --hero-teaser-eyebrow-font-weight: 600;
   --hero-teaser-eyebrow-line-height: 22px;
   --hero-teaser-eyebrow-line-height-desktop: 32px;
+  --hero-teaser-eyebrow-gap: 8px;
   --hero-teaser-heading-line-height: 36px;
   --hero-teaser-heading-color: var(--brand-primary);
   --hero-teaser-caption-color: var(--hero-text-color-light);
@@ -140,7 +141,7 @@
   font-size: var(--hero-teaser-eyebrow-font-size);
   font-weight: var(--hero-teaser-eyebrow-font-weight);
   line-height: var(--hero-teaser-eyebrow-line-height);
-  margin: 0;
+  margin: 0 0 var(--hero-teaser-eyebrow-gap);
   padding: 0;
   text-align: center;
 }
