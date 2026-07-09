@@ -193,10 +193,13 @@
     min-height: var(--hero-teaser-min-height-desktop);
   }
 
-  /* Overlay: container-centred, vertically centred, left-aligned. */
+  /* Overlay: container-centred, vertically centred, left-aligned. Uses the
+     site's Bootstrap container caps (720 / 960 / 1140 at 768 / 992 / 1200) so
+     the text's left edge matches the source grid (39 / 31 / 45px from the
+     panel edge) rather than sitting flush at 15px. */
   .hero.teaser .hero-panel-content {
     inset: 0;
-    max-width: var(--max-width-site);
+    max-width: 720px;
     margin: 0 auto;
     padding: 0 15px;
     justify-content: center;
@@ -228,6 +231,10 @@
 }
 
 @media (width >= 992px) {
+  .hero.teaser .hero-panel-content {
+    max-width: 960px;
+  }
+
   .hero.teaser .hero-panel-description > h1,
   .hero.teaser h1 {
     font-size: 42px;
@@ -237,6 +244,10 @@
 }
 
 @media (width >= 1200px) {
+  .hero.teaser .hero-panel-content {
+    max-width: var(--max-width-site);
+  }
+
   .hero.teaser .hero-panel-description > h1,
   .hero.teaser h1 {
     font-size: var(--hero-single-heading-font-size-desktop);
