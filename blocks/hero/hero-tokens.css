@@ -87,6 +87,7 @@
   --hero-teaser-heading-line-height: 36px;
   --hero-teaser-heading-color: var(--brand-primary);
   --hero-teaser-caption-color: var(--hero-text-color-light);
+  --hero-teaser-caption-font-size: 12px;
 
   /* mobile overlay top offset (% of image-driven banner height) — text sits over
      the sky with the subjects visible below, matching the source composition */
@@ -166,11 +167,17 @@
   text-align: center;
 }
 
-/* Actor portrayal caption — white, italic, bottom-right. Bottom offset matches
-   the source (11px mobile / 16px at 768px+). */
+/* Actor portrayal caption — white, italic, bottom-right. Font-size, bottom
+   offset match the source (12px; 11px mobile / 16px at 768px+). */
+.hero.teaser .actor-portrayal,
+.hero.teaser .actor-portrayal em,
+.hero.teaser .actor-portrayal sup {
+  font-size: var(--hero-teaser-caption-font-size);
+}
+
 .hero.teaser .actor-portrayal {
   position: absolute;
-  right: 20px;
+  right: 24px;
   bottom: 11px;
   z-index: var(--hero-z-caption);
   margin: 0;
@@ -211,8 +218,11 @@
     text-align: left;
   }
 
+  /* Right-align the caption to the source's content column so it tracks inward
+     on wide screens (source: 25px@768 → 108@1200 → 132@1440 ≈ (100vw-1176)/2,
+     floored at 25px) instead of hugging the full-bleed panel edge. */
   .hero.teaser .actor-portrayal {
-    right: 40px;
+    right: max(25px, calc((100% - 1176px) / 2));
     bottom: 16px;
   }
 }
