@@ -1,0 +1,279 @@
+@import url('./ugc-form-tokens.css');
+
+/* Base Container Layout */
+.ugc-form.block,
+.ugc-form-container {
+  font-family: var(--ugc-font-base);
+  max-width: var(--ugc-max-width);
+  margin: 0 auto;
+  color: var(--ugc-color-text-dark);
+}
+
+.ugc-form-title {
+  color: var(--ugc-color-primary);
+  font-size: var(--ugc-font-size-title);
+  margin-bottom: 16px;
+}
+
+.ugc-form-description,
+.ugc-form-required-note {
+  font-size: var(--ugc-font-size-body);
+  line-height: 1.4;
+  margin-bottom: 20px;
+}
+
+/* Individual Form Fields */
+.ugc-form-field-wrapper {
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+.ugc-form-field-wrapper label {
+  color: var(--ugc-color-primary);
+  font-size: var(--ugc-font-size-body);
+  margin-bottom: 6px;
+}
+
+.ugc-form-field-wrapper .field-extra-text {
+  color: var(--ugc-color-text-dark);
+  font-weight: normal;
+}
+
+.ugc-form-field-wrapper input[type="text"],
+.ugc-form-field-wrapper input[type="email"],
+.ugc-form-field-wrapper textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--ugc-color-text-dark);
+  border-radius: 6px;
+  box-sizing: border-box;
+  font-size: var(--ugc-font-size-input);
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.ugc-form-field-wrapper textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+/* Form Fields Error Validation Styles */
+.ugc-form-field-wrapper.has-error input[type="text"],
+.ugc-form-field-wrapper.has-error input[type="email"],
+.ugc-form-field-wrapper.has-error textarea {
+  border: 1px solid var(--ugc-color-error-text);
+  background-color: var(--ugc-color-error-bg);
+}
+
+.ugc-form-field-wrapper .ugc-error-message {
+  color: var(--ugc-color-error-text);
+  font-size: var(--ugc-font-size-body);
+  margin-top: 6px;
+  display: block;
+  font-weight: normal;
+}
+
+/* Before Submit Text Block */
+.ugc-form-info {
+  margin-top: 24px;
+  font-size: var(--ugc-font-size-body);
+  line-height: 1.4;
+}
+
+.ugc-form-info strong {
+  color: var(--ugc-color-primary);
+  display: block;
+  margin-bottom: 6px;
+}
+
+/* Dynamic Media Upload Section */
+.ugc-form-upload-group {
+  margin-top: 24px;
+  font-size: var(--ugc-font-size-body);
+}
+
+.ugc-upload-instructions-text strong {
+  color: var(--ugc-color-primary);
+  font-size: var(--ugc-font-size-body);
+  display: block;
+  margin-bottom: 4px;
+}
+
+.ugc-upload-rows-wrapper {
+  margin: 16px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ugc-upload-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.ugc-preview-box {
+  width: var(--ugc-preview-size);
+  height: var(--ugc-preview-size);
+  border: 2px solid var(--ugc-color-border-light);
+  background-color: var(--ugc-color-bg-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.ugc-preview-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ugc-video-preview-icon {
+  font-size: 24px;
+}
+
+.ugc-upload-controls {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+}
+
+.ugc-file-label {
+  margin: 0;
+  font-weight: bold;
+  color: var(--ugc-color-text-dark);
+}
+
+.ugc-file-name-link {
+  color: var(--ugc-color-primary);
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 15px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.ugc-file-name-link:hover {
+  text-decoration: underline;
+}
+
+.ugc-file-name-link .external-icon {
+  font-size: 12px;
+}
+
+.ugc-remove-media-btn {
+  background-color: var(--ugc-color-btn-gray);
+  border: 1px solid var(--ugc-color-text-dark);
+  color: var(--ugc-color-text-dark);
+  padding: 6px 14px;
+  font-size: 13px;
+  cursor: pointer;
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+}
+
+.ugc-add-more {
+  background-color: var(--ugc-color-btn-gray);
+  border: 1px solid var(--ugc-color-text-dark);
+  color: var(--ugc-color-text-dark);
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: var(--ugc-font-size-body);
+  margin-top: 8px;
+  margin-bottom: 24px;
+}
+
+.ugc-remove-media-btn:hover,
+.ugc-add-more:hover {
+  background-color: var(--ugc-color-btn-gray-hover);
+}
+
+/* User Agreement Checkbox Section */
+.ugc-form-consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.ugc-form-consent input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  cursor: pointer;
+}
+
+.ugc-form-consent label {
+  font-size: var(--ugc-font-size-body);
+  line-height: 1.4;
+  cursor: pointer;
+}
+
+/* Submission Button Action */
+.ugc-form-submit {
+  background-color: var(--ugc-color-primary);
+  color: var(--ugc-color-bg-light);
+  border: none;
+  border-radius: 20px;
+  padding: 10px 32px;
+  font-size: var(--ugc-font-size-input);
+  font-weight: bold;
+  cursor: pointer;
+  margin-bottom: 30px;
+}
+
+.ugc-form-submit:hover {
+  background-color: var(--ugc-color-primary-dark);
+}
+
+/* Legal Conditions Accordion Drawer */
+.ugc-form-terms-accordion {
+  max-width: var(--ugc-max-width);
+  margin: 0 auto;
+  background-color: var(--ugc-color-accordion-bg);
+  border-top: 1px solid var(--ugc-color-accordion-border);
+  border-bottom: 1px solid var(--ugc-color-accordion-border);
+}
+
+.ugc-form-terms-accordion summary {
+  padding: 16px;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  color: var(--ugc-color-text-dark);
+  font-size: var(--ugc-font-size-body);
+}
+
+.ugc-form-terms-accordion summary::-webkit-details-marker {
+  display: none;
+}
+
+.ugc-form-terms-accordion summary::after {
+  content: '\2212';
+  font-weight: bold;
+  font-size: 18px;
+  color: var(--ugc-color-primary);
+}
+
+.ugc-form-terms-accordion:not([open]) summary::after {
+  content: '\002B';
+}
+
+.ugc-form-terms-accordion .accordion-content {
+  padding: 0 16px 16px;
+  font-size: var(--ugc-font-size-legal);
+  line-height: 1.5;
+  color: var(--ugc-color-text-muted);
+}
+
+div.ugc-form-container {
+    margin: 0 auto; 
+    width: 50%;
+}
