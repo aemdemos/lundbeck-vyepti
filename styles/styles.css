@@ -641,6 +641,9 @@ main .flex-group {
   display: flex;
   flex-direction: column;
   gap: var(--flex-group-gap);
+  max-width: var(--max-width-site);
+  margin: auto;
+  padding: 0 15px;
 }
 
 main .flex-group > .section.flex {
