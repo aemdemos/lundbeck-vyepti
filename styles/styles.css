@@ -59,7 +59,7 @@
   --section-divider-width: 1px; /* @libs */
   --section-divider-color: var(--link-hover-color); /* @libs */
   --section-padding: 24px;
-  --flex-group-gap: 24px;
+  --flex-group-gap: 30px;
   
   /* fonts */
   --body-font-family: proxima-nova, proxima-nova-fallback, sans-serif; /* @libs */
@@ -642,7 +642,7 @@ main .flex-group {
   flex-direction: column;
   gap: var(--flex-group-gap);
   max-width: var(--max-width-site);
-  margin: auto;
+  margin: var(--section-padding-vertical) auto;
   padding: 0 15px;
 }
 

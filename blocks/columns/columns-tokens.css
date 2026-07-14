@@ -12,6 +12,7 @@
   --columns-narrow-copy-max-width: 570px;
   --columns-narrow-copy-heading-gap: 16px;
   --columns-narrow-copy-para-gap: 16px;
+  --columns-narrow-copy-para-line-height: 22px;
 
   /* locations variant — row of icon-above-label option cards (vyepti.com
      /what-to-expect "choose from" group). Icon 108px, small centred label.

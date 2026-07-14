@@ -26,18 +26,18 @@ main .columns.narrow-copy > div > div {
   text-align: left;
 }
 
-/* match the source's tight rhythm: headings dark (not teal), paragraphs carry
-   their spacing as a bottom margin with no top margin, so consecutive lines
-   sit on an even ~16px rhythm rather than the looser default block spacing */
+/* match the source's tight rhythm: paragraphs carry their spacing as a bottom
+   margin with no top margin, so consecutive lines sit on an even rhythm rather
+   than the looser default block spacing. Headings keep the global teal h2 color. */
 main .columns.narrow-copy h2,
 main .columns.narrow-copy h3,
 main .columns.narrow-copy h4 {
-  color: var(--text-color);
   margin: 0 0 var(--columns-narrow-copy-heading-gap);
 }
 
 main .columns.narrow-copy p {
   margin: 0 0 var(--columns-narrow-copy-para-gap);
+  line-height: var(--columns-narrow-copy-para-line-height);
 }
 
 main .columns.narrow-copy > div > div > :last-child {
