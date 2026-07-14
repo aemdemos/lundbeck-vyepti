@@ -26,6 +26,24 @@ main .columns.narrow-copy > div > div {
   text-align: left;
 }
 
+/* match the source's tight rhythm: headings dark (not teal), paragraphs carry
+   their spacing as a bottom margin with no top margin, so consecutive lines
+   sit on an even ~16px rhythm rather than the looser default block spacing */
+main .columns.narrow-copy h2,
+main .columns.narrow-copy h3,
+main .columns.narrow-copy h4 {
+  color: var(--text-color);
+  margin: 0 0 var(--columns-narrow-copy-heading-gap);
+}
+
+main .columns.narrow-copy p {
+  margin: 0 0 var(--columns-narrow-copy-para-gap);
+}
+
+main .columns.narrow-copy > div > div > :last-child {
+  margin-bottom: 0;
+}
+
 /* locations variant — row of icon-above-label option cards (matching the
    "Depending on your insurance, you may be able to choose from" group on
    vyepti.com/what-to-expect). Each authored cell holds one icon + label.
@@ -58,6 +76,7 @@ main .columns.locations p {
   margin: var(--columns-locations-label-gap) 0 0;
   font-size: var(--columns-locations-label-font-size);
   line-height: var(--columns-locations-label-line-height);
+  font-weight: var(--columns-locations-label-font-weight);
 }
 
 /* stats-callout variant — vyepti study/survey results callouts.

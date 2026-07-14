@@ -10,6 +10,8 @@
      as a 50/50 split of the 1140px container). Left-aligned, flush to the
      section's leading edge; full width on mobile. */
   --columns-narrow-copy-max-width: 570px;
+  --columns-narrow-copy-heading-gap: 16px;
+  --columns-narrow-copy-para-gap: 16px;
 
   /* locations variant — row of icon-above-label option cards (vyepti.com
      /what-to-expect "choose from" group). Icon 108px, small centred label.
@@ -18,6 +20,7 @@
   --columns-locations-icon-size: 108px;
   --columns-locations-label-font-size: var(--body-font-size-s, 16px);
   --columns-locations-label-line-height: 18px;
+  --columns-locations-label-font-weight: 600;
   --columns-locations-label-gap: 4px;
   --columns-locations-max-width: var(--columns-narrow-copy-max-width);
   --columns-locations-margin-bottom: 24px;
