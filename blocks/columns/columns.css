@@ -29,18 +29,19 @@ main .columns.narrow-copy > div > div {
 /* locations variant — row of icon-above-label option cards (matching the
    "Depending on your insurance, you may be able to choose from" group on
    vyepti.com/what-to-expect). Each authored cell holds one icon + label.
-   Mobile: 2 per row; 768px+: all 4 in a row. */
+   Cards butt together with no gap (as the source); 2 per row on mobile/tablet,
+   all 4 in a row at 992px+. */
 main .columns.locations > div {
   display: flex;
   flex-flow: row wrap;
-  gap: var(--columns-locations-gap);
+  gap: 0;
   max-width: var(--columns-locations-max-width);
   margin-bottom: var(--columns-locations-margin-bottom);
 }
 
 main .columns.locations > div > div {
   order: unset;
-  flex: 0 0 calc((100% - var(--columns-locations-gap)) / 2);
+  flex: 0 0 50%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -134,14 +135,15 @@ main .columns.stats-callout:has(img) > div > div:not(.columns-img-col) > p:first
     gap: var(--columns-gap); /* @boilerplate */
   }
 
-  /* locations: all four option cards in a single row, top-aligned */
+  /* locations stays a 2-up wrapped grid through the tablet range (matches the
+     source, which only goes 4-up at 992px); keep it top-aligned and override
+     the base row flatten below. */
   main .columns.locations > div {
-    flex-wrap: nowrap;
     align-items: flex-start;
   }
 
   main .columns.locations > div > div {
-    flex: 1;
+    flex: 0 0 50%;
   }
 
   .columns > div > div { /* @boilerplate */
@@ -186,5 +188,17 @@ main .columns.stats-callout:has(img) > div > div:not(.columns-img-col) > p:first
 
   main .columns.stats-callout:has(img) > div > div:not(.columns-img-col) {
     text-align: left;
+  }
+}
+
+/* locations: all four option cards in a single row at 992px+ (the source's
+   Bootstrap lg breakpoint); below this they stay 2-up. */
+@media (width >= 992px) {
+  main .columns.locations > div {
+    flex-wrap: nowrap;
+  }
+
+  main .columns.locations > div > div {
+    flex: 1 1 0;
   }
 }

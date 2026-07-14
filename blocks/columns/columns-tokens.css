@@ -18,7 +18,6 @@
   --columns-locations-label-font-size: var(--body-font-size-s, 16px);
   --columns-locations-label-line-height: 18px;
   --columns-locations-label-gap: 4px;
-  --columns-locations-gap: 16px;
   --columns-locations-max-width: var(--columns-narrow-copy-max-width);
   --columns-locations-margin-bottom: 24px;
 }
