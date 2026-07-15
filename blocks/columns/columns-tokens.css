@@ -34,6 +34,10 @@
   /* mobile: narrow cell basis so the two columns pack close together and the
      group centers (matching the source), rather than each spreading to half. */
   --columns-locations-cell-basis-mobile: 34%;
+
+  /* mobile: vertical gap between the two wrapped rows of option cards
+     (yields ~12px total between rows, matching the source). */
+  --columns-locations-row-gap-mobile: 9px;
   --columns-locations-label-font-size: var(--body-font-size-s, 16px);
   --columns-locations-label-line-height: 18px;
   --columns-locations-label-font-weight: 600;
