@@ -590,6 +590,14 @@ main > .section > div:not(.bg-image) {
   padding: 0 15px;
 }
 
+/* full-bleed sections: opt out of the site container cap and side gutters so
+   the content spans edge to edge (e.g. hero). Higher specificity than the
+   gutter/max-width rules above so it wins wherever it is applied. */
+main > .section.full-bleed > div {
+  max-width: unset;
+  padding: 0;
+}
+
 /* Section metadata: background image sits behind content */
 main > .section:has(> .bg-image) { /* @boilerplate */
   position: relative; /* @boilerplate */
