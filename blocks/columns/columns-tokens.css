@@ -19,6 +19,7 @@
      Constrained to the same readable measure as narrow-copy so the cards sit
      within the text column rather than spreading the full section width. */
   --columns-locations-icon-size: 108px;
+  --columns-locations-icon-size-mobile: 80px;
   --columns-locations-label-font-size: var(--body-font-size-s, 16px);
   --columns-locations-label-line-height: 18px;
   --columns-locations-label-font-weight: 600;
