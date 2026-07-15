@@ -1,316 +1,318 @@
-// @import url('./ugc-form.css');
+export default async function decorate(block) {
+  // 1. Your block's custom initialization logic goes here
+  block.classList.add('my-custom-wrapper');
 
-function validateField(input) {
-  const wrapper = input.closest('.ugc-form-field-wrapper');
-  if (!wrapper) return false;
+  try {
+    // 2. Dynamically import the target block's JS module
+    // Replace 'target-block' with the actual folder name of the block you want to load
+    const targetBlockModule = await import('../form/form.js');
+    
+    // 3. Extract the default decoration function
+    const decorateTargetBlock = targetBlockModule.default;
 
-  let errorMsg = wrapper.querySelector('.ugc-error-message');
-  const value = input.value.trim();
-  const labelText = wrapper.querySelector('strong')?.textContent.replace('*', '').trim() || 'This field';
-  
-  // 1. Required field validation
-  if (input.required && !value) {
-    wrapper.classList.add('has-error');
-    if (!errorMsg) {
-      errorMsg = document.createElement('span');
-      errorMsg.className = 'ugc-error-message';
-      wrapper.appendChild(errorMsg);
+    if (typeof decorateTargetBlock === 'function') {
+      // 4. Pass your block element (or a specific child element) to the target block's decorator
+      await decorateTargetBlock(block);
     }
-    errorMsg.textContent = `Error: ${labelText} is required`;
-    return false;
+  } catch (error) {
+    console.error('Failed to load the target block JS:', error);
   }
+}
 
-  // 2. Character length limit validation
-  const maxLimit = input.dataset.maxlength;
-  if (maxLimit && value.length > parseInt(maxLimit, 10)) {
-    wrapper.classList.add('has-error');
-    if (!errorMsg) {
-      errorMsg = document.createElement('span');
-      errorMsg.className = 'ugc-error-message';
-      wrapper.appendChild(errorMsg);
+
+function createUploadRow(isFirst = false) {
+  const row = document.createElement('div');
+  row.className = 'ugc-upload-row';
+
+  row.innerHTML = `
+    <div class="ugc-preview-container">
+      <div class="ugc-preview-placeholder"><img    src="/icons/wrong.svg"4    alt="Upload placeholder"5    class="ugc-placeholder-icon"/></div>
+      <img class="ugc-preview-image" hidden alt="Preview">
+    </div>
+
+    <div class="ugc-upload-content">
+      <div class="ugc-upload-label">
+        Please upload your file(s)
+      </div>
+
+      <input
+        type="file"
+        class="ugc-file-input"
+        accept=".png,.gif,.mov,.jpg,.jpeg,.mp4,.mpg,.mpeg,.avi,.wmv,.m4v"
+      />
+    </div>
+
+    ${
+      !isFirst
+  ? `<button
+        type="button"
+        class="ugc-remove-upload"
+        aria-label="Remove upload">
+        <img src="/icons/cross.svg"          alt="Remove"
+          class="ugc-remove-upload-icon"
+        />
+      </button>`
+  : ''
     }
-    errorMsg.textContent = `Error: ${labelText} is too long: ${value.length}/${maxLimit}`;
-    return false;
-  }
-
-  // Clear tracking styles if validations pass
-  wrapper.classList.remove('has-error');
-  if (errorMsg) errorMsg.remove();
-  return true;
-}
-
-function handleBlur(e) {
-  validateField(e.target);
-}
-
-function handleInput(e) {
-  const input = e.target;
-  const wrapper = input.closest('.ugc-form-field-wrapper');
-  if (wrapper && (wrapper.classList.contains('has-error') || input.dataset.maxlength)) {
-    validateField(input);
-  }
-}
-
-function createField(label, id, type = 'text', required = true, extraText = '', maxLength = null) {
-  const wrapper = document.createElement('div');
-  wrapper.className = 'ugc-form-field-wrapper';
-  
-  const labelElem = document.createElement('label');
-  labelElem.setAttribute('for', id);
-  labelElem.innerHTML = `<strong>${label}${required ? '*' : ''}</strong>`;
-  
-  if (extraText) {
-    const extraSpan = document.createElement('span');
-    extraSpan.className = 'field-extra-text';
-    extraSpan.textContent = extraText;
-    labelElem.appendChild(document.createTextNode(' '));
-    labelElem.appendChild(extraSpan);
-  }
-  wrapper.appendChild(labelElem);
-
-  let inputElement;
-  if (type === 'textarea') {
-    inputElement = document.createElement('textarea');
-    inputElement.setAttribute('rows', '6');
-  } else {
-    inputElement = document.createElement('input');
-    inputElement.setAttribute('type', type);
-  }
-  
-  inputElement.id = id;
-  inputElement.name = id;
-
-  if (maxLength) {
-    inputElement.setAttribute('data-maxlength', maxLength);
-  }
-
-  inputElement.addEventListener('blur', handleBlur);
-  inputElement.addEventListener('input', handleInput);
-  
-  if (required) inputElement.required = true;
-  
-  wrapper.appendChild(inputElement);
-  return wrapper;
-}
-
-function createUploadRow() {
-  const rowContainer = document.createElement('div');
-  rowContainer.className = 'ugc-upload-row';
-
-  const previewBox = document.createElement('div');
-  previewBox.className = 'ugc-preview-box';
-  previewBox.innerHTML = `
-    <svg class="ugc-placeholder-icon" viewBox="0 0 24 24" width="32" height="32" stroke="#D1D1D1" stroke-width="2" fill="none">
-      <circle cx="12" cy="12" r="10"></circle>
-      <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line>
-    </svg>
   `;
-  rowContainer.appendChild(previewBox);
 
-  const controlsContainer = document.createElement('div');
-  controlsContainer.className = 'ugc-upload-controls';
+  const input = row.querySelector('.ugc-file-input');
+  const image = row.querySelector('.ugc-preview-image');
+  const placeholder = row.querySelector('.ugc-preview-placeholder');
 
-  const fileLabel = document.createElement('p');
-  fileLabel.className = 'ugc-file-label';
-  fileLabel.textContent = 'Please upload your file(s)';
+  input.addEventListener('change', () => {
+    const file = input.files?.[0];
 
-  const fileInput = document.createElement('input');
-  fileInput.setAttribute('type', 'file');
-  fileInput.className = 'ugc-file-input';
-  fileInput.setAttribute('accept', '.png,.gif,.mov,.jpg,.jpeg,.mp4,.mpg,.mpeg,.avi,.wmv,.m4v');
+    if (!file) {
+      image.hidden = true;
+      placeholder.style.display = 'block';
+      return;
+    }
 
-  controlsContainer.appendChild(fileLabel);
-  controlsContainer.appendChild(fileInput);
-  rowContainer.appendChild(controlsContainer);
-
-  fileInput.addEventListener('change', (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    previewBox.innerHTML = '';
     if (file.type.startsWith('image/')) {
-      const img = document.createElement('img');
-      img.src = URL.createObjectURL(file);
-      img.alt = 'Preview';
-      previewBox.appendChild(img);
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        image.src = e.target.result;
+        image.hidden = false;
+        placeholder.style.display = 'none';
+      };
+
+      reader.readAsDataURL(file);
     } else {
-      const videoIcon = document.createElement('div');
-      videoIcon.className = 'ugc-video-preview-icon';
-      videoIcon.textContent = '🎬';
-      previewBox.appendChild(videoIcon);
-    }
-
-    controlsContainer.innerHTML = '';
-    
-    const nameLink = document.createElement('a');
-    nameLink.className = 'ugc-file-name-link';
-    nameLink.href = '#';
-    nameLink.innerHTML = `.../${file.name} <span class="external-icon">↗</span>`;
-    nameLink.addEventListener('click', (event) => event.preventDefault());
-
-    const removeBtn = document.createElement('button');
-    removeBtn.setAttribute('type', 'button');
-    removeBtn.className = 'ugc-remove-media-btn';
-    removeBtn.innerHTML = '✕ Remove';
-    
-    removeBtn.addEventListener('click', () => {
-      rowContainer.remove();
-    });
-
-    controlsContainer.appendChild(nameLink);
-    controlsContainer.appendChild(removeBtn);
-  });
-
-  return rowContainer;
-}
-
-export default function decorate(block) {
-  const config = {};
-  [...block.children].forEach((row) => {
-    const key = row.children[0]?.textContent?.trim().toLowerCase();
-    const val = row.children[1]?.innerHTML;
-    if (key && val) config[key] = val;
-  });
-
-  block.textContent = '';
-  
-  const form = document.createElement('form');
-  form.className = 'ugc-form-container';
-  form.setAttribute('novalidate', '');
-
-  form.addEventListener('submit', (e) => {
-    const inputs = form.querySelectorAll('input[type="text"], input[type="email"], textarea');
-    let isValid = true;
-    inputs.forEach((input) => {
-      if (!validateField(input)) isValid = false;
-    });
-    if (!isValid) {
-      e.preventDefault();
-      form.querySelector('.has-error')?.scrollIntoView({ behavior: 'smooth' });
+      image.hidden = true;
+      placeholder.style.display = 'block';
     }
   });
 
-  if (config.title) {
-    const title = document.createElement('h2');
-    title.className = 'ugc-form-title';
-    title.innerHTML = config.title;
-    form.appendChild(title);
-  }
-  
-  if (config.description) {
-    const desc = document.createElement('p');
-    desc.className = 'ugc-form-description';
-    desc.innerHTML = config.description;
-    form.appendChild(desc);
-  }
-  
-  const requiredNote = document.createElement('p');
-  requiredNote.className = 'ugc-form-required-note';
-  requiredNote.innerHTML = '<em>All fields are required.</em>';
-  form.appendChild(requiredNote);
+  const removeButton = row.querySelector('.ugc-remove-upload');
 
-  // Core Fields Creation
-  form.appendChild(createField('First name', 'firstName', 'text', true));
-  form.appendChild(createField('Last name', 'lastName', 'text', true, 'We will not display your last name'));
-  form.appendChild(createField('Email address', 'email', 'email', true));
-  form.appendChild(createField('Write your story', 'story', 'textarea', true, '(500 character limit)', 500));
+  if (removeButton) {
+    removeButton.addEventListener('click', () => {
+      row.remove();
 
-  if (config['before-submit']) {
-    const info = document.createElement('div');
-    info.className = 'ugc-form-info';
-    info.innerHTML = config['before-submit'];
-    form.appendChild(info);
-  }
+      const addButton = document.querySelector('.ugc-add-more-media');
 
-  // File Upload Dynamic Segment
-  if (config['upload-instructions']) {
-    const uploadGroup = document.createElement('div');
-    uploadGroup.className = 'ugc-form-upload-group';
-    
-    const instructions = document.createElement('div');
-    instructions.className = 'ugc-upload-instructions-text';
-    instructions.innerHTML = config['upload-instructions'];
-    uploadGroup.appendChild(instructions);
-    
-    const rowsWrapper = document.createElement('div');
-    rowsWrapper.className = 'ugc-upload-rows-wrapper';
-    
-    rowsWrapper.appendChild(createUploadRow());
-    uploadGroup.appendChild(rowsWrapper);
-    
-    const addMoreBtn = document.createElement('button');
-    addMoreBtn.setAttribute('type', 'button');
-    addMoreBtn.className = 'ugc-add-more';
-    addMoreBtn.textContent = 'Add More Media';
-    addMoreBtn.addEventListener('click', () => {
-      rowsWrapper.appendChild(createUploadRow());
+      if (document.querySelectorAll('.ugc-upload-row').length < 3) {
+        addButton.disabled = false;
+        // addButton.style.display = document.querySelectorAll('.ugc-upload-row').length < 3 ? '' : 'none';
+
+      }
     });
-    
-    uploadGroup.appendChild(addMoreBtn);
-    form.appendChild(uploadGroup);
   }
 
-  // Consent Segment
-  if (config['checkbox-text']) {
-    const consentGroup = document.createElement('div');
-    consentGroup.className = 'ugc-form-consent';
-    
-    const checkbox = document.createElement('input');
-    checkbox.setAttribute('type', 'checkbox');
-    checkbox.id = 'ugcConsent';
-    checkbox.name = 'consent';
-    checkbox.required = true;
-    
-    const label = document.createElement('label');
-    label.setAttribute('for', 'ugcConsent');
-    label.innerHTML = config['checkbox-text'];
-    
-    consentGroup.appendChild(checkbox);
-    consentGroup.appendChild(label);
-    form.appendChild(consentGroup);
-  }
-
-    if (config['optional-checkbox-text']) {
-    const consentGroup = document.createElement('div');
-    consentGroup.className = 'ugc-form-consent';
-    
-    const checkbox = document.createElement('input');
-    checkbox.setAttribute('type', 'checkbox');
-    checkbox.id = 'ugcConsentOpt';
-    checkbox.name = 'consent';
-    checkbox.required = true;
-    
-    const label = document.createElement('label');
-    label.setAttribute('for', 'ugcConsentOpt');
-    label.innerHTML = config['optional-checkbox-text'];
-    
-    consentGroup.appendChild(checkbox);
-    consentGroup.appendChild(label);
-    form.appendChild(consentGroup);
-  }
-
-  const submitBtn = document.createElement('button');
-  submitBtn.setAttribute('type', 'submit');
-  submitBtn.className = 'ugc-form-submit';
-  submitBtn.textContent = 'Submit';
-  form.appendChild(submitBtn);
-  
-  block.appendChild(form);
-
-//   // Accordion Drawer Injection
-//   if (config['terms-accordion-title'] && config['terms-accordion-content']) {
-//     const accordion = document.createElement('details');
-//     accordion.className = 'ugc-form-terms-accordion';
-    
-//     const summary = document.createElement('summary');
-//     summary.innerHTML = `<strong>${config['terms-accordion-title']}</strong>`;
-    
-//     const content = document.createElement('div');
-//     content.className = 'accordion-content';
-//     content.innerHTML = config['terms-accordion-content'];
-    
-//     accordion.appendChild(summary);
-//     accordion.appendChild(content);
-//     block.appendChild(accordion);
-//   }
+  return row;
 }
+
+function initializeUpload(wrapper) {
+  if (wrapper.dataset.ugcInitialized === 'true') {
+    return;
+  }
+
+  wrapper.dataset.ugcInitialized = 'true';
+
+  wrapper.innerHTML = '';
+
+  const container = document.createElement('div');
+  container.className = 'ugc-upload-container';
+
+  const addButton = document.createElement('button');
+  addButton.type = 'button';
+  addButton.className = 'ugc-add-more-media';
+  addButton.textContent = 'Add More Media';
+
+  container.appendChild(createUploadRow(true));
+
+  addButton.addEventListener('click', () => {
+    const count =
+      container.querySelectorAll('.ugc-upload-row').length;
+
+    if (count >= 3) {
+      addButton.disabled = true;
+      return;
+    }
+
+    container.appendChild(createUploadRow());
+
+    if (
+      container.querySelectorAll('.ugc-upload-row').length >= 3
+    ) {
+      addButton.disabled = true;
+    }
+  });
+
+  wrapper.appendChild(container);
+  wrapper.appendChild(addButton);
+}
+
+/* ==========================================
+   VALIDATIONS
+========================================== */
+
+function removeError(field) {
+  field.classList.remove('field-error');
+
+  const wrapper = field.closest('.field-wrapper');
+
+  if (!wrapper) {
+    return;
+  }
+
+  const error = wrapper.querySelector('.ugc-error');
+
+  if (error) {
+    error.remove();
+  }
+}
+
+function showError(field, message) {
+  removeError(field);
+
+  field.classList.add('field-error');
+
+  const wrapper = field.closest('.field-wrapper');
+
+  if (!wrapper) {
+    return;
+  }
+
+  const error = document.createElement('div');
+  error.className = 'ugc-error';
+  error.textContent = message;
+
+  wrapper.appendChild(error);
+}
+
+function validateField(field) {
+  const value = field.value.trim();
+
+  switch (field.name) {
+    case 'firstName':
+      if (!value) {
+        showError(field, 'Error: First name is required');
+      } else {
+        removeError(field);
+      }
+      break;
+
+    case 'lastName':
+      if (!value) {
+        showError(field, 'Error: Last name is required');
+      } else {
+        removeError(field);
+      }
+      break;
+
+    case 'email': {
+      if (!value) {
+        showError(field, 'Error: Email address is required');
+        return;
+      }
+
+      const validEmail =
+        /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      if (!validEmail.test(value)) {
+        showError(
+          field,
+          'Error: Please enter a valid email address',
+        );
+      } else {
+        removeError(field);
+      }
+
+      break;
+    }
+
+    case 'story': {
+      if (!value) {
+        showError(
+          field,
+          'Error: Write your story is required',
+        );
+        return;
+      }
+
+      const count = value.length;
+
+      if (count > 500) {
+        showError(
+          field,
+          `Error: Write your story is too long: ${count}/500`,
+        );
+      } else {
+        removeError(field);
+      }
+
+      break;
+    }
+
+    default:
+      break;
+  }
+}
+
+function initValidationListeners() {
+  if (document.body.dataset.validationBound === 'true') {
+    return;
+  }
+
+  document.body.dataset.validationBound = 'true';
+
+  document.addEventListener(
+    'blur',
+    (event) => {
+      const field = event.target;
+
+      if (
+        field.matches(
+          'input[name="firstName"], input[name="lastName"], input[name="email"], textarea[name="story"]',
+        )
+      ) {
+        validateField(field);
+      }
+    },
+    true,
+  );
+
+  document.addEventListener('input', (event) => {
+    const field = event.target;
+
+    if (
+      field.matches(
+        'input[name="firstName"], input[name="lastName"], input[name="email"], textarea[name="story"]',
+      )
+    ) {
+        validateField(field);
+    }
+  });
+}
+
+function fixMarkdownLinks() {
+  document.querySelectorAll('.ugc-intro.field-wrapper p').forEach(el => {
+    const regex = /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g;
+    if (regex.test(el.innerHTML)) {
+      el.innerHTML = el.innerHTML.replace(regex, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+    }
+  });
+}
+
+function init() {
+  document
+    .querySelectorAll('.ugc-file.field-wrapper.file-wrapper')
+    .forEach(initializeUpload);
+
+  initValidationListeners();
+}
+
+const observer = new MutationObserver(() => {
+  init();
+  fixMarkdownLinks();
+});
+
+observer.observe(document.body, {
+  childList: true,
+  subtree: true,
+});
+
+init();
