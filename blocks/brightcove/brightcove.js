@@ -20,11 +20,12 @@ export default async function decorate(brightcove) {
   // Create Brightcove player
   const player = document.createElement('video-js');
   player.className = 'video-js';
+  player.className = 'video-wrap';
   player.setAttribute('controls', '');
   player.setAttribute('playsinline', '');
   player.setAttribute('data-account', accountId);
   player.setAttribute('data-player', playerId);
-  player.setAttribute('data-video-id', videoId);
+  player.setAttribute('data-video-id', videoId);``
   player.setAttribute('data-embed', 'default');
 
   // Clear authored content and add player

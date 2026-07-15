@@ -19,7 +19,7 @@ export function getTranscript({
     toggle.className = 'transcript-toggle';
 
     const btnText = document.createElement('span');
-    btnText.textContent = 'Open Transcript';
+    btnText.textContent = 'Open transcript';
 
     toggle.innerHTML = openTranscriptIcon;
     toggle.appendChild(btnText);
@@ -36,8 +36,8 @@ export function getTranscript({
         ? openTranscriptIcon
         : closeTranscriptIcon;
       btnText.textContent = transcript.hidden
-        ? 'Open Transcript'
-        : 'Close Transcript';
+        ? 'Open transcript'
+        : 'Close transcript';
       toggle.appendChild(btnText);
     });
     videoTranscript.append(toggle, transcript);

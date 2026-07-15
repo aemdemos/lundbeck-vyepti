@@ -1,61 +1,92 @@
+/* ==========================================================================
+   Brightcove Video
+   ========================================================================== */
+
 .brightcove {
-    max-width: 760px;
-    margin: auto;
-    position: relative;
+  position: relative;
+  max-width: 730px;
+  margin: 0 auto;
 }
 
-.brightcove video-js {
-    display: block;
-    width: 100%;
-    height: 100%;
-    aspect-ratio: 16 / 9;
+.brightcove .video-wrap {
+  display: block;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 16 / 9;
+  
 }
 
-.brightcove video-js .vjs-big-play-button {
-    width: 1.5em;
-    height: 1.5em;
-    position: relative;
-    background-color: --brand-teal;
-}
-
-.brightcove video-js .vjs-big-play-button .vjs-icon-placeholder::before {
-    top: -10px;
+/* Big Play Button */
+.brightcove .video-wrap .vjs-big-play-button {
+  position: relative;
+  width: 1.5em;
+  height: 1.5em;
+  background-color: var(--brand-teal);
 }
 
 .brightcove .bc-player-default_default:hover .vjs-big-play-button {
-    background-color: --brand-teal;
+  background-color: var(--brand-teal);
 }
 
+.brightcove .video-wrap .vjs-big-play-button .vjs-icon-placeholder::before {
+  top: -10px;
+  font-size: inherit;
+  color: var(--background-color);
+}
 
-/* Transcript CSS */
+/* Control Bar */
+.brightcove .vjs-control-bar button:hover {
+  background-color: transparent;
+}
+
+/* ==========================================================================
+   Transcript
+   ========================================================================== */
+
 .brightcove .video-transcript {
-    margin: 0px;
-    margin-top: 4px;
-    border: 1px solid var(--border-gray-light);
-    margin-bottom: 20px;
-    overflow: auto;
-    border-radius: 12px;
-    padding-left:20px;
-    padding-top: 11px;
-    padding-bottom: 0px;
-    background-color: var(--background-color);
-    
+  margin: 8px 0 24px;
+  overflow: auto;
+  border: 1px solid var(--border-gray-light);
+  border-radius: 12px;
+  background-color: var(--background-color);
 }
 
 .brightcove .video-transcript .transcript-toggle {
-    display: flex;
-    column-gap: 5px;
+  display: flex;
+  align-items: center;
+  min-height: 40px;
+  column-gap: 5px;
+}
+
+.brightcove .video-transcript .transcript-toggle picture {
+  padding: 4px 0 0 20px;
+}
+
+.brightcove .video-transcript .transcript-toggle span {
+  cursor: pointer;
+  color: var(--brand-teal);
+  font-size: var(--body-font-size-ms);
+  font-weight: 700;
 }
 
 .brightcove .video-transcript .transcript {
-    height: 175px;
-    overflow: scroll;
-    padding-right: 20px;
+  height: 175px;
+  overflow-y: auto;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 16px 0px;
+  margin-top: 10px;
 }
 
-.brightcove .video-transcript .transcript-toggle span{ 
-    cursor: pointer;
-    color: var(--brand-teal);
-    font-size: var(--body-font-size-ms);
-    font-weight: bold;
+.brightcove .video-transcript div.transcript[hidden] {
+    display: none;
+} 
+
+.brightcove .video-transcript .transcript p {
+    margin: 0;
+}
+
+.brightcove .video-transcript .transcript p:nth-child(odd) { 
+    margin-right: 26px;
 }
