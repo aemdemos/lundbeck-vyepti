@@ -20,6 +20,10 @@
      within the text column rather than spreading the full section width. */
   --columns-locations-icon-size: 108px;
   --columns-locations-icon-size-mobile: 80px;
+
+  /* mobile: narrow cell basis so the two columns pack close together and the
+     group centers (matching the source), rather than each spreading to half. */
+  --columns-locations-cell-basis-mobile: 34%;
   --columns-locations-label-font-size: var(--body-font-size-s, 16px);
   --columns-locations-label-line-height: 18px;
   --columns-locations-label-font-weight: 600;

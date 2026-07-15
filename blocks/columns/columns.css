@@ -67,7 +67,7 @@ main .columns.locations > div {
 
 main .columns.locations > div > div {
   order: unset;
-  flex: 0 0 50%;
+  flex: 0 0 var(--columns-locations-cell-basis-mobile);
   display: flex;
   flex-direction: column;
   align-items: center;
