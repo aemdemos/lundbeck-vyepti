@@ -51,6 +51,15 @@ main .columns.narrow-copy > div > div > :last-child {
   margin-bottom: 0;
 }
 
+/* mobile: cap the emphasized lead-in line to a narrower centered measure so it
+   wraps sooner, matching the source. Targets the trailing bold-only paragraph
+   ("Depending on your insurance…"); reset to full width at tablet+. */
+main .columns.narrow-copy > div > div > p:last-child:has(> strong:only-child) {
+  max-width: var(--columns-narrow-copy-lead-max-width-mobile);
+  margin-left: auto;
+  margin-right: auto;
+}
+
 /* locations variant — row of icon-above-label option cards (matching the
    "Depending on your insurance, you may be able to choose from" group on
    vyepti.com/what-to-expect). Each authored cell holds one icon + label.
@@ -165,6 +174,13 @@ main .columns.stats-callout:has(img) > div > div:not(.columns-img-col) > p:first
   /* narrow-copy switches from mobile-centered to left-aligned at tablet+ */
   main .columns.narrow-copy > div > div {
     text-align: left;
+  }
+
+  /* lead-in line returns to full width at tablet+ */
+  main .columns.narrow-copy > div > div > p:last-child:has(> strong:only-child) {
+    max-width: none;
+    margin-left: 0;
+    margin-right: 0;
   }
 
   /* locations stays a 2-up wrapped grid through the tablet range (matches the

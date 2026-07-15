@@ -14,6 +14,10 @@
   --columns-narrow-copy-para-gap: 16px;
   --columns-narrow-copy-para-line-height: 22px;
 
+  /* mobile: the emphasized lead-in line ("Depending on your insurance…") is
+     capped to a narrower measure and centered so it wraps sooner, as the source. */
+  --columns-narrow-copy-lead-max-width-mobile: 70%;
+
   /* locations variant — row of icon-above-label option cards (vyepti.com
      /what-to-expect "choose from" group). Icon 108px, small centred label.
      Constrained to the same readable measure as narrow-copy so the cards sit
