@@ -20,8 +20,10 @@
   --body-font-size-s: 14px;
   --ugc-font-size-input: 16px;
   --ugc-font-size-legal: 12px;
+  --ugc-heading-weight: 600;
 
   /* Layout Dimensions */
   --ugc-max-width: 600px;
+  --ugc-form-width: 420px;
   --ugc-preview-size: 64px;
 }

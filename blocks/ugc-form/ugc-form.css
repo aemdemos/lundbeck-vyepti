@@ -7,7 +7,7 @@
 ===================================== */
 
 .form form {
-  max-width: 420px;
+  max-width: var(--ugc-form-width);
   margin: 0 auto;
 }
 
@@ -28,8 +28,8 @@
 .ugc-section-heading p {
   color: var(--brand-primary);
   font-size: var(--heading-font-size-s);
-  font-weight: 600;
-  margin: 24px 0 12px;
+  font-weight: var(--ugc-heading-weight);
+  margin: 0px 0 -10px;
 }
 
 /* =====================================
@@ -71,9 +71,46 @@
 }
 
 .form .field-wrapper label[data-required="true"]::after {
-  content: "*";
+  content: "* ";
   color: var(--brand-primary);
   margin-inline-start: 0ch;
+}
+
+.form .field-wrapper label {
+  display: flex;
+  align-items: center;
+  /* gap: 12px; */
+  flex-wrap: wrap;
+}
+
+.ugc-label-text {
+  color: var(--brand-primary);
+  font-weight: var(--font-weight-bold);
+}
+
+.ugc-label-helper {
+  color: var(--text-color);
+  font-size: var(--body-font-size-s);
+  font-weight: 400;
+}
+
+.form label.ugc-label-enhanced {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Hide original star */
+.form label[data-label-enhanced="true"][data-required]::after {
+  content: none;
+}
+
+/* Add star after label text */
+.form label[data-label-enhanced="true"]
+.ugc-label-text::after {
+  content: '* ';
+  color: var(--brand-primary);
+  margin-left: 0;
 }
 
 /* =====================================
@@ -316,6 +353,7 @@ main img,
   font-size: var(--body-font-size-xs);
   margin-bottom: 4px;
   color: var(--text-color);
+  font-weight: var(--font-weight-bold);
 }
 
 .ugc-file-input {
@@ -372,8 +410,7 @@ main img,
   max-width: 150px;
   padding: 4px 8px;
   background: #eee;
-  border: var(--button-border-width)
-    solid var(--text-color);
+  border: 1px solid var(--text-color);
   color: var(--text-color);
   border-radius: unset;
   font-size: var(--body-font-size-s);

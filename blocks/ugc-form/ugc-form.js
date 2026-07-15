@@ -297,6 +297,30 @@ function fixMarkdownLinks() {
   });
 }
 
+function enhanceLabels() {
+  document.querySelectorAll('.field-wrapper label')
+    .forEach((label) => {
+      if (label.dataset.labelEnhanced === 'true') {
+        return;
+      }
+
+      const text = label.textContent;
+
+      if (!text.includes('|')) {
+        return;
+      }
+      
+      label.dataset.labelEnhanced = 'true';
+
+      const [labelText, helperText] = text.split('|');
+
+      label.innerHTML = `
+        <span class="ugc-label-text">${labelText}</span>
+        <span class="ugc-label-helper"> &nbsp${helperText}</span>
+      `;
+    });
+}
+
 function init() {
   document
     .querySelectorAll('.ugc-file.field-wrapper.file-wrapper')
@@ -308,6 +332,7 @@ function init() {
 const observer = new MutationObserver(() => {
   init();
   fixMarkdownLinks();
+  enhanceLabels();
 });
 
 observer.observe(document.body, {
