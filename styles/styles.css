@@ -63,6 +63,13 @@
   --flex-group-narrow-copy-gap: 60px;
   --div-width-margin: auto;
   --div-width-align-items: flex-start;
+
+  /* branded body bullets — large rose dot in a hanging indent (matches
+     vyepti.com body lists). Applied globally to authored content lists;
+     the Approved Use / ISI section is excluded and keeps plain bullets. */
+  --list-bullet-color: var(--brand-secondary);
+  --list-bullet-size: 30px;
+  --list-bullet-indent: 1.6em;
   
   /* fonts */
   --body-font-family: proxima-nova, proxima-nova-fallback, sans-serif; /* @libs */
@@ -540,6 +547,52 @@ main img { /* @libs */
   height: 100%; /* @libs */
   width: 100%; /* @libs */
   object-fit: contain; /* @libs */
+}
+
+/* branded body bullets — a large rose dot in a hanging indent, matching
+   vyepti.com body lists. Scoped to authored content lists (classless <ul> in a
+   section); the exclusions live in :where() so they add no specificity, letting
+   the .isi reset below win with a plain class selector. Excludes: icon-bullet
+   lists (custom SVG bullets), class-bearing lists, and a block's own top-level
+   list (`.block > ul`, e.g. cards) — only nested authored copy lists get the
+   dot. The fixed .isi-bar lives in <body>, outside main, so it is unaffected. */
+main .section ul:where(:not([class], :has(> li .icon), .block > *)) {
+  list-style: none;
+  padding-left: 0;
+  margin-left: 0;
+}
+
+main .section ul:where(:not([class], :has(> li .icon), .block > *)) > li {
+  position: relative;
+  padding-left: var(--list-bullet-indent);
+}
+
+main .section ul:where(:not([class], :has(> li .icon), .block > *)) > li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--list-bullet-color);
+  font-size: var(--list-bullet-size);
+  line-height: var(--body-font-size-s);
+}
+
+/* Approved Use / ISI section keeps plain default bullets (no rose dot). The
+   global rule above strips list-style/padding off classless <ul>s, so restore
+   the native disc marker and indent here too, not just the <li> overrides. */
+main .isi ul {
+  list-style: disc;
+  padding-left: 40px;
+  margin-left: 0;
+}
+
+main .isi ul > li {
+  position: static;
+  padding-left: 0;
+}
+
+main .isi ul > li::before {
+  content: normal;
 }
 
 /* icon bullet lists — :has() prevents FOUC before JS adds .icon-bullets */
