@@ -552,21 +552,22 @@ main img { /* @libs */
 /* branded body bullets — a large rose dot in a hanging indent, matching
    vyepti.com body lists. Scoped to authored content lists (classless <ul> in a
    section); the exclusions live in :where() so they add no specificity, letting
-   the .isi reset below win with a plain class selector. Excludes icon-bullet
-   lists (custom SVG bullets) and any block/UI list (which carry a class). The
-   fixed .isi-bar lives in <body>, outside main, so it is unaffected. */
-main .section ul:where(:not([class], :has(> li .icon))) {
+   the .isi reset below win with a plain class selector. Excludes: icon-bullet
+   lists (custom SVG bullets), class-bearing lists, and a block's own top-level
+   list (`.block > ul`, e.g. cards) — only nested authored copy lists get the
+   dot. The fixed .isi-bar lives in <body>, outside main, so it is unaffected. */
+main .section ul:where(:not([class], :has(> li .icon), .block > *)) {
   list-style: none;
   padding-left: 0;
   margin-left: 0;
 }
 
-main .section ul:where(:not([class], :has(> li .icon))) > li {
+main .section ul:where(:not([class], :has(> li .icon), .block > *)) > li {
   position: relative;
   padding-left: var(--list-bullet-indent);
 }
 
-main .section ul:where(:not([class], :has(> li .icon))) > li::before {
+main .section ul:where(:not([class], :has(> li .icon), .block > *)) > li::before {
   content: "•";
   position: absolute;
   left: 0;
