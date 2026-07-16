@@ -370,10 +370,8 @@ button { /* @libs */
   line-height: var(--button-line-height); /* @libs */
   text-align: center; /* @libs */
   text-decoration: none; /* @libs */
-  white-space: nowrap; /* @libs */
+  white-space: normal; /* matches production: wrap long labels instead of truncating */
   cursor: pointer; /* @libs */
-  overflow: hidden; /* @libs */
-  text-overflow: ellipsis; /* @libs */
   transition: var(--button-transition); /* @libs */
 }
 
