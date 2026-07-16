@@ -206,7 +206,13 @@ body.appear { /* @libs */
   display: block; /* @libs */
 }
 
-.color-secondary {
+.color-primary, .brand-primary, .teal {
+  color: var(--brand-primary);
+
+  --link-color: var(--brand-primary);
+}
+
+.color-secondary, .brand-secondary, .rose {
   color: var(--brand-secondary);
 
   --link-color: var(--brand-secondary);
