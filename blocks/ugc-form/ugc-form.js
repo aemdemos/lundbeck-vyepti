@@ -120,8 +120,7 @@ function initializeUpload(wrapper) {
   container.appendChild(createUploadRow(true));
 
   addButton.addEventListener('click', () => {
-    const count =
-      container.querySelectorAll('.ugc-upload-row').length;
+    const count = container.querySelectorAll('.ugc-upload-row').length;
 
     if (count >= 3) {
       addButton.disabled = true;
@@ -202,10 +201,7 @@ function validateField(field) {
         /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
       if (!validEmail.test(value)) {
-        showError(
-          field,
-          'Error: Please enter a valid email address',
-        );
+        showError(field, 'Error: Please enter a valid email address' );
       } else {
         removeError(field);
       }
@@ -215,20 +211,14 @@ function validateField(field) {
 
     case 'story': {
       if (!value) {
-        showError(
-          field,
-          'Error: Write your story is required',
-        );
+        showError(field, 'Error: Write your story is required');
         return;
       }
 
       const count = value.length;
 
       if (count > 500) {
-        showError(
-          field,
-          `Error: Write your story is too long: ${count}/500`,
-        );
+        showError(field,`Error: Write your story is too long: ${count}/500`);
       } else {
         removeError(field);
       }
@@ -305,7 +295,6 @@ function validateField(field) {
 
       break;
     }
-
     default:
       break;
   }
@@ -382,17 +371,11 @@ function initValidationListeners() {
       /* Collect form data */
       const formData = {
         firstName:document.querySelector('input[name="firstName"]')?.value || '',
-
         lastName:document.querySelector('input[name="lastName"]')?.value || '',
-
         email:document.querySelector('input[name="email"]')?.value || '',
-
         story:document.querySelector('textarea[name="story"]')?.value || '',
-
         terms:document.querySelector('input[name="terms"]')?.checked || false,
-
         emailConsent:document.querySelector('input[name="optional-terms"]')?.checked || false,
-
         files: [...document.querySelectorAll('.ugc-file-input')]
           .filter((input) => input.files?.length)
           .map((input) => ({
