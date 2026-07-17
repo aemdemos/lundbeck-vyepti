@@ -3,12 +3,12 @@ export function getTranscript({
   openTranscriptIcon,
   closeTranscriptIcon,
   transcriptHTML,
-  brightcove,
+  brightcove
 }) {
-    if (
+  if (
     showTranscript?.toLowerCase() === 'yes' &&
     transcriptHTML?.trim()
-    ) {
+  ) {
 
     // Creattion of Transcript wrapper 
     const videoTranscript = document.createElement('div');
@@ -21,7 +21,11 @@ export function getTranscript({
     const btnText = document.createElement('span');
     btnText.textContent = 'Open transcript';
 
-    toggle.innerHTML = openTranscriptIcon;
+    const toggleIcon = document.createElement('img');
+    toggleIcon.src = openTranscriptIcon;
+    toggleIcon.className = 'toggleIcon';
+    toggleIcon.alt = 'open-close-icon';
+    toggle.appendChild(toggleIcon);
     toggle.appendChild(btnText);
 
 
@@ -32,13 +36,14 @@ export function getTranscript({
 
     toggle.addEventListener('click', () => {
       transcript.hidden = !transcript.hidden;
-      toggle.innerHTML = transcript.hidden
+
+      toggleIcon.src = transcript.hidden
         ? openTranscriptIcon
         : closeTranscriptIcon;
+
       btnText.textContent = transcript.hidden
         ? 'Open transcript'
         : 'Close transcript';
-      toggle.appendChild(btnText);
     });
     videoTranscript.append(toggle, transcript);
     brightcove.append(videoTranscript);

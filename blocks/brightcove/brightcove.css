@@ -58,8 +58,8 @@
   column-gap: 5px;
 }
 
-.brightcove .video-transcript .transcript-toggle picture {
-  padding: 4px 0 0 20px;
+.brightcove .video-transcript .transcript-toggle .toggleIcon {
+  padding: 0 0 0 20px;
 }
 
 .brightcove .video-transcript .transcript-toggle span {

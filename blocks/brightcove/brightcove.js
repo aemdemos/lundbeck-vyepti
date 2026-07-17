@@ -8,9 +8,13 @@ export default async function decorate(brightcove) {
   const playerId = rows[1]?.children[1]?.textContent.trim();
   const videoId = rows[2]?.children[1]?.textContent.trim();
   const showTranscript = rows[3]?.children[1]?.textContent.trim();
-  const openTranscriptIcon = rows[4]?.children[1].innerHTML;
-  const closeTranscriptIcon = rows[5]?.children[1].innerHTML;
-  const transcriptHTML = rows[6]?.children[1]?.innerHTML;
+  const OPEN_TRANSCRIPT_ICON =
+  'https://www.assets.lundbeck-tools.com/content/dam/lundbeck/vyepti/overhaul/images/expand-22-desktop.svg';
+
+  const CLOSE_TRANSCRIPT_ICON =
+  'https://www.assets.lundbeck-tools.com/content/dam/lundbeck/vyepti/overhaul/images/collapse-22-desktop.svg';
+
+  const transcriptHTML = rows[4]?.children[1]?.innerHTML;
 
   if (!accountId || !playerId || !videoId) {
     brightcove.textContent = 'Brightcove configuration is missing.';
@@ -38,8 +42,8 @@ export default async function decorate(brightcove) {
   // Add transcript if enabled
  getTranscript({
   showTranscript,
-  openTranscriptIcon,
-  closeTranscriptIcon,
+  openTranscriptIcon: OPEN_TRANSCRIPT_ICON,
+  closeTranscriptIcon: CLOSE_TRANSCRIPT_ICON,
   transcriptHTML,
   brightcove,
 });
