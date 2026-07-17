@@ -1,15 +1,12 @@
 export default async function decorate(block) {
   // 1. Your block's custom initialization logic goes here
   block.classList.add('my-custom-wrapper');
-
   try {
     // 2. Dynamically import the target block's JS module
-    // Replace 'target-block' with the actual folder name of the block you want to load
     const targetBlockModule = await import('../form/form.js');
-    
+  
     // 3. Extract the default decoration function
     const decorateTargetBlock = targetBlockModule.default;
-
     if (typeof decorateTargetBlock === 'function') {
       // 4. Pass your block element (or a specific child element) to the target block's decorator
       await decorateTargetBlock(block);

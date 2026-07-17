@@ -1,6 +1,6 @@
 @import url('./ugc-form-tokens.css');
 @import url('/blocks/form/form.css');
-@import url('/blocks/form/form-tokens.css');
+/* @import url('/blocks/form/form-tokens.css'); */
 
 /* =====================================
    FORM CONTAINER
@@ -85,7 +85,7 @@
 
 .ugc-label-text {
   color: var(--brand-primary);
-  font-weight: var(--font-weight-bold);
+  /* font-weight: var(--font-weight-bold); */
 }
 
 .ugc-label-helper {
@@ -253,7 +253,11 @@
    SUBMIT BUTTON
 ===================================== */
 
-.form .submit-wrapper {
+.ugc-submit {
+  margin-top: 30px;
+}
+
+.form form > .ugc-submit.field-wrapper.submit-wrapper {
   margin-top: 30px;
 }
 
@@ -474,3 +478,19 @@ main img,
 
 
 .ugc-terms p {    padding-left: 45px;}
+
+/*Mobile CSS*/
+@media (max-width: 767px) {
+  .ugc-submit{
+   place-items: center;
+  }
+  
+  .ugc-submit button{
+     width: 113px;
+  }
+
+  .ugc-main-heading{
+    text-align: center;
+  }
+
+}
