@@ -82,14 +82,14 @@
 .cards.cta .cards-card-body > :first-child {
   font-size: var(--cards-cta-eyebrow-font-size);
   font-weight: var(--cards-cta-eyebrow-font-weight);
-  color: var(--text-color);
+  color: var(--cards-cta-eyebrow-color);
 }
 
 .cards.cta .cards-card-body h2 {
   font-size: var(--cards-cta-heading-font-size);
   font-weight: var(--cards-cta-heading-font-weight);
   line-height: var(--cards-cta-heading-line-height);
-  color: var(--text-color);
+  color: var(--cards-cta-heading-color);
   margin: 0;
 }
 
@@ -117,36 +117,76 @@
   background-color: var(--cards-cta-button-hover-background);
 }
 
+/* trailing arrow drawn from the shared arrow icon, recolored to the button text
+   color via mask so the same SVG works on any button color. */
+.cards.cta .cards-card-body a::after {
+  content: '';
+  display: inline-block;
+  width: var(--cards-cta-arrow-width);
+  height: var(--cards-cta-arrow-height);
+  margin-left: var(--cards-cta-arrow-gap);
+  vertical-align: middle;
+  background-color: currentcolor;
+  mask: var(--cards-cta-arrow-image) no-repeat center / contain;
+}
+
 @media (width >= 992px) {
   .cards.cta > ul > li {
     flex-direction: row;
-    align-items: center;
+    align-items: stretch;
     justify-content: flex-start;
-    gap: var(--cards-cta-gap-desktop);
-    padding: var(--cards-cta-padding-desktop);
+    padding: 0;
+    overflow: hidden;
     text-align: left;
   }
 
+  /* decorative wedge sits flush to the card's left edge, full height, clipped by
+     the card's rounded corners (matching the source's corner callout graphic). */
   .cards.cta .cards-card-image {
     display: block;
     flex: 0 0 var(--cards-cta-icon-width);
+    align-self: stretch;
+    line-height: 0;
   }
 
   .cards.cta .cards-card-image img {
     width: var(--cards-cta-icon-width);
+    height: 100%;
     aspect-ratio: auto;
-    object-fit: contain;
+    object-fit: cover;
   }
 
+  /* text stacks in the left column; the button spans all rows in the right
+     column and hugs the card's right edge, vertically centered (matching the
+     source's copy-left / button-right layout). */
   .cards.cta .cards-card-body {
     flex: 1;
-    align-items: flex-start;
+    align-self: center;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    column-gap: var(--cards-cta-gap-desktop);
+    align-items: center;
+    padding: var(--cards-cta-padding-desktop);
   }
 
-  /* button hugs the right edge of the card */
+  .cards.cta .cards-card-body > :first-child,
+  .cards.cta .cards-card-body h2,
+  .cards.cta .cards-card-body p {
+    grid-column: 1;
+  }
+
+  /* the button (its link may be wrapped in a paragraph) spans all rows in the
+     right column, vertically centered against the copy. */
+  .cards.cta .cards-card-body p:has(a),
+  .cards.cta .cards-card-body > a {
+    grid-column: 2;
+    grid-row: 1 / -1;
+    align-self: center;
+    margin: 0;
+  }
+
   .cards.cta .cards-card-body a {
     margin-top: 0;
-    margin-left: auto;
     white-space: nowrap;
   }
 }

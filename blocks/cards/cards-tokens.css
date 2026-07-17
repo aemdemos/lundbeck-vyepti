@@ -18,11 +18,17 @@
   --cards-cta-padding-desktop: 24px 40px;
   --cards-cta-gap-desktop: 32px;
   --cards-cta-icon-width: 100px;
+  --cards-cta-eyebrow-color: var(--brand-primary);
   --cards-cta-eyebrow-font-size: var(--heading-font-size-l);
   --cards-cta-eyebrow-font-weight: var(--font-weight-bold);
+  --cards-cta-heading-color: var(--brand-secondary);
   --cards-cta-heading-font-size: var(--heading-font-size-xl);
   --cards-cta-heading-font-weight: var(--font-weight-bold);
   --cards-cta-heading-line-height: 1;
+  --cards-cta-arrow-image: url("/icons/arrow-right.svg");
+  --cards-cta-arrow-width: 22px;
+  --cards-cta-arrow-height: 10px;
+  --cards-cta-arrow-gap: 14px;
   --cards-cta-text-font-size: var(--body-font-size-s);
   --cards-cta-text-line-height: 1.125;
   --cards-cta-text-color: var(--text-color);
