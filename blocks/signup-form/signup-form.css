@@ -1,0 +1,561 @@
+/* ==========================================================================
+   Signup Form — styles
+   Structure: form only (info callout, required-fields note, and the form).
+   ========================================================================== */
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  max-width: 1200px;
+  margin: 0 auto;
+  background: #fff;
+  padding: 0 15px;
+  font-family: 'proxima-nova', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+.signup-form-info {
+  display: none;
+}
+
+
+/* --------------------------------------------------------------------------
+   TOGGLE (Yes/No) QUESTIONS — plain vertical radio buttons
+   -------------------------------------------------------------------------- */
+.toggle-group {
+  margin-bottom: 20px;
+}
+.toggle-legend {
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 24px;
+  color: var(--link-color, #005eb8);
+  margin: 0 0 14px;
+  font-family: 'proxima-nova', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+.toggle-options {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.toggle-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  width: fit-content;
+}
+.toggle-option input[type='radio'] {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  accent-color: var(--link-color, #005eb8);
+  cursor: pointer;
+}
+.toggle-option span {
+  font-size: 16px;
+  color: #333;
+  line-height: 24px;
+}
+
+/* Selected option's text is bolded/colored, giving the "highlighted" state */
+.toggle-option:has(input:checked) span {
+  font-weight: 600;
+  color: var(--link-color, #005eb8);
+}
+
+
+/* Conditional container */
+.conditional-container {
+  display: none;
+  margin-bottom: 4px;
+}
+.conditional-container.visible {
+  display: block;
+}
+
+
+/* --------------------------------------------------------------------------
+   TEXT / SELECT FIELDS — label sits above the input 
+   -------------------------------------------------------------------------- */
+.form-field {
+  margin-bottom: 20px;
+}
+.form-field-label-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+.form-field label {
+  display: block;
+  font-weight: 600;
+  font-size: 18px;
+  color: var(--link-color, #005eb8);
+}
+.form-field input,
+.form-field select,
+.select-wrapper {
+  width: 100%;
+  max-width: 340px;
+  box-sizing: border-box;
+}
+.form-field input,
+.form-field select {
+  padding: 12px 14px;
+  font-size: 15px;
+  border: 1px solid #484848;
+  border-radius: 9.5px;
+  height: 47px;
+  background: #fff;
+  color: #484848;
+}
+
+/* Narrower fields — short, predictable input length, matching the live
+   reference. Targeted by id since each field already has a unique one. */
+#dob,
+#phone {
+  max-width: 220px;
+}
+#zip {
+  max-width: 160px;
+}
+
+
+/* ----- Select + visible arrow -----
+   The arrow is a real inline <svg> (added in JS, see createSelectField),
+   not a CSS background-image data URI. Some sites' CSP blocks data: URIs in
+   background images, which silently drops a CSS-only chevron while leaving
+   everything else styled — a real DOM element can't be blocked that way. */
+.select-wrapper {
+  position: relative;
+}
+.form-field select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 100%;
+  padding-right: 56px;
+  cursor: pointer;
+}
+.select-arrow {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--link-color, #005eb8);
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+  color: #fff;
+  pointer-events: none; /* clicks pass through to the select underneath */
+}
+
+.form-field select option:checked,
+.form-field select option:hover,
+.form-field select option:focus {
+  background: linear-gradient(0deg, var(--link-color, #005eb8) 0%, var(--link-color, #005eb8) 100%);
+  color: #fff;
+}
+.form-field input::placeholder {
+  color: #999;
+}
+
+
+.form-field input:focus,
+.form-field select:focus {
+  outline: none;
+  border-color: var(--link-color, #005eb8);
+  box-shadow: 0 0 0 4px rgba(0, 94, 184, 0.25);
+}
+
+
+/* --------------------------------------------------------------------------
+   INFO ICON + POPOVER — click-triggered
+   -------------------------------------------------------------------------- */
+.form-field-info {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+.form-field-info-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background-color: transparent;
+  color: #046183;
+  cursor: pointer;
+  flex: 0 0 auto;
+  outline: none;
+  box-shadow: none;
+}
+
+.form-field-info-btn:hover,
+.form-field-info-btn:focus,
+.form-field-info-btn:active {
+  background-color: transparent;
+  outline: none;
+  box-shadow: none;
+  color: var(--link-color, #005eb8);
+}
+.form-field-info-btn:focus-visible {
+  box-shadow: 0 0 0 3px rgba(0, 94, 184, 0.35);
+}
+
+
+/* --------------------------------------------------------------------------
+   POPOVER — positioned relative to the VIEWPORT (position: fixed), not the
+   icon that opened it. left/right are set as plain margins from the screen
+   edges rather than a width, so the box naturally spans "edge to edge" and
+   resizes fluidly with the viewport at every screen size, matching the
+   reference design. The vertical position (top) and the arrow's horizontal
+   offset (--arrow-left) can't be expressed in CSS alone since they depend
+   on where the triggering icon actually sits — those are calculated in JS
+   by positionPopover() every time the popover opens, resizes, or scrolls.
+   -------------------------------------------------------------------------- */
+.form-field-popover {
+  position: fixed;
+  left: 16px;
+  right: 16px;
+  background: #fff;
+  border: 1px solid #d9d9d9;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  padding: 20px 16px;
+  box-sizing: border-box;
+  z-index: 1001;
+  /* Default arrow position; positionPopover() in the JS overrides this on
+     open so the arrow points at whichever icon triggered the popover. */
+  --arrow-left: 40px;
+}
+
+
+/* Pointer arrow — a border-colored triangle behind a slightly smaller
+   white one on top, the standard CSS trick for a bordered speech-bubble
+   arrow (the ::after paints after ::before, so it sits on top). Position
+   driven by --arrow-left (see above), recalculated in JS so it always
+   points at the icon regardless of where the popover itself sits. */
+.form-field-popover::before {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: var(--arrow-left, 40px);
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 10px solid #d9d9d9;
+}
+.form-field-popover::after {
+  content: '';
+  position: absolute;
+  top: calc(100% - 1px);
+  left: calc(var(--arrow-left, 40px) + 1px);
+  width: 0;
+  height: 0;
+  border-left: 9px solid transparent;
+  border-right: 9px solid transparent;
+  border-top: 9px solid #fff;
+}
+.form-field-popover-text {
+  margin: 0;
+  font-size: 16px;
+  line-height: 24px;
+  color: #333;
+}
+.form-field-popover-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background-color: transparent;
+  color: var(--link-color, #005eb8);
+  cursor: pointer;
+  outline: none;
+  box-shadow: none;
+}
+
+
+/* Same reset as the info icon button — without this, the close button
+   inherits the site's global button hover/focus fill (the unwanted red
+   background). */
+.form-field-popover-close:hover,
+.form-field-popover-close:focus,
+.form-field-popover-close:active {
+  background-color: transparent;
+  outline: none;
+  box-shadow: none;
+  color: var(--link-color, #005eb8);
+}
+.form-field-popover-close:focus-visible {
+  box-shadow: 0 0 0 3px rgba(0, 94, 184, 0.35);
+}
+/* Page-dimming backdrop shown behind an open popover, matching the
+   reference design. Single shared element (see getPopoverBackdrop in the
+   JS) — sits above the page content but below the popover itself. */
+.form-field-popover-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+}
+
+
+/* Visible inline hint text next to the tooltip icon (e.g. "Must be 18+
+   years old to register" on Date of birth) — matches the reference design. */
+.form-field-hint {
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 400;
+  font-family: 'proxima-nova', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: #484848;
+  margin-left: 15px;
+}
+
+
+/* --------------------------------------------------------------------------
+   DATE FIELDS (Date of birth / Next doctor's appointment / First infusion
+   date) — MM/DD/YYYY masked input plus an optional "Not scheduled" checkbox.
+   The label reads as a small heading (bold, blue).
+   -------------------------------------------------------------------------- */
+.date-field-group {
+  display: none;
+  margin-bottom: 24px;
+}
+.date-field-group.visible {
+  display: block;
+}
+.date-field-label {
+  display: block;
+  font-weight: 700;
+  font-size: 17px;
+  color: var(--link-color, #005eb8);
+  margin: 0 0 8px;
+}
+
+
+/* "Not scheduled" checkbox wrapper and styling */
+.date-not-scheduled-wrapper {
+  display: flex;
+  align-items: center;
+  margin-top: 12px;
+}
+.date-not-scheduled-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+  line-height: 22px;
+  color: #333;
+  cursor: pointer;
+  user-select: none;
+}
+.date-not-scheduled-label input[type='checkbox'] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: var(--link-color, #005eb8);
+}
+.date-not-scheduled-label input[type='checkbox']:hover {
+  opacity: 0.8;
+}
+
+
+/* --------------------------------------------------------------------------
+   VALIDATION ERROR STATE — red border on the field + red message beneath it.
+   -------------------------------------------------------------------------- */
+.form-field input.error,
+.form-field select.error {
+  border-color: var(--error-color, #c0114b);
+}
+.form-field input.error:focus,
+.form-field select.error:focus {
+  outline: 1px solid var(--error-color, #c0114b);
+  outline-offset: -1px;
+  box-shadow: none;
+}
+/* Toggle-group error: color the question heading red instead of a border,
+   since there's no single box to outline around a set of radio buttons. */
+.toggle-group.error .toggle-legend {
+  color: var(--error-color, #c0114b);
+}
+.field-error {
+  margin: 6px 0 0;
+  font-size: 13px;
+  color: var(--error-color, #c0114b);
+}
+
+
+/* --------------------------------------------------------------------------
+   CONSENT + SUBMIT
+   -------------------------------------------------------------------------- */
+.form-consent {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 13px;
+  line-height: 1.4;
+  margin: 24px 0 0;
+}
+.form-consent input[type='checkbox'] {
+  width: 18px;
+  height: 18px;
+  margin-top: 1px;
+  flex: 0 0 auto;
+  cursor: pointer;
+  accent-color: var(--link-color, #005eb8);
+}
+
+
+/* Legal disclaimer below the checkbox, aligned under the checkbox text
+   (not indented under the checkbox itself) — 18px checkbox + 10px gap. */
+.form-consent-legal {
+  margin: 16px 0 24px;
+  padding-left: 28px;
+  font-size: 13px;
+  line-height: 1.4;
+  color: #333;
+}
+.form-consent-legal a {
+  color: var(--link-color, #005eb8);
+  font-weight: 700;
+  text-decoration: underline;
+}
+/* Outlined pill button with a trailing arrow */
+.form-submit {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff;
+  color: var(--link-color, #005eb8);
+  border: 2px solid var(--link-color, #005eb8);
+  border-radius: 30px;
+  padding: 12px 32px;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.form-submit:hover {
+  background: none;
+  color: var(--link-color, #005eb8);
+  border: 1.5px solid var(--link-color, #005eb8);
+}
+.signup-form.submitted .signup-form-fields {
+  display: none;
+}
+
+
+/* -----------------------------------------------------------------------
+   MOBILE
+   ----------------------------------------------------------------------- */
+@media (max-width: 767px) {
+  .form-field input,
+  .form-field select,
+  .select-wrapper,
+  #dob,
+  #phone,
+  #zip {
+    max-width: 100%;
+  }
+  .form-field label {
+    font-size: 16px;
+  }
+  .toggle-legend {
+    font-size: 16px;
+  }
+  .form-submit {
+    width: 150px;
+    justify-content: center;
+  }
+}
+
+
+/* -----------------------------------------------------------------------
+   IPAD / TABLET
+   ----------------------------------------------------------------------- */
+@media (min-width: 768px) and (max-width: 991px) {
+  .form-field input,
+  .form-field select,
+  .select-wrapper {
+    max-width: 300px;
+  }
+  #dob,
+  #phone {
+    max-width: 200px;
+  }
+  #zip {
+    max-width: 150px;
+  }
+  .form-field-popover {
+    left: 24px;
+    right: 24px;
+    padding: 28px 24px;
+  }
+  .form-field-popover-close {
+    top: 14px;
+    right: 14px;
+  }
+}
+
+
+/* -----------------------------------------------------------------------
+   DESKTOP
+   ----------------------------------------------------------------------- */
+@media (min-width: 992px) {
+  .form-field input,
+  .form-field select,
+  .select-wrapper {
+    max-width: 340px;
+  }
+  #dob,
+  #phone {
+    max-width: 220px;
+  }
+  #zip {
+    max-width: 160px;
+  }
+  .form-field-popover {
+    left: 40px;
+    right: 40px;
+    padding: 40px 30px;
+  }
+  .form-field-popover-close {
+    top: 16px;
+    right: 16px;
+  }
+}
+
+
+/* -----------------------------------------------------------------------
+   LARGER DESKTOP
+   ----------------------------------------------------------------------- */
+@media (min-width: 1200px) {
+  .form-field input,
+  .form-field select,
+  .select-wrapper {
+    max-width: 380px;
+  }
+  #dob,
+  #phone {
+    max-width: 240px;
+  }
+  #zip {
+    max-width: 180px;
+  }
+  .form-field-popover {
+    left: max(40px, calc(50% - 640px));
+    right: max(40px, calc(50% - 640px));
+  }
+}
