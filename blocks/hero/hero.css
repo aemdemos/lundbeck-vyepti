@@ -10,9 +10,13 @@ main > .section.hero-container {
   margin: 0;
 }
 
-/* higher specificity than the global `main > .section > div:not(.bg-image)`
-   gutter rule so the hero stays full-bleed with no side white bars */
-main > .section.hero-container > .hero-wrapper {
+main > .section > div:not(.bg-image) {
+    margin: auto;
+    padding: 0 0;
+}
+
+
+.hero-container .hero-wrapper {
   max-width: unset;
   padding: 0;
 }
@@ -115,11 +119,12 @@ main > .section.hero-container > .hero-wrapper {
 
 /* Eyebrow h3 - rose */
 .hero h3 {
-  color: var(--brand-secondary);
+  color:  var(--text-color);
   font-size: var(--hero-eyebrow-font-size);
   font-weight: var(--font-weight-bold);
   line-height: var(--hero-eyebrow-line-height);
   margin: 0 0 var(--hero-eyebrow-gap);
+  text-align: left;
 }
 
 .hero h1 {
@@ -128,6 +133,7 @@ main > .section.hero-container > .hero-wrapper {
   font-weight: var(--heading-font-weight);
   line-height: var(--hero-heading-line-height);
   margin: 0 0 var(--hero-heading-gap);
+  text-align: left;
 }
 
 /* Bold text in headings → accent color */
@@ -361,7 +367,7 @@ main > .section.hero-container > .hero-wrapper {
 .section.single-light .hero h1,
 .section.single-dark .hero h1 {
   font-family: var(--hero-font-family-display);
-  font-size: var( --hero-single-heading-font-size-s);
+  font-size: var(--hero-single-heading-font-size);
   font-weight: var(--heading-font-weight);
   line-height: var(--hero-heading-line-height);
   margin: 0 0 var(--hero-heading-gap);
@@ -490,7 +496,7 @@ main > .section.hero-container > .hero-wrapper {
   }
 
   .hero h3 {
-    font-size: var(--hero-eyebrow-font-size-desktop);
+    font-size: var(--hero-eyebrow-font-size);
   }
 
   .hero h1 {
