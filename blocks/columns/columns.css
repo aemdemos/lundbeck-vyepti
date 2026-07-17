@@ -106,6 +106,25 @@ main .columns.locations p {
   font-weight: var(--columns-locations-label-font-weight);
 }
 
+/* center variant — feature-card columns whose cells are individually centered
+   (icon + heading + copy stacked and centered), matching the "What is VYEPTI? /
+   Gets right to work / Purposefully designed" cards on vyepti.com/how-vyepti-works.
+   Author adds the class in DA so the sibling text/diagram columns block on the
+   same page stays left-aligned. Cells hold an inline icon (in a <p>) followed by
+   a heading + paragraph, so text-align:center centers all three at every width. */
+main .columns.center > div > div {
+  text-align: center;
+}
+
+/* cap the icon at its source display size and center it (the served mobile @2x
+   rendition is larger than the intended box, so max-width alone would stretch it). */
+main .columns.center > div > div img {
+  width: var(--columns-center-icon-max-width);
+  max-width: 100%;
+  height: auto;
+  margin-inline: auto;
+}
+
 /* stats-callout variant — vyepti study/survey results callouts.
    Teal headings, large red italic "X fewer" numbers, centered copy. */
 main .columns.stats-callout > div > div {
@@ -274,5 +293,13 @@ main .columns.stats-callout:has(img) > div > div:not(.columns-img-col) > p:first
 
   main .columns.locations > div > div {
     flex: 0 0 auto;
+  }
+}
+
+/* center variant: icon grows to its larger display size at the wide breakpoint,
+   matching the source's 286px feature-card icon at 1200px+. */
+@media (width >= 1200px) {
+  main .columns.center > div > div img {
+    width: var(--columns-center-icon-max-width-wide);
   }
 }

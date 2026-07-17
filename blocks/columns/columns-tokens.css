@@ -48,4 +48,11 @@
   /* desktop (992px+) cards pack at their natural content width, left-aligned,
      with this gap between them — matching the ~20px spacing on the source. */
   --columns-locations-gap: 20px;
+
+  /* center variant — feature-card icon capped to its intended display size
+     (matching the how-vyepti-works cards: 229px up to the large breakpoint,
+     286px at 1200px+). Without a cap the mobile @2x rendition would stretch to
+     fill the cell; the cap keeps the icon at the source's optical size. */
+  --columns-center-icon-max-width: 229px;
+  --columns-center-icon-max-width-wide: 286px;
 }
