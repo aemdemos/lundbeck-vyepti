@@ -1,0 +1,141 @@
+/* ==========================================================================
+   being-part block
+   Icon on the left, heading + body copy on the right.
+   ========================================================================== */
+
+.being-part {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 24px;
+  box-sizing: border-box;
+  font-family: 'proxima-nova', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+/* Icon — the circle, envelope, and decorative blob are all part of the
+   single authored icon asset, so this just sizes/positions it. */
+.being-part-icon {
+  flex: 0 0 auto;
+  width: 130px;
+}
+
+.being-part-icon picture,
+.being-part-icon img {
+  display: block;
+  width: 90%;
+  height: auto;
+}
+
+.being-part-content {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.being-part-heading {
+  margin: 0 0 12px;
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--link-color, #005eb8);
+}
+
+.being-part-text {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.6;
+  color: #333;
+}
+
+/* ==========================================================================
+   RESPONSIVE BREAKPOINTS
+   ========================================================================== */
+
+/* -----------------------------------------------------------------------
+   MOBILE
+   Not enough width for icon + text side-by-side at a readable text size,
+   so it stacks: icon on top, heading + body below.
+   ----------------------------------------------------------------------- */
+@media (max-width: 767px) {
+  .being-part {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 24px 20px;
+  }
+
+  .being-part-icon {
+    width: 90px;
+  }
+
+  .being-part-heading {
+    font-size: 21px;
+  }
+
+  .being-part-text {
+    font-size: 15px;
+  }
+}
+
+/* -----------------------------------------------------------------------
+   IPAD / TABLET
+   Enough width to sit side-by-side again, but the icon and type scale
+   stay a step down from desktop.
+   ----------------------------------------------------------------------- */
+@media (min-width: 768px) and (max-width: 991px) {
+  .being-part {
+    gap: 24px;
+    padding: 28px 24px;
+  }
+
+  .being-part-icon {
+    width: 110px;
+  }
+
+  .being-part-heading {
+    font-size: 23px;
+  }
+
+  .being-part-text {
+    font-size: 16px;
+  }
+}
+
+/* -----------------------------------------------------------------------
+   DESKTOP
+   Matches the base values above — included for documentation/consistency
+   with the other breakpoints.
+   ----------------------------------------------------------------------- */
+@media (min-width: 992px) {
+  .being-part-icon {
+    width: 130px;
+  }
+
+  .being-part-heading {
+    font-size: 26px;
+  }
+
+  .being-part-text {
+    font-size: 17px;
+  }
+}
+
+/* -----------------------------------------------------------------------
+   LARGER DESKTOP
+   Slightly larger icon and type on wide screens so the block doesn't look
+   undersized inside the 1200px container.
+   ----------------------------------------------------------------------- */
+@media (min-width: 1200px) {
+  .being-part-icon {
+    width: 150px;
+  }
+
+  .being-part-heading {
+    font-size: 28px;
+  }
+
+  .being-part-text {
+    font-size: 18px;
+  }
+}
