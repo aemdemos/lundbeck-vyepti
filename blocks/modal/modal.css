@@ -73,6 +73,58 @@ body.modal-open { /* @boilerplate */
   padding: 0; /* @boilerplate */
 }
 
+/* Entrance modal — top-aligned prompt shell instead of the generic centered dialog.
+   Scoped via :has(.modal-buttons), the class the entrance1 fragment's authored
+   [modal-buttons] cell decorates to — no JS changes needed to identify it. */
+.modal:has(.modal-buttons) dialog {
+  margin-top: calc(var(--header-height) + var(--modal-entrance-offset-top));
+  margin-bottom: auto;
+  border: none;
+  border-radius: var(--modal-entrance-border-radius);
+  background-color: var(--modal-entrance-background);
+  box-shadow: var(--modal-entrance-shadow);
+}
+
+/* logo / message / actions row authored as a columns block */
+.modal:has(.modal-buttons) .columns > div {
+  align-items: center;
+  text-align: center;
+  gap: var(--spacing-s, 16px);
+}
+
+.modal:has(.modal-buttons) .columns-img-col {
+  flex: 0 0 auto;
+  max-width: 140px;
+  margin: 0 auto;
+}
+
+.modal .modal-buttons {
+  display: flex;
+  flex: 0 0 auto;
+  justify-content: center;
+  gap: var(--spacing-m, 24px);
+}
+
+.modal .modal-buttons .button-wrapper {
+  margin: 0;
+}
+
+/* suppress the global a.button default arrow — source Yep/Nope buttons have no icon */
+.modal .modal-buttons .button::after {
+  content: none;
+}
+
+@media (width >= 768px) {
+  .modal:has(.modal-buttons) .columns > div {
+    text-align: left;
+    gap: var(--spacing-l, 32px);
+  }
+
+  .modal:has(.modal-buttons) .columns-img-col {
+    margin: 0;
+  }
+}
+
 @media (width >= 992px) { /* @boilerplate */
   .modal dialog { /* @boilerplate */
     width: var(--modal-width-desktop); /* @boilerplate */

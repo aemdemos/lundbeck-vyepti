@@ -4,10 +4,16 @@
   --modal-width-mobile: calc(100vw - 48px); /* @boilerplate */
   --modal-width-desktop: calc(100vw - 64px); /* @boilerplate */
   --modal-max-width: 900px; /* @boilerplate */
-  --modal-content-padding: var(--spacing-m); /* @boilerplate */
-  --modal-content-padding-desktop: var(--spacing-l); /* @boilerplate */
+  --modal-content-padding: var(--spacing-m, 24px);
+  --modal-content-padding-desktop: var(--spacing-l, 32px);
   --modal-content-margin-top: 44px; /* @boilerplate */
   --modal-close-button-size: 44px; /* @boilerplate */
   --modal-close-icon-size: var(--icon-size); /* @boilerplate */
   --modal-close-icon-thickness: 2px; /* @boilerplate */
+
+  /* entrance modal — top-aligned prompt shell (source: vyepti.com) */
+  --modal-entrance-background: var(--light-color);
+  --modal-entrance-border-radius: 12px;
+  --modal-entrance-shadow: 0 4px 20px rgb(0 0 0 / 15%);
+  --modal-entrance-offset-top: var(--spacing-m, 24px);
 }
