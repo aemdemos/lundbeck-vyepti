@@ -8,4 +8,27 @@
   --cards-card-body-margin: var(--spacing-s); /* @boilerplate */
   --cards-image-aspect-ratio: 4 / 3; /* @boilerplate */
   --cards-image-object-fit: cover; /* @boilerplate */
+
+  /* cta variant — horizontal shadow-box CTA card (vyepti "Talk to a nurse"):
+     icon + eyebrow/heading/description + teal pill button, all in one shadowed
+     rounded card. Values mirror the columns-cta card family for consistency. */
+  --cards-cta-shadow: rgb(46 50 51 / 20%) 0 2px 8px 0;
+  --cards-cta-radius: 10px;
+  --cards-cta-padding: 32px;
+  --cards-cta-padding-desktop: 24px 40px;
+  --cards-cta-gap-desktop: 32px;
+  --cards-cta-icon-width: 100px;
+  --cards-cta-eyebrow-font-size: var(--heading-font-size-l);
+  --cards-cta-eyebrow-font-weight: var(--font-weight-bold);
+  --cards-cta-heading-font-size: var(--heading-font-size-xl);
+  --cards-cta-heading-font-weight: var(--font-weight-bold);
+  --cards-cta-heading-line-height: 1;
+  --cards-cta-text-font-size: var(--body-font-size-s);
+  --cards-cta-text-line-height: 1.125;
+  --cards-cta-text-color: var(--text-color);
+  --cards-cta-button-background: var(--brand-primary);
+  --cards-cta-button-hover-background: var(--brand-primary-light);
+  --cards-cta-button-color: var(--background-color);
+  --cards-cta-button-padding: 19px 23px;
+  --cards-cta-button-radius: 100px;
 }

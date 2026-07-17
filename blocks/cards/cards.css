@@ -47,3 +47,106 @@
     width: calc((300% - 3 * var(--cards-grid-gap)) / 4);
   }
 }
+
+/* cta variant — horizontal shadow-box CTA card (e.g. vyepti "Talk to a nurse").
+   Mobile-first: single stacked card, centered, icon hidden, full-width button;
+   at 992px+ it becomes a horizontal row: icon | eyebrow+heading+copy | button. */
+.cards.cta > ul {
+  display: block;
+}
+
+.cards.cta > ul > li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  border: 0;
+  background-color: transparent;
+  padding: var(--cards-cta-padding);
+  text-align: center;
+  border-radius: var(--cards-cta-radius);
+  box-shadow: var(--cards-cta-shadow);
+}
+
+.cards.cta .cards-card-image {
+  display: none;
+}
+
+.cards.cta .cards-card-body {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cards.cta .cards-card-body > :first-child {
+  font-size: var(--cards-cta-eyebrow-font-size);
+  font-weight: var(--cards-cta-eyebrow-font-weight);
+  color: var(--text-color);
+}
+
+.cards.cta .cards-card-body h2 {
+  font-size: var(--cards-cta-heading-font-size);
+  font-weight: var(--cards-cta-heading-font-weight);
+  line-height: var(--cards-cta-heading-line-height);
+  color: var(--text-color);
+  margin: 0;
+}
+
+.cards.cta .cards-card-body p {
+  font-size: var(--cards-cta-text-font-size);
+  line-height: var(--cards-cta-text-line-height);
+  color: var(--cards-cta-text-color);
+  margin: 0;
+}
+
+.cards.cta .cards-card-body a {
+  display: inline-block;
+  margin-top: 8px;
+  padding: var(--cards-cta-button-padding);
+  border-radius: var(--cards-cta-button-radius);
+  background-color: var(--cards-cta-button-background);
+  color: var(--cards-cta-button-color);
+  font-weight: var(--button-font-weight);
+  text-decoration: none;
+  transition: var(--button-transition);
+}
+
+.cards.cta .cards-card-body a:hover,
+.cards.cta .cards-card-body a:focus {
+  background-color: var(--cards-cta-button-hover-background);
+}
+
+@media (width >= 992px) {
+  .cards.cta > ul > li {
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: var(--cards-cta-gap-desktop);
+    padding: var(--cards-cta-padding-desktop);
+    text-align: left;
+  }
+
+  .cards.cta .cards-card-image {
+    display: block;
+    flex: 0 0 var(--cards-cta-icon-width);
+  }
+
+  .cards.cta .cards-card-image img {
+    width: var(--cards-cta-icon-width);
+    aspect-ratio: auto;
+    object-fit: contain;
+  }
+
+  .cards.cta .cards-card-body {
+    flex: 1;
+    align-items: flex-start;
+  }
+
+  /* button hugs the right edge of the card */
+  .cards.cta .cards-card-body a {
+    margin-top: 0;
+    margin-left: auto;
+    white-space: nowrap;
+  }
+}
