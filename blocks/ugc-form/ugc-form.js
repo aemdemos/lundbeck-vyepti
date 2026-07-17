@@ -370,13 +370,38 @@ function initValidationListeners() {
       validateField({ name: 'upload' });
       validateField({ name: 'terms' });
 
-      if (
-        document.querySelector('.field-error') ||
+      const hasErrors = document.querySelector('.field-error') ||
         document.querySelector('.ugc-file-error') ||
-        document.querySelector('.ugc-checkbox-error')
-      ) {
+        document.querySelector('.ugc-checkbox-error');
+
+      if (hasErrors) {
         event.preventDefault();
+        return;
       }
+
+      /* Collect form data */
+      const formData = {
+        firstName:document.querySelector('input[name="firstName"]')?.value || '',
+
+        lastName:document.querySelector('input[name="lastName"]')?.value || '',
+
+        email:document.querySelector('input[name="email"]')?.value || '',
+
+        story:document.querySelector('textarea[name="story"]')?.value || '',
+
+        terms:document.querySelector('input[name="terms"]')?.checked || false,
+
+        emailConsent:document.querySelector('input[name="optional-terms"]')?.checked || false,
+
+        files: [...document.querySelectorAll('.ugc-file-input')]
+          .filter((input) => input.files?.length)
+          .map((input) => ({
+            name: input.files[0].name,
+            type: input.files[0].type,
+            size: input.files[0].size,
+          })),
+      };
+      console.log('UGC Form Payload', formData);
     },
     true,
   );
