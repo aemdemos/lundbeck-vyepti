@@ -5,16 +5,13 @@ export default async function decorate(block) {
     const text = row.textContent.trim();
     const [key, value] = text.split(':');
     config[key.trim()] = value.trim();
-    row.remove(); // hide/remove config row
+    row.remove(); 
   });
                                   
   try {
     const targetBlockModule = await import('../form/form.js');
-  
-    // Extract the default decoration function
     const decorateTargetBlock = targetBlockModule.default;
     if (typeof decorateTargetBlock === 'function') {
-      // Pass your block element (or a specific child element) to the target block's decorator
       await decorateTargetBlock(block);
     }
   } catch (error) {
@@ -78,13 +75,11 @@ function createUploadRow(isFirst = false) {
 
     if (file.type.startsWith('image/')) {
       const reader = new FileReader();
-
       reader.onload = (e) => {
         image.src = e.target.result;
         image.hidden = false;
         placeholder.style.display = 'none';
       };
-
       reader.readAsDataURL(file);
     } else {
       image.hidden = true;
@@ -97,15 +92,12 @@ function createUploadRow(isFirst = false) {
   if (removeButton) {
     removeButton.addEventListener('click', () => {
       row.remove();
-
       const addButton = document.querySelector('.ugc-add-more-media');
-
       if (document.querySelectorAll('.ugc-upload-row').length < 3) {
         addButton.style.display = '';
       }
     });
   }
-
   return row;
 }
 
@@ -115,7 +107,6 @@ function initializeUpload(wrapper) {
   }
 
   wrapper.dataset.ugcInitialized = 'true';
-
   wrapper.innerHTML = '';
 
   const container = document.createElement('div');
@@ -130,17 +121,13 @@ function initializeUpload(wrapper) {
 
   addButton.addEventListener('click', () => {
     const count = container.querySelectorAll('.ugc-upload-row').length;
-
     if (count >= 3) {
       addButton.style.display = 'none';
       return;
     }
 
     container.appendChild(createUploadRow());
-
-    if (
-      container.querySelectorAll('.ugc-upload-row').length >= 3
-    ) {
+    if ( container.querySelectorAll('.ugc-upload-row').length >= 3 ) {
       addButton.style.display = 'none';
     }
   });
@@ -203,8 +190,7 @@ function validateField(field) {
         return;
       }
 
-      const validEmail =
-        /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const validEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
       if (!validEmail.test(value)) {
         showError(field, 'Error: Please enter a valid email address' );
@@ -233,32 +219,17 @@ function validateField(field) {
     }
 
     case 'upload': {
-      const wrapper = document.querySelector(
-        '.ugc-file.field-wrapper.file-wrapper',
-      );
-
-      const hasFile = [...document.querySelectorAll('.ugc-file-input')]
-        .some((input) => input.files?.length);
-
-      const error = wrapper?.nextElementSibling?.classList.contains(
-        'ugc-file-error',
-      )
-        ? wrapper.nextElementSibling
-        : null;
+      const wrapper = document.querySelector('.ugc-file.field-wrapper.file-wrapper');
+      const hasFile = [...document.querySelectorAll('.ugc-file-input')].some((input) => input.files?.length);
+      const error = wrapper?.nextElementSibling?.classList.contains('ugc-file-error')? wrapper.nextElementSibling: null;
 
       if (!hasFile) {
         if (!error) {
           const fileError = document.createElement('div');
-
           fileError.className = 'ugc-error ugc-file-error';
+          fileError.textContent = 'Error: Upload your video or image is required';
 
-          fileError.textContent =
-            'Error: Upload your video or image is required';
-
-          wrapper?.insertAdjacentElement(
-            'afterend',
-            fileError,
-          );
+          wrapper?.insertAdjacentElement('afterend',fileError);
         }
       } else {
         error?.remove();
@@ -268,32 +239,16 @@ function validateField(field) {
     }
 
     case 'terms': {
-      const checkbox = document.querySelector(
-        'input[name="terms"]',
-      );
-
+      const checkbox = document.querySelector('input[name="terms"]');
       const wrapper = checkbox?.closest('.field-wrapper');
-
-      const error = wrapper?.nextElementSibling?.classList.contains(
-        'ugc-checkbox-error',
-      )
-        ? wrapper.nextElementSibling
-        : null;
+      const error = wrapper?.nextElementSibling?.classList.contains('ugc-checkbox-error')? wrapper.nextElementSibling:null;
 
       if (!checkbox?.checked) {
         if (!error) {
           const checkboxError = document.createElement('div');
-
-          checkboxError.className =
-            'ugc-error ugc-checkbox-error';
-
-          checkboxError.textContent =
-            'Error: Checkbox is required';
-
-          wrapper?.insertAdjacentElement(
-            'afterend',
-            checkboxError,
-          );
+          checkboxError.className ='ugc-error ugc-checkbox-error';
+          checkboxError.textContent ='Error: Checkbox is required';
+          wrapper?.insertAdjacentElement('afterend',checkboxError);
         }
       } else {
         error?.remove();
@@ -320,11 +275,7 @@ function initValidationListeners() {
     (event) => {
       const field = event.target;
 
-      if (
-        field.matches(
-          'input[name="firstName"], input[name="lastName"], input[name="email"], textarea[name="story"]',
-        )
-      ) {
+      if (field.matches('input[name="firstName"], input[name="lastName"], input[name="email"], textarea[name="story"]')) {
         validateField(field);
       }
     },
@@ -333,48 +284,29 @@ function initValidationListeners() {
 
   document.addEventListener('input', (event) => {
     const field = event.target;
-
-    if (
-      field.matches(
-        'input[name="firstName"], input[name="lastName"], input[name="email"], textarea[name="story"]',
-      )
-    ) {
-        validateField(field);
+    if (field.matches('input[name="firstName"], input[name="lastName"], input[name="email"], textarea[name="story"]')) {
+      validateField(field);
     }
   });
 
   document.addEventListener(
     'submit',
     (event) => {
-      validateField(
-        document.querySelector('input[name="firstName"]'),
-      );
-
-      validateField(
-        document.querySelector('input[name="lastName"]'),
-      );
-
-      validateField(
-        document.querySelector('input[name="email"]'),
-      );
-
-      validateField(
-        document.querySelector('textarea[name="story"]'),
-      );
-
+      validateField(document.querySelector('input[name="firstName"]'));
+      validateField(document.querySelector('input[name="lastName"]'));
+      validateField(document.querySelector('input[name="email"]'));
+      validateField(document.querySelector('textarea[name="story"]'));
       validateField({ name: 'upload' });
       validateField({ name: 'terms' });
 
-      const hasErrors = document.querySelector('.field-error') ||
-        document.querySelector('.ugc-file-error') ||
-        document.querySelector('.ugc-checkbox-error');
+      const hasErrors = document.querySelector('.field-error') || document.querySelector('.ugc-file-error') || document.querySelector('.ugc-checkbox-error');
 
       if (hasErrors) {
         event.preventDefault();
         return;
       }
 
-/* Collect form data */
+      /* Collect form data */
       const formData = {
         id:config.id,
         a:config.a,
@@ -406,7 +338,6 @@ function initValidationListeners() {
 }
 
 /* Adding Markdown Links in Plain Text */
-
 function fixMarkdownLinks() {
   document.querySelectorAll('.ugc-terms.field-wrapper p').forEach(el => {
     const regex = /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g;
@@ -417,7 +348,6 @@ function fixMarkdownLinks() {
 }
 
 /* Adding Helper Text to Labels */
-
 function enhanceLabels() {
   document.querySelectorAll('.field-wrapper label')
     .forEach((label) => {

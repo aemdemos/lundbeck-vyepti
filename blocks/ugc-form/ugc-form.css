@@ -2,21 +2,14 @@
 @import url('/blocks/form/form.css');
 
 /* FORM CONTAINER */
-
 .ugc-form form {
   margin: 0 auto;
 }
 
 /* HEADINGS */
-
 .ugc-main-heading h2{
   margin-bottom:16px;
 }
-
-/* .ugc-section-heading p{
-  margin-top: 24px;
-  margin-bottom: 8px;
-} */
 
 .ugc-section-heading h2,
 .ugc-section-heading h3,
@@ -29,7 +22,6 @@
 }
 
 /* TEXT CONTENT */
-
 .ugc-intro p {
   font-size: var(--body-font-size-xs);
   line-height: var(--body-line-height);
@@ -37,9 +29,6 @@
   margin-top: var(--ugc-zero-px);
   color: var(--text-color);
 }
-
-
-
 
 .ugc-note p {
   font-size: var(--body-font-size-s);
@@ -62,7 +51,6 @@
 }
 
 /* LABELS */
-
 .ugc-form .field-wrapper label {
   font-size: var(--body-font-size-ms);
   font-weight: var(--ugc-heading-weight);
@@ -81,14 +69,8 @@
 }
 
 .ugc-form .checkbox-wrapper label[data-required="true"]::after{
-content: "";
+  content: "";
 }
-
-/* .ugc-form .field-wrapper label {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-} */
 
 .ugc-label-text {
   color: var(--brand-primary);
@@ -120,7 +102,6 @@ content: "";
 }
 
 /* INPUT FIELDS */
-
 .ugc-input{
   margin-bottom:8px;
 }
@@ -135,8 +116,7 @@ content: "";
   width: 100%;
   height: 47px;
   padding: 0 14px;
-  border: var(--section-divider-width)
-    solid var(--text-color);
+  border: var(--section-divider-width) solid var(--text-color);
   border-radius: var(--button-icon-height);
   background: var(--form-input-background);
   color: var(--form-input-text-color);
@@ -145,7 +125,6 @@ content: "";
 }
 
 /* textarea */
-
 .ugc-form .text-area-wrapper textarea {
   width: 100%;
   min-height: 140px;
@@ -159,8 +138,6 @@ content: "";
   font-size: var(--body-font-size-s);
 }
 
-/* focus */
-
 .ugc-form .text-wrapper input:focus,
 .ugc-form .email-wrapper input:focus,
 .ugc-form .text-area-wrapper textarea:focus,
@@ -170,14 +147,11 @@ content: "";
   box-shadow: 0 0 0 2px rgb(4 97 131 / 15%);
 }
 
-/* hover*/
 .ugc-form .ugc-input input:hover,
 .ugc-form .ugc-input select:hover,
 .ugc-form .ugc-textarea textarea:hover {
   border: 1px solid var(--dark-color);
 }
-
-/* spacing */
 
 .ugc-form .text-wrapper,
 .ugc-form .email-wrapper,
@@ -187,7 +161,6 @@ content: "";
 }
 
 /* INLINE HELP TEXT */
-
 .ugc-inline-help p {
   font-size: var(--body-font-size-xs);
   color: var(--text-color-light);
@@ -196,10 +169,9 @@ content: "";
 }
 
 /* CHECKBOXES */
-
 .ugc-form .checkbox-wrapper {
   margin-bottom: 20px;
-   display: flex;
+  display: flex;
   align-items: flex-start; /* Aligns items to the top line */
   gap: 8px;     
 }
@@ -211,7 +183,6 @@ content: "";
 }
 
 .ugc-form .ugc-checkbox.checkbox-wrapper.selection-wrapper input[type='checkbox'] {
-  /* transform: scale(1.5); */
   width: var(--section-padding);
   height: var(--section-padding);
   transform-origin: top left;
@@ -240,7 +211,6 @@ content: "";
 }
 
 /* SUBMIT BUTTON */
-
 .ugc-submit {
   margin-top: 30px;
 }
@@ -251,9 +221,7 @@ content: "";
 
 .ugc-form .submit-wrapper button {
   background: var(--brand-primary);
-  /* color: var(--button-primary-color); */
-  border: var(--button-border-width)
-    solid var(--brand-primary);
+  border: var(--button-border-width) solid var(--brand-primary);
   border-radius: var(--button-border-radius);
   padding: var(--button-padding);
   font-size: var(--button-font-size);
@@ -262,7 +230,6 @@ content: "";
 }
 
 /* MULTIPLE MEDIA UPLOAD */
-
 .ugc-upload-container {
   display: flex;
   flex-direction: column;
@@ -302,18 +269,17 @@ content: "";
 }
 
 .ugc-preview-placeholder img{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    min-width: 100%;
-    min-height: 100%;
-    background-repeat: no-repeat;
-    background-position: center center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 100%;
+  min-height: 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
 }
 
-main img,
-.ugc-form img {
+main img, .ugc-form img {
   max-width: none;
 }
 
@@ -379,7 +345,6 @@ main img,
 }
 
 /* ADD MEDIA BUTTON */
-
 .ugc-add-more-media {
   display: inline-block;
   align-self: flex-start;
@@ -442,7 +407,6 @@ main img,
 }
 
 /* VALIDATIONS */
-
 .ugc-form input.field-error,
 .ugc-form textarea.field-error {
   border-color: var(--error-color);
@@ -462,13 +426,13 @@ main img,
 }
 
 .ugc-checkbox-error{
-    margin-top:-20px;
-    margin-bottom: 20px;
+  margin-top:-20px;
+  margin-bottom: 20px;
 }
 
 .ugc-file-error{
-    margin-top:-20px;
-    margin-bottom: 20px;
+  margin-top:-20px;
+  margin-bottom: 20px;
 }
 
 
@@ -487,7 +451,6 @@ main img,
   color: var(--error-color);
 }
 
-
 .ugc-terms p {
   padding-left: 48px;
   margin-top: -10px;
@@ -499,6 +462,7 @@ main img,
 @media (max-width: 767px) {
   .ugc-submit{
    place-items: center;
+   text-align:center;
   }
   
   .ugc-submit button{
