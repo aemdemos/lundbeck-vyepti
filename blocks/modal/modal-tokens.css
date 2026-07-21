@@ -16,4 +16,14 @@
   --modal-entrance-border-radius: 12px;
   --modal-entrance-shadow: 0 4px 20px rgb(0 0 0 / 15%);
   --modal-entrance-offset-top: var(--spacing-m, 24px);
+  --modal-entrance-close-icon-size: 16px;
+  --modal-entrance-close-icon-thickness: 1.5px;
+  --modal-entrance-close-inset: var(--spacing-xs, 8px);
+  --modal-entrance-button-border-width: 1.5px;
+  --modal-entrance-button-padding: 19px 45px;
+
+  /* gap grows from ~22px@375px to ~131px@770px, matching two points measured
+     directly on vyepti.com's mobile entrance modal; capped before the row
+     layout takes over at 900px, where it resets to a flat --spacing-s */
+  --modal-entrance-button-gap-mobile: clamp(var(--spacing-s, 16px), calc(27.6vw - 82px), 140px);
 }

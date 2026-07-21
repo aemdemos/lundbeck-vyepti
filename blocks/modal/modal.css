@@ -85,6 +85,24 @@ body.modal-open { /* @boilerplate */
   box-shadow: var(--modal-entrance-shadow);
 }
 
+/* smaller close icon, inset from the dialog corner instead of flush against it;
+   tap target stays --modal-close-button-size — only the glyph shrinks */
+.modal:has(.modal-buttons) .close-button {
+  top: var(--modal-entrance-close-inset);
+  right: var(--modal-entrance-close-inset);
+}
+
+.modal:has(.modal-buttons) .close-button .icon.icon-close {
+  width: var(--modal-entrance-close-icon-size);
+  height: var(--modal-entrance-close-icon-size);
+}
+
+.modal:has(.modal-buttons) .close-button .icon.icon-close::before,
+.modal:has(.modal-buttons) .close-button .icon.icon-close::after {
+  width: var(--modal-entrance-close-icon-size);
+  height: var(--modal-entrance-close-icon-thickness);
+}
+
 /* logo / message / actions row authored as a columns block */
 .modal:has(.modal-buttons) .columns > div {
   align-items: center;
@@ -98,15 +116,24 @@ body.modal-open { /* @boilerplate */
   margin: 0 auto;
 }
 
+.modal:has(.modal-buttons) h2 {
+  font-size: var(--heading-font-size-m);
+}
+
 .modal .modal-buttons {
   display: flex;
   flex: 0 0 auto;
   justify-content: center;
-  gap: var(--spacing-m, 24px);
+  gap: var(--modal-entrance-button-gap-mobile);
 }
 
 .modal .modal-buttons .button-wrapper {
   margin: 0;
+}
+
+.modal .modal-buttons .button {
+  border-width: var(--modal-entrance-button-border-width);
+  padding: var(--modal-entrance-button-padding);
 }
 
 /* suppress the global a.button default arrow — source Yep/Nope buttons have no icon */
@@ -114,6 +141,8 @@ body.modal-open { /* @boilerplate */
   content: none;
 }
 
+/* the columns row itself flips from stacked to side-by-side at 768px
+   (see .columns.css's own note on this Bootstrap-matching breakpoint) */
 @media (width >= 768px) {
   .modal:has(.modal-buttons) .columns > div {
     text-align: left;
@@ -122,6 +151,16 @@ body.modal-open { /* @boilerplate */
 
   .modal:has(.modal-buttons) .columns-img-col {
     margin: 0;
+  }
+
+  .modal:has(.modal-buttons) h2 {
+    font-size: var(--heading-font-size-xl);
+  }
+
+  /* buttons now share the row with the logo/heading columns instead of
+     being centered alone in their own row — flat gap, not the mobile formula */
+  .modal .modal-buttons {
+    gap: var(--spacing-s, 16px);
   }
 }
 
