@@ -101,7 +101,7 @@ function createUploadRow(isFirst = false) {
       const addButton = document.querySelector('.ugc-add-more-media');
 
       if (document.querySelectorAll('.ugc-upload-row').length < 3) {
-        addButton.disabled = false;
+        addButton.style.display = '';
       }
     });
   }
@@ -132,7 +132,7 @@ function initializeUpload(wrapper) {
     const count = container.querySelectorAll('.ugc-upload-row').length;
 
     if (count >= 3) {
-      addButton.disabled = true;
+      addButton.style.display = 'none';
       return;
     }
 
@@ -141,7 +141,7 @@ function initializeUpload(wrapper) {
     if (
       container.querySelectorAll('.ugc-upload-row').length >= 3
     ) {
-      addButton.disabled = true;
+      addButton.style.display = 'none';
     }
   });
 

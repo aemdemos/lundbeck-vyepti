@@ -422,6 +422,13 @@ main img,
   color: var(--text-color);
 }
 
+.ugc-add-more-media:focus,
+.ugc-add-more-media:focus-visible {
+  outline: none;
+  border-color: var(--brand-primary);
+  box-shadow: 0 0 0 3px rgb(4 97 131 / 25%);
+}
+
 .ugc-add-more-media:disabled {
   opacity: .5;
   cursor: not-allowed;
@@ -498,6 +505,9 @@ main img,
 .ugc-terms p {
   padding-left: 45px;
   margin-top: -10px;
+}
+.ugc-terms a{
+  text-decoration: underline;
 }
 
 @media (max-width: 767px) {
