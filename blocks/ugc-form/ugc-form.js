@@ -22,9 +22,7 @@ export default async function decorate(block) {
   }
 }
 
-/* ==========================================
-  Multiple Media Upload Handling
-========================================== */
+/* Multiple Media Upload Handling */
 
 function createUploadRow(isFirst = false) {
   const row = document.createElement('div');
@@ -151,9 +149,7 @@ function initializeUpload(wrapper) {
   wrapper.appendChild(addButton);
 }
 
-/* ==========================================
-   VALIDATIONS
-========================================== */
+/* VALIDATIONS */
 
 function removeError(field) {
   field.classList.remove('field-error');
@@ -410,9 +406,7 @@ function initValidationListeners() {
   });
 }
 
-/* ==========================================
-   Adding Markdown Links in Plain Text
-========================================== */
+/* Adding Markdown Links in Plain Text */
 
 function fixMarkdownLinks() {
   document.querySelectorAll('.ugc-terms.field-wrapper p').forEach(el => {
@@ -423,9 +417,7 @@ function fixMarkdownLinks() {
   });
 }
 
-/* ==========================================
-   Adding Helper Text to Labels
-========================================== */
+/* Adding Helper Text to Labels */
 
 function enhanceLabels() {
   document.querySelectorAll('.field-wrapper label')

@@ -1,18 +1,14 @@
 @import url('./ugc-form-tokens.css');
 @import url('/blocks/form/form.css');
 
-/* =====================================
-   FORM CONTAINER
-===================================== */
+/* FORM CONTAINER */
 
 .ugc-form form {
   max-width: var(--ugc-form-width);
   margin: 0 auto;
 }
 
-/* =====================================
-   HEADINGS
-===================================== */
+/* HEADINGS */
 
 .ugc-section-heading h2,
 .ugc-section-heading h3,
@@ -23,9 +19,7 @@
   margin: 0px 0 -10px;
 }
 
-/* =====================================
-   TEXT CONTENT
-===================================== */
+/* TEXT CONTENT */
 
 .ugc-intro p {
   font-size: var(--body-font-size-xs);
@@ -49,9 +43,7 @@
   color: var(--text-color);
 }
 
-/* =====================================
-   LABELS
-===================================== */
+/* LABELS */
 
 .ugc-form .field-wrapper label {
   display: block;
@@ -103,9 +95,7 @@
   margin-left: 0;
 }
 
-/* =====================================
-   INPUT FIELDS
-===================================== */
+/* INPUT FIELDS */
 
 @media (width >= 600px) {
   .ugc-form .text-wrapper input,
@@ -180,9 +170,7 @@
   margin-bottom: 24px;
 }
 
-/* =====================================
-   INLINE HELP TEXT
-===================================== */
+/* INLINE HELP TEXT */
 
 .ugc-inline-help p {
   font-size: var(--body-font-size-xs);
@@ -191,9 +179,7 @@
   margin-bottom: 12px;
 }
 
-/* =====================================
-   CHECKBOXES
-===================================== */
+/* CHECKBOXES */
 
 .ugc-form .checkbox-wrapper {
   margin-bottom: 20px;
@@ -233,9 +219,7 @@
   color: var(--text-color);
 }
 
-/* =====================================
-   SUBMIT BUTTON
-===================================== */
+/* SUBMIT BUTTON */
 
 .ugc-submit {
   margin-top: 30px;
@@ -257,9 +241,7 @@
   cursor: pointer;
 }
 
-/* =====================================
-   MULTIPLE MEDIA UPLOAD
-===================================== */
+/* MULTIPLE MEDIA UPLOAD */
 
 .ugc-upload-container {
   display: flex;
@@ -274,13 +256,12 @@
 }
 
 .ugc-preview-container {
-    height: 80px;
-    width: 80px;
+  height: 80px;
+  width: 80px;
   border: 3px solid rgb(238, 238, 238);
   background: var(--background-color);
   position: relative;
   flex-shrink: 0;
-
   display: flex;
   align-items: center;
   justify-content: center;
@@ -295,7 +276,6 @@
 .ugc-preview-placeholder {
   width: 20px;
   height: 20px;
-  /* border: 2px solid var(--light-color); */
   border-radius: 50%;
   position: relative;
 }
@@ -321,7 +301,6 @@ main img,
   position: absolute;
   width: 22px;
   height: 2px;
-  /* background: var(--light-color); */
   top: 8px;
   left: -3px;
   transform: rotate(-45deg);
@@ -357,7 +336,6 @@ main img,
   background: transparent;
   padding: 0;
   cursor: pointer;
-
   display: flex;
   align-items: center;
   justify-content: center;
@@ -373,12 +351,9 @@ main img,
 .ugc-remove-upload:hover {
   opacity: .7;
     background: none;
-
 }
 
-/* =====================================
-   ADD MEDIA BUTTON
-===================================== */
+/* ADD MEDIA BUTTON */
 
 .ugc-add-more-media {
   display: inline-block;
@@ -413,9 +388,7 @@ main img,
   cursor: not-allowed;
 }
 
-/* =====================================
-   VALIDATIONS
-===================================== */
+/* VALIDATIONS */
 
 .ugc-form input.field-error,
 .ugc-form textarea.field-error {
@@ -478,5 +451,4 @@ main img,
   .ugc-main-heading{
     text-align: center;
   }
-
 }
