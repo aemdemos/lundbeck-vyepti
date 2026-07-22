@@ -1,18 +1,15 @@
 @import url('./ugc-form-tokens.css');
 @import url('/blocks/form/form.css');
 
-/* =====================================
-   FORM CONTAINER
-===================================== */
-
+/* FORM CONTAINER */
 .ugc-form form {
-  max-width: var(--ugc-form-width);
   margin: 0 auto;
 }
 
-/* =====================================
-   HEADINGS
-===================================== */
+/* HEADINGS */
+.ugc-main-heading h2{
+  margin-bottom:16px;
+}
 
 .ugc-section-heading h2,
 .ugc-section-heading h3,
@@ -20,44 +17,48 @@
   color: var(--brand-primary);
   font-size: var(--heading-font-size-s);
   font-weight: var(--ugc-heading-weight);
-  margin: 0px 0 -10px;
+  margin-top: 24px;
+  margin-bottom: 4px;
 }
 
-/* =====================================
-   TEXT CONTENT
-===================================== */
-
+/* TEXT CONTENT */
 .ugc-intro p {
   font-size: var(--body-font-size-xs);
   line-height: var(--body-line-height);
   margin-bottom: 16px;
+  margin-top: var(--ugc-zero-px);
   color: var(--text-color);
 }
-
 
 .ugc-note p {
   font-size: var(--body-font-size-s);
   font-style: italic;
-  margin-bottom: 24px;
+  margin-top:8px;
+  margin-bottom: 10px;
   color: var(--text-color);
 }
 
 .ugc-instructions p {
   font-size: var(--body-font-size-xs);
   line-height: var(--body-line-height);
-  margin-bottom: 12px;
+  margin-bottom: var(--ugc-zero-px);
+  margin-top: var(--ugc-zero-px);
   color: var(--text-color);
 }
 
-/* =====================================
-   LABELS
-===================================== */
+.upload-instructions p {
+  margin-bottom: 2px;
+}
 
+/* LABELS */
 .ugc-form .field-wrapper label {
-  display: block;
   font-size: var(--body-font-size-ms);
-  font-weight: 600;
+  font-weight: var(--ugc-heading-weight);
   color: var(--brand-primary);
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top:22px;
   margin-bottom: 8px;
 }
 
@@ -67,11 +68,8 @@
   margin-inline-start: 0ch;
 }
 
-.ugc-form .field-wrapper label {
-  display: flex;
-  align-items: center;
-  /* gap: 12px; */
-  flex-wrap: wrap;
+.ugc-form .checkbox-wrapper label[data-required="true"]::after{
+  content: "";
 }
 
 .ugc-label-text {
@@ -80,8 +78,8 @@
 
 .ugc-label-helper {
   color: var(--text-color);
-  font-size: var(--body-font-size-s);
-  font-weight: 400;
+  font-size: 14px;
+  font-weight: var(--ugc-label-weight);
 }
 
 .ugc-form label.ugc-label-enhanced {
@@ -103,17 +101,9 @@
   margin-left: 0;
 }
 
-/* =====================================
-   INPUT FIELDS
-===================================== */
-
-@media (width >= 600px) {
-  .ugc-form .text-wrapper input,
-  .ugc-form .email-wrapper input,
-  .ugc-form .text-area-wrapper textarea,
-  .ugc-form .select-wrapper select {
-    max-width: 100%;
-  }
+/* INPUT FIELDS */
+.ugc-input{
+  margin-bottom:8px;
 }
 
 .ugc-form .text-wrapper input,
@@ -124,10 +114,9 @@
 .ugc-form .password-wrapper input,
 .ugc-form .select-wrapper select {
   width: 100%;
-  height: 44px;
+  height: 47px;
   padding: 0 14px;
-  border: var(--section-divider-width)
-    solid var(--text-color);
+  border: var(--section-divider-width) solid var(--text-color);
   border-radius: var(--button-icon-height);
   background: var(--form-input-background);
   color: var(--form-input-text-color);
@@ -136,13 +125,11 @@
 }
 
 /* textarea */
-
 .ugc-form .text-area-wrapper textarea {
   width: 100%;
   min-height: 140px;
   padding: 12px;
-  border: var(--section-divider-width)
-    solid var(--text-color);
+  border: var(--section-divider-width) solid var(--text-color);
   border-radius: var(--button-icon-height);
   background: var(--form-input-background);
   color: var(--form-input-text-color);
@@ -150,8 +137,6 @@
   resize: vertical;
   font-size: var(--body-font-size-s);
 }
-
-/* focus */
 
 .ugc-form .text-wrapper input:focus,
 .ugc-form .email-wrapper input:focus,
@@ -162,16 +147,11 @@
   box-shadow: 0 0 0 2px rgb(4 97 131 / 15%);
 }
 
-/* hover*/
 .ugc-form .ugc-input input:hover,
 .ugc-form .ugc-input select:hover,
 .ugc-form .ugc-textarea textarea:hover {
-  /* border-color: var(--text-color); */
-
   border: 1px solid var(--dark-color);
 }
-
-/* spacing */
 
 .ugc-form .text-wrapper,
 .ugc-form .email-wrapper,
@@ -180,10 +160,7 @@
   margin-bottom: 24px;
 }
 
-/* =====================================
-   INLINE HELP TEXT
-===================================== */
-
+/* INLINE HELP TEXT */
 .ugc-inline-help p {
   font-size: var(--body-font-size-xs);
   color: var(--text-color-light);
@@ -191,13 +168,10 @@
   margin-bottom: 12px;
 }
 
-/* =====================================
-   CHECKBOXES
-===================================== */
-
+/* CHECKBOXES */
 .ugc-form .checkbox-wrapper {
   margin-bottom: 20px;
-   display: flex;
+  display: flex;
   align-items: flex-start; /* Aligns items to the top line */
   gap: 8px;     
 }
@@ -209,7 +183,6 @@
 }
 
 .ugc-form .ugc-checkbox.checkbox-wrapper.selection-wrapper input[type='checkbox'] {
-  /* transform: scale(1.5); */
   width: var(--section-padding);
   height: var(--section-padding);
   transform-origin: top left;
@@ -228,15 +201,16 @@
 .ugc-form .checkbox-wrapper label {
   display: inline;
   font-size: var(--body-font-size-xs);
-  font-weight: 400;
+  font-weight: var(--ugc-label-weight);
   line-height: var(--body-line-height);
   color: var(--text-color);
 }
 
-/* =====================================
-   SUBMIT BUTTON
-===================================== */
+.ugc-form .field-wrapper label{
+  margin-top:0px
+}
 
+/* SUBMIT BUTTON */
 .ugc-submit {
   margin-top: 30px;
 }
@@ -247,9 +221,7 @@
 
 .ugc-form .submit-wrapper button {
   background: var(--brand-primary);
-  /* color: var(--button-primary-color); */
-  border: var(--button-border-width)
-    solid var(--brand-primary);
+  border: var(--button-border-width) solid var(--brand-primary);
   border-radius: var(--button-border-radius);
   padding: var(--button-padding);
   font-size: var(--button-font-size);
@@ -257,10 +229,7 @@
   cursor: pointer;
 }
 
-/* =====================================
-   MULTIPLE MEDIA UPLOAD
-===================================== */
-
+/* MULTIPLE MEDIA UPLOAD */
 .ugc-upload-container {
   display: flex;
   flex-direction: column;
@@ -271,16 +240,16 @@
   display: flex;
   align-items: flex-start;
   gap: 12px;
+  margin-top: 16px;
 }
 
 .ugc-preview-container {
-    height: 80px;
-    width: 80px;
+  height: 80px;
+  width: 80px;
   border: 3px solid rgb(238, 238, 238);
   background: var(--background-color);
   position: relative;
   flex-shrink: 0;
-
   display: flex;
   align-items: center;
   justify-content: center;
@@ -295,24 +264,22 @@
 .ugc-preview-placeholder {
   width: 20px;
   height: 20px;
-  /* border: 2px solid var(--light-color); */
   border-radius: 50%;
   position: relative;
 }
 
 .ugc-preview-placeholder img{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    min-width: 100%;
-    min-height: 100%;
-    background-repeat: no-repeat;
-    background-position: center center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 100%;
+  min-height: 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
 }
 
-main img,
-.ugc-form img {
+main img, .ugc-form img {
   max-width: none;
 }
 
@@ -321,7 +288,6 @@ main img,
   position: absolute;
   width: 22px;
   height: 2px;
-  /* background: var(--light-color); */
   top: 8px;
   left: -3px;
   transform: rotate(-45deg);
@@ -342,6 +308,10 @@ main img,
   font-size: var(--body-font-size-xs);
 }
 
+.form input.ugc-file-input{
+  padding: var(--ugc-zero-px);
+}
+
 .ugc-remove-upload {
   border: none;
   background: transparent;
@@ -357,7 +327,6 @@ main img,
   background: transparent;
   padding: 0;
   cursor: pointer;
-
   display: flex;
   align-items: center;
   justify-content: center;
@@ -373,17 +342,13 @@ main img,
 .ugc-remove-upload:hover {
   opacity: .7;
     background: none;
-
 }
 
-/* =====================================
-   ADD MEDIA BUTTON
-===================================== */
-
+/* ADD MEDIA BUTTON */
 .ugc-add-more-media {
   display: inline-block;
   align-self: flex-start;
-  margin-top: 8px;
+  margin-top: 10px;
   margin-bottom: 24px;
   max-width: 150px;
   padding: 4px 8px;
@@ -392,7 +357,7 @@ main img,
   color: var(--text-color);
   border-radius: unset;
   font-size: var(--body-font-size-s);
-  font-weight: 400;
+  font-weight: var(--ugc-label-weight);
   cursor: pointer;
 }
 
@@ -408,15 +373,40 @@ main img,
   color: var(--text-color);
 }
 
+.ugc-add-more-media:focus,
+.ugc-add-more-media:focus-visible {
+  outline: none;
+  border-color: var(--brand-primary);
+  box-shadow: 0 0 0 3px rgb(4 97 131 / 25%);
+}
+
 .ugc-add-more-media:disabled {
   opacity: .5;
   cursor: not-allowed;
 }
 
-/* =====================================
-   VALIDATIONS
-===================================== */
+.ugc-file-input::file-selector-button {
+  display: inline-block;
+  align-self: flex-start;
+  margin-top: 10px;
+  margin-bottom: 24px;
+  max-width: 150px;
+  padding: 4px 8px;
+  background: #eee;
+  border: 1px solid var(--text-color);
+  color: var(--text-color);
+  border-radius: unset;
+  font-size: var(--body-font-size-s);
+  font-weight: var(--ugc-label-weight);
+  cursor: pointer;
+}
 
+.file-upload-sub-label{
+  font-size: var(--body-font-size-s);
+  font-weight: var(--ugc-heading-weight);
+}
+
+/* VALIDATIONS */
 .ugc-form input.field-error,
 .ugc-form textarea.field-error {
   border-color: var(--error-color);
@@ -436,13 +426,13 @@ main img,
 }
 
 .ugc-checkbox-error{
-    margin-top:-20px;
-    margin-bottom: 20px;
+  margin-top:-20px;
+  margin-bottom: 20px;
 }
 
 .ugc-file-error{
-    margin-top:-20px;
-    margin-bottom: 20px;
+  margin-top:-20px;
+  margin-bottom: 20px;
 }
 
 
@@ -461,14 +451,18 @@ main img,
   color: var(--error-color);
 }
 
-
 .ugc-terms p {
-  padding-left: 45px;
+  padding-left: 48px;
+  margin-top: -10px;
+}
+.ugc-terms a{
+  text-decoration: underline;
 }
 
 @media (max-width: 767px) {
   .ugc-submit{
    place-items: center;
+   text-align:center;
   }
   
   .ugc-submit button{
@@ -478,5 +472,4 @@ main img,
   .ugc-main-heading{
     text-align: center;
   }
-
 }
