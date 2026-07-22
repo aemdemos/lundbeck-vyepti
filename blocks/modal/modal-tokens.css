@@ -12,7 +12,9 @@
   --modal-close-icon-thickness: 2px; /* @boilerplate */
 
   /* entrance modal — top-aligned prompt shell (source: vyepti.com) */
-  --modal-entrance-background: var(--light-color);
+  --modal-entrance-background: #eff6f9;
+  --modal-entrance-backdrop-background: rgb(72 72 72 / 50%);
+  --modal-entrance-max-width: 1080px;
   --modal-entrance-border-radius: 12px;
   --modal-entrance-shadow: 0 4px 20px rgb(0 0 0 / 15%);
   --modal-entrance-offset-top: var(--spacing-m, 24px);

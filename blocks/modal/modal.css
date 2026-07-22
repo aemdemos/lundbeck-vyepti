@@ -83,6 +83,11 @@ body.modal-open { /* @boilerplate */
   border-radius: var(--modal-entrance-border-radius);
   background-color: var(--modal-entrance-background);
   box-shadow: var(--modal-entrance-shadow);
+  max-width: var(--modal-entrance-max-width);
+}
+
+.modal:has(.modal-buttons) dialog::backdrop {
+  background-color: var(--modal-entrance-backdrop-background);
 }
 
 /* smaller close icon, inset from the dialog corner instead of flush against it;
