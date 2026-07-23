@@ -3,11 +3,13 @@ import { loadFragment } from '../fragment/fragment.js';
 const BRIGHTCOVE_ACCOUNT = '4804905851001';
 const BRIGHTCOVE_PLAYER = 'BN991zH3Xh';
 
-// Reads the story slug used for the ?assetId deep-link from a fragment path
-// (the fragment's basename is authored to equal the source assetId, preserving
-// shareable links from the original site).
-function assetIdFromPath(path) {
-  return path.split('/').filter(Boolean).pop();
+// Builds the fragment path for a story relative to the CURRENT page path, so it
+// resolves on any host (local dev serves under /content/…, the deployed host serves
+// a clean path). The fragment basename equals the source assetId, which also
+// preserves the original site's shareable ?assetId deep-links.
+function fragmentPathFor(assetId) {
+  const base = window.location.pathname.replace(/\/$/, '').replace(/\.[^/.]+$/, '');
+  return `${base}/fragments/${assetId}`;
 }
 
 function buildBrightcovePlayer(videoId) {
@@ -89,15 +91,16 @@ export default async function decorate(block) {
     const cells = [...row.children];
     const picture = cells[0]?.querySelector('picture');
     const title = (cells[1]?.textContent || '').trim();
-    const fragmentPath = (cells[2]?.textContent || '').trim();
+    const assetId = (cells[2]?.textContent || '').trim();
     const duration = (cells[3]?.textContent || '').trim();
-    if (!fragmentPath) return;
+    if (!assetId) return;
+    const fragmentPath = fragmentPathFor(assetId);
 
     const card = document.createElement('article');
     card.className = 'patient-stories-card';
     card.classList.add(duration ? 'patient-stories-card-video' : 'patient-stories-card-text');
     card.dataset.fragment = fragmentPath;
-    card.dataset.assetId = assetIdFromPath(fragmentPath);
+    card.dataset.assetId = assetId;
     card.tabIndex = 0;
     card.setAttribute('role', 'button');
     card.setAttribute('aria-label', title);
