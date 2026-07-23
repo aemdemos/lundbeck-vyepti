@@ -88,10 +88,9 @@ export default async function decorate(block) {
   rows.forEach((row) => {
     const cells = [...row.children];
     const picture = cells[0]?.querySelector('picture');
-    const link = cells[1]?.querySelector('a');
-    const title = (link?.textContent || cells[1]?.textContent || '').trim();
-    const fragmentPath = link?.getAttribute('href');
-    const duration = (cells[2]?.textContent || '').trim();
+    const title = (cells[1]?.textContent || '').trim();
+    const fragmentPath = (cells[2]?.textContent || '').trim();
+    const duration = (cells[3]?.textContent || '').trim();
     if (!fragmentPath) return;
 
     const card = document.createElement('article');
