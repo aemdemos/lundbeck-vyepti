@@ -1,0 +1,74 @@
+/* patient-stories — component tokens (Tier 2), referencing global Tier-1 tokens
+   where a semantic match exists. Matches vyepti.com/real-patient-stories. */
+:root {
+  /* grid */
+  --patient-stories-columns-mobile: 2;
+  --patient-stories-columns-desktop: 3;
+  --patient-stories-column-gap-mobile: 24px;
+  --patient-stories-column-gap-desktop: 20px;
+  --patient-stories-card-gap: 20px;
+
+  /* card box */
+  --patient-stories-card-border: 1px solid #979797;
+  --patient-stories-card-radius: 12px;
+
+  /* overlay icon (quote bubble / play circle) */
+  --patient-stories-icon-size: 60px;
+  --patient-stories-icon-offset-right: 10px;
+  --patient-stories-icon-offset-bottom: 15px;
+
+  /* video duration badge */
+  --patient-stories-badge-bg: rgb(51 51 51 / 50%);
+  --patient-stories-badge-color: #fff;
+  --patient-stories-badge-font-size: 14px;
+  --patient-stories-badge-line-height: 18px;
+  --patient-stories-badge-radius: 4px;
+  --patient-stories-badge-offset-mobile: 5px;
+  --patient-stories-badge-offset-desktop: 10px;
+
+  /* card text area */
+  --patient-stories-body-padding: 4px 15px 18px 12px;
+  --patient-stories-title-font-family: var(--heading-font-family);
+  --patient-stories-title-font-size: 18px;
+  --patient-stories-title-font-weight: 700;
+  --patient-stories-title-line-height: 22px;
+  --patient-stories-title-color: rgb(72 72 72);
+  --patient-stories-title-padding-bottom: 8px;
+  --patient-stories-preview-font-family: var(--body-font-family);
+  --patient-stories-preview-font-size: 16px;
+  --patient-stories-preview-line-height: 22px;
+  --patient-stories-preview-color: rgb(72 72 72);
+
+  /* "+" expand indicator */
+  --patient-stories-plus-color: var(--brand-rose-dark);
+  --patient-stories-plus-font-size: 30px;
+  --patient-stories-plus-offset-right: 15px;
+  --patient-stories-plus-offset-bottom: 6px;
+
+  /* detail panel */
+  --patient-stories-detail-bg: var(--accent-bg);
+  --patient-stories-detail-radius: 12px;
+  --patient-stories-detail-padding-mobile: 1.5rem;
+  --patient-stories-detail-padding-desktop: 2.5rem;
+  --patient-stories-detail-close-color: var(--brand-teal);
+  --patient-stories-detail-close-hover-color: var(--brand-teal-muted);
+  --patient-stories-detail-close-font-size: 1.75rem;
+  --patient-stories-detail-text-color: rgb(72 72 72);
+  --patient-stories-detail-font-size: 16px;
+  --patient-stories-detail-line-height: 22px;
+  --patient-stories-detail-heading-font-size: 24px;
+  --patient-stories-detail-heading-line-height: 24px;
+  --patient-stories-detail-photo-radius: 12px;
+  --patient-stories-detail-photo-max-width-desktop: 500px;
+
+  /* video player */
+  --patient-stories-video-aspect-ratio: 16 / 9;
+
+  /* transcript toggle + body */
+  --patient-stories-transcript-toggle-color: var(--brand-teal);
+  --patient-stories-transcript-font-size: 16px;
+  --patient-stories-transcript-line-height: 22px;
+  --patient-stories-transcript-color: rgb(51 51 51);
+  --patient-stories-transcript-icon-size: 22px;
+  --patient-stories-transcript-gap: 8px;
+}

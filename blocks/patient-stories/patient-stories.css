@@ -1,3 +1,5 @@
+@import url('./patient-stories-tokens.css');
+
 /* Patient stories — masonry card grid matching vyepti.com/real-patient-stories.
    The source lays cards out with CSS multi-column (column-count), letting each
    card keep its intrinsic image aspect ratio (portrait 350x500 / square 350x350),
@@ -5,8 +7,8 @@
    Mobile-first: 2 columns; 3 columns from 900px. */
 
 .patient-stories {
-  column-count: 2;
-  column-gap: 24px;
+  column-count: var(--patient-stories-columns-mobile);
+  column-gap: var(--patient-stories-column-gap-mobile);
   margin: 1rem 0;
 }
 
@@ -17,11 +19,11 @@
 
   /* keep a card from splitting across columns */
   break-inside: avoid;
-  margin: 0 0 20px;
+  margin: 0 0 var(--patient-stories-card-gap);
   overflow: visible;
   background-color: transparent;
-  border: 1px solid #979797;
-  border-radius: 12px;
+  border: var(--patient-stories-card-border);
+  border-radius: var(--patient-stories-card-radius);
   cursor: pointer;
   text-align: left;
 }
@@ -29,7 +31,7 @@
 .patient-stories-card-media {
   position: relative;
   overflow: hidden;
-  border-radius: 12px 12px 0 0;
+  border-radius: var(--patient-stories-card-radius) var(--patient-stories-card-radius) 0 0;
 
   /* stretch image to fill column width; the source uses object-fit: fill so the
      card height follows the image's intrinsic aspect ratio (no uniform crop) */
@@ -42,20 +44,20 @@
   width: 100%;
   height: auto;
   object-fit: fill;
-  border-radius: 12px 12px 0 0;
+  border-radius: var(--patient-stories-card-radius) var(--patient-stories-card-radius) 0 0;
 }
 
 /* overlay icon on the image — rose quote-bubble (text) / teal play-circle (video).
    width/height forced with higher specificity to beat the global `main img` rule. */
 .patient-stories .patient-stories-card-icon {
   position: absolute;
-  width: 60px;
-  height: 60px;
+  width: var(--patient-stories-icon-size);
+  height: var(--patient-stories-icon-size);
 }
 
 .patient-stories .patient-stories-card-text .patient-stories-card-icon {
-  right: 10px;
-  bottom: 15px;
+  right: var(--patient-stories-icon-offset-right);
+  bottom: var(--patient-stories-icon-offset-bottom);
 }
 
 .patient-stories .patient-stories-card-video .patient-stories-card-icon {
@@ -67,41 +69,41 @@
 /* video duration badge — top-right, semi-transparent charcoal pill */
 .patient-stories-card-duration {
   position: absolute;
-  top: 5px;
-  right: 5px;
+  top: var(--patient-stories-badge-offset-mobile);
+  right: var(--patient-stories-badge-offset-mobile);
   padding: 0 4px;
-  background-color: rgb(51 51 51 / 50%);
-  color: #fff;
+  background-color: var(--patient-stories-badge-bg);
+  color: var(--patient-stories-badge-color);
   font-family: var(--body-font-family);
-  font-size: 14px;
+  font-size: var(--patient-stories-badge-font-size);
   font-weight: 400;
-  line-height: 18px;
-  border-radius: 4px;
+  line-height: var(--patient-stories-badge-line-height);
+  border-radius: var(--patient-stories-badge-radius);
 }
 
 /* text area below the image */
 .patient-stories-card-body {
   position: relative;
-  padding: 4px 15px 18px 12px;
+  padding: var(--patient-stories-body-padding);
 }
 
 .patient-stories-card-title {
-  padding-bottom: 8px;
-  font-family: var(--heading-font-family);
-  font-size: 18px;
-  font-weight: 700;
-  line-height: 22px;
-  color: rgb(72 72 72);
+  padding-bottom: var(--patient-stories-title-padding-bottom);
+  font-family: var(--patient-stories-title-font-family);
+  font-size: var(--patient-stories-title-font-size);
+  font-weight: var(--patient-stories-title-font-weight);
+  line-height: var(--patient-stories-title-line-height);
+  color: var(--patient-stories-title-color);
 }
 
 /* one-line truncated preview under the title */
 .patient-stories-card-preview {
   overflow: hidden;
-  font-family: var(--body-font-family);
-  font-size: 16px;
+  font-family: var(--patient-stories-preview-font-family);
+  font-size: var(--patient-stories-preview-font-size);
   font-weight: 400;
-  line-height: 22px;
-  color: rgb(72 72 72);
+  line-height: var(--patient-stories-preview-line-height);
+  color: var(--patient-stories-preview-color);
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -109,13 +111,13 @@
 /* the "+" expand indicator — bottom-right of the text area, rose */
 .patient-stories-card-plus {
   position: absolute;
-  right: 15px;
-  bottom: 6px;
+  right: var(--patient-stories-plus-offset-right);
+  bottom: var(--patient-stories-plus-offset-bottom);
   font-family: var(--body-font-family);
-  font-size: 30px;
+  font-size: var(--patient-stories-plus-font-size);
   font-weight: 400;
   line-height: 22px;
-  color: var(--brand-rose-dark);
+  color: var(--patient-stories-plus-color);
   text-align: right;
   transition: transform 0.2s ease;
 }
@@ -140,14 +142,14 @@
 
   /* break out of the multi-column flow so the panel is full width */
   column-span: all;
-  background-color: var(--accent-bg);
-  border-radius: 12px;
+  background-color: var(--patient-stories-detail-bg);
+  border-radius: var(--patient-stories-detail-radius);
   scroll-margin-top: 1rem;
 }
 
 .patient-stories-detail-inner {
   position: relative;
-  padding: 1.5rem;
+  padding: var(--patient-stories-detail-padding-mobile);
 }
 
 .patient-stories-detail-close {
@@ -157,9 +159,9 @@
   padding: 0;
   background: none;
   border: none;
-  font-size: 1.75rem;
+  font-size: var(--patient-stories-detail-close-font-size);
   line-height: 1;
-  color: var(--brand-teal);
+  color: var(--patient-stories-detail-close-color);
   cursor: pointer;
 }
 
@@ -167,31 +169,31 @@
 .patient-stories-detail-close:focus {
   background: none;
   border: none;
-  color: var(--brand-teal-muted);
+  color: var(--patient-stories-detail-close-hover-color);
 }
 
 .patient-stories-detail-body {
   display: flex;
   flex-direction: column;
-  color: rgb(72 72 72);
-  font-size: 16px;
-  line-height: 22px;
+  color: var(--patient-stories-detail-text-color);
+  font-size: var(--patient-stories-detail-font-size);
+  line-height: var(--patient-stories-detail-line-height);
 }
 
 .patient-stories-detail-body h1,
 .patient-stories-detail-body h2,
 .patient-stories-detail-body h3,
 .patient-stories-detail-body h4 {
-  font-size: 24px;
+  font-size: var(--patient-stories-detail-heading-font-size);
   font-weight: 700;
-  line-height: 24px;
-  color: rgb(72 72 72);
+  line-height: var(--patient-stories-detail-heading-line-height);
+  color: var(--patient-stories-detail-text-color);
   margin: 0 0 12px;
 }
 
 .patient-stories-detail-body p {
   margin: 0 0 1rem;
-  color: rgb(72 72 72);
+  color: var(--patient-stories-detail-text-color);
 }
 
 /* Patient photo in the expanded panel — direct children only, so the transcript
@@ -205,12 +207,12 @@
   max-width: 100%;
   height: auto;
   margin-bottom: 1rem;
-  border-radius: 12px;
+  border-radius: var(--patient-stories-detail-photo-radius);
 }
 
 .patient-stories-video {
   position: relative;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: var(--patient-stories-video-aspect-ratio);
   width: 100%;
   margin-bottom: 1rem;
 }
@@ -231,15 +233,15 @@
 .patient-stories-transcript-toggle {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--patient-stories-transcript-gap);
   padding: 0;
   background: none;
   border: none;
   font-family: var(--body-font-family);
-  font-size: 16px;
+  font-size: var(--patient-stories-transcript-font-size);
   font-weight: 400;
-  line-height: 22px;
-  color: var(--brand-teal);
+  line-height: var(--patient-stories-transcript-line-height);
+  color: var(--patient-stories-transcript-toggle-color);
   cursor: pointer;
 }
 
@@ -247,26 +249,26 @@
 .patient-stories-transcript-toggle:focus {
   background: none;
   border: none;
-  color: var(--brand-teal);
+  color: var(--patient-stories-transcript-toggle-color);
   text-decoration: underline;
 }
 
 .patient-stories-transcript-toggle img {
-  width: 22px;
-  height: 22px;
+  width: var(--patient-stories-transcript-icon-size);
+  height: var(--patient-stories-transcript-icon-size);
   margin: 0;
   border-radius: 0;
 }
 
 .patient-stories-transcript-body {
   margin-top: 12px;
-  color: rgb(51 51 51);
-  font-size: 16px;
-  line-height: 22px;
+  color: var(--patient-stories-transcript-color);
+  font-size: var(--patient-stories-transcript-font-size);
+  line-height: var(--patient-stories-transcript-line-height);
 }
 
 .patient-stories-transcript-body p {
-  color: rgb(51 51 51);
+  color: var(--patient-stories-transcript-color);
 }
 
 /* Tablet+ : the detail opens at the grid top, so the clicked card stays visible
@@ -290,18 +292,18 @@
 /* Desktop+ : 3 columns, 20px gap */
 @media (width >= 900px) {
   .patient-stories {
-    column-count: 3;
-    column-gap: 20px;
+    column-count: var(--patient-stories-columns-desktop);
+    column-gap: var(--patient-stories-column-gap-desktop);
   }
 
   /* video badge sits slightly further in on desktop */
   .patient-stories-card-duration {
-    top: 10px;
-    right: 10px;
+    top: var(--patient-stories-badge-offset-desktop);
+    right: var(--patient-stories-badge-offset-desktop);
   }
 
   .patient-stories-detail-inner {
-    padding: 2.5rem;
+    padding: var(--patient-stories-detail-padding-desktop);
   }
 
   /* larger patient photo in the expanded panel, centered like the source.
@@ -310,6 +312,6 @@
   .patient-stories-detail-body > picture,
   .patient-stories-detail-body > img {
     margin: 1.5rem auto 0;
-    max-width: 500px;
+    max-width: var(--patient-stories-detail-photo-max-width-desktop);
   }
 }
