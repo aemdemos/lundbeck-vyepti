@@ -17,8 +17,8 @@
   color: var(--brand-primary);
   font-size: var(--heading-font-size-s);
   font-weight: var(--ugc-heading-weight);
-  margin-top: 24px;
-  margin-bottom: 4px;
+  margin-top: 12px;
+  margin-bottom: 12x;
 }
 
 /* TEXT CONTENT */
@@ -122,6 +122,7 @@
   color: var(--form-input-text-color);
   box-sizing: border-box;
   font-size: var(--body-font-size-s);
+  max-width: 100%;
 }
 
 /* textarea */
@@ -136,6 +137,7 @@
   box-sizing: border-box;
   resize: vertical;
   font-size: var(--body-font-size-s);
+  max-width: 100%;
 }
 
 .ugc-form .text-wrapper input:focus,
@@ -155,9 +157,12 @@
 
 .ugc-form .text-wrapper,
 .ugc-form .email-wrapper,
-.ugc-form .text-area-wrapper,
 .ugc-form .select-wrapper {
   margin-bottom: 24px;
+}
+
+.ugc-form .text-area-wrapper{
+  margin-bottom: 12px;
 }
 
 /* INLINE HELP TEXT */
@@ -349,7 +354,7 @@ main img, .ugc-form img {
   display: inline-block;
   align-self: flex-start;
   margin-top: 10px;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
   max-width: 150px;
   padding: 4px 8px;
   background: #eee;
@@ -471,5 +476,19 @@ main img, .ugc-form img {
 
   .ugc-main-heading{
     text-align: center;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .ugc-main-heading{
+    text-align: center;
+  }
+
+  .ugc-main-heading h2{
+    margin: 0 auto 16px;
+  }
+
+  .ugc-form .submit-wrapper button {
+    margin: 0 auto;
   }
 }
