@@ -929,6 +929,20 @@ main .section.stats-callout h4 {
     main .section.stats-callout > div:not(.bg-image) {
       max-width: 720px;
     }
+
+    /* flex sections — equal-width columns side-by-side; section-level only.
+       At tablet the container is too narrow for the desktop fixed-width
+       narrow-copy split, so both columns share the width evenly here; the
+       fixed 540px copy column is applied at 992px+ where it fits. */
+    main .flex-group {
+      flex-direction: row;
+      align-items: stretch;
+    }
+
+    main .flex-group > .section.flex {
+      flex: 1 1 0;
+      min-width: 0;
+    }
   }
 
 @media (width >= 992px) { /* @libs */
@@ -949,31 +963,21 @@ main > .section > div {
   max-width: var(--max-width-site);
 }
 
-/* flex sections — equal-width columns side-by-side; section-level only */
-main .flex-group {
-  flex-direction: row;
-  align-items: stretch;
-}
-
-main .flex-group > .section.flex {
-  flex: 1 1 0;
-  min-width: 0;
+main .section.stats-callout > div:not(.bg-image) {
+  max-width: 960px;
 }
 
 /* narrow-copy flex-group (what-to-expect "Choosing a location" + "Prepare for
    each step"): the source is NOT a 50/50 split — the copy column is fixed to
    its readable measure and the companion column fills the rest, with a wider
-   gutter between them. */
+   gutter between them. Only fits from 992px, where the container is wide
+   enough (tablet keeps the equal-width split from the 768px block). */
 main .flex-group:has(> .section.flex .columns.narrow-copy) {
   gap: var(--flex-group-narrow-copy-gap);
 }
 
 main .flex-group > .section.flex:has(.columns.narrow-copy) {
   flex: 0 0 var(--columns-narrow-copy-max-width);
-}
-
-main .section.stats-callout > div:not(.bg-image) {
-  max-width: 960px;
 }
 
   main .section.accent > div { /* @libs */
