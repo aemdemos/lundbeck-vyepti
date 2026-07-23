@@ -1,11 +1,6 @@
 @import url('./columns-cta-tokens.css');
 
-/* Columns CTA — two cards, each with eyebrow (h4), heading (h2), description,
- * and a filled teal pill CTA button with a right-arrow icon. Cards stack
- * full-width on mobile/tablet and sit side-by-side at 992px+ (matches the
- * col-lg-6 breakpoint on vyepti.com/how-vyepti-works). Each card has a
- * shadow, rounded top corners, and a decorative striped callout at the bottom.
- */
+/* Columns CTA - two-column layout with eyebrow, heading, description, and CTA button */
 
 /* Section wrapper spacing */
 main > .section > .columns-cta-wrapper {
@@ -13,15 +8,15 @@ main > .section > .columns-cta-wrapper {
   padding-bottom: var(--columns-cta-wrapper-padding-bottom);
 }
 
-/* Row: stacked on mobile with a gap between the two cards */
 .columns-cta > div {
   display: flex;
   flex-direction: column;
   gap: var(--columns-cta-gap);
 }
 
-/* Each column — styled as a shadow card with rounded top corners */
+/* Each column - styled as a shadow card */
 .columns-cta > div > div {
+  order: 1;
   box-shadow: var(--columns-cta-card-shadow);
   border-radius: var(--columns-cta-card-radius);
   padding: var(--columns-cta-card-padding);
@@ -30,31 +25,39 @@ main > .section > .columns-cta-wrapper {
   overflow: hidden;
 }
 
-/* Decorative striped callout flush at the bottom of each card */
-.columns-cta > div > div::after {
+.columns-cta > div > div:not(.columns-cta-img-col)::after {
   content: '';
   display: block;
   width: 100%;
   height: var(--columns-cta-callout-height);
   background-image: var(--columns-cta-callout-image);
-  background-size: 100% 100%;
+  background-size: 100%;
   background-repeat: no-repeat;
   position: absolute;
   bottom: 0;
   left: 0;
 }
 
-/* Eyebrow (h4) — teal */
-.columns-cta h4 {
+.columns-cta > div > .columns-cta-img-col {
+  order: 0;
+}
+
+.columns-cta > div > .columns-cta-img-col img {
+  display: block;
+  width: 100%;
+}
+
+/* Eyebrow heading (h4) - teal */
+.columns-cta p strong:first-child {
   font-size: var(--columns-cta-eyebrow-font-size);
   font-weight: var(--columns-cta-eyebrow-font-weight);
   color: var(--columns-cta-eyebrow-color);
   line-height: var(--columns-cta-eyebrow-line-height);
   margin: 0;
-  padding: 0 0 var(--columns-cta-eyebrow-padding-bottom);
+  padding-bottom: var(--columns-cta-eyebrow-padding-bottom);
 }
 
-/* Main heading (h2) — rose */
+/* Main heading (h2) - rose */
 .columns-cta h2 {
   font-size: var(--columns-cta-heading-font-size);
   font-weight: var(--columns-cta-heading-font-weight);
@@ -73,16 +76,10 @@ main > .section > .columns-cta-wrapper {
   margin: 0;
 }
 
-/* CTA link — filled teal pill button with an arrow icon.
- * EDS auto-decorates a standalone <p><a> into a .button-container > a.button,
- * so target both the raw <a> and the decorated a.button. Override the global
- * button chevron/arrow with the block's own arrow spacing. */
+/* CTA link - teal filled pill button with chevron */
 .columns-cta a,
 .columns-cta a.button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--columns-cta-arrow-gap);
+  display: inline-block;
   background-color: var(--columns-cta-button-background);
   color: var(--columns-cta-button-color);
   font-size: var(--columns-cta-button-font-size);
@@ -96,21 +93,14 @@ main > .section > .columns-cta-wrapper {
   white-space: nowrap;
 }
 
-/* Right-arrow icon, drawn from the mask so it inherits the button's white color */
 .columns-cta a::after,
 .columns-cta a.button::after {
-  content: '';
-  display: inline-block;
-  width: var(--columns-cta-arrow-width);
-  height: var(--columns-cta-arrow-height);
-  margin-left: 0;
-  background-color: var(--columns-cta-button-color);
-  mask-image: var(--columns-cta-arrow-image);
-  mask-size: contain;
-  mask-repeat: no-repeat;
-  mask-position: center;
-  border: 0;
-  transition: var(--button-transition);
+  background-image: none;
+  border: solid var(--columns-cta-button-color);
+  border-width: 0 2px 2px 0;
+  width: var(--columns-cta-chevron-size);
+  height: var(--columns-cta-chevron-size);
+  margin-left: var(--columns-cta-chevron-gap);
 }
 
 .columns-cta a:hover,
@@ -119,15 +109,13 @@ main > .section > .columns-cta-wrapper {
 .columns-cta a.button:focus {
   background-color: var(--columns-cta-button-hover-background);
   border-color: var(--columns-cta-button-hover-background);
-  color: var(--columns-cta-button-color);
 }
 
-/* Images within columns (defensive; source cards carry no images) */
+/* Images within columns */
 .columns-cta img {
   width: 100%;
 }
 
-/* Desktop: two cards side-by-side */
 @media (width >= 992px) {
   .columns-cta > div {
     align-items: stretch;
@@ -137,19 +125,7 @@ main > .section > .columns-cta-wrapper {
 
   .columns-cta > div > div {
     flex: 1;
+    order: unset;
     padding: var(--columns-cta-card-padding-desktop);
-  }
-
-  .columns-cta h4 {
-    line-height: var(--columns-cta-eyebrow-line-height-desktop);
-  }
-
-  .columns-cta h2 {
-    padding: var(--columns-cta-heading-padding-desktop);
-  }
-
-  .columns-cta a,
-  .columns-cta a.button {
-    margin-top: var(--columns-cta-button-margin-top-desktop);
   }
 }

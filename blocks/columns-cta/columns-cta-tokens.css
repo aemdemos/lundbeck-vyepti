@@ -2,68 +2,97 @@
  * Tier-2 component tokens for the two-column CTA card variant imported from the
  * vyepti POC. Reference Tier-1 semantic tokens (styles/styles.css) where one
  * exists; values with no Tier-1 equivalent (card shadow, decorative bottom
- * callout, card geometry) are defined here as descriptive block tokens.
- *
- * Values measured from getComputedStyle on https://www.vyepti.com/how-vyepti-works
- * (the two-card "Worth knowing" / "Take a look" CTA above the ISI). Cards stack
- * full-width below 992px and go side-by-side (col-lg-6) at 992px+.
+ * border, card geometry) are defined here as descriptive block tokens.
  */
 :root {
   /* section wrapper spacing */
   --columns-cta-wrapper-padding-top: 20px;
   --columns-cta-wrapper-padding-bottom: 40px;
 
-  /* card surface — shadow + rounded top corners only (the decorative striped
-     callout sits flush at the bottom, so bottom corners are square) */
+  /* card surface — rounded top corners only (striped callout sits flush at
+     the bottom, matching www.vyepti.com/how-vyepti-works) */
   --columns-cta-card-shadow: rgb(46 50 51 / 20%) 0 2px 8px 0;
   --columns-cta-card-radius: 8px 8px 0 0;
-  --columns-cta-card-padding: 24px 32px;          /* mobile */
+  --columns-cta-card-padding: 24px 32px;
   --columns-cta-card-padding-desktop: 42px 66px 40px;
 
-  /* gap between the two stacked cards (mobile) / side-by-side row gap (desktop) */
+  /* stacked (mobile) gap between cards / desktop row gap */
   --columns-cta-gap: 35px;
   --columns-cta-gap-desktop: 30px;
 
-  /* decorative striped bottom callout (teal → coral → rose) */
+  /* decorative bottom callout border */
   --columns-cta-callout-height: 10px;
   --columns-cta-callout-image: url("/icons/half-callout.svg");
 
-  /* eyebrow (h4) — teal */
+  /* eyebrow (teal) */
   --columns-cta-eyebrow-color: var(--brand-primary);
-  --columns-cta-eyebrow-font-size: var(--heading-font-size-m);   /* 18px */
-  --columns-cta-eyebrow-font-weight: var(--font-weight-bold);    /* 700 */
-  --columns-cta-eyebrow-line-height: 1.22;                       /* 22px @18px (mobile) */
-  --columns-cta-eyebrow-line-height-desktop: 1.5;                /* 27px @18px (desktop) */
+  --columns-cta-eyebrow-font-size: var(--heading-font-size-m);
+  --columns-cta-eyebrow-font-weight: var(--font-weight-bold);
+  --columns-cta-eyebrow-line-height: 1.5;
   --columns-cta-eyebrow-padding-bottom: 10px;
 
-  /* heading (h2) — rose */
+  /* heading (rose) */
   --columns-cta-heading-color: var(--brand-secondary);
-  --columns-cta-heading-font-size: var(--heading-font-size-xl);  /* 24px */
-  --columns-cta-heading-font-weight: var(--font-weight-bold);    /* 700 */
-  --columns-cta-heading-line-height: 1;                          /* 24px @24px */
-  --columns-cta-heading-padding: 0 0 16px;                       /* mobile */
-  --columns-cta-heading-padding-desktop: 0 42px 16px;
+  --columns-cta-heading-font-size: var(--heading-font-size-xl);
+  --columns-cta-heading-font-weight: var(--font-weight-bold);
+  --columns-cta-heading-line-height: 1;
+  --columns-cta-heading-padding: 0 42px 16px;
 
   /* description */
   --columns-cta-text-color: var(--text-color);
-  --columns-cta-text-font-size: var(--body-font-size-s);         /* 16px */
-  --columns-cta-text-line-height: 1.125;                         /* 18px @16px */
+  --columns-cta-text-font-size: var(--body-font-size-s);
+  --columns-cta-text-line-height: 1.125;
 
-  /* CTA button — filled teal pill with a right-arrow icon */
+  /* CTA button (filled teal pill with chevron) */
   --columns-cta-button-background: var(--brand-primary);
   --columns-cta-button-hover-background: var(--brand-primary-light);
   --columns-cta-button-color: var(--background-color);
-  --columns-cta-button-font-size: var(--button-font-size);       /* 18px */
-  --columns-cta-button-font-weight: var(--button-font-weight);   /* 700 */
-  --columns-cta-button-padding: 19px;                            /* equal on all sides */
-  --columns-cta-button-border-width: var(--button-border-width); /* 2px */
+  --columns-cta-button-font-size: var(--button-font-size);
+  --columns-cta-button-font-weight: var(--button-font-weight);
+  --columns-cta-button-padding: 19px;
+  --columns-cta-button-border-width: var(--button-border-width);
   --columns-cta-button-border-radius: 30px;
-  --columns-cta-button-margin-top: 24px;                         /* mobile */
-  --columns-cta-button-margin-top-desktop: 32px;
+  --columns-cta-button-margin-top: 32px;
 
-  /* arrow icon on the CTA (right-pointing, white) */
-  --columns-cta-arrow-width: 22px;
-  --columns-cta-arrow-height: 10px;
-  --columns-cta-arrow-gap: 14px;
-  --columns-cta-arrow-image: url("/icons/arrow-right.svg");
+  /* horizontal right-arrow icon (matches the source cta buttons) */
+  --columns-cta-chevron-size: 10px;
+  --columns-cta-chevron-gap: 14px;
+  --columns-cta-chevron-width: 22px;
+  --columns-cta-chevron-height: 10px;
+  --columns-cta-chevron-image: url("/icons/arrow-right.svg");
+}
+
+/* Source-matching overrides kept here (imported into columns-cta.css) so the
+   block matches www.vyepti.com/how-vyepti-works without editing columns-cta.css.
+
+   Eyebrow: the content authors an <h4>, but columns-cta.css colors the eyebrow
+   via `.columns-cta p strong:first-child`, which never matches the <h4>. Apply
+   the teal eyebrow styling directly to the heading here. */
+.columns-cta h4 {
+  font-size: var(--columns-cta-eyebrow-font-size);
+  font-weight: var(--columns-cta-eyebrow-font-weight);
+  color: var(--columns-cta-eyebrow-color);
+  line-height: var(--columns-cta-eyebrow-line-height);
+  margin: 0;
+  padding-bottom: var(--columns-cta-eyebrow-padding-bottom);
+}
+
+/* Arrow: columns-cta.css draws a diagonal corner from borders. Override it with
+   the source's horizontal right-arrow icon. The attribute selector raises
+   specificity above `.columns-cta a::after` so this wins despite loading first. */
+.columns-cta a[href]::after,
+.columns-cta a.button[href]::after {
+  content: '';
+  display: inline-block;
+  width: var(--columns-cta-chevron-width);
+  height: var(--columns-cta-chevron-height);
+  margin-left: var(--columns-cta-chevron-gap);
+  vertical-align: middle;
+  border: 0;
+  background-color: var(--columns-cta-button-color);
+  background-image: none;
+  mask-image: var(--columns-cta-chevron-image);
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
 }
