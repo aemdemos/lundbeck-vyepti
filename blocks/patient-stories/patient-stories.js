@@ -6,6 +6,8 @@ const BRIGHTCOVE_PLAYER = 'BN991zH3Xh';
 const ASSET_BASE = 'https://www.assets.lundbeck-tools.com/content/dam/lundbeck/vyepti';
 const QUOTE_ICON = `${ASSET_BASE}/2024-dot-03/svg/desktop/icon-quote-coral-60-desktop.svg`;
 const PLAY_ICON = `${ASSET_BASE}/overhaul/images/play-blue-30-mobile.svg`;
+const EXPAND_ICON = `${ASSET_BASE}/overhaul/images/expand-22-desktop.svg`;
+const COLLAPSE_ICON = `${ASSET_BASE}/overhaul/images/collapse-22-desktop.svg`;
 
 // Builds the fragment path for a story relative to the CURRENT page path, so it
 // resolves on any host (local dev serves under /content/…, the deployed host serves
@@ -29,33 +31,84 @@ function buildBrightcovePlayer(videoId) {
   return wrapper;
 }
 
+// Collapsible "Open transcript" control for video stories, matching the source.
+// The transcript body is authored in the fragment under a heading whose text is
+// "Transcript" (everything after that heading). When absent, the toggle still
+// renders (transcript can be authored later) but stays empty.
+function buildTranscript(transcriptNodes) {
+  const wrap = document.createElement('div');
+  wrap.className = 'patient-stories-transcript';
+
+  const toggle = document.createElement('button');
+  toggle.type = 'button';
+  toggle.className = 'patient-stories-transcript-toggle';
+  const icon = document.createElement('img');
+  icon.src = EXPAND_ICON;
+  icon.alt = '';
+  icon.setAttribute('aria-hidden', 'true');
+  const label = document.createElement('span');
+  label.textContent = 'Open transcript';
+  toggle.append(icon, label);
+  toggle.setAttribute('aria-expanded', 'false');
+
+  const panel = document.createElement('div');
+  panel.className = 'patient-stories-transcript-body';
+  panel.hidden = true;
+  transcriptNodes.forEach((n) => panel.append(n));
+
+  toggle.addEventListener('click', () => {
+    const open = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', String(!open));
+    panel.hidden = open;
+    icon.src = open ? EXPAND_ICON : COLLAPSE_ICON;
+    label.textContent = open ? 'Open transcript' : 'Close transcript';
+  });
+
+  wrap.append(toggle, panel);
+  return wrap;
+}
+
 // Turns a loaded fragment into the detail-panel body. Order matches the source:
-// title (h2) → quote/description paragraphs → media (patient photo or Brightcove
-// player). Video stories are authored with a Brightcove player link
-// (…/index.html?videoId=…) that becomes the player iframe.
+//  - text story:  title → quote/description paragraphs → patient photo
+//  - video story: Brightcove player → title → description → Open-transcript toggle
 function buildDetailBody(fragment) {
   const body = document.createElement('div');
   body.className = 'patient-stories-detail-body';
 
-  // The fragment nests content in section/wrapper divs of varying depth, so query
-  // the whole subtree rather than assuming a fixed level.
   const heading = fragment.querySelector('h1, h2, h3, h4, h5, h6');
   const bcLink = [...fragment.querySelectorAll('a')]
     .find((a) => a.href.includes('players.brightcove.net'));
   const pictureEl = fragment.querySelector('picture');
-  const paragraphs = [...fragment.querySelectorAll('p')]
-    .filter((p) => p.textContent.trim() && !p.querySelector('picture, a[href*="players.brightcove.net"]'));
+  const isVideo = !!bcLink;
 
-  // title first
-  if (heading) body.append(heading);
-  // then the quote/description paragraphs
-  paragraphs.forEach((p) => body.append(p));
-  // media last: Brightcove player for videos, patient photo for text stories
-  if (bcLink) {
+  // Transcript content is authored under a heading whose text is "Transcript";
+  // collect that heading's following siblings as the transcript body.
+  const transcriptHeading = [...fragment.querySelectorAll('h1, h2, h3, h4, h5, h6')]
+    .find((h) => /^transcript$/i.test(h.textContent.trim()));
+  const transcriptNodes = [];
+  if (transcriptHeading) {
+    let node = transcriptHeading.nextElementSibling;
+    while (node) { const next = node.nextElementSibling; transcriptNodes.push(node); node = next; }
+    transcriptHeading.remove();
+  }
+
+  const paragraphs = [...fragment.querySelectorAll('p')]
+    .filter((p) => p.textContent.trim()
+      && !p.querySelector('picture, a[href*="players.brightcove.net"]')
+      && !transcriptNodes.includes(p) && !transcriptNodes.some((t) => t.contains(p)));
+
+  if (isVideo) {
     const videoId = new URL(bcLink.href).searchParams.get('videoId');
     if (videoId) body.append(buildBrightcovePlayer(videoId));
-  } else if (pictureEl) {
-    body.append(pictureEl);
+    if (heading) body.append(heading);
+    paragraphs.forEach((p) => body.append(p));
+    // Only show the Open-transcript toggle when a transcript was authored; videos
+    // without one (matching the source) get no toggle.
+    if (transcriptNodes.length) body.append(buildTranscript(transcriptNodes));
+  } else {
+    if (heading) body.append(heading);
+    paragraphs.forEach((p) => body.append(p));
+    if (pictureEl) body.append(pictureEl);
   }
 
   return body;
@@ -84,7 +137,17 @@ async function openDetail(block, card) {
       window.history.replaceState({}, '', url);
     });
 
-  block.prepend(detail);
+  // Position matches the source, which differs by breakpoint:
+  //  - mobile (<600px): the clicked card is hidden and the full-width detail takes
+  //    its place in-flow (no duplicate collapsed card left behind).
+  //  - tablet/desktop (>=600px): the detail opens full-width at the TOP of the grid,
+  //    above all cards (the clicked card stays collapsed in place).
+  const wide = window.matchMedia('(min-width: 600px)').matches;
+  if (wide) {
+    block.prepend(detail);
+  } else {
+    card.after(detail);
+  }
 
   const fragment = await loadFragment(card.dataset.fragment);
   if (fragment) inner.append(buildDetailBody(fragment));
@@ -93,7 +156,7 @@ async function openDetail(block, card) {
   url.searchParams.set('assetId', card.dataset.assetId);
   window.history.replaceState({}, '', url);
 
-  detail.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  detail.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
 export default async function decorate(block) {

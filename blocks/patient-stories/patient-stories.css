@@ -17,8 +17,8 @@
 
   /* keep a card from splitting across columns */
   break-inside: avoid;
-  margin: 0 0 16px;
-  overflow: hidden;
+  margin: 0 0 20px;
+  overflow: visible;
   background-color: transparent;
   border: 1px solid #979797;
   border-radius: 12px;
@@ -82,10 +82,11 @@
 /* text area below the image */
 .patient-stories-card-body {
   position: relative;
-  padding: 4px 12px 18px;
+  padding: 4px 15px 18px 12px;
 }
 
 .patient-stories-card-title {
+  padding-bottom: 8px;
   font-family: var(--heading-font-family);
   font-size: 18px;
   font-weight: 700;
@@ -108,10 +109,10 @@
 /* the "+" expand indicator — bottom-right of the text area, rose */
 .patient-stories-card-plus {
   position: absolute;
-  right: 12px;
-  bottom: 4px;
+  right: 15px;
+  bottom: 6px;
   font-family: var(--body-font-family);
-  font-size: 26px;
+  font-size: 30px;
   font-weight: 400;
   line-height: 22px;
   color: var(--brand-rose-dark);
@@ -121,6 +122,14 @@
 
 .patient-stories-card.is-open .patient-stories-card-plus {
   transform: rotate(45deg);
+}
+
+/* Mobile: the detail opens in place of the clicked card, so hide that card to
+   avoid showing it collapsed AND expanded (matches the source, which collapses
+   the clicked card to 0 height on mobile). On tablet/desktop the detail opens at
+   the grid top and the clicked card stays visible in place. */
+.patient-stories-card.is-open {
+  display: none;
 }
 
 /* Inline detail panel — spans the full grid width above the cards. The source
@@ -183,8 +192,10 @@
   color: rgb(72 72 72);
 }
 
-.patient-stories-detail-body picture,
-.patient-stories-detail-body img {
+/* Patient photo in the expanded panel — direct children only, so the transcript
+   toggle's inline 22px icon keeps its own sizing/alignment. */
+.patient-stories-detail-body > picture,
+.patient-stories-detail-body > img {
   display: block;
   max-width: 100%;
   height: auto;
@@ -206,11 +217,57 @@
   border: 0;
 }
 
-/* Tablet+ : keep 2 columns but grow the vertical rhythm to match the source
-   (16px cards on mobile, 20px from tablet up) */
+/* Open/Close transcript toggle — teal text link with expand/collapse icon */
+.patient-stories-transcript {
+  margin-top: 11px;
+}
+
+.patient-stories-transcript-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  background: none;
+  border: none;
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 22px;
+  color: var(--brand-teal);
+  cursor: pointer;
+}
+
+.patient-stories-transcript-toggle:hover,
+.patient-stories-transcript-toggle:focus {
+  background: none;
+  border: none;
+  color: var(--brand-teal);
+  text-decoration: underline;
+}
+
+.patient-stories-transcript-toggle img {
+  width: 22px;
+  height: 22px;
+  margin: 0;
+  border-radius: 0;
+}
+
+.patient-stories-transcript-body {
+  margin-top: 12px;
+  color: rgb(51 51 51);
+  font-size: 16px;
+  line-height: 22px;
+}
+
+.patient-stories-transcript-body p {
+  color: rgb(51 51 51);
+}
+
+/* Tablet+ : the detail opens at the grid top, so the clicked card stays visible
+   in its original position (only mobile hides it). */
 @media (width >= 600px) {
-  .patient-stories-card {
-    margin-bottom: 20px;
+  .patient-stories-card.is-open {
+    display: block;
   }
 }
 
@@ -231,9 +288,11 @@
     padding: 2.5rem;
   }
 
-  /* larger patient photo in the expanded panel, centered like the source */
-  .patient-stories-detail-body picture,
-  .patient-stories-detail-body img {
+  /* larger patient photo in the expanded panel, centered like the source.
+     Scoped to direct children so the transcript toggle's 22px icon (nested in a
+     button) is not affected by the photo's centering margin/max-width. */
+  .patient-stories-detail-body > picture,
+  .patient-stories-detail-body > img {
     margin: 1.5rem auto 0;
     max-width: 500px;
   }
