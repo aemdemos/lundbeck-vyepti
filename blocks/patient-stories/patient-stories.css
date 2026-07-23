@@ -12,6 +12,24 @@
   margin: 1rem 0;
 }
 
+/* star legend line above the grid — small star glyph before the text */
+.patient-stories-legend {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  line-height: 18px;
+  color: var(--patient-stories-detail-text-color);
+}
+
+.patient-stories-legend::before {
+  content: '';
+  flex: none;
+  width: var(--patient-stories-star-width);
+  height: var(--patient-stories-star-height);
+  background: url("https://www.assets.lundbeck-tools.com/content/dam/lundbeck/vyepti/overhaul/images/mvp-indicator-20-mobile.svg") no-repeat center / contain;
+}
+
 .patient-stories-card {
   position: relative;
   display: block;
@@ -64,6 +82,21 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+/* star badge (compensated ambassador) — top-left corner of the image.
+   Higher specificity to beat the global `main img` width rule. */
+.patient-stories .patient-stories-card-star {
+  position: absolute;
+  top: var(--patient-stories-star-offset-top);
+  left: var(--patient-stories-star-offset-left);
+  width: var(--patient-stories-star-width);
+  height: var(--patient-stories-star-height);
+
+  /* the ribbon shape is part of the SVG — no rounded corners (reset the media
+     img border-radius that would otherwise round the top of the badge) */
+  border-radius: 0;
+  object-fit: contain;
 }
 
 /* video duration badge — top-right, semi-transparent charcoal pill */
@@ -150,26 +183,6 @@
 .patient-stories-detail-inner {
   position: relative;
   padding: var(--patient-stories-detail-padding-mobile);
-}
-
-.patient-stories-detail-close {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.75rem;
-  padding: 0;
-  background: none;
-  border: none;
-  font-size: var(--patient-stories-detail-close-font-size);
-  line-height: 1;
-  color: var(--patient-stories-detail-close-color);
-  cursor: pointer;
-}
-
-.patient-stories-detail-close:hover,
-.patient-stories-detail-close:focus {
-  background: none;
-  border: none;
-  color: var(--patient-stories-detail-close-hover-color);
 }
 
 .patient-stories-detail-body {
@@ -276,6 +289,11 @@
 @media (width >= 600px) {
   .patient-stories-card.is-open {
     display: block;
+  }
+
+  /* the "+" expand indicator is mobile-only in the source */
+  .patient-stories-card-plus {
+    display: none;
   }
 
   /* Tablet/desktop show the text first, photo after (reset the mobile photo-first

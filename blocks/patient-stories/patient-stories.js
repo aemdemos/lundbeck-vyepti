@@ -8,6 +8,7 @@ const QUOTE_ICON = `${ASSET_BASE}/2024-dot-03/svg/desktop/icon-quote-coral-60-de
 const PLAY_ICON = `${ASSET_BASE}/overhaul/images/play-blue-30-mobile.svg`;
 const EXPAND_ICON = `${ASSET_BASE}/overhaul/images/expand-22-desktop.svg`;
 const COLLAPSE_ICON = `${ASSET_BASE}/overhaul/images/collapse-22-desktop.svg`;
+const STAR_ICON = `${ASSET_BASE}/overhaul/images/mvp-indicator-20-mobile.svg`;
 
 // Builds the fragment path for a story relative to the CURRENT page path, so it
 // resolves on any host (local dev serves under /content/…, the deployed host serves
@@ -127,15 +128,8 @@ async function openDetail(block, card) {
 
   const detail = document.createElement('div');
   detail.className = 'patient-stories-detail';
-  detail.innerHTML = '<div class="patient-stories-detail-inner"><button type="button" class="patient-stories-detail-close" aria-label="Close">×</button></div>';
+  detail.innerHTML = '<div class="patient-stories-detail-inner"></div>';
   const inner = detail.querySelector('.patient-stories-detail-inner');
-  inner.querySelector('.patient-stories-detail-close')
-    .addEventListener('click', () => {
-      closeDetail(block);
-      const url = new URL(window.location);
-      url.searchParams.delete('assetId');
-      window.history.replaceState({}, '', url);
-    });
 
   // Position matches the source, which differs by breakpoint:
   //  - mobile (<600px): the clicked card is hidden and the full-width detail takes
@@ -170,6 +164,7 @@ export default async function decorate(block) {
     const preview = (cells[2]?.textContent || '').trim();
     const assetId = (cells[3]?.textContent || '').trim();
     const duration = (cells[4]?.textContent || '').trim();
+    const paid = !!(cells[5]?.textContent || '').trim();
     if (!assetId) return;
     const isVideo = !!duration;
     const fragmentPath = fragmentPathFor(assetId);
@@ -191,6 +186,15 @@ export default async function decorate(block) {
       badge.className = 'patient-stories-card-duration';
       badge.textContent = duration;
       media.append(badge);
+    }
+    // star badge (top-left) marks a compensated patient ambassador
+    if (paid) {
+      const star = document.createElement('img');
+      star.className = 'patient-stories-card-star';
+      star.src = STAR_ICON;
+      star.alt = 'Patient was compensated for their time';
+      star.loading = 'lazy';
+      media.append(star);
     }
     // overlay icon: rose quote-bubble on text cards, teal play-circle on videos
     const overlay = document.createElement('img');
