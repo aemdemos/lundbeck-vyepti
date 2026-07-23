@@ -4,7 +4,7 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
-  color: #333333;
+  color: var(--text-color);
   box-sizing: border-box;
 }
 
@@ -15,7 +15,7 @@
 }
 
 .section.locator-container .locator-wrapper {
-  border: 1px solid #484848;
+  border: 1px solid var(--border-color-dark);
   border-radius: 10px;
   padding: 0;
 }
@@ -28,18 +28,19 @@
 
 /* --- Search Section Layout --- */
 .locator-search {
-  background-color: #ffffff;
+  background-color: var(--background-color);
   padding: 20px;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid var(--border-gray-light);
 }
 
 .locator-required {
   text-align: center;
-  color: #484848;
-  padding-bottom: 0 !important;
-  line-height: 16px !important;
+  color: var(--border-color-dark);
+  padding-bottom: 0;
+  line-height: 16px;
   font-size: 16px;
   margin-right: 10px;
+  margin-bottom: 26px;
 }
 
 .locator-form {
@@ -103,29 +104,30 @@
 
 .locator-input-group input[type="text"] {
   width: 100%;
-  height: 45px;
+  height: 48px;
   padding: 10px 15px;
-  border: 1px solid #8c8c8c;
+  border: 1px solid var(--border-color-light-gray);
   border-radius: 8px;
   font-size: 14px;
-  color: #333333;
-  background-color: #ffffff;
+  color: var(--brand-dark);
+  background-color: var(--background-color);
   outline: none;
+  font-weight: 800;
 }
 
 /* --- Shared Styling for Custom Select Triggers --- */
 .locator-select-group .select,
 .custom-dropdown .select {
-  border: 1px solid #484848;
+  border: 1px solid var(--border-color-dark);
   border-radius: 10px;
   font-size: 16px;
   font-weight: 700;
-  padding: 14px 0 14px 16px !important;
+  padding: 14px 0 14px 16px;
   line-height: 20px;
   cursor: pointer;
   height: 100%;
   user-select: none;
-  background-color: #ffffff;
+  background-color: var(--background-color);
   position: relative;
 }
 
@@ -141,13 +143,13 @@
   width: 100%;
   max-height: 400px;
   overflow-y: auto;
-  border: 1px solid #484848;
-  background: #ffffff;
+  border: 1px solid var(--border-color-dark);
+  background: var(--background-color);
   z-index: 10;
 }
 
 .selectHide {
-  display: none !important;
+  display: none;
 }
 
 /* --- Distance Dropdown Custom Modifications --- */
@@ -171,13 +173,13 @@
 
 .locator-select-group .dropdown-items .item:hover,
 .locator-select-group .dropdown-items .item.selectedMiles {
-  background-color: #f8f9fa;
-  color: #b81d4a;
+  background-color: var(--background-color-variant-02);
+  color: var(--brand-rose-light);
 }
 
 /* Custom Visual Arrows */
 .locator-select-group .select .select-arrow {
-  background-color: #3c7790;
+  background-color: var(--dark-color-variant-02);
   display: inline-block;
   position: absolute;
   right: 0;
@@ -192,8 +194,8 @@
   display: inline-block;
   vertical-align: middle;
   content: "";
-  border-right: 2px solid #ffffff;
-  border-bottom: 2px solid #ffffff;
+  border-right: 2px solid var(--background-color);
+  border-bottom: 2px solid var(--background-color);
   width: 12px;
   height: 12px;
   transform: rotate(45deg) scale(1);
@@ -252,7 +254,7 @@
   font-size: 16px;
   line-height: 20px;
   font-weight: 700;
-  color: #484848;
+  color: var(--border-color-dark);
 }
 
 .custom-dropdown .dropdown-items .child-info {
@@ -262,13 +264,13 @@
   font-size: 14px;
   line-height: 18px;
   margin-top: 4px;
-  color: #666666;
+  color: var(--text-color-light);
 }
 
 /* --- Search Button --- */
 .locator-search-btn {
-  background-color: #b81d4a;
-  color: #ffffff;
+  background-color: var(--brand-rose-light);
+  color: var(--background-color);
   border: none;
   border-radius: 50%;
   width: 45px;
@@ -288,11 +290,22 @@
   background-color: #96163c;
 }
 
+.locator-search .error {
+    text-align: center;
+    color: var(--brand-rose);
+    margin: 0;
+    width: 100%;
+    padding: 0 15px;
+    line-height: 20px;
+    margin-bottom: -10px;
+    font-family: "proxima-nova";
+}
+
 /* --- Results Panel & Map Layout --- */
 .locator-map-results {
   display: flex;
   flex-direction: row;
-  border: 1px solid #e0e0e0;
+  border: 1px solid var(--border-gray-light);
   border-top: none;
 }
 
@@ -304,20 +317,20 @@
 .locator-results {
   width: 40%;
   max-width: 450px;
-  background-color: #ffffff;
+  background-color: var(--background-color);
   padding: 40px 20px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  border-left: 1px solid #e0e0e0;
+  border-left: 1px solid var(--background-color);
 }
 
 .locator-welcome-title {
   font-size: 18px;
   line-height: 20px;
   text-align: center;
-  color: #484848;
+  color: var(--border-color-dark);
   margin: 0 0 12px 0;
   font-weight: 700;
 }
@@ -326,20 +339,20 @@
   font-size: 16px;
   line-height: 22px;
   text-align: center;
-  color: #484848;
+  color: var(--border-color-dark);
   font-weight: normal;
   margin: 0;
 }
 
 /* --- Responsive Adjustments --- */
-@media (max-width: 768px) {
+@media (max-width: 991px) {
   .locator-form {
     flex-direction: column;
     align-items: stretch;
   }
   
   .locator-select-group,
-  .locator-input-group,
+  .locator-form .locator-input-group,
   .custom-dropdown {
     width: 100%;
     max-width: 100%;
@@ -351,14 +364,18 @@
     font-size: 14px;
     background-image: none;
     height: 48px;
+    max-width: 270px;
+    margin: auto;
+    border: 1px solid var(--brand-rose);
+    border-radius: 100px;
   }
 
   .locator-map-results {
-    flex-direction: column-reverse;
+    flex-direction: column;
   }
 
   .locator-map {
-    height: 350px;
+    min-height: 400px;
     width: 100%;
   }
 
@@ -366,7 +383,63 @@
     width: 100%;
     max-width: 100%;
     border-left: none;
-    border-bottom: 1px solid #e0e0e0;
+    border-bottom: 1px solid var(--border-gray-light);
     padding: 30px 20px;
+    min-height: 500px;
   }
 }
+/* --- Responsive Adjustments for Tabs --- */
+/* @media (min-width: 768px) and (max-width: 991px) { 
+   .locator-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .locator-select-group,
+  .locator-input-group,
+  .custom-dropdown {
+    width: 100%;
+    max-width: 100%;
+  }
+} */
+
+.section.locator-container .facility-types {
+  background: var(--card-bg-light);
+  padding: 14px 0 25px 0;
+}
+
+.section.locator-container .facility-types h2 {
+  text-align: center;
+  color: var(--brand-dark);
+}
+
+.section.locator-container .facility-types .facility-types-list {
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  padding-top: 25px;
+  gap: 36px;
+}
+
+.section.locator-container .facility-types .facility-types-list  .facility-card {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+ 
+}
+
+.section.locator-container .facility-types .facility-types-list  .facility-card img {
+  min-width: 31px;
+}
+
+@media (max-width: 991px) {
+  .section.locator-container .facility-types .facility-types-list {
+    flex-direction: column;
+    padding: 20px 13px;
+  }
+  .section.locator-container .facility-types .facility-types-list  .facility-card img {
+    width: 100%;
+    max-width: 61px;
+  }
+} 

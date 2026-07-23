@@ -36,7 +36,9 @@
   --brand-teal-muted: #41748d; /* @libs */
   --brand-rose: #c02c57; /* @libs */
   --brand-rose-dark: #9a2346; /* @libs */
+  --brand-rose-light: #b81d4a;
   --border-gray-light: #e0e0e0; 
+  --brand-dark:#000000;
   
   /* libs brand colors */
   --brand-primary: var(--brand-teal);
@@ -48,12 +50,15 @@
   --card-bg-light: #eff6f9; /* @libs */
 
   /* semantic colors */
-  --background-color: #fff; /* @libs */
+  --background-color: #fff; /* @libs */ 
+  --background-color-variant-02: #f8f9fa;
   --light-color: #e1f0f6; /* @libs */
   --dark-color: #046183; /* @libs */
-  --text-color: #333; /* @libs */
+  --dark-color-variant-02: #3c7790;
+  --text-color: #333333; /* @libs */
   --text-color-light: #666; /* @libs */
   --link-color: #046183; /* @libs */
+  
   --link-hover-color: #7ebcc6; /* @libs */
   --overlay-background-color: #e1f0f6; /* @libs */
   --error-color: #c02c57; /* @boilerplate */
@@ -61,6 +66,8 @@
   --section-divider-color: var(--link-hover-color); /* @libs */
   --section-padding: 24px;
   --flex-group-gap: 24px;
+  --border-color-dark: #484848;
+  --border-color-light-gray: #8c8c8c;
   
   /* fonts */
   --body-font-family: proxima-nova, proxima-nova-fallback, sans-serif; /* @libs */

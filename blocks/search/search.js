@@ -1,3 +1,4 @@
+import { clearMarkers } from '../locator/map.js';
 import {
   createOptimizedPicture,
   decorateIcons,
@@ -198,6 +199,7 @@ async function handleSearch(e, block, config) {
 
   if (searchValue.length < 3) {
     clearSearch(block);
+    alert("Lesser value");
     return;
   }
   const searchTerms = searchValue.toLowerCase().split(/\s+/).filter((term) => !!term);
