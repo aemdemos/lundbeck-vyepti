@@ -171,6 +171,8 @@
 }
 
 .patient-stories-detail-body {
+  display: flex;
+  flex-direction: column;
   color: rgb(72 72 72);
   font-size: 16px;
   line-height: 22px;
@@ -193,12 +195,16 @@
 }
 
 /* Patient photo in the expanded panel — direct children only, so the transcript
-   toggle's inline 22px icon keeps its own sizing/alignment. */
+   toggle's inline 22px icon keeps its own sizing/alignment. On mobile the source
+   shows the photo FIRST and full-width; on tablet/desktop it comes after the text. */
 .patient-stories-detail-body > picture,
 .patient-stories-detail-body > img {
+  order: -1;
   display: block;
+  width: 100%;
   max-width: 100%;
   height: auto;
+  margin-bottom: 1rem;
   border-radius: 12px;
 }
 
@@ -268,6 +274,16 @@
 @media (width >= 600px) {
   .patient-stories-card.is-open {
     display: block;
+  }
+
+  /* Tablet/desktop show the text first, photo after (reset the mobile photo-first
+     order and full-width bleed). */
+  .patient-stories-detail-body > picture,
+  .patient-stories-detail-body > img {
+    order: 0;
+    width: auto;
+    margin-top: 1rem;
+    margin-bottom: 0;
   }
 }
 
