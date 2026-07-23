@@ -21,10 +21,10 @@ export const HTML_UPLOAD_FILES=`
         <img class="ugc-preview-image" hidden alt="Preview">
     </div>
     <div class="ugc-upload-content">
-        <label class="ugc-upload-label file-upload-sub-label">
+        <label class="ugc-upload-label file-upload-sub-label" for="ugc-file-input">
         Please upload your file(s)
         </label>
-        <input type="file" class="ugc-file-input" accept=".png,.gif,.mov,.jpg,.jpeg,.mp4,.mpg,.mpeg,.avi,.wmv,.m4v" />
+        <input type="file" id="ugc-file-input" class="ugc-file-input" accept=".png,.gif,.mov,.jpg,.jpeg,.mp4,.mpg,.mpeg,.avi,.wmv,.m4v" />
     </div>`;
 
 export const HTML_REMOVE_FILE_BUTTON=`<button type="button" class="ugc-remove-upload" aria-label="Remove upload">
