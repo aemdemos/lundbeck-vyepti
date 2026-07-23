@@ -99,10 +99,13 @@ function buildDetailBody(fragment) {
       && !transcriptNodes.includes(p) && !transcriptNodes.some((t) => t.contains(p)));
 
   if (isVideo) {
+    // Video panel differs from text: it spans the full content column (wider than
+    // the 702px text column) and orders title → description → player → transcript.
+    body.classList.add('patient-stories-detail-body-video');
     const videoId = new URL(bcLink.href).searchParams.get('videoId');
-    if (videoId) body.append(buildBrightcovePlayer(videoId));
     if (heading) body.append(heading);
     paragraphs.forEach((p) => body.append(p));
+    if (videoId) body.append(buildBrightcovePlayer(videoId));
     // Only show the Open-transcript toggle when a transcript was authored; videos
     // without one (matching the source) get no toggle.
     if (transcriptNodes.length) body.append(buildTranscript(transcriptNodes));
