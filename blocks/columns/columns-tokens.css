@@ -59,9 +59,9 @@
   --columns-center-icon-width: 286px;
   --columns-center-icon-gap: 12px;
 
-  /* the source uses its near-black body color for these headings (not the
-     global teal h2), at a slightly larger size than the default h2. */
-  --columns-center-heading-color: var(--text-color, #333);
+  /* the stage source renders these headings in the brand teal (matching the
+     global h2), at a slightly larger size than the default h2. */
+  --columns-center-heading-color: var(--brand-primary);
   --columns-center-heading-font-size: 24px;
   --columns-center-heading-line-height: 29px;
   --columns-center-heading-margin: 0 0 4px;
