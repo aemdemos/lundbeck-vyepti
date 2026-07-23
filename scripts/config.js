@@ -76,3 +76,4 @@ export function parseBool(value, fallback) {
   return /^(true|yes|1|on)$/i.test(value);
 }
 //Code Ends for locator block configuration
+}

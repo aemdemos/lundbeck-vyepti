@@ -39,6 +39,7 @@
   --brand-rose-light: #b81d4a;
   --border-gray-light: #e0e0e0; 
   --brand-dark:#000000;
+  --border-gray-light: #e0e0e0; 
   
   /* libs brand colors */
   --brand-primary: var(--brand-teal);
