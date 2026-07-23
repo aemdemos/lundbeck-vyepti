@@ -21,9 +21,9 @@ export const HTML_UPLOAD_FILES=`
         <img class="ugc-preview-image" hidden alt="Preview">
     </div>
     <div class="ugc-upload-content">
-        <div class="ugc-upload-label file-upload-sub-label">
+        <label class="ugc-upload-label file-upload-sub-label">
         Please upload your file(s)
-        </div>
+        </label>
         <input type="file" class="ugc-file-input" accept=".png,.gif,.mov,.jpg,.jpeg,.mp4,.mpg,.mpeg,.avi,.wmv,.m4v" />
     </div>`;
 
