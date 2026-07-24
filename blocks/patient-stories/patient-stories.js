@@ -111,7 +111,20 @@ function buildDetailBody(fragment) {
   } else {
     if (heading) body.append(heading);
     paragraphs.forEach((p) => body.append(p));
-    if (pictureEl) body.append(pictureEl);
+    // Photo with the coral quote-bubble overlay in the bottom-right corner,
+    // matching the collapsed card and the source's expanded detail.
+    if (pictureEl) {
+      const media = document.createElement('div');
+      media.className = 'patient-stories-detail-media';
+      const overlay = document.createElement('img');
+      overlay.className = 'patient-stories-card-icon';
+      overlay.src = QUOTE_ICON;
+      overlay.alt = '';
+      overlay.setAttribute('aria-hidden', 'true');
+      overlay.loading = 'lazy';
+      media.append(pictureEl, overlay);
+      body.append(media);
+    }
   }
 
   return body;

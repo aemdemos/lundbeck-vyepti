@@ -262,9 +262,11 @@
 .patient-stories-detail-body h2,
 .patient-stories-detail-body h3,
 .patient-stories-detail-body h4 {
-  font-size: var(--patient-stories-detail-heading-font-size);
+  /* mobile: the source's in-place card uses the same 18px title as a collapsed
+     card; tablet/desktop bump it up to the 24px panel heading (see media query) */
+  font-size: var(--patient-stories-title-font-size);
   font-weight: 700;
-  line-height: var(--patient-stories-detail-heading-line-height);
+  line-height: var(--patient-stories-title-line-height);
   color: var(--patient-stories-detail-text-color);
   margin: 0 0 12px;
 }
@@ -278,6 +280,7 @@
    toggle's inline 22px icon keeps its own sizing/alignment. On mobile the source
    shows the photo FIRST, full-bleed (flush to the maroon border, no radius); on
    tablet/desktop it comes after the text and is centered/rounded. */
+.patient-stories-detail-body > .patient-stories-detail-media,
 .patient-stories-detail-body > picture,
 .patient-stories-detail-body > img {
   order: -1;
@@ -286,6 +289,28 @@
   max-width: 100%;
   height: auto;
   margin-bottom: 12px;
+}
+
+/* wrapper that carries the coral quote overlay over the photo */
+.patient-stories-detail-media {
+  position: relative;
+  line-height: 0;
+}
+
+.patient-stories-detail-media picture,
+.patient-stories-detail-media img:not(.patient-stories-card-icon) {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* the quote-bubble overlay, bottom-right (same offsets/size as a text card) */
+.patient-stories-detail-media .patient-stories-card-icon {
+  position: absolute;
+  right: var(--patient-stories-icon-offset-right);
+  bottom: var(--patient-stories-icon-offset-bottom);
+  width: var(--patient-stories-icon-size);
+  height: var(--patient-stories-icon-size);
 }
 
 .patient-stories-video {
@@ -417,8 +442,18 @@
     padding-top: 0;
   }
 
+  /* tablet/desktop panel uses the larger 24px heading */
+  .patient-stories-detail-body h1,
+  .patient-stories-detail-body h2,
+  .patient-stories-detail-body h3,
+  .patient-stories-detail-body h4 {
+    font-size: var(--patient-stories-detail-heading-font-size);
+    line-height: var(--patient-stories-detail-heading-line-height);
+  }
+
   /* Tablet/desktop show the text first, photo after (reset the mobile photo-first
      order and full-bleed); the photo is centered/rounded in the column. */
+  .patient-stories-detail-body > .patient-stories-detail-media,
   .patient-stories-detail-body > picture,
   .patient-stories-detail-body > img {
     order: 0;
@@ -426,6 +461,25 @@
     max-width: var(--patient-stories-detail-photo-max-width-desktop);
     margin: 1rem auto 0;
     border-radius: var(--patient-stories-detail-photo-radius);
+  }
+
+  /* round the wrapped photo and its overlay corner to match */
+  .patient-stories-detail-media,
+  .patient-stories-detail-media picture,
+  .patient-stories-detail-media img:not(.patient-stories-card-icon) {
+    border-radius: var(--patient-stories-detail-photo-radius);
+  }
+
+  .patient-stories-detail-media {
+    overflow: hidden;
+  }
+
+  /* the quote overlay scales up to 60px on tablet/desktop, like the card */
+  .patient-stories-detail-media .patient-stories-card-icon {
+    right: var(--patient-stories-icon-offset-right-desktop);
+    bottom: var(--patient-stories-icon-offset-bottom-desktop);
+    width: var(--patient-stories-icon-size-desktop);
+    height: var(--patient-stories-icon-size-desktop);
   }
 
   /* The video is sized like the patient photo: capped to the same max-width and
