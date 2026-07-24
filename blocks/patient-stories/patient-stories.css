@@ -1,0 +1,583 @@
+@import url('./patient-stories-tokens.css');
+
+/* Patient stories — card grid matching vyepti.com/real-patient-stories.
+   Mobile (base): a real 2-column CSS grid so DOM order == visual order
+   (left → right → next row). The detail opens in place on mobile, so a card in
+   the right column must insert the panel right after its own row — a grid gives
+   that; masonry (column-count) would not, since it fills top-to-bottom per column.
+   Tablet/desktop (>=600px): the source uses multi-column masonry (ragged rows,
+   intrinsic image heights) and the detail opens at the grid top, so column-count
+   is used there. */
+
+.patient-stories {
+  display: grid;
+  grid-template-columns: repeat(var(--patient-stories-columns-mobile), 1fr);
+  gap: var(--patient-stories-column-gap-mobile);
+  align-items: start;
+  margin: 1rem 0;
+}
+
+/* Intro hero above the grid — matches the source's eyebrow / h1 / subhead / body. */
+.patient-stories-intro h3:first-child {
+  font-size: var(--patient-stories-intro-eyebrow-size);
+  font-weight: var(--patient-stories-intro-eyebrow-weight);
+  line-height: var(--patient-stories-intro-eyebrow-line-height);
+  color: var(--patient-stories-intro-eyebrow-color);
+  margin: 0;
+}
+
+.patient-stories-intro h1 {
+  font-size: var(--patient-stories-intro-h1-size);
+  font-weight: var(--patient-stories-intro-h1-weight);
+  line-height: var(--patient-stories-intro-h1-line-height);
+  color: var(--patient-stories-intro-h1-color);
+  margin: 0;
+}
+
+.patient-stories-intro h3 {
+  font-size: var(--patient-stories-intro-subhead-size);
+  font-weight: var(--patient-stories-intro-subhead-weight);
+  line-height: var(--patient-stories-intro-subhead-line-height);
+  color: var(--patient-stories-intro-subhead-color);
+  margin: 0 0 16px;
+}
+
+.patient-stories-intro p {
+  font-size: var(--patient-stories-intro-body-size);
+  line-height: var(--patient-stories-intro-body-line-height);
+  color: var(--patient-stories-intro-body-color);
+  margin: 0 0 8px;
+}
+
+/* star legend line above the grid — small star glyph before the text.
+   Scoped under .patient-stories-intro so it beats the intro `p` sizing. */
+.patient-stories-intro p.patient-stories-legend {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  font-size: var(--patient-stories-intro-legend-size);
+  font-weight: var(--patient-stories-intro-legend-weight);
+  line-height: var(--patient-stories-intro-legend-line-height);
+  color: var(--patient-stories-intro-legend-color);
+}
+
+.patient-stories-legend::before {
+  content: '';
+  flex: none;
+  width: var(--patient-stories-star-width);
+  height: var(--patient-stories-star-height);
+  background: url("https://www.assets.lundbeck-tools.com/content/dam/lundbeck/vyepti/overhaul/images/mvp-indicator-20-mobile.svg") no-repeat center / contain;
+}
+
+.patient-stories-card {
+  position: relative;
+  display: block;
+  width: 100%;
+
+  /* prevent grid-track blowout: without min-width:0 a grid item grows to the
+     image's intrinsic (min-content) width, exploding the columns on mobile */
+  min-width: 0;
+
+  /* keep a card from splitting across columns */
+  break-inside: avoid;
+  margin: 0 0 var(--patient-stories-card-gap);
+  overflow: visible;
+  background-color: transparent;
+  border: var(--patient-stories-card-border);
+  border-radius: var(--patient-stories-card-radius);
+  cursor: pointer;
+  text-align: left;
+}
+
+.patient-stories-card-media {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--patient-stories-card-radius) var(--patient-stories-card-radius) 0 0;
+
+  /* stretch image to fill column width; the source uses object-fit: fill so the
+     card height follows the image's intrinsic aspect ratio (no uniform crop) */
+  line-height: 0;
+}
+
+.patient-stories-card-media picture,
+.patient-stories-card-media img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: fill;
+  border-radius: var(--patient-stories-card-radius) var(--patient-stories-card-radius) 0 0;
+}
+
+/* overlay icon on the image — rose quote-bubble (text) / teal play-circle (video).
+   width/height forced with higher specificity to beat the global `main img` rule. */
+.patient-stories .patient-stories-card-icon {
+  position: absolute;
+  width: var(--patient-stories-icon-size);
+  height: var(--patient-stories-icon-size);
+}
+
+.patient-stories .patient-stories-card-text .patient-stories-card-icon {
+  right: var(--patient-stories-icon-offset-right);
+  bottom: var(--patient-stories-icon-offset-bottom);
+}
+
+.patient-stories .patient-stories-card-video .patient-stories-card-icon {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* star badge (compensated ambassador) — top-left corner of the image.
+   Higher specificity to beat the global `main img` width rule. */
+.patient-stories .patient-stories-card-star {
+  position: absolute;
+  top: var(--patient-stories-star-offset-top);
+  left: var(--patient-stories-star-offset-left);
+  width: var(--patient-stories-star-width);
+  height: var(--patient-stories-star-height);
+
+  /* the ribbon shape is part of the SVG — no rounded corners (reset the media
+     img border-radius that would otherwise round the top of the badge) */
+  border-radius: 0;
+  object-fit: contain;
+}
+
+/* video duration badge — top-right, semi-transparent charcoal pill */
+.patient-stories-card-duration {
+  position: absolute;
+  top: var(--patient-stories-badge-offset-mobile);
+  right: var(--patient-stories-badge-offset-mobile);
+  padding: 0 4px;
+  background-color: var(--patient-stories-badge-bg);
+  color: var(--patient-stories-badge-color);
+  font-family: var(--body-font-family);
+  font-size: var(--patient-stories-badge-font-size);
+  font-weight: 400;
+  line-height: var(--patient-stories-badge-line-height);
+  border-radius: var(--patient-stories-badge-radius);
+}
+
+/* text area below the image */
+.patient-stories-card-body {
+  position: relative;
+  padding: var(--patient-stories-body-padding);
+}
+
+.patient-stories-card-title {
+  padding-bottom: var(--patient-stories-title-padding-bottom);
+  font-family: var(--patient-stories-title-font-family);
+  font-size: var(--patient-stories-title-font-size);
+  font-weight: var(--patient-stories-title-font-weight);
+  line-height: var(--patient-stories-title-line-height);
+  color: var(--patient-stories-title-color);
+}
+
+/* one-line truncated preview under the title */
+.patient-stories-card-preview {
+  overflow: hidden;
+  font-family: var(--patient-stories-preview-font-family);
+  font-size: var(--patient-stories-preview-font-size);
+  font-weight: 400;
+  line-height: var(--patient-stories-preview-line-height);
+  color: var(--patient-stories-preview-color);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* the "+" expand indicator — bottom-right of the text area, rose */
+.patient-stories-card-plus {
+  position: absolute;
+  right: var(--patient-stories-plus-offset-right);
+  bottom: var(--patient-stories-plus-offset-bottom);
+  font-family: var(--body-font-family);
+  font-size: var(--patient-stories-plus-font-size);
+  font-weight: 400;
+  line-height: 22px;
+  color: var(--patient-stories-plus-color);
+  text-align: right;
+  transition: transform 0.2s ease;
+}
+
+.patient-stories-card.is-open .patient-stories-card-plus {
+  transform: rotate(45deg);
+}
+
+/* Mobile: the detail opens in place of the clicked card, so hide that card to
+   avoid showing it collapsed AND expanded (matches the source, which collapses
+   the clicked card to 0 height on mobile). On tablet/desktop the detail opens at
+   the grid top and the clicked card stays visible in place. */
+.patient-stories-card.is-open {
+  display: none;
+}
+
+/* Inline detail panel. Mobile (base): the source expands the clicked card IN
+   PLACE as a white card with a maroon outline — the media is full-bleed at the
+   top and the text sits below. On tablet/desktop (>=600px) it becomes the
+   powder-blue panel that opens at the grid top. */
+.patient-stories-detail {
+  grid-column: 1 / -1;
+
+  /* break out of the multi-column flow so the panel is full width */
+  column-span: all;
+  overflow: hidden;
+  background-color: var(--patient-stories-detail-mobile-bg);
+  border: var(--patient-stories-detail-mobile-border);
+  border-radius: var(--patient-stories-detail-mobile-radius);
+  scroll-margin-top: 1rem;
+}
+
+.patient-stories-detail-inner {
+  position: relative;
+  padding: 0;
+}
+
+.patient-stories-detail-body {
+  display: flex;
+  flex-direction: column;
+  color: var(--patient-stories-detail-text-color);
+  font-size: var(--patient-stories-detail-font-size);
+  line-height: var(--patient-stories-detail-line-height);
+}
+
+/* Mobile: text elements are padded like a collapsed card body; media stays
+   full-bleed (handled by the media rules below). */
+.patient-stories-detail-body > h1,
+.patient-stories-detail-body > h2,
+.patient-stories-detail-body > h3,
+.patient-stories-detail-body > h4,
+.patient-stories-detail-body > p {
+  padding-inline: 12px 15px;
+}
+
+.patient-stories-detail-body > h1,
+.patient-stories-detail-body > h2,
+.patient-stories-detail-body > h3,
+.patient-stories-detail-body > h4 {
+  padding-top: 4px;
+}
+
+.patient-stories-detail-body h1,
+.patient-stories-detail-body h2,
+.patient-stories-detail-body h3,
+.patient-stories-detail-body h4 {
+  /* mobile: the source's in-place card uses the same 18px title as a collapsed
+     card; tablet/desktop bump it up to the 24px panel heading (see media query) */
+  font-size: var(--patient-stories-title-font-size);
+  font-weight: 700;
+  line-height: var(--patient-stories-title-line-height);
+  color: var(--patient-stories-detail-text-color);
+  margin: 0 0 12px;
+}
+
+.patient-stories-detail-body p {
+  margin: 0 0 1rem;
+  color: var(--patient-stories-detail-text-color);
+}
+
+/* Patient photo in the expanded panel — direct children only, so the transcript
+   toggle's inline 22px icon keeps its own sizing/alignment. On mobile the source
+   shows the photo FIRST, full-bleed (flush to the maroon border, no radius); on
+   tablet/desktop it comes after the text and is centered/rounded. */
+.patient-stories-detail-body > .patient-stories-detail-media,
+.patient-stories-detail-body > picture,
+.patient-stories-detail-body > img {
+  order: -1;
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 12px;
+}
+
+/* wrapper that carries the coral quote overlay over the photo */
+.patient-stories-detail-media {
+  position: relative;
+  line-height: 0;
+}
+
+.patient-stories-detail-media picture,
+.patient-stories-detail-media img:not(.patient-stories-card-icon) {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* the quote-bubble overlay, bottom-right (same offsets/size as a text card) */
+.patient-stories-detail-media .patient-stories-card-icon {
+  position: absolute;
+  right: var(--patient-stories-icon-offset-right);
+  bottom: var(--patient-stories-icon-offset-bottom);
+  width: var(--patient-stories-icon-size);
+  height: var(--patient-stories-icon-size);
+}
+
+.patient-stories-video {
+  position: relative;
+  order: -1;
+  aspect-ratio: var(--patient-stories-video-aspect-ratio);
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+.patient-stories-video iframe,
+.patient-stories-video video-js,
+.patient-stories-video .video-js {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* Click-to-play facade: card thumbnail + the site's teal play circle (matching
+   the grid thumbnails), shown until the viewer clicks to load the player. */
+.patient-stories-video-facade {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.patient-stories-video-facade picture,
+.patient-stories-video-facade img:not(.patient-stories-video-play) {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.patient-stories-video-play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--patient-stories-icon-size);
+  height: var(--patient-stories-icon-size);
+  transform: translate(-50%, -50%);
+}
+
+/* Transcript control — the source wraps it in a white rounded box (matching the
+   card style) that sits on the powder-blue panel. Toggle + body share a left
+   indent so the label sits in from the box edge. */
+.patient-stories-transcript {
+  margin-top: 11px;
+  padding: var(--patient-stories-transcript-box-padding);
+  background-color: var(--patient-stories-transcript-box-bg);
+  border: var(--patient-stories-transcript-box-border);
+  border-radius: var(--patient-stories-transcript-box-radius);
+}
+
+.patient-stories-transcript-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--patient-stories-transcript-gap);
+  padding: 0;
+  background: none;
+  border: none;
+  font-family: var(--body-font-family);
+  font-size: var(--patient-stories-transcript-font-size);
+  font-weight: 700;
+  line-height: var(--patient-stories-transcript-line-height);
+  color: var(--patient-stories-transcript-toggle-color);
+  cursor: pointer;
+}
+
+.patient-stories-transcript-toggle:hover,
+.patient-stories-transcript-toggle:focus {
+  background: none;
+  border: none;
+  color: var(--patient-stories-transcript-toggle-color);
+  text-decoration: underline;
+}
+
+.patient-stories-transcript-toggle img {
+  width: auto;
+  height: var(--patient-stories-transcript-icon-size);
+  margin: 0;
+  border-radius: 0;
+}
+
+/* Once opened, the transcript body has a fixed height and scrolls (matching the
+   source's 175px scroll region). */
+.patient-stories-transcript-body {
+  max-height: var(--patient-stories-transcript-body-max-height);
+  margin-top: 12px;
+  overflow-y: auto;
+  color: var(--patient-stories-transcript-color);
+  font-size: var(--patient-stories-transcript-font-size);
+  line-height: var(--patient-stories-transcript-line-height);
+}
+
+.patient-stories-transcript-body p {
+  color: var(--patient-stories-transcript-color);
+}
+
+/* Tablet+ : the detail opens at the grid top, so the clicked card stays visible
+   in its original position (only mobile hides it). */
+@media (width >= 600px) {
+  /* switch from the mobile grid to masonry (column-count); the detail opens at
+     the grid top here, so top-to-bottom column fill is fine and matches the source. */
+  .patient-stories {
+    display: block;
+    column-count: var(--patient-stories-columns-mobile);
+    column-gap: var(--patient-stories-column-gap-mobile);
+  }
+
+  .patient-stories-card.is-open {
+    display: block;
+  }
+
+  /* the "+" expand indicator is mobile-only in the source */
+  .patient-stories-card-plus {
+    display: none;
+  }
+
+  /* the overlay icon (quote/play) scales up from 30px (mobile) to 60px here */
+  .patient-stories .patient-stories-card-icon {
+    width: var(--patient-stories-icon-size-desktop);
+    height: var(--patient-stories-icon-size-desktop);
+  }
+
+  .patient-stories .patient-stories-card-text .patient-stories-card-icon {
+    right: var(--patient-stories-icon-offset-right-desktop);
+    bottom: var(--patient-stories-icon-offset-bottom-desktop);
+  }
+
+  /* Tablet/desktop: reset the mobile in-place card styling — the detail becomes
+     the powder-blue panel that opens at the grid top (no maroon outline). The
+     source's panel spans the full viewport width (edge-to-edge) while its inner
+     content stays centered, so break the panel out of the centered block. */
+  .patient-stories-detail {
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    background-color: var(--patient-stories-detail-bg);
+    border: 0;
+    border-radius: var(--patient-stories-detail-radius);
+  }
+
+  .patient-stories-detail-inner {
+    padding: var(--patient-stories-detail-padding-desktop);
+  }
+
+  /* Cap the panel content to the source's centered container width (~1110px).
+     Text sits in a narrower 702px column while the video fills the full width,
+     so the cap goes on the text elements — not the body — and the video can be
+     wider. */
+  .patient-stories-detail-body {
+    max-width: var(--patient-stories-detail-video-max-width);
+    margin: 0 auto;
+  }
+
+  /* text-story text elements stay in the narrower 702px column, centered */
+  .patient-stories-detail-body > h1,
+  .patient-stories-detail-body > h2,
+  .patient-stories-detail-body > h3,
+  .patient-stories-detail-body > h4,
+  .patient-stories-detail-body > p {
+    width: 100%;
+    max-width: var(--patient-stories-detail-content-max-width);
+    margin-inline: auto;
+    padding-inline: 0;
+  }
+
+  /* video-story text spans the full video column, left-aligned with the video */
+  .patient-stories-detail-body-video > h1,
+  .patient-stories-detail-body-video > h2,
+  .patient-stories-detail-body-video > h3,
+  .patient-stories-detail-body-video > h4,
+  .patient-stories-detail-body-video > p {
+    max-width: none;
+    margin-inline: 0;
+  }
+
+  .patient-stories-detail-body > h1,
+  .patient-stories-detail-body > h2,
+  .patient-stories-detail-body > h3,
+  .patient-stories-detail-body > h4 {
+    padding-top: 0;
+  }
+
+  /* tablet/desktop panel uses the larger 24px heading */
+  .patient-stories-detail-body h1,
+  .patient-stories-detail-body h2,
+  .patient-stories-detail-body h3,
+  .patient-stories-detail-body h4 {
+    font-size: var(--patient-stories-detail-heading-font-size);
+    line-height: var(--patient-stories-detail-heading-line-height);
+  }
+
+  /* Tablet/desktop show the text first, photo after (reset the mobile photo-first
+     order and full-bleed); the photo is centered/rounded in the column. */
+  .patient-stories-detail-body > .patient-stories-detail-media,
+  .patient-stories-detail-body > picture,
+  .patient-stories-detail-body > img {
+    order: 0;
+    width: auto;
+    max-width: var(--patient-stories-detail-photo-max-width-desktop);
+    margin: 1rem auto 0;
+    border-radius: var(--patient-stories-detail-photo-radius);
+  }
+
+  /* round the wrapped photo and its overlay corner to match */
+  .patient-stories-detail-media,
+  .patient-stories-detail-media picture,
+  .patient-stories-detail-media img:not(.patient-stories-card-icon) {
+    border-radius: var(--patient-stories-detail-photo-radius);
+  }
+
+  .patient-stories-detail-media {
+    overflow: hidden;
+  }
+
+  /* the quote overlay scales up to 60px on tablet/desktop, like the card */
+  .patient-stories-detail-media .patient-stories-card-icon {
+    right: var(--patient-stories-icon-offset-right-desktop);
+    bottom: var(--patient-stories-icon-offset-bottom-desktop);
+    width: var(--patient-stories-icon-size-desktop);
+    height: var(--patient-stories-icon-size-desktop);
+  }
+
+  /* The source's video is wider than the 702px text column — it fills the full
+     centered content container (~1110px), matching the original. */
+  .patient-stories-video {
+    order: 0;
+    width: 100%;
+    max-width: var(--patient-stories-detail-video-max-width);
+    margin-inline: auto;
+  }
+
+  /* the teal play circle scales up to 60px on tablet/desktop, like the card */
+  .patient-stories-video-play {
+    width: var(--patient-stories-icon-size-desktop);
+    height: var(--patient-stories-icon-size-desktop);
+  }
+}
+
+/* Desktop+ : 3 columns, 20px gap */
+@media (width >= 900px) {
+  .patient-stories {
+    column-count: var(--patient-stories-columns-desktop);
+    column-gap: var(--patient-stories-column-gap-desktop);
+  }
+
+  /* video badge sits slightly further in on desktop */
+  .patient-stories-card-duration {
+    top: var(--patient-stories-badge-offset-desktop);
+    right: var(--patient-stories-badge-offset-desktop);
+  }
+
+  /* the star badge scales up on desktop (source renders 29x33) */
+  .patient-stories .patient-stories-card-star {
+    width: var(--patient-stories-star-width-desktop);
+    height: var(--patient-stories-star-height-desktop);
+  }
+
+  .patient-stories-detail-inner {
+    padding: var(--patient-stories-detail-padding-desktop);
+  }
+}
