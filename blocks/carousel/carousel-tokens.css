@@ -66,7 +66,7 @@
 
   /* quote icon above heading — teal circle with white quote marks
      (matches vyepti.com's quotes-blue-60-desktop.svg, rendered 58×58). */
-  --carousel-testimonial-quote-icon: url('./quote-icon.svg');
+  --carousel-testimonial-quote-icon: url('/icons/quote-mark.svg');
   --carousel-testimonial-quote-icon-display: block;
   --carousel-testimonial-icon-size: 58px;
 
