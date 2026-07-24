@@ -15,7 +15,8 @@ const STAR_ICON = `${ASSET_BASE}/overhaul/images/mvp-indicator-20-mobile.svg`;
 // a clean path). The fragment basename equals the source assetId, which also
 // preserves the original site's shareable ?assetId deep-links.
 function fragmentPathFor(assetId) {
-  const base = window.location.pathname.replace(/\/$/, '').replace(/\.[^/.]+$/, '');
+  const { pathname } = window.location;
+  const base = pathname.replace(/\/$/, '').replace(/\.[^/.]+$/, '');
   return `${base}/fragments/${assetId}`;
 }
 
@@ -99,9 +100,7 @@ function buildDetailBody(fragment) {
       && !transcriptNodes.includes(p) && !transcriptNodes.some((t) => t.contains(p)));
 
   if (isVideo) {
-    // Video panel differs from text: it spans the full content column (wider than
-    // the 702px text column) and orders title → description → player → transcript.
-    body.classList.add('patient-stories-detail-body-video');
+    // Video panel orders title → description → player → transcript.
     const videoId = new URL(bcLink.href).searchParams.get('videoId');
     if (heading) body.append(heading);
     paragraphs.forEach((p) => body.append(p));
@@ -232,7 +231,8 @@ export default async function decorate(block) {
     card.append(media, body);
     card.addEventListener('click', () => openDetail(block, card));
     card.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openDetail(block, card); }
+      const pressed = e.key;
+      if (pressed === 'Enter' || pressed === ' ') { e.preventDefault(); openDetail(block, card); }
     });
 
     cards.push(card);

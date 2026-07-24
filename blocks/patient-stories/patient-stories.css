@@ -359,19 +359,11 @@
     bottom: var(--patient-stories-icon-offset-bottom-desktop);
   }
 
-  /* the source constrains a TEXT story's expanded content to a centered column
-     (~702px) so it doesn't blow up on wide viewports. A VIDEO story instead spans
-     the full content column, so it keeps its natural width (no cap). */
+  /* the source constrains the expanded content to a centered column (~702px) so it
+     doesn't blow up on wide viewports — same for text and video stories. */
   .patient-stories-detail-body {
     max-width: var(--patient-stories-detail-content-max-width);
     margin: 0 auto;
-  }
-
-  /* A video story is wider than a text story but the source still caps it (the
-     video sits in a centered ~1110px column), so it must not keep growing with
-     the viewport on wide screens. */
-  .patient-stories-detail-body-video {
-    max-width: var(--patient-stories-detail-video-max-width);
   }
 
   /* Tablet/desktop show the text first, photo after (reset the mobile photo-first
@@ -382,6 +374,13 @@
     width: auto;
     max-width: var(--patient-stories-detail-photo-max-width-desktop);
     margin: 1rem auto 0;
+  }
+
+  /* The video is sized like the patient photo: capped to the same max-width and
+     centered in the column, rather than spanning the full text width. */
+  .patient-stories-video {
+    max-width: var(--patient-stories-detail-photo-max-width-desktop);
+    margin-inline: auto;
   }
 }
 

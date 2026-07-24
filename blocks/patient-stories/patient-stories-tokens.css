@@ -77,11 +77,6 @@
      to a centered column rather than full panel width (source text column = 702px) */
   --patient-stories-detail-content-max-width: 702px;
 
-  /* a VIDEO story's expanded content is wider than a text story's but is still
-     capped by the source's centered container (video = 1110px inside a 1140px
-     container), so it does not keep growing with the viewport on wide screens */
-  --patient-stories-detail-video-max-width: 1110px;
-
   /* intro hero above the grid (source values) */
   --patient-stories-intro-eyebrow-size: 18px;
   --patient-stories-intro-eyebrow-weight: 600;
