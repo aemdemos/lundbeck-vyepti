@@ -111,3 +111,60 @@
 .carousel.testimonial .carousel-slide-content h2 + p + p {
   font-size: var(--carousel-testimonial-disclaimer-size);
 }
+
+/* Layout overrides to match vyepti.com exactly. These live here (imported first by
+   carousel.css) and use a `main` prefix so they out-specify the base testimonial
+   rules regardless of source order — no edits to carousel.css needed.
+   1) The source ships a differently-proportioned photo per breakpoint and stretches
+      it to fit (object-fit: fill), so the whole photo shows with no cropping.
+   2) The photo keeps its natural aspect ratio (height: auto) instead of a fixed band.
+   3) On mobile the quote sits ABOVE the photo (content order 1, image order 2). */
+main .carousel.testimonial .carousel-slide .carousel-slide-image {
+  height: auto;
+  order: 2;
+}
+
+main .carousel.testimonial .carousel-slide .carousel-slide-image p,
+main .carousel.testimonial .carousel-slide .carousel-slide-image picture {
+  height: auto;
+}
+
+main .carousel.testimonial .carousel-slide .carousel-slide-image img {
+  height: auto;
+  object-fit: fill;
+}
+
+main .carousel.testimonial .carousel-slide .carousel-slide-content {
+  order: 1;
+}
+
+/* Tablet+ : side-by-side. The photo fills the card height and drives it, showing
+   at natural proportions (as on the source). Tablet + small desktop ship a tall
+   PORTRAIT photo, so the image column is wide (52%) to match the source. */
+@media (width >= 768px) {
+  main .carousel.testimonial .carousel-slide {
+    height: auto;
+  }
+
+  main .carousel.testimonial .carousel-slide .carousel-slide-image {
+    height: auto;
+    flex-basis: 52%;
+    max-width: 52%;
+  }
+
+  /* cover (not fill) so the portrait photo keeps its true proportions and fills
+     the card without vertical stretching; any overflow is cropped minimally. */
+  main .carousel.testimonial .carousel-slide .carousel-slide-image img {
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+/* Desktop : the photo becomes a wider landscape rendition, so the image column
+   returns to the narrower base width and the quote gets more room. */
+@media (width >= 1200px) {
+  main .carousel.testimonial .carousel-slide .carousel-slide-image {
+    flex-basis: var(--carousel-testimonial-image-flex);
+    max-width: var(--carousel-testimonial-image-flex);
+  }
+}
