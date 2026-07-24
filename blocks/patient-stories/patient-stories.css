@@ -211,22 +211,25 @@
   display: none;
 }
 
-/* Inline detail panel — spans the full grid width above the cards. The source
-   expands within the card column over a light-blue field; our block renders it
-   full-width, matching the source's colors and quote typography. */
+/* Inline detail panel. Mobile (base): the source expands the clicked card IN
+   PLACE as a white card with a maroon outline — the media is full-bleed at the
+   top and the text sits below. On tablet/desktop (>=600px) it becomes the
+   powder-blue panel that opens at the grid top. */
 .patient-stories-detail {
   grid-column: 1 / -1;
 
   /* break out of the multi-column flow so the panel is full width */
   column-span: all;
-  background-color: var(--patient-stories-detail-bg);
-  border-radius: var(--patient-stories-detail-radius);
+  overflow: hidden;
+  background-color: var(--patient-stories-detail-mobile-bg);
+  border: var(--patient-stories-detail-mobile-border);
+  border-radius: var(--patient-stories-detail-mobile-radius);
   scroll-margin-top: 1rem;
 }
 
 .patient-stories-detail-inner {
   position: relative;
-  padding: var(--patient-stories-detail-padding-mobile);
+  padding: 0;
 }
 
 .patient-stories-detail-body {
@@ -235,6 +238,24 @@
   color: var(--patient-stories-detail-text-color);
   font-size: var(--patient-stories-detail-font-size);
   line-height: var(--patient-stories-detail-line-height);
+}
+
+/* Mobile: text elements are padded like a collapsed card body; media stays
+   full-bleed (handled by the media rules below). */
+.patient-stories-detail-body > h1,
+.patient-stories-detail-body > h2,
+.patient-stories-detail-body > h3,
+.patient-stories-detail-body > h4,
+.patient-stories-detail-body > p,
+.patient-stories-detail-body > .patient-stories-transcript {
+  padding-inline: 12px 15px;
+}
+
+.patient-stories-detail-body > h1,
+.patient-stories-detail-body > h2,
+.patient-stories-detail-body > h3,
+.patient-stories-detail-body > h4 {
+  padding-top: 4px;
 }
 
 .patient-stories-detail-body h1,
@@ -255,7 +276,8 @@
 
 /* Patient photo in the expanded panel — direct children only, so the transcript
    toggle's inline 22px icon keeps its own sizing/alignment. On mobile the source
-   shows the photo FIRST and full-width; on tablet/desktop it comes after the text. */
+   shows the photo FIRST, full-bleed (flush to the maroon border, no radius); on
+   tablet/desktop it comes after the text and is centered/rounded. */
 .patient-stories-detail-body > picture,
 .patient-stories-detail-body > img {
   order: -1;
@@ -263,15 +285,15 @@
   width: 100%;
   max-width: 100%;
   height: auto;
-  margin-bottom: 1rem;
-  border-radius: var(--patient-stories-detail-photo-radius);
+  margin-bottom: 12px;
 }
 
 .patient-stories-video {
   position: relative;
+  order: -1;
   aspect-ratio: var(--patient-stories-video-aspect-ratio);
   width: 100%;
-  margin-bottom: 1rem;
+  margin-bottom: 12px;
 }
 
 .patient-stories-video iframe {
@@ -359,6 +381,18 @@
     bottom: var(--patient-stories-icon-offset-bottom-desktop);
   }
 
+  /* Tablet/desktop: reset the mobile in-place card styling — the detail becomes
+     the powder-blue panel that opens at the grid top (no maroon outline). */
+  .patient-stories-detail {
+    background-color: var(--patient-stories-detail-bg);
+    border: 0;
+    border-radius: var(--patient-stories-detail-radius);
+  }
+
+  .patient-stories-detail-inner {
+    padding: var(--patient-stories-detail-padding-desktop);
+  }
+
   /* the source constrains the expanded content to a centered column (~702px) so it
      doesn't blow up on wide viewports — same for text and video stories. */
   .patient-stories-detail-body {
@@ -366,19 +400,38 @@
     margin: 0 auto;
   }
 
+  /* reset the mobile card-body text padding (the panel provides it now) */
+  .patient-stories-detail-body > h1,
+  .patient-stories-detail-body > h2,
+  .patient-stories-detail-body > h3,
+  .patient-stories-detail-body > h4,
+  .patient-stories-detail-body > p,
+  .patient-stories-detail-body > .patient-stories-transcript {
+    padding-inline: 0;
+  }
+
+  .patient-stories-detail-body > h1,
+  .patient-stories-detail-body > h2,
+  .patient-stories-detail-body > h3,
+  .patient-stories-detail-body > h4 {
+    padding-top: 0;
+  }
+
   /* Tablet/desktop show the text first, photo after (reset the mobile photo-first
-     order and full-width bleed); the photo is centered in the column. */
+     order and full-bleed); the photo is centered/rounded in the column. */
   .patient-stories-detail-body > picture,
   .patient-stories-detail-body > img {
     order: 0;
     width: auto;
     max-width: var(--patient-stories-detail-photo-max-width-desktop);
     margin: 1rem auto 0;
+    border-radius: var(--patient-stories-detail-photo-radius);
   }
 
   /* The video is sized like the patient photo: capped to the same max-width and
-     centered in the column, rather than spanning the full text width. */
+     centered in the column, ordered after the text. */
   .patient-stories-video {
+    order: 0;
     max-width: var(--patient-stories-detail-photo-max-width-desktop);
     margin-inline: auto;
   }

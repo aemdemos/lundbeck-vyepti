@@ -63,8 +63,15 @@
      background (#eff6f9), lighter than the site's --accent-bg */
   --patient-stories-detail-bg: #eff6f9;
   --patient-stories-detail-radius: 0;
-  --patient-stories-detail-padding-mobile: 1.5rem;
   --patient-stories-detail-padding-desktop: 2.5rem;
+
+  /* mobile: the source expands the clicked card IN PLACE as a white card with a
+     maroon outline (not the powder-blue panel). Image is full-bleed at the top,
+     text sits below with the same padding as a collapsed card body. */
+  --patient-stories-detail-mobile-bg: #fff;
+  --patient-stories-detail-mobile-border: 3px solid rgb(191 44 88);
+  --patient-stories-detail-mobile-radius: 12px;
+  --patient-stories-detail-mobile-body-padding: 4px 15px 18px 12px;
   --patient-stories-detail-text-color: rgb(72 72 72);
   --patient-stories-detail-font-size: 16px;
   --patient-stories-detail-line-height: 22px;
