@@ -4,7 +4,7 @@
  * exists; values with no Tier-1 equivalent (card shadow, decorative bottom
  * border, card geometry) are defined here as descriptive block tokens.
  */
-:root {
+ :root {
   /* section wrapper spacing */
   --columns-cta-wrapper-padding-top: 20px;
   --columns-cta-wrapper-padding-bottom: 40px;
@@ -13,8 +13,9 @@
      the bottom, matching www.vyepti.com/how-vyepti-works) */
   --columns-cta-card-shadow: rgb(46 50 51 / 20%) 0 2px 8px 0;
   --columns-cta-card-radius: 8px 8px 0 0;
-  --columns-cta-card-padding: 24px 32px;
-  --columns-cta-card-padding-desktop: 42px 66px 40px;
+  --columns-cta-card-padding: 24px 32px 34px;
+  --columns-cta-card-padding-tablet: 24px 32px 50px;
+  --columns-cta-card-padding-desktop: 42px 66px 64px;
 
   /* stacked (mobile) gap between cards / desktop row gap */
   --columns-cta-gap: 35px;
@@ -95,4 +96,26 @@
   mask-size: contain;
   mask-repeat: no-repeat;
   mask-position: center;
+}
+
+/* Responsive card padding + button bottom-alignment. Kept here (not in
+   columns-cta.css) so the block matches www.vyepti.com/how-vyepti-works. The
+   `main` prefix raises specificity above columns-cta.css's `@media (>=992px)`
+   card padding so these win despite this file loading first. */
+@media (width >= 768px) {
+  main .columns-cta > div > div {
+    padding: var(--columns-cta-card-padding-tablet);
+  }
+}
+
+@media (width >= 992px) {
+  main .columns-cta > div > div {
+    padding: var(--columns-cta-card-padding-desktop);
+    display: flex;
+    flex-direction: column;
+  }
+
+  main .columns-cta > div > div > p:last-child {
+    margin-top: auto;
+  }
 }
