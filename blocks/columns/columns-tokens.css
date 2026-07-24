@@ -48,4 +48,88 @@
   /* desktop (992px+) cards pack at their natural content width, left-aligned,
      with this gap between them — matching the ~20px spacing on the source. */
   --columns-locations-gap: 20px;
+
+  /* center variant — 3-up icon-above-heading-above-copy cards, centered
+     (the "What is VYEPTI?" group on how-vyepti-works). Each authored cell holds
+     several art-direction graphic renditions plus an h2 + copy; only one graphic
+     is shown, capped to the source's optical size (229px mobile, 286px desktop)
+     and centered. Cards stack on mobile/tablet and go 3-up at desktop, matching
+     the source's lg (desktop) breakpoint. */
+  --columns-center-icon-width-mobile: 229px;
+  --columns-center-icon-width: 286px;
+  --columns-center-icon-gap: 12px;
+
+  /* the stage source renders these headings in the brand teal (matching the
+     global h2), at a slightly larger size than the default h2. */
+  --columns-center-heading-color: var(--brand-primary);
+  --columns-center-heading-font-size: 24px;
+  --columns-center-heading-line-height: 29px;
+  --columns-center-heading-margin: 0 0 4px;
+  --columns-center-para-line-height: 22px;
+
+  /* horizontal gap between the three cards at desktop (matches the source's
+     2×15px column padding = 30px between card contents). */
+  --columns-center-gap: 30px;
+}
+
+/* center variant — 3-up icon/heading/copy cards, centered ("What is VYEPTI?"
+   on how-vyepti-works). The authored cell mixes several art-direction graphic
+   renditions with an h2 + copy, so the block classifies it as an image column
+   and never collapses the pictures; show only the first rendition, capped to
+   the source's optical size and centered, and hide the rest. Cards stack on
+   mobile/tablet and go 3-up at desktop (the source's lg breakpoint). */
+main .columns.center > div {
+  flex-direction: column;
+  align-items: center;
+  gap: var(--columns-gap);
+}
+
+main .columns.center > div > div {
+  order: unset;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+main .columns.center picture:not(:first-of-type) {
+  display: none;
+}
+
+main .columns.center picture:first-of-type img {
+  width: var(--columns-center-icon-width-mobile);
+  height: auto;
+  max-width: 100%;
+  margin: 0 auto var(--columns-center-icon-gap);
+  object-fit: contain;
+}
+
+main .columns.center h2 {
+  color: var(--columns-center-heading-color);
+  font-size: var(--columns-center-heading-font-size);
+  line-height: var(--columns-center-heading-line-height);
+  margin: var(--columns-center-heading-margin);
+}
+
+main .columns.center p {
+  margin: 0;
+  line-height: var(--columns-center-para-line-height);
+}
+
+/* center: the three cards go side-by-side at desktop (source lg breakpoint),
+   each an equal third, top-aligned, with the larger graphic rendition. */
+@media (width >= 992px) {
+  main .columns.center > div {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: var(--columns-center-gap);
+  }
+
+  main .columns.center > div > div {
+    flex: 1;
+  }
+
+  main .columns.center picture:first-of-type img {
+    width: var(--columns-center-icon-width);
+  }
 }
