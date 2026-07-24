@@ -20,16 +20,96 @@ function fragmentPathFor(assetId) {
   return `${base}/fragments/${assetId}`;
 }
 
-function buildBrightcovePlayer(videoId) {
-  const wrapper = document.createElement('div');
-  wrapper.className = 'patient-stories-video';
+function buildBrightcoveIframe(videoId) {
   const iframe = document.createElement('iframe');
   iframe.src = `https://players.brightcove.net/${BRIGHTCOVE_ACCOUNT}/${BRIGHTCOVE_PLAYER}_default/index.html?videoId=${videoId}`;
-  iframe.allow = 'encrypted-media; fullscreen; picture-in-picture';
+  iframe.allow = 'autoplay; encrypted-media; fullscreen; picture-in-picture';
   iframe.allowFullscreen = true;
   iframe.loading = 'lazy';
   iframe.title = 'Video player';
-  wrapper.append(iframe);
+  return iframe;
+}
+
+// Loads the Brightcove Player script once (per account+player) and resolves the
+// global `bc` initializer. The script auto-registers a global used to turn a
+// <video-js> element into a full player in the SAME document — unlike an iframe,
+// this lets us call play() within the click gesture so playback starts on the
+// first click (no second Brightcove play button).
+let bcScriptPromise;
+function loadBrightcoveScript() {
+  if (window.bc) return Promise.resolve(window.bc);
+  if (!bcScriptPromise) {
+    bcScriptPromise = new Promise((resolve, reject) => {
+      const s = document.createElement('script');
+      s.src = `https://players.brightcove.net/${BRIGHTCOVE_ACCOUNT}/${BRIGHTCOVE_PLAYER}_default/index.min.js`;
+      s.onload = () => resolve(window.bc);
+      s.onerror = reject;
+      document.head.append(s);
+    });
+  }
+  return bcScriptPromise;
+}
+
+// Mounts an in-page Brightcove player and starts playback, keeping the teal
+// facade on top until the video actually starts playing — so Brightcove's own
+// grey poster + white play button never flash during initialization.
+async function playInPage(wrapper, facade, videoId) {
+  const video = document.createElement('video-js');
+  video.setAttribute('data-account', BRIGHTCOVE_ACCOUNT);
+  video.setAttribute('data-player', BRIGHTCOVE_PLAYER);
+  video.setAttribute('data-embed', 'default');
+  video.setAttribute('data-video-id', videoId);
+  video.setAttribute('controls', '');
+  video.classList.add('vjs-fluid');
+  // Insert the player behind the still-visible facade (facade stays last child).
+  wrapper.insertBefore(video, facade);
+
+  try {
+    const bc = await loadBrightcoveScript();
+    const player = bc(video);
+    player.ready(() => {
+      // Remove our facade only once real playback begins.
+      player.one('playing', () => facade.remove());
+      const p = player.play();
+      if (p && p.catch) p.catch(() => facade.remove());
+    });
+  } catch {
+    // If the player script fails to load, fall back to the iframe embed.
+    wrapper.replaceChildren(buildBrightcoveIframe(videoId));
+  }
+}
+
+// Builds the video area. When a poster thumbnail is available we render a
+// facade with the site's teal play circle (matching the card thumbnails, not
+// Brightcove's default grey button); clicking it loads the in-page player and
+// plays immediately.
+function buildBrightcovePlayer(videoId, poster) {
+  const wrapper = document.createElement('div');
+  wrapper.className = 'patient-stories-video';
+
+  if (!poster) {
+    wrapper.append(buildBrightcoveIframe(videoId));
+    return wrapper;
+  }
+
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.className = 'patient-stories-video-facade';
+  button.setAttribute('aria-label', 'Play video');
+  button.append(poster);
+  const play = document.createElement('img');
+  play.className = 'patient-stories-video-play';
+  play.src = PLAY_ICON;
+  play.alt = '';
+  play.setAttribute('aria-hidden', 'true');
+  button.append(play);
+
+  button.addEventListener('click', () => {
+    button.disabled = true;
+    playInPage(wrapper, button, videoId);
+  });
+
+  wrapper.append(button);
   return wrapper;
 }
 
@@ -73,7 +153,7 @@ function buildTranscript(transcriptNodes) {
 // Turns a loaded fragment into the detail-panel body. Order matches the source:
 //  - text story:  title → quote/description paragraphs → patient photo
 //  - video story: Brightcove player → title → description → Open-transcript toggle
-function buildDetailBody(fragment) {
+function buildDetailBody(fragment, posterFallback) {
   const body = document.createElement('div');
   body.className = 'patient-stories-detail-body';
 
@@ -100,11 +180,13 @@ function buildDetailBody(fragment) {
       && !transcriptNodes.includes(p) && !transcriptNodes.some((t) => t.contains(p)));
 
   if (isVideo) {
-    // Video panel orders title → description → player → transcript.
+    // Video panel orders title → description → player → transcript, and its text
+    // spans the full (wider) video column rather than the narrow text column.
+    body.classList.add('patient-stories-detail-body-video');
     const videoId = new URL(bcLink.href).searchParams.get('videoId');
     if (heading) body.append(heading);
     paragraphs.forEach((p) => body.append(p));
-    if (videoId) body.append(buildBrightcovePlayer(videoId));
+    if (videoId) body.append(buildBrightcovePlayer(videoId, pictureEl || posterFallback));
     // Only show the Open-transcript toggle when a transcript was authored; videos
     // without one (matching the source) get no toggle.
     if (transcriptNodes.length) body.append(buildTranscript(transcriptNodes));
@@ -158,8 +240,13 @@ async function openDetail(block, card) {
     card.after(detail);
   }
 
+  // Video fragments have no poster image, so fall back to the card's thumbnail
+  // (cloned) as the facade poster behind the teal play button.
+  const cardThumb = card.querySelector('.patient-stories-card-media picture');
+  const posterFallback = cardThumb ? cardThumb.cloneNode(true) : null;
+
   const fragment = await loadFragment(card.dataset.fragment);
-  if (fragment) inner.append(buildDetailBody(fragment));
+  if (fragment) inner.append(buildDetailBody(fragment, posterFallback));
 
   const url = new URL(window.location);
   url.searchParams.set('assetId', card.dataset.assetId);

@@ -246,8 +246,7 @@
 .patient-stories-detail-body > h2,
 .patient-stories-detail-body > h3,
 .patient-stories-detail-body > h4,
-.patient-stories-detail-body > p,
-.patient-stories-detail-body > .patient-stories-transcript {
+.patient-stories-detail-body > p {
   padding-inline: 12px 15px;
 }
 
@@ -321,7 +320,9 @@
   margin-bottom: 12px;
 }
 
-.patient-stories-video iframe {
+.patient-stories-video iframe,
+.patient-stories-video video-js,
+.patient-stories-video .video-js {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -329,9 +330,46 @@
   border: 0;
 }
 
-/* Open/Close transcript toggle — teal text link with expand/collapse icon */
+/* Click-to-play facade: card thumbnail + the site's teal play circle (matching
+   the grid thumbnails), shown until the viewer clicks to load the player. */
+.patient-stories-video-facade {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.patient-stories-video-facade picture,
+.patient-stories-video-facade img:not(.patient-stories-video-play) {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.patient-stories-video-play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--patient-stories-icon-size);
+  height: var(--patient-stories-icon-size);
+  transform: translate(-50%, -50%);
+}
+
+/* Transcript control — the source wraps it in a white rounded box (matching the
+   card style) that sits on the powder-blue panel. Toggle + body share a left
+   indent so the label sits in from the box edge. */
 .patient-stories-transcript {
   margin-top: 11px;
+  padding: var(--patient-stories-transcript-box-padding);
+  background-color: var(--patient-stories-transcript-box-bg);
+  border: var(--patient-stories-transcript-box-border);
+  border-radius: var(--patient-stories-transcript-box-radius);
 }
 
 .patient-stories-transcript-toggle {
@@ -343,7 +381,7 @@
   border: none;
   font-family: var(--body-font-family);
   font-size: var(--patient-stories-transcript-font-size);
-  font-weight: 400;
+  font-weight: 700;
   line-height: var(--patient-stories-transcript-line-height);
   color: var(--patient-stories-transcript-toggle-color);
   cursor: pointer;
@@ -358,14 +396,18 @@
 }
 
 .patient-stories-transcript-toggle img {
-  width: var(--patient-stories-transcript-icon-size);
+  width: auto;
   height: var(--patient-stories-transcript-icon-size);
   margin: 0;
   border-radius: 0;
 }
 
+/* Once opened, the transcript body has a fixed height and scrolls (matching the
+   source's 175px scroll region). */
 .patient-stories-transcript-body {
+  max-height: var(--patient-stories-transcript-body-max-height);
   margin-top: 12px;
+  overflow-y: auto;
   color: var(--patient-stories-transcript-color);
   font-size: var(--patient-stories-transcript-font-size);
   line-height: var(--patient-stories-transcript-line-height);
@@ -407,8 +449,12 @@
   }
 
   /* Tablet/desktop: reset the mobile in-place card styling — the detail becomes
-     the powder-blue panel that opens at the grid top (no maroon outline). */
+     the powder-blue panel that opens at the grid top (no maroon outline). The
+     source's panel spans the full viewport width (edge-to-edge) while its inner
+     content stays centered, so break the panel out of the centered block. */
   .patient-stories-detail {
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
     background-color: var(--patient-stories-detail-bg);
     border: 0;
     border-radius: var(--patient-stories-detail-radius);
@@ -418,21 +464,35 @@
     padding: var(--patient-stories-detail-padding-desktop);
   }
 
-  /* the source constrains the expanded content to a centered column (~702px) so it
-     doesn't blow up on wide viewports — same for text and video stories. */
+  /* Cap the panel content to the source's centered container width (~1110px).
+     Text sits in a narrower 702px column while the video fills the full width,
+     so the cap goes on the text elements — not the body — and the video can be
+     wider. */
   .patient-stories-detail-body {
-    max-width: var(--patient-stories-detail-content-max-width);
+    max-width: var(--patient-stories-detail-video-max-width);
     margin: 0 auto;
   }
 
-  /* reset the mobile card-body text padding (the panel provides it now) */
+  /* text-story text elements stay in the narrower 702px column, centered */
   .patient-stories-detail-body > h1,
   .patient-stories-detail-body > h2,
   .patient-stories-detail-body > h3,
   .patient-stories-detail-body > h4,
-  .patient-stories-detail-body > p,
-  .patient-stories-detail-body > .patient-stories-transcript {
+  .patient-stories-detail-body > p {
+    width: 100%;
+    max-width: var(--patient-stories-detail-content-max-width);
+    margin-inline: auto;
     padding-inline: 0;
+  }
+
+  /* video-story text spans the full video column, left-aligned with the video */
+  .patient-stories-detail-body-video > h1,
+  .patient-stories-detail-body-video > h2,
+  .patient-stories-detail-body-video > h3,
+  .patient-stories-detail-body-video > h4,
+  .patient-stories-detail-body-video > p {
+    max-width: none;
+    margin-inline: 0;
   }
 
   .patient-stories-detail-body > h1,
@@ -482,12 +542,19 @@
     height: var(--patient-stories-icon-size-desktop);
   }
 
-  /* The video is sized like the patient photo: capped to the same max-width and
-     centered in the column, ordered after the text. */
+  /* The source's video is wider than the 702px text column — it fills the full
+     centered content container (~1110px), matching the original. */
   .patient-stories-video {
     order: 0;
-    max-width: var(--patient-stories-detail-photo-max-width-desktop);
+    width: 100%;
+    max-width: var(--patient-stories-detail-video-max-width);
     margin-inline: auto;
+  }
+
+  /* the teal play circle scales up to 60px on tablet/desktop, like the card */
+  .patient-stories-video-play {
+    width: var(--patient-stories-icon-size-desktop);
+    height: var(--patient-stories-icon-size-desktop);
   }
 }
 

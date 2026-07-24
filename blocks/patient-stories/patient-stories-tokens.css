@@ -80,9 +80,13 @@
   --patient-stories-detail-photo-radius: 12px;
   --patient-stories-detail-photo-max-width-desktop: 500px;
 
-  /* on tablet/desktop the source constrains the expanded content (video + text)
-     to a centered column rather than full panel width (source text column = 702px) */
+  /* on tablet/desktop the source constrains the expanded TEXT content to a
+     centered column (source text column = 702px) */
   --patient-stories-detail-content-max-width: 702px;
+
+  /* the source's VIDEO is wider than the text — it fills the full centered
+     content container (video = 1110px), so it breaks out of the 702px text cap */
+  --patient-stories-detail-video-max-width: 1110px;
 
   /* intro hero above the grid (source values) */
   --patient-stories-intro-eyebrow-size: 18px;
@@ -115,4 +119,13 @@
   --patient-stories-transcript-color: rgb(51 51 51);
   --patient-stories-transcript-icon-size: 22px;
   --patient-stories-transcript-gap: 8px;
+
+  /* the source wraps the transcript in a white rounded box on the blue panel;
+     the toggle/body are indented from the left edge and the opened body scrolls
+     within a fixed height (source scroll region ~175px) */
+  --patient-stories-transcript-box-bg: #fff;
+  --patient-stories-transcript-box-border: 1px solid #e0e0e0;
+  --patient-stories-transcript-box-radius: 12px;
+  --patient-stories-transcript-box-padding: 11px 30px 20px;
+  --patient-stories-transcript-body-max-height: 175px;
 }
