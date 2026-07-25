@@ -43,7 +43,7 @@
   --brand-primary-dark: var(--brand-teal-muted);
   --brand-secondary: var(--brand-rose);
   --brand-secondary-dark: var(--brand-rose-dark);
-  --accent-bg: #e1f0f6; /* @libs */
+  --accent-bg: #eff6f9; /* @libs */
   --card-bg-light: #eff6f9; /* @libs */
 
   /* semantic colors */
@@ -58,7 +58,7 @@
   --error-color: #c02c57; /* @boilerplate */
   --section-divider-width: 1px; /* @libs */
   --section-divider-color: var(--link-hover-color); /* @libs */
-  --section-padding: 24px;
+  --section-padding: 32px;
   --flex-group-gap: 30px;
   --flex-group-narrow-copy-gap: 60px;
   --div-width-margin: auto;
@@ -619,37 +619,60 @@ main .icon.icon-bullet { /* @libs */
 
 /* responsive visibility utilities (authorable via [hide-mobile] / [hide-desktop] bracket spans) */
 
+/* ==== START alignment + display for mobile ==== */
 .hide-mobile {
   display: none;
 }
 
-.center {
+.center, .center-mobile {
   text-align: center;
 
-  &.columns > div > div {
-    justify-content: center;
+  &.columns .columns-img-col img {
+    display: inline-block;
+  }
+
+  ol, ul {
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  li {
+    text-align: left;
   }
 }
 
-.left {
+.left, .left-mobile {
   text-align: left;
 
-  &.columns > div > div {
-    justify-content: left;
+  &.columns .columns-img-col img {
+    display: inline-block;
   }
 }
 
-.right {
+.right, .right-mobile {
   text-align: right;
 
-  &.columns > div > div {
-    justify-content: right;
+  &.columns .columns-img-col img {
+    display: inline-block;
+  }
+
+  ol, ul {
+    width: fit-content;
+    margin-left: auto;
+  }
+
+  li {
+    text-align: left;
   }
 }
+
+/* ==== END alignment + display for mobile ==== */
 
 /* sections */
 main > .section { /* @libs */
   margin: 0; /* @libs */
+  margin-bottom: var(--section-padding);
 }
 
 main > .section > div:not(.bg-image) {
@@ -722,7 +745,6 @@ main .flex-group > .section.flex {
 /* section metadata - accent (light blue help strip) */
 main .section.accent { /* @libs */
   background-color: var(--accent-bg); /* @libs */
-  margin: 0; /* @libs */
   padding: 20px 0; /* @libs */
 }
 
@@ -871,8 +893,10 @@ main .section.stats-callout h4 {
     --heading-font-size-m: 18px; /* @libs */
     --heading-font-size-s: 18px; /* @libs */
     --heading-font-size-xs: 16px; /* @libs */
+    --section-padding: 36px;
   }
 
+  /* ==== START alignment + display for desktop ==== */
     .hide-desktop {
       display: none;
     }
@@ -880,6 +904,64 @@ main .section.stats-callout h4 {
     .hide-mobile {
       display: revert;
     }
+
+    .center-mobile, .left-mobile, .right-mobile {
+      text-align: revert;
+
+      ol, ul {
+      margin-left: revert;
+      margin-right: revert;
+      }
+
+      li {
+        text-align: revert;
+      }
+    }
+
+    .center-desktop {
+      text-align: center;
+    
+      &.columns .columns-img-col img {
+        display: inline-block;
+      }
+    
+      ol, ul {
+        width: fit-content;
+        margin-left: auto;
+        margin-right: auto;
+      }
+    
+      li {
+        text-align: left;
+      }
+    }
+    
+    .left-desktop {
+      text-align: left;
+    
+      &.columns .columns-img-col img {
+        display: inline-block;
+      }
+    }
+    
+    .right-desktop {
+      text-align: right;
+    
+      &.columns .columns-img-col img {
+        display: inline-block;
+      }
+    
+      ol, ul {
+        width: fit-content;
+        margin-left: auto;
+      }
+    
+      li {
+        text-align: left;
+      }
+    }
+
+    /* ==== END alignment + display for desktop ==== */
 
     /* ==== Start widths ==== */
 
