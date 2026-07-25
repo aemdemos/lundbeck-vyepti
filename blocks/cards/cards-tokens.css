@@ -6,9 +6,9 @@
   --cards-card-border-color: var(--border-color); /* @boilerplate */
   --cards-card-background: var(--color-surface); /* @boilerplate */
   --cards-card-body-margin: var(--spacing-s); /* @boilerplate */
-  --cards-image-aspect-ratio: unset;
-  --cards-image-object-fit: none; /* @boilerplate */
+  --cards-image-aspect-ratio: 3/2;
+  --cards-image-object-fit: contain;
   --cards-3col-width: unset;
   --cards-2col-width: calc((200% - 3 * var(--cards-grid-gap)) / 4);
-  --card-image-height: 113px;
+  --card-image-height: unset;
 }

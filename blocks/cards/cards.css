@@ -25,7 +25,6 @@
 .cards > ul > li img { /* @boilerplate */
   aspect-ratio: var(--cards-image-aspect-ratio); /* @boilerplate */
   object-fit: var(--cards-image-object-fit); /* @boilerplate */
-  min-height: var(--card-image-height);
 }
 
 @media (width >= 992px) {
