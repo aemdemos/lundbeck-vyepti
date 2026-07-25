@@ -4,10 +4,59 @@
   --modal-width-mobile: calc(100vw - 48px); /* @boilerplate */
   --modal-width-desktop: calc(100vw - 64px); /* @boilerplate */
   --modal-max-width: 900px; /* @boilerplate */
-  --modal-content-padding: var(--spacing-m); /* @boilerplate */
-  --modal-content-padding-desktop: var(--spacing-l); /* @boilerplate */
+  --modal-content-padding: var(--spacing-m, 24px);
+  --modal-content-padding-desktop: var(--spacing-l, 32px);
   --modal-content-margin-top: 44px; /* @boilerplate */
   --modal-close-button-size: 44px; /* @boilerplate */
   --modal-close-icon-size: var(--icon-size); /* @boilerplate */
   --modal-close-icon-thickness: 2px; /* @boilerplate */
+
+  /* entrance modal — top-aligned prompt shell (source: vyepti.com) */
+  --modal-entrance-background: #eff6f9;
+  --modal-entrance-backdrop-background: rgb(72 72 72 / 50%);
+  --modal-entrance-max-width: 1080px;
+  --modal-entrance-border-radius: 12px;
+  --modal-entrance-shadow: 0 4px 20px rgb(0 0 0 / 15%);
+  --modal-entrance-offset-top: var(--spacing-m, 24px);
+  --modal-entrance-close-icon-size: 16px;
+  --modal-entrance-close-icon-thickness: 1.5px;
+  --modal-entrance-close-inset: var(--spacing-xs, 8px);
+  --modal-entrance-button-border-width: 1.5px;
+  --modal-entrance-button-padding: 19px 45px;
+  --modal-entrance-privacy-font-size: 14px;
+  --modal-entrance-privacy-font-weight: 400;
+  --modal-entrance-privacy-line-height: 17px;
+  --modal-entrance-privacy-letter-spacing: -0.6px;
+
+  /* tablet+ content padding (768px up) — measured directly from vyepti.com's entrance modal */
+  --modal-entrance-content-padding-top: 52px;
+  --modal-entrance-content-padding-bottom: 85px;
+
+  /* 768-991px only: keeps the heading/paragraph text column wrapping to a
+     stable 2 lines each across the whole tablet band (see modal.css) —
+     narrower than 230px collapses the paragraph to 3 lines, wider than
+     380px collapses the heading to 1 line. The tighter gap is what lets the
+     text column reach 230px without the row overflowing at the 768px floor. */
+  --modal-entrance-tablet-gap: 14px;
+  --modal-entrance-text-col-min-width: 230px;
+  --modal-entrance-text-col-max-width: 380px;
+
+  /* fixes the dialog itself to its width at the 768px floor so nothing in
+     it shifts across the tablet band — only the surrounding backdrop
+     margin grows as the viewport widens toward 992px */
+  --modal-entrance-width-tablet: 720px;
+
+  /* 992px+: the text column needs ~460px to hold both the heading and
+     paragraph on one line each (matching the source). The shared desktop
+     dialog margin/gap don't leave enough room for that right at the 992px
+     floor, so the entrance variant gets its own tighter values here,
+     freeing enough width that the row already fits on one line from 992px
+     up instead of only past ~1080px. */
+  --modal-entrance-width-desktop: calc(100vw - 32px);
+  --modal-entrance-desktop-gap: var(--spacing-s, 16px);
+
+  /* gap grows from ~22px@375px to ~131px@770px, matching two points measured
+     directly on vyepti.com's mobile entrance modal; capped before the row
+     layout takes over at 900px, where it resets to a flat --spacing-s */
+  --modal-entrance-button-gap-mobile: clamp(var(--spacing-s, 16px), calc(27.6vw - 82px), 140px);
 }
