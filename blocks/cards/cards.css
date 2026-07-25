@@ -25,6 +25,7 @@
 .cards > ul > li img { /* @boilerplate */
   aspect-ratio: var(--cards-image-aspect-ratio); /* @boilerplate */
   object-fit: var(--cards-image-object-fit); /* @boilerplate */
+  min-height: var(--card-image-height);
 }
 
 @media (width >= 992px) {
@@ -40,10 +41,10 @@
 
   /* 200%/300% resolves against the 50%/33% grid cell to match the 4-column card width */
   .cards.cards-2-cols > ul > li {
-    width: calc((200% - 3 * var(--cards-grid-gap)) / 4);
+    width: var(--cards-2col-width);
   }
 
   .cards.cards-3-cols > ul > li {
-    width: calc((300% - 3 * var(--cards-grid-gap)) / 4);
+    width: var(--cards-3col-width);
   }
 }

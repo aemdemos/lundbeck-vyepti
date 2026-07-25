@@ -238,7 +238,7 @@ export function createArtDirectionPicture(sources, eager) {
 /**
  * @typedef {Object} BuildPictureCellOptions
  * @property {boolean} [eagerSingle=true] - `loading` for single-image `createOptimizedPicture` path
- * @property {boolean} [eagerArtDirection=true] - `loading` on fallback &lt;img&gt; in multi-image art-direction path
+ * @property {boolean} [eagerArtDirection=false] - `loading` on fallback &lt;img&gt; in multi-image art-direction path
  * @property {Array<{ media?: string, width: string }>} [singlePictureBreakpoints] - overrides for single-image optimization
  */
 
@@ -251,7 +251,7 @@ export function createArtDirectionPicture(sources, eager) {
 export function buildPictureContentFromImageCell(cell, options = {}) {
   const {
     eagerSingle = true,
-    eagerArtDirection = true,
+    eagerArtDirection = false,
     singlePictureBreakpoints = DEFAULT_BLOCK_SINGLE_PICTURE_BREAKPOINTS,
   } = options;
 
