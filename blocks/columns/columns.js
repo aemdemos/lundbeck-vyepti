@@ -16,16 +16,22 @@ export default function decorate(block) {
   // setup image columns
   [...block.children].forEach((row) => {
     [...row.children].forEach((col) => {
-      if (col.querySelector('picture')) {
-        if (col.children.length === 1) {
-          // picture is only content in column
-          col.classList.add('columns-img-col');
-        } else if (col.children.length >= 2 && col.children.length <= 5) {
-          // 2-5 picture variants (bare <picture> or p:has(picture)) for art-direction per breakpoint
-          const built = buildPictureContentFromImageCell(col);
-          col.replaceChildren(built);
-          col.classList.add('columns-img-col');
-        }
+      if (!col.querySelector('picture')) return;
+      const pictureCells = [...col.children].filter(
+        (child) => child.matches('picture') || child.querySelector('picture'),
+      );
+      if (pictureCells.length === 1 && col.children.length === 1) {
+        // picture is only content in column
+        col.classList.add('columns-img-col');
+      } else if (pictureCells.length >= 2 && pictureCells.length <= 5) {
+        // 2-5 picture variants (bare <picture> or p:has(picture)) for art-direction per
+        // breakpoint; merge only those cells so any other content (e.g. a caption) stays put
+        const placeholder = document.createComment('');
+        pictureCells[0].before(placeholder);
+        const temp = document.createElement('div');
+        temp.append(...pictureCells);
+        placeholder.replaceWith(buildPictureContentFromImageCell(temp));
+        col.classList.add('columns-img-col');
       }
     });
   });
