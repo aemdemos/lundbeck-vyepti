@@ -14,6 +14,6 @@
 
   /* feature variant */
   --cards-feature-gap: var(--spacing-s); /* image-to-text gap (mobile column) */
-  --cards-feature-icon-size: 96px; /* leading icon size in the tablet row */
+  --cards-feature-icon-size: 112px; /* leading icon size in the tablet row */
   --cards-feature-cta-gap: var(--spacing-l); /* gap before the right-aligned CTA */
 }
