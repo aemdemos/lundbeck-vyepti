@@ -79,15 +79,19 @@ function init() {
 
 
 function populateConfig(block) {
-  [...block.children].slice(-3).forEach((row) => {
-    const text = row.textContent.trim();
-    const [key, value] = text.split(':');
+  [...block.children].slice(1).forEach((row) => {
+    const [keyCell, valueCell] = row.children;
 
-    if (key && value) {
-      FORM_CONFIGS[key.trim()] = value.trim();
+    if (!keyCell || !valueCell) {
+      return;
     }
+    const key = keyCell.textContent.trim();
+    const value = valueCell.textContent.trim();
 
-    row.remove();
+    if (['id', 'a-value', 'g-value'].includes(key)) {
+      FORM_CONFIGS[key] = value;
+      row.remove();  
+    }
   });
 }
 

@@ -3,8 +3,8 @@ import { SELECTORS } from './constants.js';
 export function collectFormData(config) {
   return {
     id: config.id,
-    a: config.a,
-    g: config.g,
+    a: config['a-value'],
+    g: config['g-value'],
 
     firstName: document.querySelector(SELECTORS.firstName)?.value || '',
     lastName: document.querySelector(SELECTORS.lastName)?.value || '',
