@@ -69,18 +69,19 @@ main .isi a:hover { /* @boilerplate */
 }
 
 /* ── Fixed bottom bar (abbreviated content – Row 1) ──────────── */
-.isi-bar { /* @boilerplate */
-  position: fixed; /* @boilerplate */
-  bottom: 0; /* @boilerplate */
-  left: 0; /* @boilerplate */
-  right: 0; /* @boilerplate */
+.isi-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
   z-index: var(--isi-bar-z-index); /* @boilerplate */
   background-color: var(--isi-bar-background); /* @boilerplate */
   border-top: var(--isi-bar-border-width) solid var(--isi-bar-border-color); /* @boilerplate */
-  height: var(--isi-bar-height); /* @boilerplate */
-  overflow: hidden; /* @boilerplate */
+  height: auto;
+  max-height: var(--isi-bar-height);
+  overflow: hidden;
   padding: var(--isi-bar-padding); /* @boilerplate */
-  transition: height var(--isi-bar-height-transition-duration) var(--isi-bar-height-transition-easing); /* @boilerplate */
+  transition: max-height var(--isi-bar-height-transition-duration) var(--isi-bar-height-transition-easing);
   color: var(--isi-text-color); /* @boilerplate */
   cursor: pointer; /* @boilerplate */
 }
@@ -89,11 +90,10 @@ main .isi a:hover { /* @boilerplate */
   display: none; /* @boilerplate */
 }
 
-/* Expanded state */
-.isi-bar.full { /* @boilerplate */
-  height: auto; /* @boilerplate */
-  max-height: var(--isi-bar-expanded-max-height); /* @boilerplate */
-  overflow-y: auto; /* @boilerplate */
+/* Expanded state — animates max-height (auto is not animatable) */
+.isi-bar.full {
+  max-height: var(--isi-bar-expanded-max-height);
+  overflow-y: auto;
   z-index: var(--isi-bar-expanded-z-index); /* @boilerplate */
   cursor: default; /* @boilerplate */
 }
@@ -156,30 +156,30 @@ main .isi a:hover { /* @boilerplate */
   text-decoration: underline; /* @boilerplate */
 }
 
-/* ── Toggle button (+/−) ─────────────────────────────────────── */
-.isi-bar-toggle { /* @boilerplate */
-  position: absolute; /* @boilerplate */
-  right: var(--isi-toggle-right); /* @boilerplate */
-  top: var(--isi-toggle-top); /* @boilerplate */
-  background: none; /* @boilerplate */
-  border: var(--isi-toggle-border-width) solid var(--isi-toggle-color); /* @boilerplate */
-  border-radius: 50%; /* @boilerplate */
-  width: var(--isi-toggle-size); /* @boilerplate */
-  height: var(--isi-toggle-size); /* @boilerplate */
-  padding: 0; /* @boilerplate */
-  cursor: pointer; /* @boilerplate */
-  display: flex; /* @boilerplate */
-  align-items: center; /* @boilerplate */
-  justify-content: center; /* @boilerplate */
-  color: var(--isi-toggle-color); /* @boilerplate */
-  transition: color var(--isi-toggle-transition-duration), border-color var(--isi-toggle-transition-duration); /* @boilerplate */
-  z-index: var(--isi-toggle-z-index); /* @boilerplate */
+/* ── Toggle button (+/−) — thin teal ring with +/− glyph (matches source) ── */
+.isi-bar-toggle {
+  position: absolute;
+  right: var(--isi-toggle-right);
+  top: var(--isi-toggle-top);
+  background: none;
+  border: var(--isi-toggle-border-width) solid var(--isi-toggle-color);
+  border-radius: 50%;
+  width: var(--isi-toggle-size);
+  height: var(--isi-toggle-size);
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--isi-toggle-color);
+  transition: color var(--isi-toggle-transition-duration), border-color var(--isi-toggle-transition-duration);
+  z-index: var(--isi-toggle-z-index);
 }
 
-.isi-bar-toggle:hover { /* @boilerplate */
-  color: var(--isi-toggle-hover-color); /* @boilerplate */
-  border-color: var(--isi-toggle-hover-color); /* @boilerplate */
-  background: none; /* @boilerplate */
+.isi-bar-toggle:hover {
+  color: var(--isi-toggle-hover-color);
+  border-color: var(--isi-toggle-hover-color);
+  background: none;
 }
 
 /* Plus icon (collapsed) */

@@ -25,7 +25,7 @@
   --isi-bar-padding: 13px 13px 8px; /* @boilerplate */
   --isi-bar-height-transition-duration: 0.3s; /* @boilerplate */
   --isi-bar-height-transition-easing: ease-in-out; /* @boilerplate */
-  --isi-bar-expanded-max-height: 70vh; /* @boilerplate */
+  --isi-bar-expanded-max-height: 85vh;
   --isi-content-max-width: var(--max-width-site); /* @boilerplate */
   --isi-bar-content-gap: 0 24px; /* @boilerplate */
   --isi-bar-col-flex-basis: 45%; /* @boilerplate */
@@ -37,7 +37,7 @@
   --isi-bar-link-font-weight: 600; /* @boilerplate */
   --isi-toggle-right: 15px; /* @boilerplate */
   --isi-toggle-top: 13px; /* @boilerplate */
-  --isi-toggle-border-width: 2px; /* @boilerplate */
+  --isi-toggle-border-width: 1.5px;
   --isi-toggle-size: 24px; /* @boilerplate */
   --isi-toggle-color: var(--brand-primary-dark); /* @boilerplate */
   --isi-toggle-hover-color: var(--link-hover-color); /* @boilerplate */
@@ -54,7 +54,7 @@
 
 @media (width <= 768px) { /* @boilerplate */
   :root { /* @boilerplate */
-    --isi-bar-height: 109px; /* @boilerplate */
+    --isi-bar-height: 118px;
     --isi-bar-padding: 0; /* @boilerplate */
     --isi-bar-heading-color: var(--brand-primary); /* @boilerplate */
     --isi-bar-heading-padding-bottom: 8px; /* @boilerplate */
