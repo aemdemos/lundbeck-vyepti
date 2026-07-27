@@ -62,6 +62,13 @@ main .cards.feature > ul > li {
     flex: 0 0 var(--cards-feature-icon-size);
   }
 
+  /* the leading icon is square, not the card's default 3/2 crop */
+  main .cards.feature > ul > li .cards-card-image img {
+    width: var(--cards-feature-icon-size);
+    height: var(--cards-feature-icon-size);
+    aspect-ratio: 1;
+  }
+
   /* the text body fills the remaining width: heading + copy stack in the left
      column, and the trailing CTA paragraph sits in a right column spanning the
      full height so it stays vertically centered against the copy */
