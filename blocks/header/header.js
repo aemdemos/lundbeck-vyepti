@@ -1,6 +1,37 @@
 import { getMetadata, decorateBlock, loadBlock } from '../../scripts/aem.js';
 import { loadFragment } from '../fragment/fragment.js';
 
+/**
+ * Normalizes a pathname for comparison (strips trailing slash and .html).
+ * @param {string} path
+ * @returns {string}
+ */
+function normalizePath(path) {
+  return path.replace(/\.html$/, '').replace(/\/index$/, '/').replace(/\/+$/, '') || '/';
+}
+
+/**
+ * Marks the nav item matching the current page as active. Adds `nav-active` to
+ * the top-level <li> (drives the pink underline/left border) and `nav-active-link`
+ * to the matching dropdown link (drives the bold child styling).
+ * @param {Element} navList The decorated nav list (<ul>)
+ */
+function markActiveNavItem(navList) {
+  const currentPath = normalizePath(window.location.pathname);
+  const matches = (linkPath) => linkPath === currentPath
+    || (linkPath !== '/' && currentPath.endsWith(linkPath));
+  navList.querySelectorAll(':scope > li').forEach((li) => {
+    let isActive = false;
+    li.querySelectorAll('a').forEach((a) => {
+      if (matches(normalizePath(new URL(a.href, window.location).pathname))) {
+        isActive = true;
+        if (a.closest('.nav-dropdown-menu')) a.classList.add('nav-active-link');
+      }
+    });
+    if (isActive) li.classList.add('nav-active');
+  });
+}
+
 function toggleAllNavSections(sections, expanded = false) {
   if (!sections) return;
   sections.querySelectorAll(':scope > ul > li').forEach((section) => {
@@ -377,6 +408,7 @@ function decorateNavLinks(sectionsEl) {
       }
     });
 
+    markActiveNavItem(navList);
     container.append(navList);
   }
 
