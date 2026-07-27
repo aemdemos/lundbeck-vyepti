@@ -137,4 +137,22 @@ main .cards.feature > ul > li {
     aspect-ratio: 1;
     margin-inline: auto;
   }
+
+  /* equal-height cards with the body filling the card, so the CTA pins to the
+     bottom and all three buttons line up on the same row like the source */
+  main .cards.feature.cards-3-cols > ul,
+  main .cards.feature.cards-2-cols > ul {
+    align-items: stretch;
+  }
+
+  main .cards.feature > ul > li .cards-card-body {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  main .cards.feature > ul > li .cards-card-body > p:last-child:has(a) {
+    margin-top: auto;
+    padding-top: var(--cards-feature-cta-gap-desktop);
+  }
 }
