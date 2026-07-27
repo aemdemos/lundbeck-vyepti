@@ -11,4 +11,7 @@
   --cards-3col-width: unset;
   --cards-2col-width: calc((200% - 3 * var(--cards-grid-gap)) / 4);
   --card-image-height: unset;
+
+  /* feature variant — gap between image and text within a card */
+  --cards-feature-gap: var(--spacing-s);
 }

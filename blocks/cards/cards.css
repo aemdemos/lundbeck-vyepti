@@ -27,6 +27,27 @@
   object-fit: var(--cards-image-object-fit); /* @boilerplate */
 }
 
+/* feature variant — image above centered text on mobile; the <li> becomes a
+   flexbox so the same markup can flip to a row at tablet widths. Image stays
+   first in source order, so it sits on top (column) or leading (row) naturally. */
+main .cards.feature > ul > li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--cards-feature-gap);
+  text-align: center;
+}
+
+/* tablet only — image first in a row with left-aligned text beside it (the
+   source's Bootstrap md band); reverts to the centered column at 992px+ below. */
+@media (width >= 768px) and (width < 992px) {
+  main .cards.feature > ul > li {
+    flex-direction: row;
+    align-items: flex-start;
+    text-align: left;
+  }
+}
+
 @media (width >= 992px) {
   .cards.cards-2-cols > ul {
     grid-template-columns: repeat(2, 1fr);
