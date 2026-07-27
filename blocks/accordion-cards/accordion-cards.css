@@ -167,7 +167,7 @@
 }
 
 .accordion-cards .accordion-cards-card-title {
-  margin: 0 0 8px;
+  margin: 0 0 18px;
   color: var(--accordion-cards-title-color);
   font-size: var(--accordion-cards-title-font-size);
   font-weight: 700;
