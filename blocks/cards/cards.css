@@ -42,8 +42,11 @@ main .cards.feature > ul > li {
    a single row of icon | heading+copy | right-aligned CTA, all vertically
    centered. Reverts to the centered column at 992px+ below. */
 @media (width >= 768px) and (width < 992px) {
+  /* single full-width column with wider vertical rhythm between the stacked
+     cards, matching the source */
   main .cards.feature > ul {
     grid-template-columns: 1fr;
+    row-gap: var(--cards-feature-row-gap);
   }
 
   main .cards.feature.cards-2-cols > ul > li,
@@ -55,7 +58,7 @@ main .cards.feature > ul > li {
     flex-direction: row;
     align-items: center;
     text-align: left;
-    gap: var(--cards-feature-cta-gap);
+    gap: var(--cards-feature-icon-gap);
   }
 
   main .cards.feature > ul > li .cards-card-image {
@@ -69,13 +72,13 @@ main .cards.feature > ul > li {
     aspect-ratio: 1;
   }
 
-  /* the text body fills the remaining width: heading + copy stack in the left
-     column, and the trailing CTA paragraph sits in a right column spanning the
-     full height so it stays vertically centered against the copy */
+  /* body is a two-column grid: a capped text column (so the heading wraps to
+     two lines like the source) and a flexible column that pushes the CTA to
+     the far right, vertically centered against the text */
   main .cards.feature > ul > li .cards-card-body {
     flex: 1;
     display: grid;
-    grid-template-columns: 1fr auto;
+    grid-template-columns: minmax(0, var(--cards-feature-text-max)) 1fr;
     align-items: center;
     column-gap: var(--cards-feature-cta-gap);
   }
@@ -98,7 +101,7 @@ main .cards.feature > ul > li {
   main .cards.feature > ul > li .cards-card-body > p:last-child:has(a) {
     grid-column: 2;
     grid-row: 1 / -1;
-    align-self: center;
+    place-self: center start;
     margin: 0;
   }
 }
