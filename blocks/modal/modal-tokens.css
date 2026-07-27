@@ -62,9 +62,11 @@
 
 
 
-  /* exit interstitial ("You are about to leave VYEPTI.com") — mobile-first */
-  --modal-exit-width: calc(100vw - 44px);
-  --modal-exit-max-width: calc(100vw - 44px);
+  /* exit interstitial ("You are about to leave VYEPTI.com") — mobile-first.
+     Source vyepti.com: 15px side gutters (100vw - 30px), capped at a fixed 535px
+     that carries across every breakpoint. */
+  --modal-exit-width: calc(100vw - 30px);
+  --modal-exit-max-width: 535px;
   --modal-exit-radius: 12px;
   --modal-exit-shadow: 0 5px 15px rgb(0 0 0 / 30%);
   --modal-exit-background: #eff6f9;
@@ -72,7 +74,7 @@
   --modal-exit-heading-size: 16px;
   --modal-exit-heading-weight: 400;
   --modal-exit-heading-line-height: 24px;
-  --modal-exit-content-padding: 16px 15px 34px;
+  --modal-exit-content-padding: 16px 15px 34px; /* source: body padding 0 15px 34px + 16px top for close row */
   --modal-exit-logo-max-width: 174px;
   --modal-exit-logo-margin-bottom: 20px;
   --modal-exit-heading-margin-bottom: 24px;
@@ -84,12 +86,14 @@
   --modal-exit-button-cancel-color: var(--brand-primary);
 }
 
-/* exit interstitial — tablet/desktop (fixed-width dialog, wider padding) */
+/* exit interstitial — tablet/desktop.
+   Source vyepti.com holds a fixed 535px dialog with 24px side padding across
+   the whole tablet-and-up band (measured at 768px and 1440px). */
 @media (width >= 768px) {
   :root {
-    --modal-exit-width: 521px;
+    --modal-exit-width: 535px;
     --modal-exit-max-width: calc(100vw - 30px);
-    --modal-exit-content-padding: 27px 60px 48px;
+    --modal-exit-content-padding: 27px 24px 48px;
     --modal-exit-logo-margin-bottom: 24px;
     --modal-exit-heading-margin-bottom: 28px;
   }
