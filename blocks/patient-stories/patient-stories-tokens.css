@@ -1,0 +1,131 @@
+/* patient-stories — component tokens (Tier 2), referencing global Tier-1 tokens
+   where a semantic match exists. Matches vyepti.com/real-patient-stories. */
+:root {
+  /* grid */
+  --patient-stories-columns-mobile: 2;
+  --patient-stories-columns-desktop: 3;
+  --patient-stories-column-gap-mobile: 24px;
+  --patient-stories-column-gap-desktop: 20px;
+  --patient-stories-card-gap: 20px;
+
+  /* card box */
+  --patient-stories-card-border: 1px solid #979797;
+  --patient-stories-card-radius: 12px;
+
+  /* overlay icon (quote bubble / play circle) — the source renders it at 30px on
+     mobile and 60px from the tablet breakpoint up */
+  --patient-stories-icon-size: 30px;
+  --patient-stories-icon-size-desktop: 60px;
+  --patient-stories-icon-offset-right: 8px;
+  --patient-stories-icon-offset-bottom: 10px;
+  --patient-stories-icon-offset-right-desktop: 10px;
+  --patient-stories-icon-offset-bottom-desktop: 15px;
+
+  /* star badge (compensated ambassador) — top-left; the ribbon shape is baked into
+     the SVG, so no background/radius here. The source renders 20x25 on
+     mobile/tablet and scales up to 29x33 on desktop, square corners. */
+  --patient-stories-star-width: 20px;
+  --patient-stories-star-height: 25px;
+  --patient-stories-star-width-desktop: 29px;
+  --patient-stories-star-height-desktop: 33px;
+  --patient-stories-star-offset-top: 0;
+  --patient-stories-star-offset-left: 11px;
+
+  /* video duration badge */
+  --patient-stories-badge-bg: rgb(51 51 51 / 50%);
+  --patient-stories-badge-color: #fff;
+  --patient-stories-badge-font-size: 14px;
+  --patient-stories-badge-line-height: 18px;
+  --patient-stories-badge-radius: 4px;
+  --patient-stories-badge-offset-mobile: 5px;
+  --patient-stories-badge-offset-desktop: 10px;
+
+  /* card text area */
+  --patient-stories-body-padding: 4px 15px 18px 12px;
+  --patient-stories-title-font-family: var(--heading-font-family);
+  --patient-stories-title-font-size: 18px;
+  --patient-stories-title-font-weight: 700;
+  --patient-stories-title-line-height: 22px;
+  --patient-stories-title-color: rgb(72 72 72);
+  --patient-stories-title-padding-bottom: 8px;
+  --patient-stories-preview-font-family: var(--body-font-family);
+  --patient-stories-preview-font-size: 16px;
+  --patient-stories-preview-line-height: 22px;
+  --patient-stories-preview-color: rgb(72 72 72);
+
+  /* "+" expand indicator */
+  --patient-stories-plus-color: var(--brand-rose-dark);
+  --patient-stories-plus-font-size: 26px;
+  --patient-stories-plus-offset-right: 15px;
+  --patient-stories-plus-offset-bottom: 6px;
+
+  /* detail panel — the source's expanded panel sits on a powder-blue section
+     background (#eff6f9), lighter than the site's --accent-bg */
+  --patient-stories-detail-bg: #eff6f9;
+  --patient-stories-detail-radius: 0;
+  --patient-stories-detail-padding-desktop: 2.5rem;
+
+  /* mobile: the source expands the clicked card IN PLACE as a white card with a
+     maroon outline (not the powder-blue panel). Image is full-bleed at the top,
+     text sits below with the same padding as a collapsed card body. */
+  --patient-stories-detail-mobile-bg: #fff;
+  --patient-stories-detail-mobile-border: 3px solid rgb(191 44 88);
+  --patient-stories-detail-mobile-radius: 12px;
+  --patient-stories-detail-mobile-body-padding: 4px 15px 18px 12px;
+  --patient-stories-detail-text-color: rgb(72 72 72);
+  --patient-stories-detail-font-size: 16px;
+  --patient-stories-detail-line-height: 22px;
+  --patient-stories-detail-heading-font-size: 24px;
+  --patient-stories-detail-heading-line-height: 24px;
+  --patient-stories-detail-photo-radius: 12px;
+  --patient-stories-detail-photo-max-width-desktop: 500px;
+
+  /* on tablet/desktop the source constrains the expanded TEXT content to a
+     centered column (source text column = 702px) */
+  --patient-stories-detail-content-max-width: 702px;
+
+  /* the source's VIDEO is wider than the text — it fills the full centered
+     content container (video = 1110px), so it breaks out of the 702px text cap */
+  --patient-stories-detail-video-max-width: 1110px;
+
+  /* intro hero above the grid (source values) */
+  --patient-stories-intro-eyebrow-size: 18px;
+  --patient-stories-intro-eyebrow-weight: 600;
+  --patient-stories-intro-eyebrow-line-height: 22px;
+  --patient-stories-intro-eyebrow-color: rgb(51 51 51);
+  --patient-stories-intro-h1-size: 32px;
+  --patient-stories-intro-h1-weight: 800;
+  --patient-stories-intro-h1-line-height: 36px;
+  --patient-stories-intro-h1-color: var(--brand-teal);
+  --patient-stories-intro-subhead-size: 24px;
+  --patient-stories-intro-subhead-weight: 800;
+  --patient-stories-intro-subhead-line-height: 29px;
+  --patient-stories-intro-subhead-color: rgb(51 51 51);
+  --patient-stories-intro-body-size: 20px;
+  --patient-stories-intro-body-line-height: 28px;
+  --patient-stories-intro-body-color: rgb(51 51 51);
+  --patient-stories-intro-legend-size: 16px;
+  --patient-stories-intro-legend-weight: 700;
+  --patient-stories-intro-legend-line-height: 22px;
+  --patient-stories-intro-legend-color: rgb(51 51 51);
+
+  /* video player */
+  --patient-stories-video-aspect-ratio: 16 / 9;
+
+  /* transcript toggle + body — the source toggle renders at 18px/27px teal */
+  --patient-stories-transcript-toggle-color: var(--brand-teal);
+  --patient-stories-transcript-font-size: 18px;
+  --patient-stories-transcript-line-height: 27px;
+  --patient-stories-transcript-color: rgb(51 51 51);
+  --patient-stories-transcript-icon-size: 22px;
+  --patient-stories-transcript-gap: 8px;
+
+  /* the source wraps the transcript in a white rounded box on the blue panel;
+     the toggle/body are indented from the left edge and the opened body scrolls
+     within a fixed height (source scroll region ~175px) */
+  --patient-stories-transcript-box-bg: #fff;
+  --patient-stories-transcript-box-border: 1px solid #e0e0e0;
+  --patient-stories-transcript-box-radius: 12px;
+  --patient-stories-transcript-box-padding: 11px 30px 20px;
+  --patient-stories-transcript-body-max-height: 175px;
+}

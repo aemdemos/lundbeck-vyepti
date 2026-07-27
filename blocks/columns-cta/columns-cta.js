@@ -15,4 +15,10 @@ export default function decorate(block) {
       }
     });
   });
+
+  // CTA buttons open in a new tab (matches decorateExternalLinks attributes)
+  block.querySelectorAll('a[href]').forEach((a) => {
+    a.setAttribute('target', '_blank');
+    a.setAttribute('rel', 'noopener noreferrer');
+  });
 }
