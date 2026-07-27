@@ -54,9 +54,10 @@ main .cards.feature > ul > li {
     width: auto;
   }
 
+  /* icon top-aligns with the heading (not centered against the whole text) */
   main .cards.feature > ul > li {
     flex-direction: row;
-    align-items: center;
+    align-items: flex-start;
     text-align: left;
     gap: var(--cards-feature-icon-gap);
   }
@@ -72,14 +73,14 @@ main .cards.feature > ul > li {
     aspect-ratio: 1;
   }
 
-  /* body is a two-column grid: a capped text column (so the heading wraps to
-     two lines like the source) and a flexible column that pushes the CTA to
-     the far right, vertically centered against the text */
+  /* body is a three-column grid: a capped text column (so the heading wraps to
+     two lines like the source), a flexible spacer, and an auto-width column
+     that holds the CTA at its natural width so the button never wraps */
   main .cards.feature > ul > li .cards-card-body {
     flex: 1;
     display: grid;
-    grid-template-columns: minmax(0, var(--cards-feature-text-max)) 1fr;
-    align-items: center;
+    grid-template-columns: minmax(0, var(--cards-feature-text-max)) 1fr auto;
+    align-items: start;
     column-gap: var(--cards-feature-cta-gap);
   }
 
@@ -87,8 +88,7 @@ main .cards.feature > ul > li {
     grid-column: 1;
   }
 
-  /* strip the heading's leading margin and the copy's trailing margin so the
-     text block is measured tightly and centers cleanly against the icon */
+  /* strip the heading's leading margin so the text starts flush with the icon */
   main .cards.feature > ul > li .cards-card-body > :first-child {
     margin-top: 0;
   }
@@ -98,11 +98,14 @@ main .cards.feature > ul > li {
     margin-bottom: 0;
   }
 
+  /* CTA sits in the auto-width column, aligned to the heading's baseline row,
+     right-justified and never wrapping */
   main .cards.feature > ul > li .cards-card-body > p:last-child:has(a) {
-    grid-column: 2;
-    grid-row: 1 / -1;
-    place-self: center start;
+    grid-column: 3;
+    grid-row: 1;
+    justify-self: end;
     margin: 0;
+    white-space: nowrap;
   }
 }
 
