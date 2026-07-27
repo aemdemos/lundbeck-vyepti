@@ -32,7 +32,7 @@
   --accordion-cards-card-spacing: 32px;
 
   /* card image */
-  --accordion-cards-image-max-width: 164px;
+  --accordion-cards-image-max-width: 130px;
 
   /* card typography */
   --accordion-cards-title-color: #046183;
@@ -45,7 +45,7 @@
   /* links — icons authored via :icon-*: in DA */
   --accordion-cards-link-color: #046183;
   --accordion-cards-link-hover-color: #7ebcc6;
-  --accordion-cards-link-font-size: 16px;
+  --accordion-cards-link-font-size: 18px;
   --accordion-cards-link-font-weight: 700;
   --accordion-cards-link-line-height: 20px;
 
@@ -61,6 +61,6 @@
 @media (width >= 992px) {
   :root {
     --accordion-cards-title-font-size: 22px;
-    --accordion-cards-image-max-width: 140px;
+    --accordion-cards-image-max-width: 164px;
   }
 }
