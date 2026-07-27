@@ -128,4 +128,13 @@ main .cards.feature > ul > li {
   .cards.cards-3-cols > ul > li {
     width: var(--cards-3col-width);
   }
+
+  /* desktop feature icon: square (not the card's 3/2 crop) at the intended
+     size, centered above the text like the source */
+  main .cards.feature > ul > li .cards-card-image img {
+    width: var(--cards-feature-icon-size-desktop);
+    height: var(--cards-feature-icon-size-desktop);
+    aspect-ratio: 1;
+    margin-inline: auto;
+  }
 }

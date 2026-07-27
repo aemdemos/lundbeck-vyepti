@@ -16,6 +16,7 @@
      loaded at runtime, so referencing them yields invalid/empty values) */
   --cards-feature-gap: 16px; /* image-to-text gap (mobile column) */
   --cards-feature-icon-size: 112px; /* leading icon size in the tablet row */
+  --cards-feature-icon-size-desktop: 112px; /* centered icon size at desktop */
   --cards-feature-icon-gap: 16px; /* gap between icon and text */
   --cards-feature-cta-gap: 24px; /* gap around the flexible spacer before the CTA */
   --cards-feature-text-max: 16rem; /* caps the copy column so headings wrap like the source */
