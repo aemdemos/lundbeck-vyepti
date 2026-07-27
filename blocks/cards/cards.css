@@ -38,6 +38,15 @@ main .cards.feature > ul > li {
   text-align: center;
 }
 
+/* the leading icon is square (not the card's default 3/2 crop) at the intended
+   size, centered above the text */
+main .cards.feature > ul > li .cards-card-image img {
+  width: var(--cards-feature-icon-size);
+  height: var(--cards-feature-icon-size);
+  aspect-ratio: 1;
+  margin-inline: auto;
+}
+
 /* tablet only — the source's Bootstrap md band: full-width stacked cards, each
    a single row of icon | heading+copy | right-aligned CTA, all vertically
    centered. Reverts to the centered column at 992px+ below. */
@@ -64,13 +73,6 @@ main .cards.feature > ul > li {
 
   main .cards.feature > ul > li .cards-card-image {
     flex: 0 0 var(--cards-feature-icon-size);
-  }
-
-  /* the leading icon is square, not the card's default 3/2 crop */
-  main .cards.feature > ul > li .cards-card-image img {
-    width: var(--cards-feature-icon-size);
-    height: var(--cards-feature-icon-size);
-    aspect-ratio: 1;
   }
 
   /* body is a three-column grid: a capped text column (so the heading wraps to
