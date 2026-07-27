@@ -84,10 +84,22 @@ main .cards.feature > ul > li {
     grid-column: 1;
   }
 
+  /* strip the heading's leading margin and the copy's trailing margin so the
+     text block is measured tightly and centers cleanly against the icon */
+  main .cards.feature > ul > li .cards-card-body > :first-child {
+    margin-top: 0;
+  }
+
+  main .cards.feature > ul > li .cards-card-body > :not(:last-child):last-of-type,
+  main .cards.feature > ul > li .cards-card-body > p:nth-last-child(2) {
+    margin-bottom: 0;
+  }
+
   main .cards.feature > ul > li .cards-card-body > p:last-child:has(a) {
     grid-column: 2;
     grid-row: 1 / -1;
     align-self: center;
+    margin: 0;
   }
 }
 
