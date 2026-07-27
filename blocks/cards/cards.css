@@ -38,13 +38,49 @@ main .cards.feature > ul > li {
   text-align: center;
 }
 
-/* tablet only — image first in a row with left-aligned text beside it (the
-   source's Bootstrap md band); reverts to the centered column at 992px+ below. */
+/* tablet only — the source's Bootstrap md band: full-width stacked cards, each
+   a single row of icon | heading+copy | right-aligned CTA, all vertically
+   centered. Reverts to the centered column at 992px+ below. */
 @media (width >= 768px) and (width < 992px) {
+  main .cards.feature > ul {
+    grid-template-columns: 1fr;
+  }
+
+  main .cards.feature.cards-2-cols > ul > li,
+  main .cards.feature.cards-3-cols > ul > li {
+    width: auto;
+  }
+
   main .cards.feature > ul > li {
     flex-direction: row;
-    align-items: flex-start;
+    align-items: center;
     text-align: left;
+    gap: var(--cards-feature-cta-gap);
+  }
+
+  main .cards.feature > ul > li .cards-card-image {
+    flex: 0 0 var(--cards-feature-icon-size);
+  }
+
+  /* the text body fills the remaining width: heading + copy stack in the left
+     column, and the trailing CTA paragraph sits in a right column spanning the
+     full height so it stays vertically centered against the copy */
+  main .cards.feature > ul > li .cards-card-body {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    column-gap: var(--cards-feature-cta-gap);
+  }
+
+  main .cards.feature > ul > li .cards-card-body > :not(:last-child) {
+    grid-column: 1;
+  }
+
+  main .cards.feature > ul > li .cards-card-body > p:last-child:has(a) {
+    grid-column: 2;
+    grid-row: 1 / -1;
+    align-self: center;
   }
 }
 

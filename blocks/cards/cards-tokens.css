@@ -12,6 +12,8 @@
   --cards-2col-width: calc((200% - 3 * var(--cards-grid-gap)) / 4);
   --card-image-height: unset;
 
-  /* feature variant — gap between image and text within a card */
-  --cards-feature-gap: var(--spacing-s);
+  /* feature variant */
+  --cards-feature-gap: var(--spacing-s); /* image-to-text gap (mobile column) */
+  --cards-feature-icon-size: 72px; /* leading icon size in the tablet row */
+  --cards-feature-cta-gap: var(--spacing-l); /* gap before the right-aligned CTA */
 }
