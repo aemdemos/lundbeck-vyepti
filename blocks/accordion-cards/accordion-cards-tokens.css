@@ -33,6 +33,7 @@
 
   /* card image */
   --accordion-cards-image-max-width: 130px;
+  --accordion-cards-logo-max-width: 96px;
 
   /* card typography */
   --accordion-cards-title-color: #046183;

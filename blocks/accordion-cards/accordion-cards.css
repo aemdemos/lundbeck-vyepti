@@ -140,10 +140,15 @@
 }
 
 .accordion-cards .accordion-cards-card-image img {
+  width: auto;
   max-width: var(--accordion-cards-image-max-width);
-  width: 100%;
   height: auto;
   vertical-align: bottom;
+}
+
+/* community-resource logos are authored at 192px (2x) and render at half size */
+.accordion-cards .accordion-cards-card-image img[width="192"] {
+  max-width: var(--accordion-cards-logo-max-width);
 }
 
 .accordion-cards .accordion-cards-card-body {
@@ -171,6 +176,12 @@
 
 .accordion-cards .accordion-cards-card-body > h3:first-child {
   margin-top: 0;
+}
+
+/* linked card titles (community resources) read as underlined links, matching source */
+.accordion-cards .accordion-cards-card-title a {
+  color: var(--accordion-cards-link-color);
+  text-decoration: underline;
 }
 
 .accordion-cards .accordion-cards-card-body p a {
