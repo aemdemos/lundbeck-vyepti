@@ -7,7 +7,9 @@ import { loadFragment } from '../fragment/fragment.js';
  * @returns {string}
  */
 function normalizePath(path) {
-  return path.replace(/\.html$/, '').replace(/\/index$/, '/').replace(/\/+$/, '') || '/';
+  let p = path.replace(/\.html$/, '').replace(/\/index$/, '/');
+  while (p.length > 1 && p.endsWith('/')) p = p.slice(0, -1);
+  return p || '/';
 }
 
 /**
