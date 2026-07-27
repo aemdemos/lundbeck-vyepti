@@ -6,12 +6,18 @@
 main > .section > .columns-cta-wrapper {
   padding-top: var(--columns-cta-wrapper-padding-top);
   padding-bottom: var(--columns-cta-wrapper-padding-bottom);
+  
+}
+
+.columns-cta-wrapper{
+  margin: 40px 0 40px 0;
 }
 
 .columns-cta > div {
   display: flex;
   flex-direction: column;
   gap: var(--columns-cta-gap);
+  margin: 40px 0 40px 0;
 }
 
 /* Each column - styled as a shadow card */
