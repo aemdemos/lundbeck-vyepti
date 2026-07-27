@@ -56,11 +56,17 @@
 @media (width <= 767px) {
   :root {
     --isi-bar-height: 118px;
-    --isi-bar-padding: 0;
+    --isi-bar-padding: 13px 0;
     --isi-bar-heading-color: var(--brand-primary-dark);
     --isi-bar-heading-padding-bottom: 8px;
     --isi-bar-paragraph-padding-bottom: 16px;
     --isi-toggle-right: var(--isi-toggle-right-mobile);
+
+    /* Expanded panel stops at the header bottom (bottom-anchored bar, so its top
+       lands at header height) — matches source, which opens just below the header
+       instead of covering it. --isi-mobile-header-offset ≈ rendered header height. */
+    --isi-mobile-header-offset: 138px;
+    --isi-bar-expanded-max-height: calc(100vh - var(--isi-mobile-header-offset));
   }
 }
 

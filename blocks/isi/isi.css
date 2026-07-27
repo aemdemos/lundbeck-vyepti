@@ -74,6 +74,7 @@ main .isi a:hover { /* @boilerplate */
   bottom: 0;
   left: 0;
   right: 0;
+  box-sizing: border-box;
   z-index: var(--isi-bar-z-index); /* @boilerplate */
   background-color: var(--isi-bar-background); /* @boilerplate */
   border-top: var(--isi-bar-border-width) solid var(--isi-bar-border-color); /* @boilerplate */
@@ -174,6 +175,17 @@ main .isi a:hover { /* @boilerplate */
   color: var(--isi-toggle-color);
   transition: color var(--isi-toggle-transition-duration), border-color var(--isi-toggle-transition-duration);
   z-index: var(--isi-toggle-z-index);
+}
+
+/* Override global button:focus/:active which would otherwise turn the icon
+   rose (--brand-secondary) and give it a filled background after clicking. */
+.isi-bar-toggle:focus,
+.isi-bar-toggle:active,
+.isi-bar-toggle:focus-visible {
+  background: none;
+  color: var(--isi-toggle-color);
+  border-color: var(--isi-toggle-color);
+  outline: none;
 }
 
 .isi-bar-toggle:hover {
