@@ -47,6 +47,11 @@ main .cards.feature > ul > li .cards-card-image img {
   margin-inline: auto;
 }
 
+/* extra breathing room above the CTA in the mobile column */
+main .cards.feature > ul > li .cards-card-body > p:last-child:has(a) {
+  margin-top: var(--cards-feature-cta-gap-mobile);
+}
+
 /* tablet only — the source's Bootstrap md band: full-width stacked cards, each
    a single row of icon | heading+copy | right-aligned CTA, all vertically
    centered. Reverts to the centered column at 992px+ below. */

@@ -18,6 +18,7 @@
   --cards-feature-icon-size: 112px; /* leading icon size in the tablet row */
   --cards-feature-icon-size-desktop: 112px; /* centered icon size at desktop */
   --cards-feature-cta-gap-desktop: 32px; /* min space above the bottom-pinned CTA */
+  --cards-feature-cta-gap-mobile: 24px; /* space above the CTA in the mobile column */
   --cards-feature-icon-gap: 16px; /* gap between icon and text */
   --cards-feature-cta-gap: 24px; /* gap around the flexible spacer before the CTA */
   --cards-feature-text-max: 16rem; /* caps the copy column so headings wrap like the source */
