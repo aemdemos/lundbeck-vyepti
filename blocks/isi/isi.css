@@ -221,21 +221,28 @@ main .isi a:hover { /* @boilerplate */
   opacity: 0; /* @boilerplate */
 }
 
-/* ── Mobile ≤ 768px ──────────────────────────────────────────── */
-@media (width <= 768px) { /* @boilerplate */
-  .isi-bar-content { /* @boilerplate */
-    flex-direction: column; /* @boilerplate */
-    padding: 0 var(--isi-bar-content-padding-x-mobile); /* @boilerplate */
+/* ── Mobile ≤ 767px (original switches to 2-col at md ≥768px) ─── */
+@media (width <= 767px) {
+  .isi-bar-content {
+    flex-direction: column;
+    padding: 0 var(--isi-bar-content-padding-x-mobile);
   }
 
-  .isi-bar-col { /* @boilerplate */
-    flex: 1 1 100%; /* @boilerplate */
+  .isi-bar-col {
+    flex: 1 1 100%;
   }
 }
 
-/* ── Desktop ≥ 900px ─────────────────────────────────────────── */
-@media (width >= 992px) { /* @boilerplate */
-  .isi-bar-content { /* @boilerplate */
-    padding: 0 var(--isi-bar-content-padding-x-desktop); /* @boilerplate */
+/* ── Tablet ≥ 768px — 2-column with content inset (matches original md) ── */
+@media (width >= 768px) {
+  .isi-bar-content {
+    padding: 0 var(--isi-bar-content-padding-x-tablet);
+  }
+}
+
+/* ── Desktop ≥ 992px ─────────────────────────────────────────── */
+@media (width >= 992px) {
+  .isi-bar-content {
+    padding: 0 var(--isi-bar-content-padding-x-desktop);
   }
 }

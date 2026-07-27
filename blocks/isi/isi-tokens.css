@@ -35,31 +35,32 @@
   --isi-bar-list-padding-left: 20px; /* @boilerplate */
   --isi-bar-list-margin-bottom: 8px; /* @boilerplate */
   --isi-bar-link-font-weight: 600; /* @boilerplate */
-  --isi-toggle-right: 15px; /* @boilerplate */
+  --isi-toggle-right: 15px;
   --isi-toggle-top: 13px; /* @boilerplate */
   --isi-toggle-border-width: 1.5px;
-  --isi-toggle-size: 24px; /* @boilerplate */
+  --isi-toggle-size: 26px;
   --isi-toggle-color: var(--brand-primary-dark); /* @boilerplate */
   --isi-toggle-hover-color: var(--link-hover-color); /* @boilerplate */
   --isi-toggle-transition-duration: 0.2s; /* @boilerplate */
   --isi-toggle-z-index: 2; /* @boilerplate */
-  --isi-toggle-icon-size: 12px; /* @boilerplate */
-  --isi-toggle-icon-bar-thickness: 2px; /* @boilerplate */
-  --isi-toggle-icon-bar-radius: 1px; /* @boilerplate */
-  --isi-bar-content-padding-x-mobile: 16px; /* @boilerplate */
+  --isi-toggle-icon-size: 10px;
+  --isi-toggle-icon-bar-thickness: 1.5px;
+  --isi-toggle-icon-bar-radius: 0;
+  --isi-bar-content-padding-x-mobile: 15px;
+  --isi-bar-content-padding-x-tablet: 26px;
   --isi-bar-content-padding-x-desktop: 32px; /* @boilerplate */
-  --isi-toggle-right-mobile: 16px; /* @boilerplate */
+  --isi-toggle-right-mobile: 15px;
   --isi-toggle-right-desktop: 32px; /* @boilerplate */
 }
 
-@media (width <= 768px) { /* @boilerplate */
-  :root { /* @boilerplate */
+@media (width <= 767px) {
+  :root {
     --isi-bar-height: 118px;
-    --isi-bar-padding: 0; /* @boilerplate */
-    --isi-bar-heading-color: var(--brand-primary); /* @boilerplate */
-    --isi-bar-heading-padding-bottom: 8px; /* @boilerplate */
-    --isi-bar-paragraph-padding-bottom: 16px; /* @boilerplate */
-    --isi-toggle-right: var(--isi-toggle-right-mobile); /* @boilerplate */
+    --isi-bar-padding: 0;
+    --isi-bar-heading-color: var(--brand-primary-dark);
+    --isi-bar-heading-padding-bottom: 8px;
+    --isi-bar-paragraph-padding-bottom: 16px;
+    --isi-toggle-right: var(--isi-toggle-right-mobile);
   }
 }
 
