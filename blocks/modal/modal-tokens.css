@@ -11,52 +11,129 @@
   --modal-close-icon-size: var(--icon-size); /* @boilerplate */
   --modal-close-icon-thickness: 2px; /* @boilerplate */
 
-  /* entrance modal — top-aligned prompt shell (source: vyepti.com) */
-  --modal-entrance-background: #eff6f9;
-  --modal-entrance-backdrop-background: rgb(72 72 72 / 50%);
-  --modal-entrance-max-width: 1080px;
-  --modal-entrance-border-radius: 12px;
-  --modal-entrance-shadow: 0 4px 20px rgb(0 0 0 / 15%);
-  --modal-entrance-offset-top: var(--spacing-m, 24px);
-  --modal-entrance-close-icon-size: 16px;
-  --modal-entrance-close-icon-thickness: 1.5px;
-  --modal-entrance-close-inset: var(--spacing-xs, 8px);
-  --modal-entrance-button-border-width: 1.5px;
-  --modal-entrance-button-padding: 19px 45px;
-  --modal-entrance-privacy-font-size: 14px;
-  --modal-entrance-privacy-font-weight: 400;
-  --modal-entrance-privacy-line-height: 17px;
-  --modal-entrance-privacy-letter-spacing: -0.6px;
+  /* exit interstitial ("You are about to leave VYEPTI.com") */
+  --modal-exit-width: 535px;
+  --modal-exit-max-width: calc(100vw - 30px);
+  --modal-exit-radius: 12px;
+  --modal-exit-shadow: 0 5px 15px rgb(0 0 0 / 30%);
+  --modal-exit-background: #eff6f9;
+  --modal-exit-heading-color: #484848;
+  --modal-exit-heading-size: 16px;
+  --modal-exit-heading-weight: 400;
+  --modal-exit-content-padding: 27px 60px 48px;
+  --modal-exit-logo-max-width: 170px;
+  --modal-exit-logo-margin-bottom: 24px;
+  --modal-exit-heading-margin-bottom: 28px;
+  --modal-exit-button-gap: 16px;
+  --modal-exit-button-radius: 100px;
+  --modal-exit-button-padding: 15px 32px;
+  --modal-exit-button-font-size: 18px;
+  --modal-exit-button-min-width: 150px;
+  --modal-exit-button-ok-background: var(--brand-primary);
+  --modal-exit-button-cancel-color: var(--brand-primary);
+}
 
-  /* tablet+ content padding (768px up) — measured directly from vyepti.com's entrance modal */
-  --modal-entrance-content-padding-top: 52px;
-  --modal-entrance-content-padding-bottom: 85px;
+/* exit interstitial — mobile overrides (full-width dialog, tighter padding) */
+@media (width < 768px) {
+  :root {
+    --modal-exit-width: calc(100vw - 20px);
+    --modal-exit-max-width: calc(100vw - 20px);
+    --modal-exit-content-padding: 24px 24px 32px;
+    --modal-exit-button-padding: 14px 24px;
+    --modal-exit-button-min-width: 120px;
+  }
+}
 
-  /* 768-991px only: keeps the heading/paragraph text column wrapping to a
-     stable 2 lines each across the whole tablet band (see modal.css) —
-     narrower than 230px collapses the paragraph to 3 lines, wider than
-     380px collapses the heading to 1 line. The tighter gap is what lets the
-     text column reach 230px without the row overflowing at the 768px floor. */
-  --modal-entrance-tablet-gap: 14px;
-  --modal-entrance-text-col-min-width: 230px;
-  --modal-entrance-text-col-max-width: 380px;
+/* exit interstitial variant */
+.modal.exit dialog {
+  width: var(--modal-exit-width);
+  max-width: var(--modal-exit-max-width);
+  max-height: calc(100dvh - 40px);
+  margin: auto;
+  border: none;
+  border-radius: var(--modal-exit-radius);
+  box-shadow: var(--modal-exit-shadow);
+  background-color: var(--modal-exit-background);
+  overflow: visible;
+}
 
-  /* fixes the dialog itself to its width at the 768px floor so nothing in
-     it shifts across the tablet band — only the surrounding backdrop
-     margin grows as the viewport widens toward 992px */
-  --modal-entrance-width-tablet: 720px;
+.modal.exit dialog .modal-content {
+  max-height: calc(100dvh - 40px);
+  padding: var(--modal-exit-content-padding);
+  margin-top: 0;
+  text-align: center;
+}
 
-  /* 992px+: the text column needs ~460px to hold both the heading and
-     paragraph on one line each (matching the source). The shared desktop
-     dialog margin/gap don't leave enough room for that right at the 992px
-     floor, so the entrance variant gets its own tighter values here,
-     freeing enough width that the row already fits on one line from 992px
-     up instead of only past ~1080px. */
-  --modal-entrance-width-desktop: calc(100vw - 32px);
-  --modal-entrance-desktop-gap: var(--spacing-s, 16px);
+.modal.exit dialog .section > .default-content-wrapper {
+  padding: 0;
+}
 
-  /* gap grows from ~22px@375px to ~131px@770px, matching two points measured
-     directly on vyepti.com's mobile entrance modal; capped before the row
-     layout takes over at 900px, where it resets to a flat --spacing-s */
-  --modal-entrance-button-gap-mobile: clamp(var(--spacing-s, 16px), calc(27.6vw - 82px), 140px);
+.modal.exit dialog picture {
+  display: inline-block;
+  max-width: var(--modal-exit-logo-max-width);
+  margin: 0 auto var(--modal-exit-logo-margin-bottom);
+}
+
+.modal.exit dialog picture img {
+  width: 100%;
+  height: auto;
+}
+
+.modal.exit dialog h2 {
+  margin: 0 0 var(--modal-exit-heading-margin-bottom);
+  color: var(--modal-exit-heading-color);
+  font-size: var(--modal-exit-heading-size);
+  font-weight: var(--modal-exit-heading-weight);
+  line-height: var(--body-line-height);
+}
+
+.modal.exit dialog p {
+  font-size: var(--modal-exit-heading-size);
+  line-height: var(--body-line-height);
+}
+
+.modal.exit .close-button {
+  color: var(--text-color);
+  background-color: transparent;
+}
+
+.modal.exit dialog .modal-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--modal-exit-button-gap);
+  margin-top: 0;
+}
+
+.modal.exit dialog .button-wrapper {
+  margin: 0;
+  padding: 0;
+}
+
+.modal.exit dialog a.button {
+  display: inline-block;
+  min-width: var(--modal-exit-button-min-width);
+  margin: 0;
+  border: 1px solid var(--brand-primary);
+  border-radius: var(--modal-exit-button-radius);
+  padding: var(--modal-exit-button-padding);
+  font-size: var(--modal-exit-button-font-size);
+  font-weight: var(--font-weight-bold);
+  text-align: center;
+}
+
+.modal.exit dialog a.button.ok {
+  background-color: var(--modal-exit-button-ok-background);
+  color: var(--background-color);
+}
+
+.modal.exit dialog a.button.cancel {
+  background-color: var(--background-color);
+  color: var(--modal-exit-button-cancel-color);
+}
+
+@media (width >= 992px) {
+  .modal.exit dialog {
+    width: var(--modal-exit-width);
+  }
 }
