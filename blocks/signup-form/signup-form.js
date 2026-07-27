@@ -1,8 +1,56 @@
+
+// Google API Key link
+function loadGooglePlacesApi(callback) {
+  if (window.google?.maps?.places) {
+    callback();
+    return;
+  }
+
+  const script = document.createElement('script');
+  script.src =
+  'https://maps.googleapis.com/maps/api/js?key=AIzaSyDb18UYXgdQtqsWt12g466tldXw-r41r94&libraries=places&loading=async';
+  script.async = true;
+  script.defer = true;
+
+  script.onload = async () => {
+    await google.maps.importLibrary('places');
+    callback();
+  };
+
+  document.head.appendChild(script);
+}
+
+
+
+
+/*EDITABLE ERROR / VALIDATION MESSAGES*/
+const DEFAULT_MESSAGES = {
+  toggleRequired: 'Please choose Yes or No',
+  dob: {
+    required: 'Please enter your date of birth',
+    format: 'Please enter date in MM/DD/YYYY format (eg, 05/05/2000)',
+    invalidDate: 'Please enter a valid calendar date',
+    underage: 'You must be 18 years or older to register',
+  },
+  date: {
+    format: 'Please enter date in MM/DD/YYYY format (eg, 05/05/2000)',
+    invalidDate: 'Please enter a valid calendar date',
+  },
+  email: 'Please enter a valid email address',
+  phone: 'Please enter a valid 10-digit phone number',
+  consent: 'Your agreement is required in order to submit',
+  
+ address1: 'Please enter your address',
+  state: 'Please select your state',
+  invalidAddress: 'We couldn\'t verify that address. Please select an address from the suggestions list.',
+  server: 'Something went wrong submitting your information. Please try again.',
+
+};
+
 /**
- * Creates the small red error message element shown beneath an invalid
- * field. Starts hidden.
- * @param {string} id - Used to build the element's id (`${id}-error`).
- * @returns {Element} The error message paragraph.
+ * Error message for invalid fields
+ * @param {string} id 
+ * @returns {Element} 
  */
 function createErrorMessage(id) {
   const p = document.createElement('p');
@@ -13,11 +61,10 @@ function createErrorMessage(id) {
 }
 
 /**
- * Puts a field into its error state: red border on the input/select and a
- * visible red message beneath it.
- * @param {Element} field - The input/select/checkbox to mark invalid.
- * @param {Element} errorEl - The error message element to reveal.
- * @param {string} message - The error text to display.
+ * Puts a field into its error state:
+ * @param {Element} field 
+ * @param {Element} errorEl 
+ * @param {string} message 
  */
 function showFieldError(field, errorEl, message) {
   field.classList.add('error');
@@ -30,9 +77,9 @@ function showFieldError(field, errorEl, message) {
 }
 
 /**
- * Clears a field's error state (red border + message).
- * @param {Element} field - The input/select/checkbox to mark valid again.
- * @param {Element} errorEl - The error message element to hide.
+ * Clears a field's error
+ * @param {Element} field 
+ * @param {Element} errorEl 
  */
 function clearFieldError(field, errorEl) {
   field.classList.remove('error');
@@ -43,41 +90,132 @@ function clearFieldError(field, errorEl) {
   }
 }
 
+
+/* REVEAL / COLLAPSE ANIMATION */
+const REVEAL_DURATION_MS = 600;
+const REVEAL_EASING = 'cubic-bezier(0.16, 1, 0.3, 1)';
+
+function buildRevealTransition(durationMs) {
+  // Opacity finishes a bit before max-height so the fade doesn't look like
+  // it's dragging behind the height change.
+  const opacityMs = Math.round(durationMs * 0.7);
+  return `max-height ${durationMs}ms ${REVEAL_EASING}, opacity ${opacityMs}ms ease-out`;
+}
+
+
+/*Animates an element open with a "slide down" effect*/
+function slideDown(el, durationMs = REVEAL_DURATION_MS) {
+  el.style.transition = 'none';
+  el.style.display = 'block';
+  el.classList.add('visible');
+  el.style.overflow = 'hidden';
+  el.style.maxHeight = '0px';
+  el.style.opacity = '0';
+
+  void el.offsetHeight;
+
+  const targetHeight = el.scrollHeight;
+  el.style.transition = buildRevealTransition(durationMs);
+  el.style.maxHeight = `${targetHeight}px`;
+  el.style.opacity = '1';
+
+  const onEnd = (e) => {
+    if (e.target !== el || e.propertyName !== 'max-height') return;
+    el.style.maxHeight = '';
+    el.style.overflow = '';
+    el.style.transition = '';
+    el.removeEventListener('transitionend', onEnd);
+  };
+  el.addEventListener('transitionend', onEnd);
+}
+
 /**
- * Hides a conditional field/container and fully resets everything inside it:
- * unchecks radios/checkboxes, clears text inputs, and recursively hides any
- * nested conditional groups so re-selecting "Yes" always starts clean.
- * @param {Element} el - The conditional field or container to hide/reset.
+ * Animates an element closed with a "slide up" effect,
  */
-function hideConditionalField(el) {
+function slideUp(el, onComplete, durationMs = REVEAL_DURATION_MS) {
+  const startHeight = el.scrollHeight;
+  el.style.transition = 'none';
+  el.style.overflow = 'hidden';
+  el.style.maxHeight = `${startHeight}px`;
+
+  void el.offsetHeight; 
+
+  el.style.transition = buildRevealTransition(durationMs);
+  el.style.maxHeight = '0px';
+  el.style.opacity = '0';
+
+  const onEnd = (e) => {
+  if (e.target !== el || e.propertyName !== 'max-height') return;
+
+
+  if (el.dataset.replaying === 'cancelled') {
+    el.dataset.replaying = '';
+    el.removeEventListener('transitionend', onEnd);
+    return;
+  }
+    el.style.display = 'none';
+    el.classList.remove('visible');
+    el.style.maxHeight = '';
+    el.style.overflow = '';
+    el.style.opacity = '';
+    el.style.transition = '';
+    el.removeEventListener('transitionend', onEnd);
+    if (onComplete) onComplete();
+  };
+  el.addEventListener('transitionend', onEnd);
+}
+
+/**
+ * Plays the visible "dropdown replay" 
+ */
+function replayDropdown(el) {
+  if (!el) return;
+  const halfDuration = REVEAL_DURATION_MS / 2;
+
+  if (el.dataset.replaying === 'true') {
+    el.dataset.replaying = 'cancelled';
+  }
+  el.dataset.replaying = 'true';
+
+  slideUp(el, () => {
+    if (el.dataset.replaying === 'cancelled') {
+      el.dataset.replaying = '';
+      return;
+    }
+    slideDown(el, halfDuration);
+    el.dataset.replaying = '';
+  }, halfDuration);
+}
+
+/**
+ * Resets everything inside a conditional field/container: unchecks
+ */
+function resetConditionalFieldContents(el) {
   if (!el) return;
 
-  el.style.display = 'none';
-  el.classList.remove('visible');
-
-  // Uncheck any radio buttons inside (e.g. a nested toggle question)
+  
   el.querySelectorAll('input[type="radio"]').forEach((radio) => {
     radio.checked = false;
   });
 
-  // Clear and reset any text/date inputs inside, including their error state
+ 
   el.querySelectorAll('input[type="text"], input[type="date"]').forEach((input) => {
     input.value = '';
     input.disabled = false;
     clearFieldError(input, input.errorEl);
   });
 
-  // Reset any checkboxes inside (e.g. "Not scheduled")
+  
   el.querySelectorAll('input[type="checkbox"]').forEach((cb) => {
     cb.checked = false;
   });
 
-  // Clear error state on any toggle groups inside (e.g. a nested question)
+ 
   el.querySelectorAll('.toggle-group').forEach((group) => {
     if (group.errorEl) clearFieldError(group, group.errorEl);
   });
 
-  // Recursively hide any nested conditional groups/fields
+ 
   el.querySelectorAll('.date-field-group, .conditional-container').forEach((nested) => {
     nested.style.display = 'none';
     nested.classList.remove('visible');
@@ -85,23 +223,32 @@ function hideConditionalField(el) {
 }
 
 /**
- * Creates a Yes/No toggle question. Each answer can independently reveal one
- * or more conditional elements (they don't have to sit next to the toggle in
- * the DOM — pass an array to reveal several elements at once, e.g. a field
- * placed elsewhere in the form). Adds a "Please select an option" error
- * shown when a *required* group is left unanswered.
- * @param {string} name - The input name attribute (must be unique per question).
- * @param {string} label - The question/label text.
- * @param {{yes?: Element|Element[], no?: Element|Element[]}} branches - Elements
- *   to reveal per answer. e.g. { no: dateField } shows dateField only when
- *   "No" is picked, and hides/resets it for "Yes". Use an array,
- *   e.g. { no: [dateField, otherQuestion] }, when one answer should reveal
- *   more than one element (they can live anywhere else in the form).
- * @param {boolean} [required] - Whether leaving the question unanswered shows
- *   a validation error. Set to false for optional questions.
- * @returns {Element} The toggle group wrapper element.
+ * Hides a conditional field/container 
  */
-function createToggle(name, label, branches = {}, required = true) {
+function hideConditionalField(el) {
+  if (!el) return;
+
+  const isCurrentlyVisible = el.style.display === 'block' || el.classList.contains('visible');
+  if (!isCurrentlyVisible) {
+    el.style.display = 'none';
+    el.classList.remove('visible');
+    resetConditionalFieldContents(el);
+    return;
+  }
+
+  slideUp(el, () => resetConditionalFieldContents(el));
+}
+
+/**
+ * Creates a Yes/No toggle question. Each answer can independently reveal one
+ */
+function createToggle(
+  name,
+  label,
+  branches = {},
+  required = true,
+  errorMessage = DEFAULT_MESSAGES.toggleRequired,
+) {
   const wrapper = document.createElement('div');
   wrapper.className = 'toggle-group';
 
@@ -115,13 +262,11 @@ function createToggle(name, label, branches = {}, required = true) {
 
   const errorEl = required ? createErrorMessage(name) : null;
 
-  // Whether any radio in this group is checked; used for required validation.
-  // Optional questions (required === false) always pass.
   const validate = () => {
     if (!required) return true;
     const checked = options.querySelector('input[type="radio"]:checked');
     if (!checked) {
-      showFieldError(wrapper, errorEl, 'Please select an option');
+      showFieldError(wrapper, errorEl, errorMessage);
       return false;
     }
     clearFieldError(wrapper, errorEl);
@@ -146,17 +291,14 @@ function createToggle(name, label, branches = {}, required = true) {
     optWrap.append(input, span);
     options.append(optWrap);
 
-    // Whichever answer was just selected: show every element in its matching
-    // branch (if any), hide/reset every element in every other branch (if
-    // any), and clear this group's error.
+    
     input.addEventListener('change', () => {
       Object.entries(branches).forEach(([branchValue, target]) => {
         const els = Array.isArray(target) ? target : [target];
         els.forEach((el) => {
           if (!el) return;
           if (branchValue === input.value) {
-            el.style.display = 'block';
-            el.classList.add('visible');
+            slideDown(el);
           } else {
             hideConditionalField(el);
           }
@@ -173,9 +315,7 @@ function createToggle(name, label, branches = {}, required = true) {
   return wrapper;
 }
 
-// Single shared backdrop element (dims the page behind an open popover,
-// matching the reference design) — created once and reused by every
-// popover this module creates, rather than one per icon.
+// Single shared backdrop element 
 let popoverBackdrop = null;
 function getPopoverBackdrop() {
   if (!popoverBackdrop) {
@@ -188,10 +328,7 @@ function getPopoverBackdrop() {
   return popoverBackdrop;
 }
 
-/**
- * Closes every open popover and hides the shared backdrop. Safe to call
- * even when nothing is open.
- */
+
 function closeAllPopovers() {
   document.querySelectorAll('.form-field-popover').forEach((p) => {
     p.hidden = true;
@@ -201,18 +338,7 @@ function closeAllPopovers() {
 }
 
 /**
- * Positions an open popover directly above (or, if there isn't room,
- * below) the icon that triggered it. The popover itself is now `position:
- * fixed` with left/right set as plain CSS margins (see the CSS), so its
- * width and horizontal placement are already handled by the stylesheet —
- * this function only has to work out the two things CSS can't know on its
- * own: how far down the page the icon is (top) and where, along the
- * popover's own width, the arrow needs to sit so it still visually points
- * at that icon (--arrow-left).
- *
- * Safe to call repeatedly (e.g. on window resize or scroll).
- * @param {Element} popover - The popover element (must not be hidden when called).
- * @param {Element} anchorButton - The "i" button that opened this popover.
+ * Positions an open popover directly above
  */
 function positionPopover(popover, anchorButton) {
   const gap = 14; // space between icon and popover, matches the old CSS bottom offset
@@ -220,14 +346,28 @@ function positionPopover(popover, anchorButton) {
   const arrowEdgeMargin = 20; // min distance from either popover edge, so the ~20px-wide arrow never clips
 
   const iconRect = anchorButton.getBoundingClientRect();
-  const popoverRect = popover.getBoundingClientRect(); // left/right/width come from the fixed CSS margins
+const popoverRect = popover.getBoundingClientRect();
 
-  const top = iconRect.top - popoverRect.height - gap;
-  popover.style.top = `${Math.max(top, viewportMargin)}px`;
+const canFitAbove =
+  iconRect.top > (popoverRect.height + gap + viewportMargin);
 
-  // Point the arrow at the icon's horizontal center, expressed as an
-  // offset from the popover's own left edge, clamped so it can't render
-  // past either rounded corner.
+let top;
+
+if (canFitAbove) {
+ 
+  top = iconRect.top - popoverRect.height - gap;
+  popover.classList.remove('popover-below');
+  popover.classList.add('popover-above');
+} else {
+  // Show below icon
+  top = iconRect.bottom + gap;
+  popover.classList.remove('popover-above');
+  popover.classList.add('popover-below');
+}
+
+popover.style.top = `${top}px`;
+
+  
   const iconCenterX = iconRect.left + iconRect.width / 2;
   const arrowLeft = iconCenterX - popoverRect.left;
   const clampedArrowLeft = Math.min(
@@ -238,10 +378,9 @@ function positionPopover(popover, anchorButton) {
 }
 
 // Re-run positionPopover() for whichever popover is currently open if the
-// viewport is resized or the page is scrolled (capture: true so scrolling
-// inside any inner container is caught too), since position: fixed doesn't
-// track the icon on its own.
+
 function repositionOpenPopover() {
+  console.log('scrolling');
   const openPopover = document.querySelector('.form-field-popover:not([hidden])');
   if (openPopover && openPopover.anchorButton) {
     positionPopover(openPopover, openPopover.anchorButton);
@@ -251,13 +390,7 @@ window.addEventListener('resize', repositionOpenPopover);
 window.addEventListener('scroll', repositionOpenPopover, true);
 
 /**
- * Creates a clickable "i" info icon that opens a popover with the given
- * text, plus a close (×) button. Used for Date of birth and Street
- * address 1. Click-triggered (not hover-only) so it works on touch
- * devices, matches the reference design's icon style, and only one
- * popover is open at a time across the whole page.
- * @param {string} text - The message to show inside the popover.
- * @returns {Element} A small wrapper containing the icon button + popover.
+ * Creates a clickable "i" info icon 
  */
 function createInfoIcon(text) {
   const wrapper = document.createElement('span');
@@ -268,10 +401,7 @@ function createInfoIcon(text) {
   button.className = 'form-field-info-btn';
   button.setAttribute('aria-label', 'More information');
   button.setAttribute('aria-expanded', 'false');
-  button.innerHTML = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" '
-    + 'stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9.5"></circle>'
-    + '<line x1="12" y1="11" x2="12" y2="16.5"></line>'
-    + '<circle cx="12" cy="7.5" r="0.9" fill="currentColor" stroke="none"></circle></svg>';
+  button.append(document.createElement('span'));  /* Info icon */
 
   const popover = document.createElement('div');
   popover.className = 'form-field-popover';
@@ -282,9 +412,6 @@ function createInfoIcon(text) {
   closeBtn.type = 'button';
   closeBtn.className = 'form-field-popover-close';
   closeBtn.setAttribute('aria-label', 'Close');
-  closeBtn.innerHTML = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" '
-    + 'stroke="currentColor" stroke-width="2" stroke-linecap="round">'
-    + '<line x1="5" y1="5" x2="19" y2="19"></line><line x1="19" y1="5" x2="5" y2="19"></line></svg>';
 
   const popoverText = document.createElement('p');
   popoverText.className = 'form-field-popover-text';
@@ -293,19 +420,15 @@ function createInfoIcon(text) {
   popover.append(closeBtn, popoverText);
   wrapper.append(button, popover);
 
-  // Stored so the module-level resize/scroll handler (repositionOpenPopover)
-  // knows which icon this popover needs to stay pointed at, without having
-  // to guess or query for it.
+  
   popover.anchorButton = button;
 
   const open = () => {
-    // Only one popover open at a time — close any others first.
+    
     closeAllPopovers();
     popover.hidden = false;
     button.setAttribute('aria-expanded', 'true');
     getPopoverBackdrop().hidden = false;
-    // Runs after the popover is visible/laid out so getBoundingClientRect()
-    // in positionPopover reads its real size and position, not a stale one.
     requestAnimationFrame(() => positionPopover(popover, button));
   };
 
@@ -322,8 +445,7 @@ function createInfoIcon(text) {
   return wrapper;
 }
 
-// Close any open popover (+ backdrop) on outside click or Escape — attached
-// once at module load, works across every popover this module creates.
+
 document.addEventListener('click', (e) => {
   document.querySelectorAll('.form-field-popover').forEach((p) => {
     if (!p.hidden && !p.parentElement.contains(e.target)) {
@@ -339,19 +461,7 @@ document.addEventListener('keydown', (e) => {
 
 
 /**
- * Creates a standard text input field with a label above it, an optional
- * "(optional)" suffix and/or an "i" info icon (see createInfoIcon), and
- * required/format validation (red border + message) on blur.
- * @param {string} name - The input name and id attribute.
- * @param {string} label - The label text.
- * @param {string} type - The input type (text, email, tel, etc.).
- * @param {boolean} required - Whether the field is required.
- * @param {boolean} optional - Whether to display '(optional)' suffix.
- * @param {string|null} tooltip - Optional info-popover text shown via the "i" icon.
- * @param {string|null} requiredMessage - Custom message shown when left empty.
- * @param {number|null} maxLength - Optional max character count (letters, numbers,
- *   symbols — anything), enforced natively by the browser via maxlength.
- * @returns {Element} The form field wrapper element.
+ * Creates a standard text input field with a label above it
  */
 function createTextField(
   name,
@@ -362,6 +472,7 @@ function createTextField(
   tooltip = null,
   requiredMessage = null,
   maxLength = null,
+  formatMessage = null,
 ) {
   const wrapper = document.createElement('div');
   wrapper.className = 'form-field';
@@ -379,7 +490,7 @@ function createTextField(
   }
 
   const input = document.createElement('input');
-  input.type = type === 'tel' ? 'text' : type; // 'text' so the mask fully controls formatting
+  input.type = type === 'tel' ? 'text' : type; 
   input.name = name;
   input.id = name;
 
@@ -388,15 +499,18 @@ function createTextField(
   }
 
   if (type === 'tel') {
-    input.placeholder = '(___) ___-____';
-    input.inputMode = 'numeric'; // numeric mobile keyboard
+    input.placeholder = '_ _ _ - _ _ _ - _ _ _ _';
+    input.inputMode = 'numeric'; 
     attachPhoneMask(input);
   }
 
   const errorEl = createErrorMessage(name);
   const missingMessage = requiredMessage || `Please enter your ${label.toLowerCase()}`;
+  const defaultFormatMessage = type === 'email' ? DEFAULT_MESSAGES.email : DEFAULT_MESSAGES.phone;
+  const invalidFormatMessage = formatMessage || defaultFormatMessage;
+  let touched = false;
 
-  // Validates this field; returns true if valid. Shows/clears the error UI.
+  
   const validate = () => {
     const value = input.value.trim();
 
@@ -406,12 +520,12 @@ function createTextField(
     }
 
     if (type === 'email' && value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
-      showFieldError(input, errorEl, 'Please enter a valid email address');
+      showFieldError(input, errorEl, invalidFormatMessage);
       return false;
     }
 
     if (type === 'tel' && value && value.replace(/\D/g, '').length !== 10) {
-      showFieldError(input, errorEl, 'Please enter a valid 10-digit phone number');
+      showFieldError(input, errorEl, invalidFormatMessage);
       return false;
     }
 
@@ -419,7 +533,14 @@ function createTextField(
     return true;
   };
 
-  input.addEventListener('blur', validate);
+  // Errors are only shown once the person has actually typed in this field
+  input.addEventListener('blur', () => {
+    if (touched) validate();
+  });
+  input.addEventListener('input', () => {
+    touched = true;
+    if (!errorEl.hidden) validate();
+  });
   input.validate = validate;
   input.errorEl = errorEl;
 
@@ -428,19 +549,7 @@ function createTextField(
 }
 
 /**
- * Creates a dropdown select field with a label above it, a visible chevron
- * indicator, and required validation (red border + message) on blur/change.
- *
- * The chevron is a real inline <svg> element layered on top of the select
- * (not a CSS background-image data URI) — some sites' Content-Security-
- * Policy blocks data: URIs in background images, which silently drops a
- * CSS-only chevron while leaving the rest of the styling intact. An inline
- * SVG element in the DOM isn't subject to that restriction.
- * @param {string} name - The input name and id attribute.
- * @param {string} label - The label text.
- * @param {Array<{value: string, text: string}>} options - Array of option objects.
- * @param {string|null} requiredMessage - Custom message shown when left unselected.
- * @returns {Element} The select field wrapper element.
+ * Creates a dropdown select field with a label above it
  */
 function createSelectField(name, label, options, requiredMessage = null) {
   const wrapper = document.createElement('div');
@@ -454,10 +563,12 @@ function createSelectField(name, label, options, requiredMessage = null) {
   labelEl.textContent = label;
   labelRow.append(labelEl);
 
+  
+
   // Wraps the select + arrow icon so the arrow can be positioned relative
-  // to the select without affecting the rest of the form's layout.
   const selectWrapper = document.createElement('div');
   selectWrapper.className = 'select-wrapper';
+  selectWrapper.id = `${name}-wrapper`;
 
   const select = document.createElement('select');
   select.name = name;
@@ -480,14 +591,12 @@ function createSelectField(name, label, options, requiredMessage = null) {
   const arrow = document.createElement('span');
   arrow.className = 'select-arrow';
   arrow.setAttribute('aria-hidden', 'true');
-  arrow.innerHTML = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" '
-    + 'stroke="currentColor" stroke-width="2.5" stroke-linecap="round" '
-    + 'stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>';
-
+  arrow.innerHTML = ''; //select arrow
   selectWrapper.append(select, arrow);
 
   const errorEl = createErrorMessage(name);
   const missingMessage = requiredMessage || `Please select a ${label.toLowerCase()}`;
+  let touched = false;
 
   const validate = () => {
     if (!select.value) {
@@ -498,8 +607,14 @@ function createSelectField(name, label, options, requiredMessage = null) {
     return true;
   };
 
-  select.addEventListener('blur', validate);
-  select.addEventListener('change', validate);
+ 
+  select.addEventListener('change', () => {
+    touched = true;
+    validate();
+  });
+  select.addEventListener('blur', () => {
+    if (touched) validate();
+  });
   select.validate = validate;
   select.errorEl = errorEl;
 
@@ -507,14 +622,14 @@ function createSelectField(name, label, options, requiredMessage = null) {
   return wrapper;
 }
 
-/**
- * Validates a date string as MM/DD/YYYY with proper date ranges.
- * @param {string} dateStr - The date string to validate (format: MM/DD/YYYY).
- * @returns {boolean} True if it's a valid MM/DD/YYYY date.
- */
+/*Checks whether a string matches the MM/DD/YYYY */
+function matchesDatePattern(dateStr) {
+  return /^\d{2}\/\d{2}\/\d{4}$/.test(dateStr);
+}
+
+/* Validates a date string as MM/DD/YYYY with proper date ranges */
 function isValidDateFormat(dateStr) {
-  const pattern = /^(0[1-9]|1[0-2])\/(0[1-9]|[12]\d|3[01])\/\d{4}$/;
-  if (!pattern.test(dateStr)) return false;
+  if (!matchesDatePattern(dateStr)) return false;
 
   const [month, day, year] = dateStr.split('/');
   const dateObj = new Date(`${year}-${month}-${day}`);
@@ -526,12 +641,7 @@ function isValidDateFormat(dateStr) {
   return true;
 }
 
-/**
- * Attaches "numbers only, max 10 digits" masking behavior to a text input
- * as the person types, formatting it as (XXX) XXX-XXXX. Validation itself is
- * handled by the field's own `validate()` (see createTextField).
- * @param {HTMLInputElement} input - The input element to mask.
- */
+/*Attaches "numbers only, max 10 digits"*/
 function attachPhoneMask(input) {
   input.addEventListener('input', (e) => {
     let value = e.target.value.replace(/\D/g, ''); // strip everything but digits
@@ -549,12 +659,7 @@ function attachPhoneMask(input) {
   });
 }
 
-/**
- * Attaches "numbers only, auto-formatted as MM/DD/YYYY" masking behavior to
- * a text input as the person types. Validation itself is handled by the
- * field's own `validate()` (see createDobField / createDateField).
- * @param {HTMLInputElement} input - The input element to mask.
- */
+/* Attaches "numbers only, auto-formatted as MM/DD/YYYY"*/
 function attachDateMask(input) {
   input.addEventListener('input', (e) => {
     let value = e.target.value.replace(/\D/g, ''); // strip everything but digits
@@ -567,13 +672,10 @@ function attachDateMask(input) {
   });
 }
 
-/**
- * Creates the "Date of birth" field: MM/DD/YYYY masked input, a visible
- * "18+" hint, a click-triggered info popover (see createInfoIcon), and
- * validation on blur (required, format, and age).
- * @returns {Element} The date-of-birth field wrapper.
- */
-function createDobField() {
+/* Creates the "Date of birth" field: MM/DD/YYYY masked input*/
+function createDobField(messages = {}) {
+  const msg = { ...DEFAULT_MESSAGES.dob, ...messages };
+
   const wrapper = document.createElement('div');
   wrapper.className = 'form-field';
 
@@ -589,8 +691,6 @@ function createDobField() {
       + 'during your migraine treatment experience.',
   );
 
-  // Visible hint text (not just the popover) — matches the reference
-  // design, which shows the requirement inline next to the label.
   const hint = document.createElement('span');
   hint.className = 'form-field-hint';
   hint.textContent = 'Must be 18+ years old to register';
@@ -607,17 +707,24 @@ function createDobField() {
   attachDateMask(input);
 
   const errorEl = createErrorMessage('dob');
+  let touched = false;
+
 
   const validate = () => {
     const value = input.value.trim();
 
     if (!value) {
-      showFieldError(input, errorEl, 'Please enter your date of birth');
+      showFieldError(input, errorEl, msg.required);
+      return false;
+    }
+
+    if (!matchesDatePattern(value)) {
+      showFieldError(input, errorEl, msg.format);
       return false;
     }
 
     if (!isValidDateFormat(value)) {
-      showFieldError(input, errorEl, 'Please enter a valid calendar date');
+      showFieldError(input, errorEl, msg.invalidDate);
       return false;
     }
 
@@ -628,7 +735,7 @@ function createDobField() {
     eighteenYearsAgo.setFullYear(eighteenYearsAgo.getFullYear() - 18);
 
     if (dob > eighteenYearsAgo) {
-      showFieldError(input, errorEl, 'You must be 18 years or older to register');
+      showFieldError(input, errorEl, msg.underage);
       return false;
     }
 
@@ -636,7 +743,15 @@ function createDobField() {
     return true;
   };
 
-  input.addEventListener('blur', validate);
+ 
+  input.addEventListener('blur', () => {
+    if (!touched) return;
+    validate();
+  });
+  input.addEventListener('input', () => {
+    touched = true;
+    if (!errorEl.hidden) validate();
+  });
   input.validate = validate;
   input.errorEl = errorEl;
 
@@ -644,21 +759,17 @@ function createDobField() {
   return wrapper;
 }
 
-/**
- * Creates a date field with MM/DD/YYYY masking/validation and a
- * "Not scheduled" checkbox that disables and clears the date input (which
- * also lifts the requirement). Used for "Next doctor's appointment" and
- * "First infusion date". Hidden by default; shown via the parent toggle's
- * conditional logic.
- * @param {string} name - The input name and id attribute.
- * @param {string} label - The label text (rendered as a small heading).
- * @param {string} [requiredMessage] - Message shown when empty/invalid.
- * @returns {Element} The date field wrapper with checkbox.
- */
-function createDateField(name, label, requiredMessage = 'Please enter a valid calendar date') {
+/*Creates a date field with MM/DD/YYYY masking/validation and a"Not scheduled" checkbox*/
+function createDateField(name, label, messages = {}) {
+  const msg = {
+    required: 'Please enter a valid calendar date',
+    ...DEFAULT_MESSAGES.date,
+    ...messages,
+  };
+
   const wrapper = document.createElement('div');
   wrapper.className = 'date-field-group';
-  wrapper.style.display = 'none'; // hidden until revealed by its toggle
+  wrapper.style.display = 'none'; 
 
   const dateFieldWrapper = document.createElement('div');
   dateFieldWrapper.className = 'form-field';
@@ -674,13 +785,16 @@ function createDateField(name, label, requiredMessage = 'Please enter a valid ca
   dateInput.id = name;
   dateInput.placeholder = 'MM/DD/YYYY';
   dateInput.pattern = '\\d{2}/\\d{2}/\\d{4}';
-  dateInput.inputMode = 'numeric'; // numeric mobile keyboard
+  dateInput.inputMode = 'numeric'; 
 
   attachDateMask(dateInput);
 
   const errorEl = createErrorMessage(name);
+  const checkboxErrorEl = createErrorMessage(`${name}-checkbox`);
+  // dateFieldWrapper.append(dateLabel, dateInput, errorEl);
+  let touched = false;
+  let checkboxErrorShown = false;
 
-  // Required unless the "Not scheduled" checkbox is checked (dateInput.disabled)
   const validate = () => {
     if (dateInput.disabled) {
       clearFieldError(dateInput, errorEl);
@@ -688,8 +802,34 @@ function createDateField(name, label, requiredMessage = 'Please enter a valid ca
     }
 
     const value = dateInput.value.trim();
-    if (!value || !isValidDateFormat(value)) {
-      showFieldError(dateInput, errorEl, requiredMessage);
+
+    checkboxErrorEl.hidden = true;
+
+    if (!value && !checkbox.checked && !touched) {
+  checkboxErrorShown = true;
+
+  checkboxErrorEl.hidden = false;
+
+  checkboxErrorEl.textContent =
+    name === 'first-infusion-date'
+      ? 'Please enter infusion date or select "Not scheduled"'
+      : 'Please enter appointment date or select "Not scheduled"';
+
+  return false;
+}
+
+if (!value && touched) {
+  showFieldError(dateInput, errorEl, msg.format);
+  return false;
+}
+
+    if (!matchesDatePattern(value)) {
+      showFieldError(dateInput, errorEl, msg.format);
+      return false;
+    }
+
+    if (!isValidDateFormat(value)) {
+      showFieldError(dateInput, errorEl, msg.invalidDate);
       return false;
     }
 
@@ -697,14 +837,25 @@ function createDateField(name, label, requiredMessage = 'Please enter a valid ca
     return true;
   };
 
-  dateInput.addEventListener('blur', validate);
+ 
+  dateInput.addEventListener('blur', () => {
+    if (!touched) return;
+    validate();
+  });
+
+  dateInput.addEventListener('input', () => {
+  touched = true;
+
+  checkboxErrorEl.hidden = true;
+
+  validate();
+});
+
   dateInput.validate = validate;
   dateInput.errorEl = errorEl;
 
   dateFieldWrapper.append(dateLabel, dateInput, errorEl);
 
-  // "Not scheduled" checkbox: disables + clears the date field (and its
-  // error) when checked, since the field is no longer required in that case.
   const checkboxWrapper = document.createElement('div');
   checkboxWrapper.className = 'date-not-scheduled-wrapper';
 
@@ -718,8 +869,10 @@ function createDateField(name, label, requiredMessage = 'Please enter a valid ca
 
   checkbox.addEventListener('change', (e) => {
     if (e.target.checked) {
+      
       dateInput.disabled = true;
       dateInput.value = '';
+      checkboxErrorEl.hidden = true;
       clearFieldError(dateInput, errorEl);
     } else {
       dateInput.disabled = false;
@@ -732,51 +885,35 @@ function createDateField(name, label, requiredMessage = 'Please enter a valid ca
   checkboxLabel.append(checkbox, checkboxText);
   checkboxWrapper.append(checkboxLabel);
 
-  wrapper.append(dateFieldWrapper, checkboxWrapper);
+  wrapper.append(
+  dateFieldWrapper,
+  checkboxWrapper,
+  checkboxErrorEl,
+);
   return wrapper;
 }
 
-/**
- * Builds the complete signup form with all fields, conditional logic, and
- * validation wiring.
- * @returns {Element} The form element.
- */
+/*Builds the complete signup form with all fields, conditional logic, and validation wiring.*/
 function buildForm() {
   const form = document.createElement('form');
   form.className = 'signup-form-fields';
   form.noValidate = true; // we render our own error messages instead of native browser ones
 
-  // --------------------------------------------------------------------
-  // Question 1: "Have you been prescribed VYEPTI?" — REQUIRED toggle
-  // (the only "prescribed" question — it does not repeat itself).
-  //  - No  -> reveals "Next doctor's appointment" date field (required
-  //           unless "Not scheduled" is checked).
-  //  - Yes -> reveals Question 2, a DIFFERENT question:
-  //           "Have you had your first VYEPTI infusion?"
-  // --------------------------------------------------------------------
-
-  // Date field revealed by "No" above. Required unless "Not scheduled" is
-  // checked (see createDateField — the checkbox lifts the requirement).
   const nextDoctorAppointmentField = createDateField(
     'next-doctor-appointment',
     "Next doctor's appointment",
   );
 
-  // Optional follow-up question, also revealed by "No" — but it's rendered
-  // further down the form (after ZIP code), not next to the toggle. It's
-  // marked (optional) in its own label, so no required-selection validation.
+
   const migraineDaysToggle = createToggle(
     'migraine-days',
     'Do you have 4 or more migraine days a month? (optional)',
     {},
     false,
   );
-  migraineDaysToggle.style.display = 'none'; // hidden until revealed by the "No" branch below
+  migraineDaysToggle.style.display = 'none'; 
 
-  // Question 2: "Have you had your first VYEPTI infusion?" — REQUIRED
-  // toggle, only shown when Question 1 = "Yes".
-  //  - Yes -> nothing happens beyond the radio being highlighted.
-  //  - No  -> reveals "First infusion date" (required, MM/DD/YYYY).
+
   const firstInfusionDateField = createDateField('first-infusion-date', 'First infusion date');
   const firstInfusionToggle = createToggle(
     'first-infusion',
@@ -784,8 +921,7 @@ function buildForm() {
     { no: firstInfusionDateField },
   );
 
-  // Container groups Question 2 + its date field so Question 1's "Yes"
-  // branch can show/hide (and fully reset) both together.
+  
   const firstInfusionContainer = document.createElement('div');
   firstInfusionContainer.className = 'conditional-container';
   firstInfusionContainer.style.display = 'none';
@@ -801,47 +937,35 @@ function buildForm() {
   form.append(firstInfusionContainer);
   form.append(nextDoctorAppointmentField);
 
-  // Consent block (checkbox + legal disclaimer, built further down in this
-  // function) starts hidden and only appears once the person has answered
-  // "Have you been prescribed VYEPTI?" — either Yes or No. Created here,
-  // ahead of its contents, so the toggle's own radios can be wired to it
-  // right away; the actual checkbox/legal elements get appended into it
-  // later, once they exist.
-  const consentContainer = document.createElement('div');
-  consentContainer.className = 'conditional-container';
-  consentContainer.style.display = 'none';
+  
+  const personalInfoContainer = document.createElement('div');
+  personalInfoContainer.className = 'personal-info-container';
 
-  prescribedToggle.querySelectorAll('input[type="radio"]').forEach((radio) => {
-    radio.addEventListener('change', () => {
-      consentContainer.style.display = 'block';
-      consentContainer.classList.add('visible');
-    });
-  });
+  
+  personalInfoContainer.append(createDobField());
 
-  // --------------------------------------------------------------------
-  // Personal info fields (single column, per design)
-  // Every field below is REQUIRED unless the call explicitly passes
-  // `false` for the `required` argument or `true` for `optional`.
-  // --------------------------------------------------------------------
+  
+  personalInfoContainer.append(createTextField('first-name', 'First name'));
+  personalInfoContainer.append(createTextField('last-name', 'Last name'));
 
-  // Date of birth — required, MM/DD/YYYY format, must be 18+ (see
-  // createDobField for the age check).
-  form.append(createDobField());
+  
+  personalInfoContainer.append(createTextField('email', 'Email address', 'email'));
 
-  // First / last name — required, plain text, no special formatting.
-  form.append(createTextField('first-name', 'First name'));
-  form.append(createTextField('last-name', 'Last name'));
+  
+personalInfoContainer.append(
+  createTextField(
+    'phone',
+    'Mobile phone number',
+    'tel',
+    true,
+    false,
+    null,
+    'Please enter your 10-digit phone number',
+  ),
+);
 
-  // Email — required, validated against a basic email pattern on blur.
-  form.append(createTextField('email', 'Email address', 'email'));
-
-  // Mobile phone — required, auto-formatted as (XXX) XXX-XXXX while
-  // typing, must resolve to exactly 10 digits.
-  form.append(createTextField('phone', 'Mobile phone number', 'tel'));
-
-  // Street address 1 — required, info popover now uses the same message
-  // as Date of birth (explicitly requested), instead of its own text.
-  form.append(
+  
+  personalInfoContainer.append(
     createTextField(
       'address1',
       'Street address 1',
@@ -850,17 +974,18 @@ function buildForm() {
       false,
       'Providing this information helps make sure you get useful information '
         + 'during your migraine treatment experience.',
+        DEFAULT_MESSAGES.address1,
     ),
   );
 
-  // Street address 2 — OPTIONAL (apartment/suite/unit etc).
-  form.append(createTextField('address2', 'Street address 2', 'text', false, true));
+  
+  personalInfoContainer.append(createTextField('address2', 'Street address 2', 'text', false, true));
 
-  // City — required, plain text.
-  form.append(createTextField('city', 'City'));
 
-  // State — required dropdown, all 50 states.
-  form.append(
+  personalInfoContainer.append(createTextField('city', 'City'));
+
+  
+  personalInfoContainer.append(
     createSelectField('state', 'State', [
       { value: 'AL', text: 'Alabama (AL)' },
       { value: 'AK', text: 'Alaska (AK)' },
@@ -912,23 +1037,46 @@ function buildForm() {
       { value: 'WV', text: 'West Virginia (WV)' },
       { value: 'WI', text: 'Wisconsin (WI)' },
       { value: 'WY', text: 'Wyoming (WY)' },
-    ]),
+    ], DEFAULT_MESSAGES.state,),
   );
-  // ZIP code — required, plain text (no format check beyond "not empty"),
-  // capped at 10 characters (letters, numbers, or symbols all count).
-  form.append(createTextField('zip', 'ZIP code', 'text', true, false, null, null, 10));
 
-  // "4+ migraine days" toggle — OPTIONAL question. Only revealed when
-  // "Have you been prescribed VYEPTI?" = "No" (wired up above), but it's
-  // positioned here, below ZIP code, per the reference design.
+
+ 
+  personalInfoContainer.append(
+  createTextField(
+    'zip',
+    'ZIP code',
+    'text',
+    true,
+    false,
+    null,
+    'Please enter your ZIP code',
+    10,
+  ),
+);
+
+  form.append(personalInfoContainer);
   form.append(migraineDaysToggle);
 
-  // --------------------------------------------------------------------
-  // Consent + submit
-  // --------------------------------------------------------------------
 
-  // Consent checkbox — required. Must be checked before the form can be
-  // submitted; unchecked shows a red error like every other field.
+  // Consent block
+  const consentContainer = document.createElement('div');
+  consentContainer.className = 'conditional-container';
+  consentContainer.style.display = 'none';
+
+  prescribedToggle.querySelectorAll('input[type="radio"]').forEach((radio) => {
+    radio.addEventListener('change', () => {
+      if (!consentContainer.classList.contains('visible')) {
+        slideDown(consentContainer);
+      } else {
+        replayDropdown(consentContainer);
+      }
+
+      replayDropdown(personalInfoContainer);
+    });
+  });
+
+  
   const consent = document.createElement('label');
   consent.className = 'form-consent';
   const consentInput = document.createElement('input');
@@ -946,7 +1094,7 @@ function buildForm() {
   const consentError = createErrorMessage('consent');
   const validateConsent = () => {
     if (!consentInput.checked) {
-      showFieldError(consentInput, consentError, 'Please confirm you agree to receive email updates');
+      showFieldError(consentInput, consentError, DEFAULT_MESSAGES.consent);
       return false;
     }
     clearFieldError(consentInput, consentError);
@@ -956,8 +1104,7 @@ function buildForm() {
   consentInput.validate = validateConsent;
   consentInput.errorEl = consentError;
 
-  // Legal disclaimer shown below the checkbox, with Terms of Use and Privacy
-  // Policy as links (not required/validated - informational text only).
+
   const consentLegal = document.createElement('p');
   consentLegal.className = 'form-consent-legal';
   consentLegal.innerHTML = `
@@ -968,25 +1115,27 @@ function buildForm() {
     <a href="https://www.lundbeck.com/us/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy Policy.</a>
   `;
 
-  consentContainer.append(consent, consentError, consentLegal);
+  consentContainer.append(consent, consentLegal, consentError );
   form.append(consentContainer);
 
-  // Submit button — actual submission (fetch to an API) happens in the
-  // form's 'submit' listener below, after every visible field passes
-  // validation.
+
+  // Server-side / network error message — shown above the submit button
+  const serverError = document.createElement('p');
+  serverError.className = 'field-error form-server-error';
+  serverError.id = 'server-error';
+  serverError.hidden = true;
+  serverError.setAttribute('role', 'alert');
+  form.append(serverError);
+
+  // Submit button — actual submission (fetch to an API) 
   const submit = document.createElement('button');
   submit.type = 'submit';
   submit.className = 'form-submit';
   submit.innerHTML = 'Submit <span aria-hidden="true">&rarr;</span>';
   form.append(submit);
 
-  // ----------------------------------------------------------------------
-  // Full-form validation on submit: runs every field's validate(), skipping
-  // fields currently hidden by conditional logic (offsetParent is null when
-  // display: none is set anywhere up the tree). Focuses the first invalid
-  // field found so the person can fix it immediately.
-  // ----------------------------------------------------------------------
-  form.addEventListener('submit', (e) => {
+ 
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     const validatable = [...form.querySelectorAll('input, select')].filter(
@@ -1019,20 +1168,89 @@ function buildForm() {
       if (!valid && !firstInvalid) firstInvalid = group.querySelector('input[type="radio"]');
     });
 
+  
+    clearFieldError(serverError, serverError);
+
     if (firstInvalid) {
-      firstInvalid.focus();
+      firstInvalid.focus({ preventScroll: true });
       return;
     }
 
-    // TODO: wire to your actual submission endpoint (e.g. fetch POST)
-    form.closest('.signup-form').classList.add('submitted');
+    const formData = new FormData(form);
+
+    submit.disabled = true;
+    submit.classList.add('is-submitting');
+    const originalSubmitLabel = submit.innerHTML;
+    submit.innerHTML = 'Submitting…';
+
+    try {
+      const response = await fetch('https://vyepti-stage.d.lundbeckus.com/api/dtc/signup', {
+        method: 'POST',
+        body: formData,
+      });
+
+      // Try to read a JSON body regardless of status 
+      let payload = null;
+      try {
+        payload = await response.json();
+      } catch (parseError) {
+        payload = null;
+      }
+
+      const succeeded = response.ok && (payload === null || payload.success !== false);
+
+      if (!succeeded) {
+        const serverMessage = (payload && (payload.message || payload.error))
+          || DEFAULT_MESSAGES.server;
+        showFieldError(serverError, serverError, serverMessage);
+        serverError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+
+      const signupForm = form.closest('.signup-form');
+
+if (signupForm) {
+  signupForm.classList.add('submitted');
+}
+
+showConfirmationContent();
+    } catch (error) {
+      console.error('Form submission error:', error);
+      showFieldError(serverError, serverError, DEFAULT_MESSAGES.server);
+      serverError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    } finally {
+      submit.disabled = false;
+      submit.classList.remove('is-submitting');
+      submit.innerHTML = originalSubmitLabel;
+    }
   });
 
   return form;
 }
 
+
+
+function showConfirmationContent() {
+  const carousel = document.querySelector('.carousel');
+  const columnsCta = document.querySelector('.columns-cta');
+
+  if (carousel) {
+    carousel.classList.remove('confirmation-hidden');
+  }
+
+  if (columnsCta) {
+    columnsCta.classList.remove('confirmation-hidden');
+  }
+
+  carousel?.scrollIntoView({
+    behavior: 'smooth',
+    block: 'start',
+  });
+}
+
+
 export default function decorate(block) {
-  // Expected authored rows: intro (used in the info callout)
+  
   const rows = [...block.children];
   const [introRow] = rows;
 
@@ -1040,7 +1258,7 @@ export default function decorate(block) {
 
   block.innerHTML = '';
 
-  // ----- Content: info callout, required-fields note, and the form -----
+  
   const content = document.createElement('div');
   content.className = 'signup-form-content';
 
@@ -1059,5 +1277,110 @@ export default function decorate(block) {
 
   content.append(info, requiredNote, buildForm());
 
+
+function initializeAddressAutocomplete() {
+  const addressInput = document.getElementById('address1');
+  const cityInput = document.getElementById('city');
+  const stateSelect = document.getElementById('state');
+  const zipInput = document.getElementById('zip');
+
+  if (!addressInput) return;
+
+  if (!window.google?.maps?.places?.Autocomplete) {
+    console.error('Google Places Autocomplete failed to load — check API key/console errors.');
+    return;
+  }
+
+  const autocomplete = new google.maps.places.Autocomplete(
+    addressInput,
+    {
+      types: ['address'],
+      componentRestrictions: {
+        country: 'us',
+      },
+    },
+  );
+
+  
+  autocomplete.setFields(['address_components']);
+
+  autocomplete.addListener('place_changed', () => {
+    const place = autocomplete.getPlace();
+
+    if (!place || !place.address_components) {
+      
+      showFieldError(addressInput, addressInput.errorEl, DEFAULT_MESSAGES.invalidAddress);
+      return;
+    }
+
+    let streetNumber = '';
+    let route = '';
+    let city = '';
+    let state = '';
+    let zip = '';
+
+    place.address_components.forEach((component) => {
+      const type = component.types[0];
+
+      if (type === 'street_number') {
+        streetNumber = component.long_name;
+      }
+
+      if (type === 'route') {
+        route = component.long_name;
+      }
+
+      if (type === 'locality' || (type === 'sublocality_level_1' && !city)) {
+        city = component.long_name;
+      }
+
+      if (type === 'administrative_area_level_1') {
+        state = component.short_name;
+      }
+
+      if (type === 'postal_code') {
+        zip = component.long_name;
+      }
+    });
+
+    if (!zip) {
+      showFieldError(addressInput, addressInput.errorEl, DEFAULT_MESSAGES.invalidAddress);
+      return;
+    }
+
+    clearFieldError(addressInput, addressInput.errorEl);
+
+    const streetOnly = [streetNumber, route].filter(Boolean).join(' ');
+    addressInput.value = streetOnly || addressInput.value;
+
+    if (cityInput) {
+      cityInput.value = city;
+      clearFieldError(cityInput, cityInput.errorEl);
+    }
+    if (zipInput) {
+      zipInput.value = zip;
+      clearFieldError(zipInput, zipInput.errorEl);
+    }
+
+    if (stateSelect) {
+      stateSelect.value = state;
+      stateSelect.dispatchEvent(new Event('change', {
+        bubbles: true,
+      }));
+    }
+  });
+}
+
   block.append(content);
+
+  const carousel = document.querySelector('.carousel');
+const columnsCta = document.querySelector('.columns-cta');
+
+carousel?.classList.add('confirmation-hidden');
+columnsCta?.classList.add('confirmation-hidden');
+
+
+  loadGooglePlacesApi(() => {
+  initializeAddressAutocomplete();
+});
 }
