@@ -6,10 +6,14 @@
   --isi-list-item-margin-bottom: 10px; /* @boilerplate */
   --isi-inline-padding-bottom: 64px; /* @boilerplate */
   --isi-heading-color: var(--brand-primary-dark); /* @boilerplate */
+  --isi-inline-heading-color: var(--brand-primary);
   --isi-heading-font-size: 18px; /* @boilerplate */
   --isi-heading-font-weight: 700; /* @boilerplate */
   --isi-heading-line-height: 22px; /* @boilerplate */
   --isi-heading-margin-bottom: 0; /* @boilerplate */
+  --isi-inline-heading-padding-bottom: 16px;
+  --isi-inline-heading-padding-top: 16px;
+  --isi-inline-paragraph-padding-bottom: 22px;
   --isi-bar-z-index: 5; /* @boilerplate */
   --isi-bar-expanded-z-index: 10; /* @boilerplate */
   --isi-bar-background: var(--background-color); /* @boilerplate */

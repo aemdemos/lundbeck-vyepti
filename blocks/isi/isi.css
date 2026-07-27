@@ -22,17 +22,42 @@ main .isi li { /* @boilerplate */
   line-height: var(--isi-line-height); /* @boilerplate */
 }
 
+/* Paragraph rhythm — matches original ~22px spacing driven by padding-bottom */
+main .isi p {
+  margin: 0;
+  padding-bottom: var(--isi-inline-paragraph-padding-bottom);
+}
+
+/* Paragraph leading directly into a list has no gap (matches original) */
+main .isi p:has(+ ul) {
+  padding-bottom: 0;
+}
+
+main .isi p:last-child {
+  padding-bottom: 0;
+}
+
+main .isi ul {
+  margin: 0;
+}
+
 main .isi li { /* @boilerplate */
   line-height: var(--isi-list-line-height); /* @boilerplate */
   margin-bottom: var(--isi-list-item-margin-bottom); /* @boilerplate */
 }
 
-main .isi h3 { /* @boilerplate */
-  color: var(--isi-heading-color); /* @boilerplate */
+main .isi h3 {
+  color: var(--isi-inline-heading-color);
   font-size: var(--isi-heading-font-size); /* @boilerplate */
   font-weight: var(--isi-heading-font-weight); /* @boilerplate */
   line-height: var(--isi-heading-line-height); /* @boilerplate */
-  margin-bottom: var(--isi-heading-margin-bottom); /* @boilerplate */
+  margin: 0;
+  padding-bottom: var(--isi-inline-heading-padding-bottom);
+}
+
+/* Space above subsequent headings (e.g. IMPORTANT SAFETY after APPROVED USE) */
+main .isi h3:not(:first-child) {
+  padding-top: var(--isi-inline-heading-padding-top);
 }
 
 main .isi a { /* @boilerplate */

@@ -580,7 +580,7 @@ main .section ul:where(:not([class], :has(> li .icon), .block > *)) > li::before
    the native disc marker and indent here too, not just the <li> overrides. */
 main .isi ul {
   list-style: disc;
-  padding-left: 40px;
+  padding-left: 20px;
   margin-left: 0;
 }
 

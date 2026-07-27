@@ -27,6 +27,13 @@ export default function decorate(block) {
   const bar = document.createElement('div');
   bar.className = 'isi-bar';
   bar.setAttribute('aria-label', 'Important Safety Information');
+  /* Pin critical positioning inline so the bar is fixed the instant it enters
+     the DOM — prevents a large layout shift (CLS) if the block CSS has not
+     finished loading when the bar is appended to <body>. */
+  bar.style.position = 'fixed';
+  bar.style.left = '0';
+  bar.style.right = '0';
+  bar.style.bottom = '0';
 
   /* Move the abbreviated content into the bar */
   const barContent = document.createElement('div');
