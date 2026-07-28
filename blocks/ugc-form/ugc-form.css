@@ -464,22 +464,33 @@ main img, .ugc-form img {
   text-decoration: underline;
 }
 
-@media (max-width: 767px) {
-  .ugc-submit{
-   place-items: center;
-   text-align:center;
-  }
-  
-  .ugc-submit button{
-     width: 113px;
-  }
-
-  .ugc-main-heading{
-    text-align: center;
-  }
+.ugc-submit {
+  place-items: center;
+  text-align: center;
 }
 
-@media (min-width: 768px) and (max-width: 991px) {
+.ugc-submit button {
+  width: 113px;
+}
+
+.ugc-main-heading {
+  text-align: center;
+}
+
+.ugc-submit {
+  place-items: center;
+  text-align: center;
+}
+
+.ugc-submit button {
+  width: 113px;
+}
+
+.ugc-main-heading {
+  text-align: center;
+}
+
+@media (width >= 768px) {
   .ugc-main-heading{
     text-align: center;
   }
@@ -490,5 +501,20 @@ main img, .ugc-form img {
 
   .ugc-form .submit-wrapper button {
     margin: 0 auto;
+  }
+}
+
+@media (width>= 992px) {
+  .ugc-submit {
+    place-items: start;
+    text-align: left;
+  }
+
+  .ugc-submit button {
+    width: auto;
+  }
+
+  .ugc-main-heading {
+    text-align: left;
   }
 }
