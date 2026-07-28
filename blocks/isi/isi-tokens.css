@@ -21,7 +21,7 @@
   --isi-section-border-color: #d1d1d1; /* @boilerplate */
   --isi-bar-border-width: var(--isi-section-border-width); /* @boilerplate */
   --isi-bar-border-color: var(--isi-section-border-color); /* @boilerplate */
-  --isi-bar-height: 90px; /* @boilerplate */
+  --isi-bar-height: 109px;
   --isi-bar-padding: 13px 13px 8px; /* @boilerplate */
   --isi-bar-height-transition-duration: 0.3s; /* @boilerplate */
   --isi-bar-height-transition-easing: ease-in-out; /* @boilerplate */
@@ -40,12 +40,12 @@
   --isi-toggle-right: 15px;
   --isi-toggle-top: 13px; /* @boilerplate */
   --isi-toggle-border-width: 1.5px;
-  --isi-toggle-size: 26px;
+  --isi-toggle-size: 18px;
   --isi-toggle-color: var(--brand-primary-dark); /* @boilerplate */
   --isi-toggle-hover-color: var(--link-hover-color); /* @boilerplate */
   --isi-toggle-transition-duration: 0.2s; /* @boilerplate */
   --isi-toggle-z-index: 2; /* @boilerplate */
-  --isi-toggle-icon-size: 10px;
+  --isi-toggle-icon-size: 8px;
   --isi-toggle-icon-bar-thickness: 1.5px;
   --isi-toggle-icon-bar-radius: 0;
   --isi-bar-content-padding-x-mobile: 15px;
