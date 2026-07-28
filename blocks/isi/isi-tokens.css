@@ -30,10 +30,12 @@
   --isi-bar-content-gap: 0 24px; /* @boilerplate */
   --isi-bar-col-flex-basis: 45%; /* @boilerplate */
   --isi-bar-heading-padding-bottom: 18px; /* @boilerplate */
-  --isi-bar-paragraph-line-height: 24px; /* @boilerplate */
-  --isi-bar-paragraph-padding-bottom: 8px; /* @boilerplate */
+  --isi-bar-paragraph-line-height: 22px;
+  --isi-bar-paragraph-padding-bottom: 22px;
   --isi-bar-list-padding-left: 20px; /* @boilerplate */
-  --isi-bar-list-margin-bottom: 8px; /* @boilerplate */
+  --isi-bar-list-line-height: 27px;
+  --isi-bar-list-padding-bottom: 16px;
+  --isi-bar-list-margin-bottom: 0;
   --isi-bar-link-font-weight: 600; /* @boilerplate */
   --isi-toggle-right: 15px;
   --isi-toggle-top: 13px; /* @boilerplate */

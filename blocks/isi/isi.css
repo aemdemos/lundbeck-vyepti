@@ -105,12 +105,19 @@ main .isi a:hover { /* @boilerplate */
   margin: 0 auto; /* @boilerplate */
   display: flex; /* @boilerplate */
   flex-wrap: wrap; /* @boilerplate */
+  align-items: flex-start;
   gap: var(--isi-bar-content-gap); /* @boilerplate */
 }
 
 .isi-bar-col { /* @boilerplate */
   flex: 1 1 var(--isi-bar-col-flex-basis); /* @boilerplate */
   min-width: 0; /* @boilerplate */
+}
+
+/* Remaining ISI copy ("VYEPTI may cause…" onward) spans the full width on a
+   new row, below the ISI-intro / APPROVED-USE top columns (matches source). */
+.isi-bar-col-full {
+  flex: 1 1 100%;
 }
 
 .isi-bar-col h3 { /* @boilerplate */
@@ -134,14 +141,15 @@ main .isi a:hover { /* @boilerplate */
   font-weight: var(--isi-heading-font-weight); /* @boilerplate */
 }
 
-.isi-bar-col ul { /* @boilerplate */
+.isi-bar-col ul {
   padding-left: var(--isi-bar-list-padding-left); /* @boilerplate */
-  margin: 0 0 var(--isi-bar-list-margin-bottom); /* @boilerplate */
+  padding-bottom: var(--isi-bar-list-padding-bottom);
+  margin: 0 0 var(--isi-bar-list-margin-bottom);
 }
 
-.isi-bar-col li { /* @boilerplate */
+.isi-bar-col li {
   font-size: var(--body-font-size-s); /* @boilerplate */
-  line-height: var(--isi-list-line-height); /* @boilerplate */
+  line-height: var(--isi-bar-list-line-height);
   margin-bottom: var(--isi-list-item-margin-bottom); /* @boilerplate */
 }
 

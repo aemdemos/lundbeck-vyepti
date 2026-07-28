@@ -39,9 +39,43 @@ export default function decorate(block) {
   const barContent = document.createElement('div');
   barContent.className = 'isi-bar-content';
 
-  /* Re-parent abbreviated children into the bar content wrapper */
+  /* Re-parent abbreviated children into the bar content wrapper.
+     The source lays this out as: [ISI intro | APPROVED USE] on the top row,
+     then the rest of the ISI copy (starting at "VYEPTI may cause…") full-width
+     below. The first cell holds ALL the ISI copy, so split it: heading + the
+     first paragraph stay in the top-left column; everything after moves into a
+     full-width block placed after the APPROVED USE column. */
   const abbrCells = [...abbreviatedRow.children];
-  abbrCells.forEach((cell) => {
+  const [isiCell, approvedCell] = abbrCells;
+
+  isiCell.classList.add('isi-bar-col');
+  barContent.append(isiCell);
+
+  if (approvedCell) {
+    approvedCell.classList.add('isi-bar-col');
+    barContent.append(approvedCell);
+  }
+
+  /* Split the ISI column: keep heading + first paragraph, move the remainder
+     into a full-width block below the two top columns. */
+  if (isiCell) {
+    const heading = isiCell.querySelector('h1, h2, h3, h4, h5, h6');
+    const firstPara = heading
+      ? heading.nextElementSibling
+      : isiCell.querySelector('p');
+    const fullBlock = document.createElement('div');
+    fullBlock.className = 'isi-bar-col isi-bar-col-full';
+    let node = firstPara ? firstPara.nextElementSibling : null;
+    while (node) {
+      const next = node.nextElementSibling;
+      fullBlock.append(node);
+      node = next;
+    }
+    if (fullBlock.children.length) barContent.append(fullBlock);
+  }
+
+  /* Any additional authored cells beyond the first two */
+  abbrCells.slice(2).forEach((cell) => {
     cell.classList.add('isi-bar-col');
     barContent.append(cell);
   });
