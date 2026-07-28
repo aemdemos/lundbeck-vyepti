@@ -202,7 +202,16 @@ body.isi-scroll-locked {
 /* ── Toggle button (+/−) — thin teal ring with +/− glyph (matches source) ── */
 .isi-bar-toggle {
   position: absolute;
-  right: var(--isi-toggle-right);
+
+  /* Align to the right edge of the centered content container (same as the
+     header menu), not the viewport edge. When the viewport is wider than the
+     content max-width the content is centered, so its right edge sits
+     (100vw − max-width)/2 in from the viewport. Floor at the base inset so the
+     toggle stays inset on narrow viewports where content fills the width. */
+  right: max(
+    var(--isi-toggle-right),
+    calc((100vw - var(--isi-content-max-width)) / 2)
+  );
   top: var(--isi-toggle-top);
   background: none;
   border: var(--isi-toggle-border-width) solid var(--isi-toggle-color);
