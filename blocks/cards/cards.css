@@ -60,6 +60,13 @@ main .cards.feature > ul > li:not(:has(.cards-card-body > p:last-child a)) {
   gap: var(--cards-feature-badge-gap);
 }
 
+/* badge block (how-vyepti-works: no card has a CTA) carries the source's
+   section spacing above and below the row; the home CTA block is untouched */
+main .cards.feature:not(:has(.cards-card-body > p:last-child a)) {
+  padding-top: var(--cards-feature-badge-section-pt);
+  padding-bottom: var(--cards-feature-badge-section-pb);
+}
+
 /* the flex gap alone sets the badge-to-heading distance; the heading's default
    top margin would otherwise stack on top of it and double the gap */
 main .cards.feature > ul > li:not(:has(.cards-card-body > p:last-child a)) .cards-card-body > :first-child {
