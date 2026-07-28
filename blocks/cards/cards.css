@@ -95,6 +95,24 @@ main .cards.feature > ul > li .cards-card-body > p:last-child:has(a) {
     width: auto;
   }
 
+  /* no-CTA badge cards (how-vyepti-works): flip to an icon-left row — badge on
+     the left, heading + copy left-aligned to its right — matching the source
+     and the ticket's tablet AC. No CTA, so no button column is needed. */
+  main .cards.feature > ul > li:not(:has(.cards-card-body > p:last-child a)) {
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+    gap: var(--cards-feature-badge-row-gap);
+  }
+
+  main .cards.feature > ul > li:not(:has(.cards-card-body > p:last-child a)) .cards-card-image {
+    flex: 0 0 var(--cards-feature-badge-width);
+  }
+
+  main .cards.feature > ul > li:not(:has(.cards-card-body > p:last-child a)) .cards-card-body {
+    flex: 1;
+  }
+
   /* CTA cards only: flip to an icon-left row; the icon top-aligns with the
      heading (not centered against the whole text) */
   main .cards.feature > ul > li:has(.cards-card-body > p:last-child a) {

@@ -31,6 +31,7 @@
   --cards-feature-badge-width: 229px; /* source badge width < 1200px */
   --cards-feature-badge-width-wide: 286px; /* source badge width >= 1200px */
   --cards-feature-badge-gap: 19px; /* badge-to-heading gap (source) */
+  --cards-feature-badge-row-gap: 22px; /* badge-to-text gap in the tablet row (source) */
   --cards-feature-badge-section-pt: 48px; /* section padding above the badge row (source) */
   --cards-feature-badge-section-pb: 64px; /* section padding below the badge row (source) */
 }
