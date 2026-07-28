@@ -104,7 +104,6 @@
 
 /* optional intro copy above the card columns */
 .accordion-cards .accordion-cards-item-intro {
-  margin: 0 0 var(--accordion-cards-card-spacing);
   padding: 10px 15px 32px;
   color: var(--accordion-cards-body-color);
   font-size: var(--accordion-cards-body-font-size);
@@ -141,14 +140,24 @@
 
 .accordion-cards .accordion-cards-card-image img {
   width: auto;
-  max-width: var(--accordion-cards-image-max-width);
+  /* never wider than its (30%) column, so it can't overflow into the copy when the
+     two-up layout narrows each card */
+  max-width: min(var(--accordion-cards-image-max-width), 100%);
   height: auto;
   vertical-align: bottom;
 }
 
-/* community-resource logos are authored at 192px (2x) and render at half size */
-.accordion-cards .accordion-cards-card-image img[width="192"] {
-  max-width: var(--accordion-cards-logo-max-width);
+/* a logo authored inside a heading picks up the global heading margins — strip them
+   so the image aligns to the top of the card */
+.accordion-cards .accordion-cards-card-image :is(h1, h2, h3, h4, h5, h6) {
+  margin: 0;
+  line-height: 0;
+}
+
+/* community-resource logos (cards with a linked title) are authored at 2x and
+   render at half size */
+.accordion-cards .accordion-cards-card:has(.accordion-cards-card-title a) .accordion-cards-card-image img {
+  max-width: min(var(--accordion-cards-logo-max-width), 100%);
 }
 
 .accordion-cards .accordion-cards-card-body {
@@ -167,7 +176,7 @@
 }
 
 .accordion-cards .accordion-cards-card-title {
-  margin: 0 0 18px;
+  margin: 0 0 28px;
   color: var(--accordion-cards-title-color);
   font-size: var(--accordion-cards-title-font-size);
   font-weight: 700;
@@ -314,9 +323,11 @@
     height: 11px;
   }
 
+  /* source: media gets a 30% column and the image is centered within it, so both the
+     large badge tiles and the smaller logos read with an even gap before the copy */
   .accordion-cards .accordion-cards-card {
     display: grid;
-    grid-template-columns: 30% 70%;
+    grid-template-columns: 30% 1fr;
     align-items: start;
   }
 
@@ -324,7 +335,7 @@
     grid-column: 1;
     grid-row: 1;
     margin-bottom: 0;
-    text-align: left;
+    text-align: center;
   }
 
   .accordion-cards .accordion-cards-card-body {
@@ -348,7 +359,25 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  /* two-up cards are already narrow, so the 30% media column leaves too much space —
+     give the media a fixed column sized to the image plus a gap before the copy */
   .accordion-cards .accordion-cards-card {
-    grid-template-columns: 36% 64%;
+    grid-template-columns: var(--accordion-cards-image-max-width) 1fr;
+    column-gap: 32px;
+  }
+
+  .accordion-cards .accordion-cards-card:has(.accordion-cards-card-title a) {
+    grid-template-columns: var(--accordion-cards-logo-max-width) 1fr;
+  }
+
+  .accordion-cards .accordion-cards-card-image {
+    text-align: left;
+  }
+}
+
+@media (width >= 1200px) {
+  /* wide desktop: source uses a larger gap between the media and the copy */
+  .accordion-cards .accordion-cards-card {
+    column-gap: 56px;
   }
 }
