@@ -22,6 +22,7 @@
   --cards-feature-icon-gap: 16px; /* gap between icon and text */
   --cards-feature-cta-gap: 24px; /* gap around the flexible spacer before the CTA */
   --cards-feature-text-max: 283px; /* caps the copy column so headings wrap like the source */
+  --cards-feature-cta-offset: 1.4em; /* CTA top offset: aligns button top to the heading's first-line bottom */
   --cards-feature-row-gap: 48px; /* vertical space between stacked cards */
   --cards-feature-badge-row-stack-gap: 24px; /* card-to-card gap for the no-CTA badge stack (tablet) */
 
