@@ -21,23 +21,24 @@
   --isi-section-border-color: #d1d1d1; /* @boilerplate */
   --isi-bar-border-width: var(--isi-section-border-width); /* @boilerplate */
   --isi-bar-border-color: var(--isi-section-border-color); /* @boilerplate */
-  --isi-bar-height: 109px;
-  --isi-bar-padding: 13px 13px 8px; /* @boilerplate */
+  --isi-bar-height: 118px;
+  --isi-bar-padding: 13px 0;
   --isi-bar-height-transition-duration: 0.3s; /* @boilerplate */
   --isi-bar-height-transition-easing: ease-in-out; /* @boilerplate */
   --isi-bar-expanded-max-height: 85vh;
   --isi-content-max-width: var(--max-width-site); /* @boilerplate */
   --isi-bar-content-gap: 0 24px; /* @boilerplate */
   --isi-bar-col-flex-basis: 45%; /* @boilerplate */
-  --isi-bar-heading-padding-bottom: 18px; /* @boilerplate */
+  --isi-bar-heading-color: var(--brand-primary-dark);
+  --isi-bar-heading-padding-bottom: 8px;
   --isi-bar-paragraph-line-height: 22px;
-  --isi-bar-paragraph-padding-bottom: 22px;
+  --isi-bar-paragraph-padding-bottom: 16px;
   --isi-bar-list-padding-left: 20px; /* @boilerplate */
   --isi-bar-list-line-height: 27px;
   --isi-bar-list-padding-bottom: 16px;
   --isi-bar-list-margin-bottom: 0;
   --isi-bar-link-font-weight: 600; /* @boilerplate */
-  --isi-toggle-right: 15px;
+  --isi-toggle-right: var(--isi-toggle-right-mobile);
   --isi-toggle-top: 13px; /* @boilerplate */
   --isi-toggle-border-width: 1.5px;
   --isi-toggle-size: 18px;
@@ -52,17 +53,19 @@
   --isi-bar-content-padding-x-tablet: 26px;
   --isi-bar-content-padding-x-desktop: 32px; /* @boilerplate */
   --isi-toggle-right-mobile: 15px;
+  --isi-toggle-right-tablet: 15px;
   --isi-toggle-right-desktop: 32px; /* @boilerplate */
 }
 
-@media (width <= 767px) {
+/* Tablet and up — restore the wider collapsed bar, roomier padding and the
+   two-column popup spacing (mobile-first: base values above are for < 768px). */
+@media (width >= 768px) {
   :root {
-    --isi-bar-height: 118px;
-    --isi-bar-padding: 13px 0;
-    --isi-bar-heading-color: var(--brand-primary-dark);
-    --isi-bar-heading-padding-bottom: 8px;
-    --isi-bar-paragraph-padding-bottom: 16px;
-    --isi-toggle-right: var(--isi-toggle-right-mobile);
+    --isi-bar-height: 109px;
+    --isi-bar-padding: 13px 13px 8px;
+    --isi-bar-heading-padding-bottom: 18px;
+    --isi-bar-paragraph-padding-bottom: 22px;
+    --isi-toggle-right: var(--isi-toggle-right-tablet);
   }
 }
 
