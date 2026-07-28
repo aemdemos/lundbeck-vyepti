@@ -21,8 +21,9 @@
   --cards-feature-cta-gap-mobile: 24px; /* space above the CTA in the mobile column */
   --cards-feature-icon-gap: 16px; /* gap between icon and text */
   --cards-feature-cta-gap: 24px; /* gap around the flexible spacer before the CTA */
-  --cards-feature-text-max: 16rem; /* caps the copy column so headings wrap like the source */
+  --cards-feature-text-max: 283px; /* caps the copy column so headings wrap like the source */
   --cards-feature-row-gap: 48px; /* vertical space between stacked cards */
+  --cards-feature-badge-row-stack-gap: 24px; /* card-to-card gap for the no-CTA badge stack (tablet) */
 
   /* no-CTA "badge" cards (how-vyepti-works): the icon is a wide 2:1 badge asset
      rendered at its natural width (not squared like the home-page icons). The

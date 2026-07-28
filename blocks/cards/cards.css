@@ -95,6 +95,12 @@ main .cards.feature > ul > li .cards-card-body > p:last-child:has(a) {
     width: auto;
   }
 
+  /* no-CTA badge stack: tighter card-to-card gap than the CTA cards, matching
+     the source's how-vyepti-works spacing */
+  main .cards.feature:not(:has(.cards-card-body > p:last-child a)) > ul {
+    row-gap: var(--cards-feature-badge-row-stack-gap);
+  }
+
   /* no-CTA badge cards (how-vyepti-works): flip to an icon-left row — badge on
      the left, heading + copy left-aligned to its right — matching the source
      and the ticket's tablet AC. No CTA, so no button column is needed. */
@@ -158,12 +164,12 @@ main .cards.feature > ul > li .cards-card-body > p:last-child:has(a) {
     margin-bottom: 0;
   }
 
-  /* CTA sits in the auto-width column, aligned to the heading's baseline row,
-     right-justified and never wrapping */
+  /* CTA sits in the flexible column, right-justified and vertically centered
+     against the full text block (heading + copy), never wrapping */
   main .cards.feature > ul > li .cards-card-body > p:last-child:has(a) {
     grid-column: 2;
-    grid-row: 1;
-    justify-self: end;
+    grid-row: 1 / -1;
+    place-self: center end;
     margin: 0;
     white-space: nowrap;
   }
