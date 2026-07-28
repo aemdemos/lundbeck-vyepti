@@ -1,15 +1,14 @@
 import { loadScript } from '../../scripts/aem.js';
-import { getSettings, DEFAULT_DISTANCES, FACILITY_TYPES, readConfig, parseBool } from '../../scripts/config.js';
-import { createSearchForm, createMapContainer, renderResults, createFacilityCards } from './template.js';
+import { getSettings } from '../../scripts/config.js';
+import { createSearchForm, createMapContainer, createFacilityCards } from './template.js';
 import { initCustomDropdown } from './dropdwon.js';
 import { initializeMap, clearMarkers, addMarker, geocodeZip } from './map.js';
 import { searchLocations } from './api.js';
 import { getElements } from './ui.js';
-import { handleSearch } from './search.js';
 import { registerEvents } from './events.js';
 /* global google */
-let map;
-let markers = [];
+// export let map;
+// export let markers = [];
 
 /**
  * Default Component Export Definition Core Function
@@ -17,18 +16,16 @@ let markers = [];
 export default async function decorate(locator) {
   const settings = getSettings(locator);
 
-
   locator.replaceChildren(
     createSearchForm(settings),
     createFacilityCards(settings),
     createMapContainer(),
   );
   
-
-  
+  // Initialize Google Map
   await initializeMap(settings.apiKey);
 
-
+  // Get All UI elements targeted
   const ui = getElements(locator);
 
   // Initialize Custom Dropdowns cleanly using the shared logic engine

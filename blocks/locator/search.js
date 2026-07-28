@@ -1,4 +1,7 @@
 // search.js
+import { clearMarkers } from './map.js';
+import { searchLocations } from './api.js';
+import { renderResults } from './template.js';
 
 export async function handleSearch({
   locator,
@@ -25,8 +28,10 @@ export async function handleSearch({
   ).map((cb) => cb.value);
 
   const distance = mileBlock.dataset.value || '25';
-
+ 
   try {
+
+     alert("Map API call");
     const results = await searchLocations(
       zip,
       distance,

@@ -5,6 +5,8 @@ import {
   parseBool
 } from '../../scripts/config.js';
 
+import { addMarker } from './map.js';
+
 export function createSearchForm(settings) {
   const form = document.createElement('div');
   form.className = 'locator-search';
@@ -56,7 +58,7 @@ export function createSearchForm(settings) {
 export function createFacilityCards(settings) {
   const { heading, facilityCards } = settings;
 
-   // Only keep enabled cards
+  // Only keep enabled cards
   const enabledCards = facilityCards.filter((item) => item.enabled);
 
   // If no cards are enabled, don't render the section
@@ -117,7 +119,10 @@ export function renderResults(results, resultsContainer, settings) {
     return;
   }
 
-  let html = `<h2 class="locator-results-title">${results.length} location${results.length !== 1 ? 's' : ''} found</h2>`;
+  let html = `<div class="locator-title-wrap"><h2 class="locator-title"> Results (${results.length} total results)</h2>
+  <p class="locator-result-disclaimer">Results outlined in<span class="red-color"><b> red </b></span>are part of the VYEPTI Infusion  Network. VYEPTI infusions are not limited
+     to this network—patients can choose to receive their VYEPTI infusion from any provider based on convenience or insurance coverage.</p>
+  </div>`;
   html += '<ul class="locator-results-list">';
 
   results.forEach((result, index) => {
@@ -135,10 +140,15 @@ export function renderResults(results, resultsContainer, settings) {
 
     html += `
       <li class="locator-result-item">
-        <h3>${name}</h3>
-        ${networkBadge}
-        <p class="locator-result-address">${fullAddress}</p>
-        ${phone ? `<p class="locator-result-phone"><a href="tel:${phone}">${phone}</a></p>` : ''}
+          <div class="locator-result-item-inner">
+              <span class="locator-result-left"></span>
+              <div class="locator-result-right">
+              <h3>${name}</h3>
+              ${networkBadge}
+              <p class="locator-result-address">${fullAddress}</p>
+              ${phone ? `<p class="locator-result-phone"><a href="tel:${phone}">${phone}</a></p>` : ''}
+        </div>
+          </div>
       </li>
     `;
 
