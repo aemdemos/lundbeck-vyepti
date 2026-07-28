@@ -52,7 +52,7 @@ export default function decorate(block) {
   barContent.append(isiCell);
 
   if (approvedCell) {
-    approvedCell.classList.add('isi-bar-col');
+    approvedCell.classList.add('isi-bar-col', 'isi-bar-col-approved');
     barContent.append(approvedCell);
   }
 
@@ -111,25 +111,31 @@ export default function decorate(block) {
   updateExpandedHeight();
   window.addEventListener('resize', updateExpandedHeight);
 
-  /* ── 3. Expand / collapse toggle ────────────────────────────── */
-  toggle.addEventListener('click', (e) => {
-    e.stopPropagation();
-    updateExpandedHeight();
-    const expanded = bar.classList.toggle('full');
+  /* Lock/unlock page scroll while the panel is open (mobile/tablet behaviour of
+     the source: the page cannot scroll, only the ISI panel scrolls internally).
+     Applied at all widths — harmless on desktop where the panel is short. */
+  const setExpanded = (expanded) => {
+    bar.classList.toggle('full', expanded);
+    document.body.classList.toggle('isi-scroll-locked', expanded);
     toggle.setAttribute('aria-expanded', String(expanded));
     toggle.setAttribute(
       'aria-label',
       expanded ? 'Collapse safety information' : 'Expand safety information',
     );
+  };
+
+  /* ── 3. Expand / collapse toggle ────────────────────────────── */
+  toggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    updateExpandedHeight();
+    setExpanded(!bar.classList.contains('full'));
   });
 
   /* Clicking anywhere on the collapsed bar also expands it */
   bar.addEventListener('click', () => {
     if (!bar.classList.contains('full')) {
       updateExpandedHeight();
-      bar.classList.add('full');
-      toggle.setAttribute('aria-expanded', 'true');
-      toggle.setAttribute('aria-label', 'Collapse safety information');
+      setExpanded(true);
     }
   });
 
@@ -141,8 +147,7 @@ export default function decorate(block) {
     ([entry]) => {
       if (entry.isIntersecting) {
         bar.classList.add('isi-bar-hidden');
-        bar.classList.remove('full');
-        toggle.setAttribute('aria-expanded', 'false');
+        setExpanded(false);
       } else {
         bar.classList.remove('isi-bar-hidden');
       }

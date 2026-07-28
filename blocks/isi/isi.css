@@ -94,6 +94,12 @@ main .isi a:hover { /* @boilerplate */
   display: none; /* @boilerplate */
 }
 
+/* While the panel is open, lock page scroll so only the ISI scrolls internally
+   (matches source). Toggled on <body> by isi.js. */
+body.isi-scroll-locked {
+  overflow: hidden;
+}
+
 /* Expanded state — animates max-height (auto is not animatable).
    Mobile-first (< 992px): the panel opens flush below the header with no gap,
    filling the full space between the header bottom and the viewport bottom
@@ -132,6 +138,20 @@ main .isi a:hover { /* @boilerplate */
 .isi-bar-col { /* @boilerplate */
   flex: 1 1 100%;
   min-width: 0; /* @boilerplate */
+}
+
+/* Mobile: APPROVED USE stacks last (after the full ISI copy), matching the
+   source order intro → ISI copy → APPROVED USE. Flex `order` reorders it
+   without changing DOM/tablet layout. */
+.isi-bar-col-approved {
+  order: 1;
+}
+
+/* Mobile collapsed: only the ISI intro line is visible; APPROVED USE and the
+   remaining ISI copy stay hidden until the panel is expanded. */
+.isi-bar:not(.full) .isi-bar-col-approved,
+.isi-bar:not(.full) .isi-bar-col-full {
+  display: none;
 }
 
 .isi-bar-col h3 { /* @boilerplate */
@@ -269,6 +289,17 @@ main .isi a:hover { /* @boilerplate */
   /* The remaining ISI copy still spans full width below the two top columns. */
   .isi-bar-col-full {
     flex: 1 1 100%;
+  }
+
+  /* Reset mobile-only reordering/hiding: APPROVED USE returns to the top-right
+     column and both top columns stay visible in the collapsed bar. */
+  .isi-bar-col-approved {
+    order: 0;
+  }
+
+  .isi-bar:not(.full) .isi-bar-col-approved,
+  .isi-bar:not(.full) .isi-bar-col-full {
+    display: block;
   }
 }
 
