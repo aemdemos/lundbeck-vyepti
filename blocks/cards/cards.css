@@ -47,6 +47,25 @@ main .cards.feature > ul > li .cards-card-image img {
   margin-inline: auto;
 }
 
+/* no-CTA "badge" cards (how-vyepti-works) use a wide 2:1 badge asset rendered
+   at its natural width — not squared like the home-page icons. Height follows
+   the intrinsic aspect ratio; a wider badge-to-heading gap matches the source. */
+main .cards.feature > ul > li:not(:has(.cards-card-body > p:last-child a)) .cards-card-image img {
+  width: var(--cards-feature-badge-width);
+  height: auto;
+  aspect-ratio: auto;
+}
+
+main .cards.feature > ul > li:not(:has(.cards-card-body > p:last-child a)) {
+  gap: var(--cards-feature-badge-gap);
+}
+
+/* the flex gap alone sets the badge-to-heading distance; the heading's default
+   top margin would otherwise stack on top of it and double the gap */
+main .cards.feature > ul > li:not(:has(.cards-card-body > p:last-child a)) .cards-card-body > :first-child {
+  margin-top: 0;
+}
+
 /* extra breathing room above the CTA in the mobile column */
 main .cards.feature > ul > li .cards-card-body > p:last-child:has(a) {
   margin-top: var(--cards-feature-cta-gap-mobile);
@@ -147,6 +166,13 @@ main .cards.feature > ul > li .cards-card-body > p:last-child:has(a) {
     margin-inline: auto;
   }
 
+  /* no-CTA badge cards keep the natural 2:1 badge at desktop, not the square */
+  main .cards.feature > ul > li:not(:has(.cards-card-body > p:last-child a)) .cards-card-image img {
+    width: var(--cards-feature-badge-width);
+    height: auto;
+    aspect-ratio: auto;
+  }
+
   /* equal-height cards with the body filling the card, so the CTA pins to the
      bottom and all three buttons line up on the same row like the source */
   main .cards.feature.cards-3-cols > ul,
@@ -163,5 +189,13 @@ main .cards.feature > ul > li .cards-card-body > p:last-child:has(a) {
   main .cards.feature > ul > li .cards-card-body > p:last-child:has(a) {
     margin-top: auto;
     padding-top: var(--cards-feature-cta-gap-desktop);
+  }
+}
+
+/* wide viewport — the source serves a larger badge asset at 1200px+; match its
+   width so the no-CTA badge cards scale up like the source */
+@media (width >= 1200px) {
+  main .cards.feature > ul > li:not(:has(.cards-card-body > p:last-child a)) .cards-card-image img {
+    width: var(--cards-feature-badge-width-wide);
   }
 }

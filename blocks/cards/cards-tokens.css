@@ -23,4 +23,12 @@
   --cards-feature-cta-gap: 24px; /* gap around the flexible spacer before the CTA */
   --cards-feature-text-max: 16rem; /* caps the copy column so headings wrap like the source */
   --cards-feature-row-gap: 48px; /* vertical space between stacked cards */
+
+  /* no-CTA "badge" cards (how-vyepti-works): the icon is a wide 2:1 badge asset
+     rendered at its natural width (not squared like the home-page icons). The
+     source serves a 229px-wide asset up to ~1199px and a 286px-wide asset at
+     1200px+; matched here. Height follows the intrinsic ratio (auto). */
+  --cards-feature-badge-width: 229px; /* source badge width < 1200px */
+  --cards-feature-badge-width-wide: 286px; /* source badge width >= 1200px */
+  --cards-feature-badge-gap: 19px; /* badge-to-heading gap (source) */
 }
