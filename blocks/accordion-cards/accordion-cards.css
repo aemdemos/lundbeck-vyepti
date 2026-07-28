@@ -148,13 +148,6 @@
   vertical-align: bottom;
 }
 
-/* a logo authored inside a heading picks up the global heading margins — strip them
-   so the image aligns to the top of the card */
-.accordion-cards .accordion-cards-card-image :is(h1, h2, h3, h4, h5, h6) {
-  margin: 0;
-  line-height: 0;
-}
-
 /* community-resource logos (cards with a linked title) are authored at 2x and
    render at half size */
 .accordion-cards .accordion-cards-card:has(.accordion-cards-card-title a) .accordion-cards-card-image img {
@@ -364,16 +357,13 @@
      give the media a fixed column sized to the image plus a gap before the copy */
   .accordion-cards .accordion-cards-card {
     grid-template-columns: var(--accordion-cards-image-max-width) 1fr;
-    column-gap: 32px;
+    column-gap: 0;
   }
 
   .accordion-cards .accordion-cards-card:has(.accordion-cards-card-title a) {
     grid-template-columns: var(--accordion-cards-logo-max-width) 1fr;
   }
 
-  .accordion-cards .accordion-cards-card-image {
-    text-align: left;
-  }
 }
 
 @media (width >= 1200px) {
