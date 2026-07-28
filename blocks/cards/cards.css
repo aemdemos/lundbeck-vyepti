@@ -154,8 +154,11 @@ main .cards.feature > ul > li .cards-card-body > p:last-child:has(a) {
     grid-column: 1;
   }
 
-  /* strip the heading's leading margin so the text starts flush with the icon */
-  main .cards.feature > ul > li:has(.cards-card-body > p:last-child a) .cards-card-body > :first-child {
+  /* strip the heading's leading margin so the text starts flush with the icon,
+     and the copy's leading margin so it sits directly under the heading (the
+     source has no gap between heading and copy) */
+  main .cards.feature > ul > li:has(.cards-card-body > p:last-child a) .cards-card-body > :first-child,
+  main .cards.feature > ul > li:has(.cards-card-body > p:last-child a) .cards-card-body > h2 + p {
     margin-top: 0;
   }
 
