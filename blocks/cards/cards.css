@@ -52,12 +52,13 @@ main .cards.feature > ul > li .cards-card-body > p:last-child:has(a) {
   margin-top: var(--cards-feature-cta-gap-mobile);
 }
 
-/* tablet only — the source's Bootstrap md band: full-width stacked cards, each
-   a single row of icon | heading+copy | right-aligned CTA, all vertically
-   centered. Reverts to the centered column at 992px+ below. */
+/* tablet only — the source's Bootstrap md band. CTA cards (home) become
+   full-width stacked rows of icon | heading+copy | right-aligned CTA. No-CTA
+   cards (how-vyepti-works) keep the base centered-column stack. Reverts to the
+   centered column grid at 992px+ below. */
 @media (width >= 768px) and (width < 992px) {
   /* single full-width column with wider vertical rhythm between the stacked
-     cards, matching the source */
+     cards, matching the source (applies to both card types) */
   main .cards.feature > ul {
     grid-template-columns: 1fr;
     row-gap: var(--cards-feature-row-gap);
@@ -68,22 +69,23 @@ main .cards.feature > ul > li .cards-card-body > p:last-child:has(a) {
     width: auto;
   }
 
-  /* icon top-aligns with the heading (not centered against the whole text) */
-  main .cards.feature > ul > li {
+  /* CTA cards only: flip to an icon-left row; the icon top-aligns with the
+     heading (not centered against the whole text) */
+  main .cards.feature > ul > li:has(.cards-card-body > p:last-child a) {
     flex-direction: row;
     align-items: flex-start;
     text-align: left;
     gap: var(--cards-feature-icon-gap);
   }
 
-  main .cards.feature > ul > li .cards-card-image {
+  main .cards.feature > ul > li:has(.cards-card-body > p:last-child a) .cards-card-image {
     flex: 0 0 var(--cards-feature-icon-size);
   }
 
-  /* body is a three-column grid: a capped text column (so the heading wraps to
-     two lines like the source), a flexible spacer, and an auto-width column
-     that holds the CTA at its natural width so the button never wraps */
-  main .cards.feature > ul > li .cards-card-body {
+  /* CTA cards: three-column grid body — a capped text column (so the heading
+     wraps to two lines like the source), a flexible spacer, and an auto-width
+     column that holds the CTA at its natural width so the button never wraps */
+  main .cards.feature > ul > li:has(.cards-card-body > p:last-child a) .cards-card-body {
     flex: 1;
     display: grid;
     grid-template-columns: minmax(0, var(--cards-feature-text-max)) 1fr auto;
@@ -91,17 +93,17 @@ main .cards.feature > ul > li .cards-card-body > p:last-child:has(a) {
     column-gap: var(--cards-feature-cta-gap);
   }
 
-  main .cards.feature > ul > li .cards-card-body > :not(:last-child) {
+  main .cards.feature > ul > li:has(.cards-card-body > p:last-child a) .cards-card-body > :not(:last-child) {
     grid-column: 1;
   }
 
   /* strip the heading's leading margin so the text starts flush with the icon */
-  main .cards.feature > ul > li .cards-card-body > :first-child {
+  main .cards.feature > ul > li:has(.cards-card-body > p:last-child a) .cards-card-body > :first-child {
     margin-top: 0;
   }
 
-  main .cards.feature > ul > li .cards-card-body > :not(:last-child):last-of-type,
-  main .cards.feature > ul > li .cards-card-body > p:nth-last-child(2) {
+  main .cards.feature > ul > li:has(.cards-card-body > p:last-child a) .cards-card-body > :not(:last-child):last-of-type,
+  main .cards.feature > ul > li:has(.cards-card-body > p:last-child a) .cards-card-body > p:nth-last-child(2) {
     margin-bottom: 0;
   }
 
