@@ -79,10 +79,13 @@ main .isi a:hover { /* @boilerplate */
   background-color: var(--isi-bar-background); /* @boilerplate */
   border-top: var(--isi-bar-border-width) solid var(--isi-bar-border-color); /* @boilerplate */
   height: auto;
+  min-height: 0;
   max-height: var(--isi-bar-height);
   overflow: hidden;
   padding: var(--isi-bar-padding); /* @boilerplate */
-  transition: max-height var(--isi-bar-height-transition-duration) var(--isi-bar-height-transition-easing);
+  transition:
+    max-height var(--isi-bar-height-transition-duration) var(--isi-bar-height-transition-easing),
+    min-height var(--isi-bar-height-transition-duration) var(--isi-bar-height-transition-easing);
   color: var(--isi-text-color); /* @boilerplate */
   cursor: pointer; /* @boilerplate */
 }
@@ -91,12 +94,23 @@ main .isi a:hover { /* @boilerplate */
   display: none; /* @boilerplate */
 }
 
-/* Expanded state — animates max-height (auto is not animatable) */
+/* Expanded state — animates max-height (auto is not animatable). */
 .isi-bar.full {
   max-height: var(--isi-bar-expanded-max-height);
   overflow-y: auto;
   z-index: var(--isi-bar-expanded-z-index); /* @boilerplate */
   cursor: default; /* @boilerplate */
+}
+
+/* Mobile & tablet: open flush below the header with no gap. The panel fills the
+   full space between the header bottom and the viewport bottom regardless of
+   content length. --isi-expanded-offset is the live header height set by isi.js
+   on the .isi-bar element (so the calc must live here, not in :root). */
+@media (width <= 991px) {
+  .isi-bar.full {
+    min-height: calc(100vh - var(--isi-expanded-offset, 0px));
+    max-height: calc(100vh - var(--isi-expanded-offset, 0px));
+  }
 }
 
 /* Inner content wrapper – two-column on desktop */

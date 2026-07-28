@@ -63,12 +63,6 @@
     --isi-bar-heading-padding-bottom: 8px;
     --isi-bar-paragraph-padding-bottom: 16px;
     --isi-toggle-right: var(--isi-toggle-right-mobile);
-
-    /* Expanded panel stops at the header bottom (bottom-anchored bar, so its top
-       lands at header height) — matches source, which opens just below the header
-       instead of covering it. --isi-mobile-header-offset ≈ rendered header height. */
-    --isi-mobile-header-offset: 138px;
-    --isi-bar-expanded-max-height: calc(100vh - var(--isi-mobile-header-offset));
   }
 }
 

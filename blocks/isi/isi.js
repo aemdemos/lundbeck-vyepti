@@ -99,9 +99,22 @@ export default function decorate(block) {
   /* Append bar to <body> so it sits outside the page flow */
   document.body.append(bar);
 
+  /* On mobile/tablet the expanded panel must open flush against the header
+     bottom with no gap. The header height differs per breakpoint, so measure it
+     and expose it as a custom property the CSS uses to cap the expanded height. */
+  const updateExpandedHeight = () => {
+    const header = document.querySelector('header .nav-wrapper')
+      || document.querySelector('header');
+    const offset = header ? Math.round(header.getBoundingClientRect().height) : 0;
+    bar.style.setProperty('--isi-expanded-offset', `${offset}px`);
+  };
+  updateExpandedHeight();
+  window.addEventListener('resize', updateExpandedHeight);
+
   /* ── 3. Expand / collapse toggle ────────────────────────────── */
   toggle.addEventListener('click', (e) => {
     e.stopPropagation();
+    updateExpandedHeight();
     const expanded = bar.classList.toggle('full');
     toggle.setAttribute('aria-expanded', String(expanded));
     toggle.setAttribute(
@@ -113,6 +126,7 @@ export default function decorate(block) {
   /* Clicking anywhere on the collapsed bar also expands it */
   bar.addEventListener('click', () => {
     if (!bar.classList.contains('full')) {
+      updateExpandedHeight();
       bar.classList.add('full');
       toggle.setAttribute('aria-expanded', 'true');
       toggle.setAttribute('aria-label', 'Collapse safety information');
