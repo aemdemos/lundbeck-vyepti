@@ -140,6 +140,7 @@
 
 .accordion-cards .accordion-cards-card-image img {
   width: auto;
+
   /* never wider than its (30%) column, so it can't overflow into the copy when the
      two-up layout narrows each card */
   max-width: min(var(--accordion-cards-image-max-width), 100%);
