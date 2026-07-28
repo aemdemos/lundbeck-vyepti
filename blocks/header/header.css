@@ -176,10 +176,6 @@ header .nav-links-list > li > a {
   display: inline-block;
 }
 
-header .nav-links-list > li > a:hover {
-  color: var(--brand-primary-light);
-}
-
 header .nav-links-list > li > p {
   margin: 0;
   color: var(--brand-primary);
@@ -252,11 +248,6 @@ header .nav-dropdown-menu a {
   transition: background-color 0.15s, color 0.15s;
 }
 
-header nav.nav-mobile-open .nav-dropdown-menu a:hover {
-  background-color: white;
-  color: var(--brand-primary);
-}
-
 /* Desktop visibility resets are defined in desktop media queries. */
 
 /* ===== Mobile-first base layout ===== */
@@ -305,10 +296,6 @@ header nav.nav-mobile-open .nav-dropdown-menu a:hover {
     margin: 0;
     color: rgb(4 97 131);
     line-height: var(--header-line-height-m);
-
-    &:hover {
-      color: var(--brand-primary-light);
-    }
   }
 
   header nav.nav-mobile-open .nav-links-row .nav-links-list > li.nav-active::before {
@@ -342,7 +329,7 @@ header nav.nav-mobile-open .nav-dropdown-menu a:hover {
   }
 
   header nav.nav-mobile-open .nav-links-row .nav-links-list > li.nav-drop[aria-expanded='true'] {
-    background-color: #fff;
+    background-color: rgb(239 246 249);
   }
 
   header nav.nav-mobile-open .nav-links-row .nav-links-list > li.nav-drop[aria-expanded='true']::after {
@@ -356,7 +343,7 @@ header nav.nav-mobile-open .nav-dropdown-menu a:hover {
     box-shadow: none;
     min-width: 0;
     padding: 0;
-    background-color: #fff;
+    background-color: rgb(239 246 249);
     border: 0;
     border-radius: 0;
     margin: 0;
@@ -844,16 +831,16 @@ header nav.nav-mobile-open .nav-dropdown-menu a:hover {
     position: relative;
   }
 
-  /* Active underline tracks the label text width (with a small overhang),
-     rather than the full <li> which includes the dropdown chevron padding. */
+  /* Active underline extends a little beyond the label text on each side, matching
+     vyepti.com (wider than the text itself). */
   header .nav-links-list > li.nav-active > a::after,
   header .nav-links-list > li.nav-active > p::after {
     content: '';
     display: block;
     position: absolute;
     bottom: 0;
-    left: -6px;
-    right: -6px;
+    left: -12px;
+    right: -12px;
     height: 6px;
     background-color: var(--brand-secondary);
     border-radius: 6px 6px 0 0;
@@ -888,7 +875,10 @@ header nav.nav-mobile-open .nav-dropdown-menu a:hover {
     border-bottom: 5px solid #c02c57;
     border-radius: 0 0 4px 4px;
     margin: 0;
-    left: -12px;
+
+    /* Pull the menu left by its item padding so the first item's text aligns with
+       the label's left edge (matching vyepti.com). */
+    left: -20px;
 
     /* Open just below the label text, matching vyepti.com (parity). */
     top: var(--header-dropdown-top);
@@ -917,7 +907,7 @@ header nav.nav-mobile-open .nav-dropdown-menu a:hover {
   }
 
   header .nav-dropdown-menu a:hover {
-    color: var(--brand-primary);
+    color: var(--brand-primary-light);
   }
 
   header .nav-mobile-header,
