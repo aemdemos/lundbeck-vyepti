@@ -113,6 +113,13 @@ main .cards.feature > ul > li .cards-card-body > p:last-child:has(a) {
     flex: 1;
   }
 
+  /* tighter section spacing in the tablet band (source uses 17/21 here, not the
+     larger desktop 48/64) */
+  main .cards.feature:not(:has(.cards-card-body > p:last-child a)) {
+    padding-top: var(--cards-feature-badge-section-pt-tablet);
+    padding-bottom: var(--cards-feature-badge-section-pb-tablet);
+  }
+
   /* CTA cards only: flip to an icon-left row; the icon top-aligns with the
      heading (not centered against the whole text) */
   main .cards.feature > ul > li:has(.cards-card-body > p:last-child a) {
