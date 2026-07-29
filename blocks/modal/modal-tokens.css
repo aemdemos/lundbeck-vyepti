@@ -140,6 +140,9 @@
   box-shadow: var(--modal-exit-shadow);
   background-color: transparent;
   overflow: visible;
+
+  /* nudge down 20px from the vertical center to match the source's resting position */
+  transform: translateY(20px);
 }
 
 /* lighter page dimming than the near-black boilerplate default */
