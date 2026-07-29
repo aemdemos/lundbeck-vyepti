@@ -24,6 +24,83 @@ export function decorateCellClass(block) {
 }
 
 /**
+ * Allowlist of inline-style tokens for the [[token]text] syntax.
+ * Colour tokens map to a span class (hooked to the matching --brand-* token in CSS);
+ * `bold`/`italic` map to semantic <strong>/<em>. Anything not listed here is left as
+ * literal text — author input is never turned into an arbitrary class name.
+ */
+const INLINE_STYLE_TOKENS = new Map([
+  ['brand-primary', { tag: 'span', className: 'hero-style-brand-primary' }],
+  ['brand-secondary', { tag: 'span', className: 'hero-style-brand-secondary' }],
+  ['brand-primary-light', { tag: 'span', className: 'hero-style-brand-primary-light' }],
+  ['bold', { tag: 'strong' }],
+  ['italic', { tag: 'em' }],
+]);
+
+/* [[token]visible text]] — token is a-z/0-9/hyphen, text is any run without a "]". */
+const INLINE_STYLE_RE = /\[\[([a-z0-9-]+)\]([^\]]*)\]/gi;
+
+/**
+ * Builds the styled node for one allowlisted token, or null if the token is unknown.
+ * @param {string} token
+ * @param {string} text visible text
+ * @returns {HTMLElement|null}
+ */
+function buildInlineStyleNode(token, text) {
+  const spec = INLINE_STYLE_TOKENS.get(token.toLowerCase());
+  if (!spec) return null;
+  const node = document.createElement(spec.tag);
+  if (spec.className) node.className = spec.className;
+  node.textContent = text;
+  return node;
+}
+
+/**
+ * Rewrites `[[token]text]` runs inside an element into styled wrappers, in place.
+ * Only allowlisted tokens are transformed; unknown tokens and malformed brackets
+ * (e.g. `[[x]`, no closing `]`) are left exactly as authored. Walks text nodes so
+ * existing child elements (e.g. <strong>/<em> from doc formatting) are preserved.
+ * @param {Element} el
+ */
+export function decorateInlineStyleTokens(el) {
+  if (!el) return;
+  const textNodes = [];
+  const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+  for (let n = walker.nextNode(); n; n = walker.nextNode()) {
+    if (n.nodeValue.includes('[[')) textNodes.push(n);
+  }
+
+  textNodes.forEach((textNode) => {
+    const text = textNode.nodeValue;
+    INLINE_STYLE_RE.lastIndex = 0;
+    if (!INLINE_STYLE_RE.test(text)) return;
+
+    const frag = document.createDocumentFragment();
+    let lastIndex = 0;
+    INLINE_STYLE_RE.lastIndex = 0;
+    let match = INLINE_STYLE_RE.exec(text);
+    while (match) {
+      const [full, token, inner] = match;
+      const styled = buildInlineStyleNode(token, inner);
+      if (styled) {
+        if (match.index > lastIndex) {
+          frag.append(document.createTextNode(text.slice(lastIndex, match.index)));
+        }
+        frag.append(styled);
+        lastIndex = match.index + full.length;
+      }
+      // unknown token: leave literal — advance past this match without consuming it
+      match = INLINE_STYLE_RE.exec(text);
+    }
+    if (lastIndex === 0) return; // nothing transformed
+    if (lastIndex < text.length) {
+      frag.append(document.createTextNode(text.slice(lastIndex)));
+    }
+    textNode.replaceWith(frag);
+  });
+}
+
+/**
  * Shared YouTube and Vimeo embed HTML builders.
  * Used by video and embed blocks. Returns HTML strings for DOMPurify or DOM creation.
  *

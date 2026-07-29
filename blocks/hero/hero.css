@@ -243,7 +243,7 @@ main > .section.hero-container > .hero-wrapper {
   background-color: var(--brand-primary-light);
 }
 
-/* "Actor portrayal" caption */
+/* Author-driven caption (formerly the hardcoded "Actor portrayal") */
 .hero .actor-portrayal {
   position: absolute;
   right: 20px;
@@ -258,6 +258,20 @@ main > .section.hero-container > .hero-wrapper {
   sub {
     font-size: var(--hero-caption-sub-font-size);
   }
+}
+
+/* Inline [[token]text] style hooks — colour tokens override the caption's default
+   colour; bold/italic use semantic <strong>/<em> and inherit caption styling. */
+.hero .hero-style-brand-primary {
+  color: var(--brand-primary);
+}
+
+.hero .hero-style-brand-secondary {
+  color: var(--brand-secondary);
+}
+
+.hero .hero-style-brand-primary-light {
+  color: var(--brand-primary-light);
 }
 
 .hero .hero-panel-light .hero-panel-description > p:nth-child(3) {

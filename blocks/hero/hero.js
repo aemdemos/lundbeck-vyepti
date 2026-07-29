@@ -1,7 +1,36 @@
-import { buildPictureContentFromImageCell } from '../../scripts/utils.js';
+import { buildPictureContentFromImageCell, decorateInlineStyleTokens } from '../../scripts/utils.js';
+
+/**
+ * Finds an author-entered caption paragraph inside a hero image column — a <p>
+ * that has visible text and no image/link (the image column otherwise holds only
+ * <picture> elements). Returns the <p> or null. Phrase-independent: any copy works.
+ * @param {Element} imageCol the image cell/column
+ * @returns {HTMLParagraphElement|null}
+ */
+function findCaptionParagraph(imageCol) {
+  if (!imageCol) return null;
+  const paragraphs = [...imageCol.querySelectorAll('p')];
+  return paragraphs.find((p) => p.textContent.trim()
+    && !p.querySelector('picture, img, a')) || null;
+}
+
+/**
+ * Applies the caption treatment: the shared .actor-portrayal positioning/shadow hook
+ * plus inline [[token]text] styling, then relocates it to the caption slot (`target`).
+ * @param {HTMLParagraphElement} caption
+ * @param {Element} target element to append the caption into
+ */
+function placeCaption(caption, target) {
+  caption.classList.add('actor-portrayal');
+  decorateInlineStyleTokens(caption);
+  target.appendChild(caption);
+}
 
 function applyAccentColor(block) {
   block.querySelectorAll('h1 strong, h2 strong, h3 strong, p strong').forEach((strong) => {
+    // Leave caption content alone: its styling comes from [[token]text] hooks, so a
+    // [[bold]…] <strong> must not be rewritten into the heading accent-color span.
+    if (strong.closest('.actor-portrayal')) return;
     const span = document.createElement('span');
     span.className = 'accent-color';
     span.textContent = strong.textContent;
@@ -13,12 +42,12 @@ function decorateSinglePanel(block) {
   block.classList.add('single');
   applyAccentColor(block);
 
-  const contentDiv = block.querySelector(':scope > div:last-child');
-  const lastP = contentDiv?.querySelector(':scope > div > p:last-child');
-  if (lastP && lastP.textContent.trim().toLowerCase() === 'actor portrayal') {
-    lastP.classList.add('actor-portrayal');
-    block.appendChild(lastP);
-  }
+  // Caption is authored in the image column (first cell); relocate it to the
+  // block-level caption slot for absolute bottom-right positioning.
+  const imageCol = block.querySelector(':scope > div:first-child > div')
+    || block.querySelector(':scope > div:first-child');
+  const caption = findCaptionParagraph(imageCol);
+  if (caption) placeCaption(caption, block);
 }
 
 function decorateDualPanel(block, rows) {
@@ -29,15 +58,18 @@ function decorateDualPanel(block, rows) {
     const panel = document.createElement('div');
     panel.className = `hero-panel hero-panel-${index === 0 ? 'dark' : 'light'}`;
 
-    // First cell: image (background)
+    // First cell: image (background). Capture the author-entered caption before
+    // the image cell is consumed, then relocate it to panel level for positioning.
     const imgCell = cells[0];
     if (imgCell) {
+      const caption = findCaptionParagraph(imgCell);
       const bgDiv = document.createElement('div');
       bgDiv.className = 'hero-panel-bg';
       const bgContent = buildPictureContentFromImageCell(imgCell);
       imgCell.replaceChildren();
       bgDiv.append(bgContent);
       panel.appendChild(bgDiv);
+      if (caption) placeCaption(caption, panel);
     }
 
     // Second cell: text content overlay
@@ -46,15 +78,6 @@ function decorateDualPanel(block, rows) {
       const contentDiv = document.createElement('div');
       contentDiv.className = 'hero-panel-content';
       contentDiv.append(...textCell.childNodes);
-
-      // Move "Actor portrayal" to panel level for absolute positioning
-      const allP = contentDiv.querySelectorAll('p');
-      allP.forEach((p) => {
-        if (p.textContent.trim().toLowerCase() === 'actor portrayal') {
-          p.classList.add('actor-portrayal');
-          panel.appendChild(p);
-        }
-      });
 
       // CTA row: sole link in a paragraph — matches vyepti split-banner absolute CTA band
       contentDiv.querySelectorAll('p').forEach((p) => {

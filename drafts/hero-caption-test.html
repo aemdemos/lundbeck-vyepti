@@ -1,0 +1,86 @@
+<!-- Test content for issue #105 hero caption refactor.
+     Caption <p> now lives in the IMAGE column (first cell), beneath the image.
+     Exercises: plain caption, each bracket token, malformed bracket, multiple phrases,
+     across single (default), single-light, single-dark, and dual-panel variants. -->
+<main>
+  <div>
+    <!-- Single (default): plain caption -->
+    <div class="hero">
+      <div>
+        <div>
+          <picture><img src="https://picsum.photos/seed/hero1/1200/600" alt=""></picture>
+          <p>Mike, actual Vyepti patient</p>
+        </div>
+        <div>
+          <h3>Share Your Migraine Story</h3>
+          <h1>Has VYEPTI had an impact on your life?</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-metadata">
+    <div><div>style</div><div>single-light</div></div>
+  </div>
+
+  <div>
+    <!-- single-light: brand-primary colour token -->
+    <div class="hero">
+      <div>
+        <div>
+          <picture><img src="https://picsum.photos/seed/hero2/1200/600" alt=""></picture>
+          <p>[[brand-primary]Jeffrey, VYEPTI patient]</p>
+        </div>
+        <div>
+          <h3>What to Expect During Treatment</h3>
+          <h1>Getting ready for your first infusion</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-metadata">
+    <div><div>style</div><div>single-dark</div></div>
+  </div>
+
+  <div>
+    <!-- single-dark: italic + malformed bracket left literal -->
+    <div class="hero">
+      <div>
+        <div>
+          <picture><img src="https://picsum.photos/seed/hero3/1200/600" alt=""></picture>
+          <p>[[italic]Actor portrayal] [[unknown]stays literal] [[bold left open</p>
+        </div>
+        <div>
+          <h1>Designed to help prevent migraine attacks</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <!-- Dual-panel: two [image, text] rows, caption in each image cell -->
+    <div class="hero">
+      <div>
+        <div>
+          <picture><img src="https://picsum.photos/seed/hero4/1200/600" alt=""></picture>
+          <p>[[brand-secondary]Nicole, VYEPTI patient]</p>
+        </div>
+        <div>
+          <h2>When a showstopping migraine is one big <strong>nope</strong></h2>
+          <p><a href="/why-iv-treatment">Explore IV treatment</a></p>
+        </div>
+      </div>
+      <div>
+        <div>
+          <picture><img src="https://picsum.photos/seed/hero5/1200/600" alt=""></picture>
+          <p>[[bold]June, VYEPTI patient]</p>
+        </div>
+        <div>
+          <h2>Say yep to VYEPTI</h2>
+          <p><a href="/vyepti-study-results">Check out study results</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
