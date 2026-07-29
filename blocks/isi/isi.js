@@ -27,14 +27,55 @@ export default function decorate(block) {
   const bar = document.createElement('div');
   bar.className = 'isi-bar';
   bar.setAttribute('aria-label', 'Important Safety Information');
+  /* Pin critical positioning inline so the bar is fixed the instant it enters
+     the DOM — prevents a large layout shift (CLS) if the block CSS has not
+     finished loading when the bar is appended to <body>. */
+  bar.style.position = 'fixed';
+  bar.style.left = '0';
+  bar.style.right = '0';
+  bar.style.bottom = '0';
 
   /* Move the abbreviated content into the bar */
   const barContent = document.createElement('div');
   barContent.className = 'isi-bar-content';
 
-  /* Re-parent abbreviated children into the bar content wrapper */
+  /* Re-parent abbreviated children into the bar content wrapper.
+     The source lays this out as: [ISI intro | APPROVED USE] on the top row,
+     then the rest of the ISI copy (starting at "VYEPTI may cause…") full-width
+     below. The first cell holds ALL the ISI copy, so split it: heading + the
+     first paragraph stay in the top-left column; everything after moves into a
+     full-width block placed after the APPROVED USE column. */
   const abbrCells = [...abbreviatedRow.children];
-  abbrCells.forEach((cell) => {
+  const [isiCell, approvedCell] = abbrCells;
+
+  isiCell.classList.add('isi-bar-col');
+  barContent.append(isiCell);
+
+  if (approvedCell) {
+    approvedCell.classList.add('isi-bar-col', 'isi-bar-col-approved');
+    barContent.append(approvedCell);
+  }
+
+  /* Split the ISI column: keep heading + first paragraph, move the remainder
+     into a full-width block below the two top columns. */
+  if (isiCell) {
+    const heading = isiCell.querySelector('h1, h2, h3, h4, h5, h6');
+    const firstPara = heading
+      ? heading.nextElementSibling
+      : isiCell.querySelector('p');
+    const fullBlock = document.createElement('div');
+    fullBlock.className = 'isi-bar-col isi-bar-col-full';
+    let node = firstPara ? firstPara.nextElementSibling : null;
+    while (node) {
+      const next = node.nextElementSibling;
+      fullBlock.append(node);
+      node = next;
+    }
+    if (fullBlock.children.length) barContent.append(fullBlock);
+  }
+
+  /* Any additional authored cells beyond the first two */
+  abbrCells.slice(2).forEach((cell) => {
     cell.classList.add('isi-bar-col');
     barContent.append(cell);
   });
@@ -58,23 +99,43 @@ export default function decorate(block) {
   /* Append bar to <body> so it sits outside the page flow */
   document.body.append(bar);
 
-  /* ── 3. Expand / collapse toggle ────────────────────────────── */
-  toggle.addEventListener('click', (e) => {
-    e.stopPropagation();
-    const expanded = bar.classList.toggle('full');
+  /* On mobile/tablet the expanded panel must open flush against the header
+     bottom with no gap. The header height differs per breakpoint, so measure it
+     and expose it as a custom property the CSS uses to cap the expanded height. */
+  const updateExpandedHeight = () => {
+    const header = document.querySelector('header .nav-wrapper')
+      || document.querySelector('header');
+    const offset = header ? Math.round(header.getBoundingClientRect().height) : 0;
+    bar.style.setProperty('--isi-expanded-offset', `${offset}px`);
+  };
+  updateExpandedHeight();
+  window.addEventListener('resize', updateExpandedHeight);
+
+  /* Lock/unlock page scroll while the panel is open (mobile/tablet behaviour of
+     the source: the page cannot scroll, only the ISI panel scrolls internally).
+     Applied at all widths — harmless on desktop where the panel is short. */
+  const setExpanded = (expanded) => {
+    bar.classList.toggle('full', expanded);
+    document.body.classList.toggle('isi-scroll-locked', expanded);
     toggle.setAttribute('aria-expanded', String(expanded));
     toggle.setAttribute(
       'aria-label',
       expanded ? 'Collapse safety information' : 'Expand safety information',
     );
+  };
+
+  /* ── 3. Expand / collapse toggle ────────────────────────────── */
+  toggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    updateExpandedHeight();
+    setExpanded(!bar.classList.contains('full'));
   });
 
   /* Clicking anywhere on the collapsed bar also expands it */
   bar.addEventListener('click', () => {
     if (!bar.classList.contains('full')) {
-      bar.classList.add('full');
-      toggle.setAttribute('aria-expanded', 'true');
-      toggle.setAttribute('aria-label', 'Collapse safety information');
+      updateExpandedHeight();
+      setExpanded(true);
     }
   });
 
@@ -86,8 +147,7 @@ export default function decorate(block) {
     ([entry]) => {
       if (entry.isIntersecting) {
         bar.classList.add('isi-bar-hidden');
-        bar.classList.remove('full');
-        toggle.setAttribute('aria-expanded', 'false');
+        setExpanded(false);
       } else {
         bar.classList.remove('isi-bar-hidden');
       }
