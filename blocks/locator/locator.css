@@ -344,33 +344,68 @@
     background: #FFF;
 }
 
+.locator-results .locator-results-list .locator-result-item.gradientBorder {
+  background: linear-gradient(to right, #f16464, #c02c57);
+}
+
 .locator-result-item-inner {
   display: flex;
+  justify-content: space-between;
   background: #FFF;
   border-radius: 10px;
-  padding: 11px 0 21px 0;
+  padding: 11px 24px  21px 11px;
 }
+.locator-results .locator-results-list .locator-result-item:hover, 
+.locator-results .locator-results-list .locator-result-item:hover .locator-result-item-inner,
+.locator-results .locator-results-list .locator-result-item.gradientBorder:hover .locator-result-item-inner{
+  background-color: #eff6f9;
+}
+
 .locator-result-left {
+  position: relative;
   display: flex;
   align-items: flex-start;
+  margin-right: 10px;
 }
 
 .locator-result-left::before {
   content: "";
-  flex: 0 0 20px;
-  width: 20px;
-  height: 20px;
-  margin-right: 8px;
+  width: 32px;
+  height: 40px;
   background-image: url("https://www.vyepti.com/etc.clientlibs/vyepti-picl/clientlibs/clientlib-site/resources/icons/Pin_Teal_Solid.svg");
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
 }
 
+.locator-result-left span {
+  position: absolute;
+    top: 7px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    text-align: center;
+    color: #fff;
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 20px;
+}
+
+.locator-result-item.gradientBorder .locator-result-left::before { 
+  background-image: url("https://www.vyepti.com/etc.clientlibs/vyepti-picl/clientlibs/clientlib-site/resources/icons/Pin_Red_Solid.svg");
+}
+
 .locator-result-right {
-   h3 {
-      margin-top: 0px;
-   }
+  text-align: left;
+  width: 100%;
+}
+.locator-result-right h3 {
+    margin-top: 0px;
+}
+
+.locator-result-title {
+  display: flex;
+  justify-content: space-between;
 }
 
 .locator-results .locator-title-wrap .locator-title {
@@ -378,6 +413,31 @@
   color: var(--brand-dark);
 }
 
+.locate-result-phone-wrap {
+  /* display: flex;
+  justify-content: space-around;
+  align-items: center; */
+}
+
+.locator-result-phone {
+  margin: 0px;
+  float: left;
+}
+
+.weblink {
+  position: relative;
+  float: right;
+}
+.weblink::after {
+  content: "";
+  width: 18px;
+  height: 18px;
+  background-image: url('https://www.vyepti.com/etc.clientlibs/vyepti-picl/clientlibs/clientlib-site/resources/icons/Global_Icon_External_Link_Alt_Teal.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  position: absolute;
+}
 .locator-results .locator-title-wrap .locator-result-disclaimer {
   text-align: left;
   line-height: 22px;

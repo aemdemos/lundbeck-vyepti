@@ -1,6 +1,6 @@
 import { loadScript } from '../../scripts/aem.js';
 import { getSettings } from '../../scripts/config.js';
-import { createSearchForm, createMapContainer, createFacilityCards } from './template.js';
+import { createSearchForm, createMapContainer, createFacilityCards } from './createMarkup.js';
 import { initCustomDropdown } from './dropdwon.js';
 import { initializeMap, clearMarkers, addMarker, geocodeZip } from './map.js';
 import { searchLocations } from './api.js';
