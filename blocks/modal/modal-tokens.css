@@ -71,6 +71,10 @@
   --modal-exit-radius: 12px;
   --modal-exit-shadow: none;
   --modal-exit-background: #eff6f9;
+
+  /* source vyepti.com dims the page with grey/50%, not the near-black/75%
+     boilerplate default — that's why the default looked too dark */
+  --modal-exit-backdrop-background: rgb(72 72 72 / 50%);
   --modal-exit-heading-color: #484848;
   --modal-exit-heading-size: 16px;
   --modal-exit-heading-weight: 400;
@@ -136,6 +140,11 @@
   box-shadow: var(--modal-exit-shadow);
   background-color: transparent;
   overflow: visible;
+}
+
+/* lighter page dimming than the near-black boilerplate default */
+.modal.exit dialog::backdrop {
+  background-color: var(--modal-exit-backdrop-background);
 }
 
 /* the grey card — narrower than the dialog frame by the 7px gutter each side */
