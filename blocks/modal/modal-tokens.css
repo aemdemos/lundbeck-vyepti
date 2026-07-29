@@ -63,9 +63,10 @@
 
 
   /* exit interstitial ("You are about to leave VYEPTI.com") — mobile-first.
-     Source vyepti.com: 15px side gutters (100vw - 30px), capped at a fixed 535px
-     that carries across every breakpoint. */
-  --modal-exit-width: calc(100vw - 30px);
+     Source vyepti.com gutters: 8px each side by default (Bootstrap .modal-dialog
+     margin 0.5rem), widening to 15px only in the 360–560px band, and capped at a
+     fixed 535px above that. The 360–560 override lives in its own media query. */
+  --modal-exit-width: calc(100vw - 16px);
   --modal-exit-max-width: 535px;
   --modal-exit-radius: 12px;
   --modal-exit-shadow: none;
@@ -82,8 +83,26 @@
   --modal-exit-button-radius: 100px;
   --modal-exit-button-padding: 19px;
   --modal-exit-button-font-size: 18px;
+
+  /* source vyepti.com pins each action to a fixed width across all breakpoints
+     (.button-primary → 132px, .button-ghost-cta → 112px) — not shrink-to-text */
+  --modal-exit-button-ok-width: 132px;
+  --modal-exit-button-cancel-width: 112px;
   --modal-exit-button-ok-background: var(--brand-primary);
   --modal-exit-button-cancel-color: var(--brand-primary);
+
+  /* source vyepti.com hover: both actions transition to steel-blue over 0.2s
+     ease-in-out — Continue fills steel-blue, Cancel's border+text turn steel-blue */
+  --modal-exit-button-hover-color: var(--brand-primary-light);
+  --modal-exit-button-transition: 0.2s ease-in-out;
+}
+
+/* source vyepti.com widens the side gutters to 15px only in the 360–560px band
+   (its `.interstitialmodal .modal-dialog` media query) — dialog = 100vw - 30px */
+@media (width >= 360px) and (width <= 560px) {
+  :root {
+    --modal-exit-width: calc(100vw - 30px);
+  }
 }
 
 /* exit interstitial — tablet/desktop.
@@ -99,23 +118,26 @@
   }
 }
 
-/* exit interstitial variant */
+/* exit interstitial variant.
+   Source vyepti.com sets no explicit height — the dialog is content-sized with
+   no vh clamp. We keep only a safety cap so exceptionally tall content can
+   still scroll rather than overflow the viewport. */
 .modal.exit dialog {
   width: var(--modal-exit-width);
   max-width: var(--modal-exit-max-width);
-  max-height: calc(100dvh - 40px);
+  max-height: calc(100dvh - 30px);
   margin: auto;
+  padding: 0 7px;
   border: none;
+  box-sizing: border-box;
   border-radius: var(--modal-exit-radius);
   box-shadow: var(--modal-exit-shadow);
   background-color: var(--modal-exit-background);
   overflow: visible;
-  padding: 0 7px; /* on .modal.exit dialog — the 7px side gutters the original has */
-  box-sizing: border-box;
 }
 
 .modal.exit dialog .modal-content {
-  max-height: calc(100dvh - 40px);
+  max-height: none;
   padding: var(--modal-exit-content-padding);
   margin-top: 0;
   text-align: center;
@@ -176,7 +198,7 @@
   font-size: var(--modal-exit-button-font-size);
   font-weight: var(--font-weight-bold);
   text-align: center;
-  text-transform: uppercase;
+  transition: var(--modal-exit-button-transition);
 }
 
 /* no trailing arrow icon on the interstitial actions */
@@ -194,13 +216,28 @@
 }
 
 .modal.exit dialog a.button.ok {
+  width: var(--modal-exit-button-ok-width);
   background-color: var(--modal-exit-button-ok-background);
   color: var(--background-color);
 }
 
 .modal.exit dialog a.button.cancel {
+  width: var(--modal-exit-button-cancel-width);
   background-color: var(--background-color);
   color: var(--modal-exit-button-cancel-color);
+}
+
+/* hover — Continue fills steel-blue (text stays white), Cancel's border + text
+   turn steel-blue (background stays white); matches source vyepti.com */
+.modal.exit dialog a.button.ok:hover {
+  background-color: var(--modal-exit-button-hover-color);
+  border-color: var(--modal-exit-button-hover-color);
+  color: var(--background-color);
+}
+
+.modal.exit dialog a.button.cancel:hover {
+  border-color: var(--modal-exit-button-hover-color);
+  color: var(--modal-exit-button-hover-color);
 }
 
 @media (width >= 992px) {
