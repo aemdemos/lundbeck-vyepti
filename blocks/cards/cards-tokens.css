@@ -13,9 +13,12 @@
   --card-image-height: unset;
 
   /* resources variant — resource-card look for standalone (non-accordion) cards */
-  --cards-resources-gap: 32px 24px;
-  --cards-resources-card-margin-bottom: 36px;
+  --cards-resources-gap: 24px;
+  --cards-resources-card-margin-bottom: 24px;
   --cards-resources-image-max-width: 164px;
+  --cards-resources-title-margin-bottom: 28px;
+  --cards-resources-body-margin-bottom: 40px;
+  --cards-resources-action-gap: 24px;
   --cards-resources-title-color: #046183;
   --cards-resources-title-font-size: 20px;
   --cards-resources-title-line-height: 22px;
@@ -33,5 +36,6 @@
   :root {
     --cards-resources-title-font-size: 22px;
     --cards-resources-image-max-width: 140px;
+    --cards-resources-action-gap: 49px;
   }
 }

@@ -76,9 +76,6 @@
 }
 
 .cards.resources .cards-card-body {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   min-width: 0;
   margin: 0;
   text-align: center;
@@ -86,108 +83,89 @@
 
 .cards.resources .cards-card-body h3,
 .cards.resources .cards-card-body h4 {
-  margin: 0 0 8px;
+  margin: 0 0 var(--cards-resources-title-margin-bottom);
   color: var(--cards-resources-title-color);
   font-size: var(--cards-resources-title-font-size);
   font-weight: 700;
   line-height: var(--cards-resources-title-line-height);
 }
 
-.cards.resources .cards-card-body p {
-  margin: 0 0 8px;
+/* body copy (any paragraph that isn't a decorated action link) */
+.cards.resources .cards-card-body p:not(.button-wrapper) {
+  margin: 0 0 var(--cards-resources-body-margin-bottom);
   color: var(--cards-resources-body-color);
   font-size: var(--cards-resources-body-font-size);
   line-height: var(--cards-resources-body-line-height);
 }
 
-.cards.resources .cards-card-body p a {
-  color: var(--cards-resources-link-color);
-  font-size: inherit;
-  line-height: var(--cards-resources-body-line-height);
+/* Download / Email links: global decorateButtons wraps each in p.button-wrapper > a.button.
+   The body is a flex column; the trailing button-wrapper paragraphs are pulled into a single
+   wrapping row via align-self + a negative-free approach: we make the last run of wrappers
+   sit side by side by floating them (float ignores inter-element whitespace and the inline
+   margin-collapse quirk that pushed the 2nd link to a new line in the narrow tablet column).
+   Icon spacing comes from the global a.button:has(.icon) flex gap — no per-block JS needed. */
+.cards.resources .cards-card-body .button-wrapper {
+  float: left;
+  width: auto;
+  margin: 0 0 0 var(--cards-resources-action-gap);
 }
 
-/* tile-link style action row — flex so links sit inline with a consistent gap and wrap
-   gracefully when the card body column is too narrow (avoids the fixed-margin overflow). */
-.cards.resources .cards-card-actions {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 8px 24px;
-  width: 100%;
-  margin: 0;
-  line-height: var(--cards-resources-link-line-height);
+/* zero the leading gap on the first action link. :first-of-type matches the first <p>
+   (the body copy), not the first button-wrapper, so target a button-wrapper NOT preceded
+   by another button-wrapper instead. */
+.cards.resources .cards-card-body .button-wrapper:not(.button-wrapper + .button-wrapper) {
+  margin-left: 0;
 }
 
-/* Links carry the .button class for semantics but read as plain text + authored icon.
-   Qualify with a. so these win over the global a.button chrome. */
-.cards.resources .cards-card-actions a.cards-action-link,
-.cards.resources .cards-card-actions a.cards-action-link:hover,
-.cards.resources .cards-card-actions a.cards-action-link:focus {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  max-width: none;
+/* clear the floats so the card body retains its height */
+.cards.resources .cards-card-body::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* the global a.button:has(.icon) sets justify-content:center + full width; shrink to content
+   so each link is only as wide as its text + icon */
+.cards.resources .cards-card-body .button-wrapper .button {
+  width: auto;
+  justify-content: flex-start;
+  white-space: nowrap;
+}
+
+.cards.resources .cards-card-body .button-wrapper .button,
+.cards.resources .cards-card-body .button-wrapper .button:hover,
+.cards.resources .cards-card-body .button-wrapper .button:focus {
   margin: 0;
   padding: 0;
   border: 0;
   border-radius: 0;
   background: none;
+  color: var(--cards-resources-link-color);
   font-size: var(--cards-resources-link-font-size);
   font-weight: var(--cards-resources-link-font-weight);
   line-height: var(--cards-resources-link-line-height);
-  text-decoration: none;
-  white-space: nowrap;
-  vertical-align: middle;
-  overflow: visible;
-  cursor: pointer;
-  transition: color 0.2s ease-in-out;
 }
 
-.cards.resources .cards-card-actions a.cards-action-link {
-  color: var(--cards-resources-link-color);
-}
-
-.cards.resources .cards-card-actions .cards-action-link::after {
-  content: none;
-}
-
-.cards.resources .cards-card-actions .cards-action-link + .cards-action-link {
-  gap: 9px;
-}
-
-.cards.resources .cards-card-actions a.cards-action-link:hover,
-.cards.resources .cards-card-actions a.cards-action-link:focus {
+.cards.resources .cards-card-body .button-wrapper .button:hover,
+.cards.resources .cards-card-body .button-wrapper .button:focus {
   color: var(--cards-resources-link-hover-color);
 }
 
-.cards.resources .cards-card-actions .cards-action-link .icon {
-  display: inline-block;
-  flex-shrink: 0;
-  background-color: currentcolor;
-}
-
-.cards.resources .cards-card-actions .cards-action-link .icon img {
-  display: none;
-}
-
-.cards.resources .cards-card-actions .cards-action-link .icon[class*="download"] {
-  position: relative;
-  top: 5px;
+/* Restore the original per-type icon dimensions — the global a.button .icon forces a
+   square 1em, which is wrong for these non-square icons. Sizes match the source design. */
+.cards.resources .cards-card-body .button-wrapper .button .icon[class*="download"] {
   width: 18px;
   height: 19px;
-  mask: url("/icons/icon-download.svg") no-repeat center / contain;
 }
 
-.cards.resources .cards-card-actions .cards-action-link .icon[class*="mail"] {
+.cards.resources .cards-card-body .button-wrapper .button .icon[class*="mail"] {
   width: 19px;
   height: 11px;
-  mask: url("/icons/icon-mail.svg") no-repeat center / contain;
 }
 
 @media (width >= 768px) {
-  .cards.resources .cards-card-actions .cards-action-link .icon[class*="mail"] {
+  .cards.resources .cards-card-body .button-wrapper .button .icon[class*="mail"] {
     width: 20px;
-    height: 11px;
   }
 
   .cards.resources > ul {
@@ -210,15 +188,6 @@
   .cards.resources .cards-card-body {
     grid-column: 2;
     grid-row: 1;
-    align-items: flex-start;
     text-align: left;
-  }
-
-  .cards.resources .cards-card-body p {
-    text-align: left;
-  }
-
-  .cards.resources .cards-card-actions {
-    justify-content: flex-start;
   }
 }
