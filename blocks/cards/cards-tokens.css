@@ -11,4 +11,26 @@
   --cards-3col-width: unset;
   --cards-2col-width: calc((200% - 3 * var(--cards-grid-gap)) / 4);
   --card-image-height: unset;
+
+  /* resources variant — resource-card look for standalone (non-accordion) cards */
+  --cards-resources-gap: 32px 24px;
+  --cards-resources-image-max-width: 164px;
+  --cards-resources-title-color: #046183;
+  --cards-resources-title-font-size: 20px;
+  --cards-resources-title-line-height: 22px;
+  --cards-resources-body-color: #484848;
+  --cards-resources-body-font-size: 16px;
+  --cards-resources-body-line-height: 22px;
+  --cards-resources-link-color: #046183;
+  --cards-resources-link-hover-color: #7ebcc6;
+  --cards-resources-link-font-size: 16px;
+  --cards-resources-link-font-weight: 700;
+  --cards-resources-link-line-height: 20px;
+}
+
+@media (width >= 992px) {
+  :root {
+    --cards-resources-title-font-size: 22px;
+    --cards-resources-image-max-width: 140px;
+  }
 }

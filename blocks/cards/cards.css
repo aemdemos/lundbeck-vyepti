@@ -47,3 +47,178 @@
     width: var(--cards-3col-width);
   }
 }
+
+/* resources variant — resource-card look (teal title, image beside body, tile-link
+   Download/Email row with icons) for standalone cards outside an accordion */
+.cards.resources > ul {
+  grid-template-columns: 1fr;
+  gap: var(--cards-resources-gap);
+}
+
+.cards.resources > ul > li {
+  border: 0;
+  background-color: transparent;
+}
+
+.cards.resources .cards-card-image {
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.cards.resources .cards-card-image img {
+  max-width: var(--cards-resources-image-max-width);
+  width: 100%;
+  height: auto;
+  aspect-ratio: auto;
+  object-fit: contain;
+  vertical-align: bottom;
+}
+
+.cards.resources .cards-card-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+  margin: 0;
+  text-align: center;
+}
+
+.cards.resources .cards-card-body h3,
+.cards.resources .cards-card-body h4 {
+  margin: 0 0 8px;
+  color: var(--cards-resources-title-color);
+  font-size: var(--cards-resources-title-font-size);
+  font-weight: 700;
+  line-height: var(--cards-resources-title-line-height);
+}
+
+.cards.resources .cards-card-body p {
+  margin: 0 0 8px;
+  color: var(--cards-resources-body-color);
+  font-size: var(--cards-resources-body-font-size);
+  line-height: var(--cards-resources-body-line-height);
+}
+
+.cards.resources .cards-card-body p a {
+  color: var(--cards-resources-link-color);
+  font-size: inherit;
+  line-height: var(--cards-resources-body-line-height);
+}
+
+/* tile-link style action row */
+.cards.resources .cards-card-actions {
+  display: block;
+  width: 100%;
+  margin: 0;
+  line-height: var(--cards-resources-link-line-height);
+  text-align: center;
+}
+
+/* Links carry the .button class for semantics but read as plain text + authored icon.
+   Qualify with a. so these win over the global a.button chrome. */
+.cards.resources .cards-card-actions a.cards-action-link,
+.cards.resources .cards-card-actions a.cards-action-link:hover,
+.cards.resources .cards-card-actions a.cards-action-link:focus {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  font-size: var(--cards-resources-link-font-size);
+  font-weight: var(--cards-resources-link-font-weight);
+  line-height: var(--cards-resources-link-line-height);
+  text-decoration: none;
+  white-space: nowrap;
+  vertical-align: middle;
+  overflow: visible;
+  cursor: pointer;
+  transition: color 0.2s ease-in-out;
+}
+
+.cards.resources .cards-card-actions a.cards-action-link {
+  color: var(--cards-resources-link-color);
+}
+
+.cards.resources .cards-card-actions .cards-action-link::after {
+  content: none;
+}
+
+.cards.resources .cards-card-actions .cards-action-link + .cards-action-link {
+  margin-left: 52px;
+  gap: 9px;
+}
+
+.cards.resources .cards-card-actions a.cards-action-link:hover,
+.cards.resources .cards-card-actions a.cards-action-link:focus {
+  color: var(--cards-resources-link-hover-color);
+}
+
+.cards.resources .cards-card-actions .cards-action-link .icon {
+  display: inline-block;
+  flex-shrink: 0;
+  background-color: currentcolor;
+}
+
+.cards.resources .cards-card-actions .cards-action-link .icon img {
+  display: none;
+}
+
+.cards.resources .cards-card-actions .cards-action-link .icon[class*="download"] {
+  position: relative;
+  top: 5px;
+  width: 18px;
+  height: 19px;
+  mask: url("/icons/icon-download.svg") no-repeat center / contain;
+}
+
+.cards.resources .cards-card-actions .cards-action-link .icon[class*="mail"] {
+  width: 19px;
+  height: 11px;
+  mask: url("/icons/icon-mail.svg") no-repeat center / contain;
+}
+
+@media (width >= 768px) {
+  .cards.resources .cards-card-actions .cards-action-link .icon[class*="mail"] {
+    width: 20px;
+    height: 11px;
+  }
+}
+
+@media (width >= 992px) {
+  .cards.resources > ul {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .cards.resources > ul > li {
+    display: grid;
+    grid-template-columns: 36% 64%;
+    align-items: start;
+    width: auto;
+  }
+
+  .cards.resources .cards-card-image {
+    grid-column: 1;
+    grid-row: 1;
+    margin-bottom: 0;
+    text-align: left;
+  }
+
+  .cards.resources .cards-card-body {
+    grid-column: 2;
+    grid-row: 1;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .cards.resources .cards-card-body p {
+    text-align: left;
+  }
+
+  .cards.resources .cards-card-actions {
+    text-align: left;
+  }
+}
