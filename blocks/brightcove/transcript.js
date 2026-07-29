@@ -1,4 +1,4 @@
-export function getTranscript({
+export default function getTranscript({
   showTranscript,
   openTranscriptIcon,
   closeTranscriptIcon,
@@ -12,7 +12,7 @@ export function getTranscript({
 
     // Creattion of Transcript wrapper 
     const videoTranscript = document.createElement('div');
-    videoTranscript.className = "video-transcript";
+    videoTranscript.className = 'video-transcript';
 
     // Creation of Transcript DIV
     const toggle = document.createElement('div');
@@ -32,6 +32,7 @@ export function getTranscript({
     const transcript = document.createElement('div');
     transcript.className = 'transcript';
     transcript.hidden = true;
+    // eslint-disable-next-line browser-security/no-innerhtml
     transcript.innerHTML = transcriptHTML;
 
     toggle.addEventListener('click', () => {

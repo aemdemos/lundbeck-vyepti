@@ -1,7 +1,7 @@
 import { getBrightcoveScriptTag } from '../../scripts/config.js';
-import { getTranscript } from './transcript.js';
+import getTranscript from './transcript.js';
 
-export default async function decorate(brightcove) {
+export default function decorate(brightcove) {
   const rows = [...brightcove.querySelectorAll(':scope > div')];
 
   const accountId = rows[0]?.children[1]?.textContent.trim();
@@ -23,18 +23,16 @@ export default async function decorate(brightcove) {
 
   // Create Brightcove player
   const player = document.createElement('video-js');
-  player.className = 'video-js';
-  player.className = 'video-wrap';
+  player.className = 'video-js video-wrap';
   player.setAttribute('controls', '');
   player.setAttribute('playsinline', '');
   player.setAttribute('data-account', accountId);
   player.setAttribute('data-player', playerId);
-  player.setAttribute('data-video-id', videoId);``
+  player.setAttribute('data-video-id', videoId);
   player.setAttribute('data-embed', 'default');
 
   // Clear authored content and add player
-  brightcove.innerHTML = '';
-  brightcove.append(player);
+  brightcove.replaceChildren(player);
 
   // Load Brightcove player script
   getBrightcoveScriptTag(accountId, playerId);
