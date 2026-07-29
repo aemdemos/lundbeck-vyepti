@@ -112,16 +112,18 @@
   :root {
     --modal-exit-width: 535px;
     --modal-exit-max-width: calc(100vw - 30px);
-    --modal-exit-content-padding: 27px 24px 48px;
+    --modal-exit-content-padding: 15px 24px 48px;
     --modal-exit-logo-margin-bottom: 24px;
     --modal-exit-heading-margin-bottom: 28px;
   }
 }
 
-/* exit interstitial variant.
-   Source vyepti.com sets no explicit height — the dialog is content-sized with
-   no vh clamp. We keep only a safety cap so exceptionally tall content can
-   still scroll rather than overflow the viewport. */
+/* exit interstitial variant. Source vyepti.com sets no explicit height — the
+   dialog is content-sized with no vh clamp (we keep only a safety cap so
+   exceptionally tall content can scroll rather than overflow the viewport).
+   The dialog is a transparent 535px frame; the 7px side gutter lives here so the
+   grey card inside is narrower than the frame — matching source vyepti.com where
+   .modal-dialog (535px, transparent) wraps a 521px grey .modal-content card. */
 .modal.exit dialog {
   width: var(--modal-exit-width);
   max-width: var(--modal-exit-max-width);
@@ -132,14 +134,17 @@
   box-sizing: border-box;
   border-radius: var(--modal-exit-radius);
   box-shadow: var(--modal-exit-shadow);
-  background-color: var(--modal-exit-background);
+  background-color: transparent;
   overflow: visible;
 }
 
+/* the grey card — narrower than the dialog frame by the 7px gutter each side */
 .modal.exit dialog .modal-content {
   max-height: none;
   padding: var(--modal-exit-content-padding);
   margin-top: 0;
+  border-radius: var(--modal-exit-radius);
+  background-color: var(--modal-exit-background);
   text-align: center;
 }
 
