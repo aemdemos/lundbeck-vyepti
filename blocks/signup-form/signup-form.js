@@ -1,10 +1,9 @@
-
 // Google API Key link
 function loadGooglePlacesApi(callback) {
-  if (window.google?.maps?.places) {
-    callback();
-    return;
-  }
+  if (window.google?.maps?.places?.Autocomplete) {
+  callback();
+  return;
+}
 
   const script = document.createElement('script');
   script.src =
@@ -12,10 +11,19 @@ function loadGooglePlacesApi(callback) {
   script.async = true;
   script.defer = true;
 
-  script.onload = async () => {
-    await google.maps.importLibrary('places');
+  script.onload = () => {
+  if (window.google?.maps?.places?.Autocomplete) {
     callback();
-  };
+  } else {
+    console.error(
+      'Google Places library failed to load. Check your API key and requested libraries.'
+    );
+  }
+};
+
+script.onerror = () => {
+  console.error('Failed to load Google Maps API.');
+};
 
   document.head.appendChild(script);
 }
@@ -166,9 +174,14 @@ function slideUp(el, onComplete, durationMs = REVEAL_DURATION_MS) {
 }
 
 /**
- * Plays the visible "dropdown replay" 
+ * Plays the visible "dropdown replay" — collapses, optionally swaps
+ * contents while fully hidden, then reopens.
+ * @param {Element} el
+ * @param {Function} [beforeReopen] - runs once the element is fully
+ *   collapsed, e.g. to swap which conditional pieces are visible so the
+ *   reopen height reflects the NEW state instead of flashing the old one
  */
-function replayDropdown(el) {
+function replayDropdown(el, beforeReopen) {
   if (!el) return;
   const halfDuration = REVEAL_DURATION_MS / 2;
 
@@ -182,6 +195,7 @@ function replayDropdown(el) {
       el.dataset.replaying = '';
       return;
     }
+    if (beforeReopen) beforeReopen(); // content swap happens here, while el is invisible at 0 height
     slideDown(el, halfDuration);
     el.dataset.replaying = '';
   }, halfDuration);
@@ -632,7 +646,11 @@ function isValidDateFormat(dateStr) {
   if (!matchesDatePattern(dateStr)) return false;
 
   const [month, day, year] = dateStr.split('/');
-  const dateObj = new Date(`${year}-${month}-${day}`);
+  const dateObj = new Date(
+  parseInt(year, 10),
+  parseInt(month, 10) - 1,
+  parseInt(day, 10)
+);
 
   if (Number.isNaN(dateObj.getTime())) return false;
   if (dateObj.getMonth() + 1 !== parseInt(month, 10)) return false;
@@ -904,40 +922,33 @@ function buildForm() {
     "Next doctor's appointment",
   );
 
-
   const migraineDaysToggle = createToggle(
     'migraine-days',
     'Do you have 4 or more migraine days a month? (optional)',
     {},
     false,
   );
-  migraineDaysToggle.style.display = 'none'; 
-
+  migraineDaysToggle.style.display = 'none'; // hidden until "No" is selected on the prescribed question
 
   const firstInfusionDateField = createDateField('first-infusion-date', 'First infusion date');
   const firstInfusionToggle = createToggle(
     'first-infusion',
     'Have you had your first VYEPTI infusion?',
-    { no: firstInfusionDateField },
+    { no: firstInfusionDateField }, // separate nested question — keeps its own independent slide animation
   );
 
-  
   const firstInfusionContainer = document.createElement('div');
   firstInfusionContainer.className = 'conditional-container';
   firstInfusionContainer.style.display = 'none';
   firstInfusionContainer.append(firstInfusionToggle, firstInfusionDateField);
 
+  // branches left empty on purpose — visibility for "prescribed" is now driven manually below so everything animates as one synced block
   const prescribedToggle = createToggle(
     'prescribed',
     'Have you been prescribed VYEPTI?',
-    { yes: firstInfusionContainer, no: [nextDoctorAppointmentField, migraineDaysToggle] },
+    {},
   );
 
-  form.append(prescribedToggle);
-  form.append(firstInfusionContainer);
-  form.append(nextDoctorAppointmentField);
-
-  
   const personalInfoContainer = document.createElement('div');
   personalInfoContainer.className = 'personal-info-container';
 
@@ -1055,26 +1066,10 @@ personalInfoContainer.append(
   ),
 );
 
-  form.append(personalInfoContainer);
-  form.append(migraineDaysToggle);
-
-
   // Consent block
   const consentContainer = document.createElement('div');
   consentContainer.className = 'conditional-container';
   consentContainer.style.display = 'none';
-
-  prescribedToggle.querySelectorAll('input[type="radio"]').forEach((radio) => {
-    radio.addEventListener('change', () => {
-      if (!consentContainer.classList.contains('visible')) {
-        slideDown(consentContainer);
-      } else {
-        replayDropdown(consentContainer);
-      }
-
-      replayDropdown(personalInfoContainer);
-    });
-  });
 
   
   const consent = document.createElement('label');
@@ -1115,9 +1110,57 @@ personalInfoContainer.append(
     <a href="https://www.lundbeck.com/us/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy Policy.</a>
   `;
 
-  consentContainer.append(consent, consentLegal, consentError );
-  form.append(consentContainer);
+  consentContainer.append(consent, consentLegal, consentError);
 
+  // Wrapper holds everything that should react together when "prescribed" is answered, so it's one animation instead of several out-of-sync ones
+  const belowPrescribedWrapper = document.createElement('div');
+  belowPrescribedWrapper.className = 'below-prescribed-wrapper';
+  belowPrescribedWrapper.classList.add('visible'); // personal info is shown from page load, so treat the wrapper as already open
+  belowPrescribedWrapper.append(
+    firstInfusionContainer,
+    nextDoctorAppointmentField,
+    migraineDaysToggle,
+    personalInfoContainer,
+    consentContainer,
+  );
+
+  form.append(prescribedToggle, belowPrescribedWrapper);
+
+  // One listener now drives every conditional piece plus the single shared animation
+  prescribedToggle.querySelectorAll('input[type="radio"]').forEach((radio) => {
+    radio.addEventListener('change', () => {
+      const isYes = radio.checked && radio.value === 'yes';
+      const isNo = radio.checked && radio.value === 'no';
+
+      replayDropdown(belowPrescribedWrapper, () => {
+        // runs only once the wrapper is fully collapsed, so the swap below never flashes on screen
+        if (isYes) {
+          firstInfusionContainer.style.display = 'block';
+          firstInfusionContainer.classList.add('visible');
+        } else {
+          firstInfusionContainer.style.display = 'none';
+          firstInfusionContainer.classList.remove('visible');
+          resetConditionalFieldContents(firstInfusionContainer); // clear any leftover "yes" branch answers
+        }
+
+        if (isNo) {
+          nextDoctorAppointmentField.style.display = 'block';
+          nextDoctorAppointmentField.classList.add('visible');
+          migraineDaysToggle.style.display = 'block';
+        } else {
+          nextDoctorAppointmentField.style.display = 'none';
+          nextDoctorAppointmentField.classList.remove('visible');
+          migraineDaysToggle.style.display = 'none';
+          resetConditionalFieldContents(nextDoctorAppointmentField); // clear the date/checkbox if switching away from "no"
+        }
+
+        if (!consentContainer.classList.contains('visible')) {
+          consentContainer.style.display = 'block';
+          consentContainer.classList.add('visible'); // shown from the first answer onward, either yes or no
+        }
+      });
+    });
+  });
 
   // Server-side / network error message — shown above the submit button
   const serverError = document.createElement('p');

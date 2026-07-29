@@ -1,4 +1,11 @@
-/* Signup Form — styles*/
+/* Signup Form — styles
+ * Mobile-first: unqueried rules below are the MOBILE default.
+ * @media (width >= 768px)  = tablet and up
+ * @media (width >= 992px)  = desktop and up
+ * Rendered output at every viewport width matches the previous four-tier
+ * (max-width) version, except .form-field label / .toggle-legend, which now
+ * stay at 18px on mobile instead of dropping to 16px, per request.
+ */
 .signup-form {
   display: flex;
   flex-direction: column;
@@ -92,15 +99,15 @@ p.signup-form-required-note {
 }
 
 
-/* ----- Field width ----- */
+/* ----- Field width (mobile default: full width) ----- */
 .form-field input {
   width: 100%;
-  max-width: 340px;
+  max-width: 100%;
   box-sizing: border-box;
 }
 
 .form-field select {
-  width: 290px;
+  width: 100%;
   max-width: 100%;
   box-sizing: border-box;
 }
@@ -118,10 +125,10 @@ p.signup-form-required-note {
 
 #dob,
 #phone {
-  max-width: 220px;
+  max-width: 100%;
 }
 #zip {
-  max-width: 160px;
+  max-width: 100%;
 }
 
 
@@ -132,7 +139,7 @@ p.signup-form-required-note {
 
 #state-wrapper {
   width: 100%;
-  max-width: 340px; 
+  max-width: 100%;
   box-sizing: border-box;
 }
 
@@ -213,7 +220,7 @@ p.signup-form-required-note {
   box-shadow: 0 0 0 3px rgba(0, 94, 184, 0.35);
 }
 
-
+/* Popover position/padding: mobile default below, scales up at 768/992 */
 .form-field-popover {
   position: fixed;
   left: 16px;
@@ -263,15 +270,18 @@ p.signup-form-required-note {
 
 .form-field-popover-text {
   margin: 0;
+  padding: 10px 0px 10px 0px;
   font-size: var(--body-font-size-s, 16px);
   line-height: 24px;
   color: var(--text-color, #333);
 }
 
+/* top/right rendered as 1px/1px at every real breakpoint in the old file
+   (mobile, tablet, and desktop queries all set it) — folded in here directly */
 .form-field-popover-close {
   position: absolute;
-  top: 12px;
-  right: 12px;
+  top: 1px;
+  right: 1px;
   width: 32px;    
   height: 32px;    
   border: none;
@@ -477,6 +487,7 @@ p.signup-form-required-note {
 }
 
 
+/* Mobile default: fixed compact button. Grows/resets at 768px. */
 .form-submit {
   display: flex !important;
   align-items: center;
@@ -490,6 +501,8 @@ p.signup-form-required-note {
   font-weight: var(--button-font-weight, 700);
   cursor: pointer;
   margin-bottom: 20px;
+  width: 150px;
+  justify-content: center;
 }
 
 .form-submit:hover {
@@ -536,50 +549,14 @@ p.signup-form-required-note {
 
 #first-infusion-date,
 #next-doctor-appointment {
-  max-width: 240px;
-}
-
-
-/* MOBILE */
-@media (max-width: 767px) {
-  .form-field input,
-  #dob,
-  #phone,
-  #zip {
-    max-width: 100%;
-  }
-  .form-field label {
-    font-size: var(--body-font-size-s, 16px);
-  }
-  .toggle-legend {
-    font-size: var(--body-font-size-s, 16px);
-  }
-  .form-submit {
-    width: 150px;
-    justify-content: center;
-  }
-  .form-field select {
-    width: 100%;
-  }
-  .form-field-popover-close {
-        top: 1px;
-        right: 1px;
-    }
-  .form-field-popover-text {
-      Padding: 10px 0px 10px 0px;
-    }
-  #state-wrapper {
-    max-width: 100%; /* <- change this to resize State on mobile */
-  }
-  #first-infusion-date,
-#next-doctor-appointment {
   max-width: 100%;
 }
-}
 
 
-/* IPAD / TABLET */
-@media (min-width: 768px) and (max-width: 991px) {
+/* ==========================================================================
+   TABLET / IPAD — 768px and up
+   ========================================================================== */
+@media (width >= 768px) {
   .form-field input {
     max-width: 70%;
   }
@@ -590,72 +567,61 @@ p.signup-form-required-note {
   #zip {
     max-width: 70%;
   }
+  #state-wrapper {
+    max-width: 70%;
+  }
+  #first-infusion-date,
+  #next-doctor-appointment {
+    max-width: 240px;
+  }
+
   .form-field-popover {
     left: 24px;
     right: 24px;
     padding: 28px 24px;
   }
-  .form-field-popover-close {
-    top: 14px;
-    right: 14px;
+
+  /* Submit button reverts from the mobile fixed width back to content-fit */
+  .form-submit {
+    width: auto;
+    justify-content: flex-start;
   }
-  .form-field select {
-    width: 100%;
+}
+
+
+/* ==========================================================================
+   DESKTOP — 992px and up
+   ========================================================================== */
+@media (width >= 992px) {
+  .form-field input {
+    max-width: 50%;
   }
-  .form-field-popover-close {
-        top: 1px;
-        right: 1px;
-    }
-    .form-field-popover-text {
-      Padding: 10px 0px 10px 0px;
-    }
+  #dob,
+  #phone {
+    max-width: 240px;
+  }
+  #zip {
+    max-width: 290px;
+  }
   #state-wrapper {
-    max-width: 70%; 
+    max-width: 290px;
   }
-}
 
+  /* Select reverts to its fixed desktop width instead of stretching full-width */
+  .form-field select {
+    width: 290px;
+  }
 
-/* DESKTOP */
-@media (min-width: 992px) {
-  .form-field input {
-    max-width: 50%;
-  }
-  #dob,
-  #phone {
-    max-width: 240px;
-  }
-  #zip {
-    max-width: 230px;
-  }
-  .form-field-popover {
-    left: 40px;
-    right: 40px;
-    padding: 40px 30px;
-  }
-  .form-field-popover-close {
-    top: 1px;
-    right: 1px;
-  }
-   #state-wrapper {
-    max-width: 290px; 
-  }
-}
-
-
-/*LARGER DESKTOP */
-@media (min-width: 1200px) {
-  .form-field input {
-    max-width: 50%;
-  }
-  #dob,
-  #phone {
-    max-width: 240px;
-  }
-  #zip {
-    max-width: 280px;
-  }
+  /* left/right use a fluid formula so this single tier covers both the old
+     992–1199px fixed-40px range and the old 1200px+ fluid range identically */
   .form-field-popover {
     left: max(40px, calc(50% - 640px));
     right: max(40px, calc(50% - 340px));
+    padding: 40px 30px;
+  }
+
+  /* Popover text loses its mobile/tablet padding at desktop size */
+  .form-field-popover-text {
+    padding: 0;
   }
 }
