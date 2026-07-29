@@ -46,7 +46,7 @@
   --hero-light-body-font-size: 16px;
   --hero-light-body-line-height: 19px;
 
-  /* actor portrayal caption */
+  /* caption */
   --hero-caption-sub-font-size: 12px;
   --hero-caption-sub-font-size-xl: 16px;
 
@@ -111,7 +111,7 @@
    TEASER VARIANT (.hero.teaser) — non-homepage sub-banner
    Authored as one row (image cell + text cell), so the hero decorator renders
    the dual-panel markup: .hero-panels > .hero-panel-dark > .hero-panel-bg (one
-   consolidated <picture>), a panel-level p.actor-portrayal, and
+   consolidated <picture>), a panel-level p.hero-caption, and
    .hero-panel-content > .hero-panel-description > (p.eyebrow + h1). The eyebrow
    is an accessible bold <p> (a legacy <h3> above the <h1> is invalid heading
    order). Base dual-panel already gives an image-driven mobile height and a
@@ -170,15 +170,15 @@
   text-align: center;
 }
 
-/* Actor portrayal caption — white, italic, bottom-right. Font-size, bottom
+/* Caption — white, italic, bottom-right. Font-size, bottom
    offset match the source (12px; 11px mobile / 16px at 768px+). */
-.hero.teaser .actor-portrayal,
-.hero.teaser .actor-portrayal em,
-.hero.teaser .actor-portrayal sup {
+.hero.teaser .hero-caption,
+.hero.teaser .hero-caption em,
+.hero.teaser .hero-caption sup {
   font-size: var(--hero-teaser-caption-font-size);
 }
 
-.hero.teaser .actor-portrayal {
+.hero.teaser .hero-caption {
   position: absolute;
   right: 24px;
   bottom: 11px;
@@ -234,7 +234,7 @@
   /* Right-align the caption to the source's content column so it tracks inward
      on wide screens (source: 25px@768 → 108@1200 → 132@1440 ≈ (100vw-1176)/2,
      floored at 25px) instead of hugging the full-bleed panel edge. */
-  .hero.teaser .actor-portrayal {
+  .hero.teaser .hero-caption {
     right: max(25px, calc((100% - 1176px) / 2));
     bottom: 16px;
   }

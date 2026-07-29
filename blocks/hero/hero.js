@@ -38,13 +38,13 @@ function findCaptionParagraph(imageCol) {
 }
 
 /**
- * Applies the caption treatment: the shared .actor-portrayal positioning/shadow hook
+ * Applies the caption treatment: the shared .hero-caption positioning/shadow hook
  * plus inline [[token]text] styling, then relocates it to the caption slot (`target`).
  * @param {HTMLParagraphElement} caption
  * @param {Element} target element to append the caption into
  */
 function placeCaption(caption, target) {
-  caption.classList.add('actor-portrayal');
+  caption.classList.add('hero-caption');
   decorateInlineStyleTokens(caption);
   target.appendChild(caption);
 }
@@ -53,7 +53,7 @@ function applyAccentColor(block) {
   block.querySelectorAll('h1 strong, h2 strong, h3 strong, p strong').forEach((strong) => {
     // Leave caption content alone: its styling comes from [[token]text] hooks, so a
     // [[bold]…] <strong> must not be rewritten into the heading accent-color span.
-    if (strong.closest('.actor-portrayal')) return;
+    if (strong.closest('.hero-caption')) return;
     const span = document.createElement('span');
     span.className = 'accent-color';
     span.textContent = strong.textContent;

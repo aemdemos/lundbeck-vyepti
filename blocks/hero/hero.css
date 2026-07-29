@@ -244,7 +244,7 @@ main > .section.hero-container > .hero-wrapper {
 }
 
 /* Author-driven caption (formerly the hardcoded "Actor portrayal") */
-.hero .actor-portrayal {
+.hero .hero-caption {
   position: absolute;
   right: 20px;
   bottom: 8px;
@@ -427,9 +427,9 @@ main > .section.hero-container > .hero-wrapper {
   color: var(--hero-single-cta-color);
 }
 
-/* "Actor portrayal" caption — italic, bottom-right */
-.section.single-light .hero .actor-portrayal,
-.section.single-dark .hero .actor-portrayal {
+/* Caption — italic, bottom-right */
+.section.single-light .hero .hero-caption,
+.section.single-dark .hero .hero-caption {
   position: absolute;
   right: 20px;
   bottom: 20px;
@@ -447,7 +447,7 @@ main > .section.hero-container > .hero-wrapper {
  margin: 0;
 }
 
-.section.single-dark .hero .actor-portrayal {
+.section.single-dark .hero .hero-caption {
   color: var(--hero-text-color-light);
   text-shadow: var(--hero-text-shadow);
 }
@@ -461,7 +461,7 @@ main > .section.hero-container > .hero-wrapper {
   color: var(--hero-text-color-light);
 }
 
-.section.single-light .hero .actor-portrayal {
+.section.single-light .hero .hero-caption {
   color: var(--hero-text-color-light);
 }
 
@@ -534,7 +534,7 @@ main > .section.hero-container > .hero-wrapper {
     line-height: 32px;
   }
 
-  .hero.single .actor-portrayal {
+  .hero.single .hero-caption {
     bottom: 34px;
     right: 67px;
   }
@@ -588,8 +588,8 @@ main > .section.hero-container > .hero-wrapper {
     text-align: left;
   }
 
-  .section.single-light .hero .actor-portrayal,
-  .section.single-dark .hero .actor-portrayal {
+  .section.single-light .hero .hero-caption,
+  .section.single-dark .hero .hero-caption {
     right: 40px;
     bottom: 20px;
   }
@@ -609,7 +609,7 @@ main > .section.hero-container > .hero-wrapper {
     padding-top: 30px;
   }
 
-  .hero .actor-portrayal {
+  .hero .hero-caption {
     bottom: 20px;
     right: 60px;
   }
@@ -711,7 +711,7 @@ main > .section.hero-container > .hero-wrapper {
     font-size: 18px;
   }
 
-    .hero .hero-panel .actor-portrayal sub {
+    .hero .hero-panel .hero-caption sub {
     font-size: var(--hero-caption-sub-font-size-xl);
   }
 }
