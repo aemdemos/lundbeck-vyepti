@@ -58,6 +58,7 @@
 .cards.resources > ul > li {
   border: 0;
   background-color: transparent;
+  margin-bottom: var(--cards-resources-card-margin-bottom);
 }
 
 .cards.resources .cards-card-image {
@@ -66,8 +67,8 @@
 }
 
 .cards.resources .cards-card-image img {
-  max-width: var(--cards-resources-image-max-width);
-  width: 100%;
+  max-width: min(var(--cards-resources-image-max-width), 100%);
+  width: auto;
   height: auto;
   aspect-ratio: auto;
   object-fit: contain;
@@ -105,13 +106,16 @@
   line-height: var(--cards-resources-body-line-height);
 }
 
-/* tile-link style action row */
+/* tile-link style action row — flex so links sit inline with a consistent gap and wrap
+   gracefully when the card body column is too narrow (avoids the fixed-margin overflow). */
 .cards.resources .cards-card-actions {
-  display: block;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 24px;
   width: 100%;
   margin: 0;
   line-height: var(--cards-resources-link-line-height);
-  text-align: center;
 }
 
 /* Links carry the .button class for semantics but read as plain text + authored icon.
@@ -148,7 +152,6 @@
 }
 
 .cards.resources .cards-card-actions .cards-action-link + .cards-action-link {
-  margin-left: 52px;
   gap: 9px;
 }
 
@@ -186,9 +189,7 @@
     width: 20px;
     height: 11px;
   }
-}
 
-@media (width >= 992px) {
   .cards.resources > ul {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -219,6 +220,6 @@
   }
 
   .cards.resources .cards-card-actions {
-    text-align: left;
+    justify-content: flex-start;
   }
 }

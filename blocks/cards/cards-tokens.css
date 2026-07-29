@@ -14,6 +14,7 @@
 
   /* resources variant — resource-card look for standalone (non-accordion) cards */
   --cards-resources-gap: 32px 24px;
+  --cards-resources-card-margin-bottom: 36px;
   --cards-resources-image-max-width: 164px;
   --cards-resources-title-color: #046183;
   --cards-resources-title-font-size: 20px;

@@ -33,6 +33,17 @@ function decorateResourcesActions(body) {
   actionParagraphs.forEach((paragraph) => {
     paragraph.querySelectorAll('a').forEach((anchor) => {
       anchor.classList.add('cards-action-link');
+      // Authors may wrap the link label + icon in bold; hoist the icon to be a direct child
+      // of the anchor so the anchor's flex gap (not the <strong>) controls label-to-icon
+      // spacing. Then strip whitespace-only text nodes ("Email :icon-mail:" vs
+      // "Download:icon-download:") so spacing is uniform regardless of authoring.
+      anchor.querySelectorAll('.icon').forEach((icon) => anchor.append(icon));
+      const walker = document.createTreeWalker(anchor, NodeFilter.SHOW_TEXT);
+      const blanks = [];
+      while (walker.nextNode()) {
+        if (!walker.currentNode.textContent.trim()) blanks.push(walker.currentNode);
+      }
+      blanks.forEach((node) => node.remove());
       actions.append(anchor);
     });
     paragraph.remove();
