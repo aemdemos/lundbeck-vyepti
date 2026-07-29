@@ -63,9 +63,8 @@
 
 
   /* exit interstitial ("You are about to leave VYEPTI.com") — mobile-first.
-     Source vyepti.com gutters: 8px each side by default (Bootstrap .modal-dialog
-     margin 0.5rem), widening to 15px only in the 360–560px band, and capped at a
-     fixed 535px above that. The 360–560 override lives in its own media query. */
+     8px side gutters by default (Bootstrap .modal-dialog margin 0.5rem), capped
+     at a fixed 535px from 768px up. */
   --modal-exit-width: calc(100vw - 16px);
   --modal-exit-max-width: 535px;
   --modal-exit-radius: 12px;
@@ -107,14 +106,6 @@
      ease-in-out — Continue fills steel-blue, Cancel's border+text turn steel-blue */
   --modal-exit-button-hover-color: var(--brand-primary-light);
   --modal-exit-button-transition: 0.2s ease-in-out;
-}
-
-/* source vyepti.com widens the side gutters to 15px only in the 360–560px band
-   (its `.interstitialmodal .modal-dialog` media query) — dialog = 100vw - 30px */
-@media (width >= 360px) and (width <= 560px) {
-  :root {
-    --modal-exit-width: calc(100vw - 30px);
-  }
 }
 
 /* exit interstitial — tablet/desktop.
