@@ -95,6 +95,14 @@
   --modal-exit-button-ok-background: var(--brand-primary);
   --modal-exit-button-cancel-color: var(--brand-primary);
 
+  /* close X inset from the card's top-right corner (source insets, not flush) */
+  --modal-exit-close-inset-top: 7px;
+  --modal-exit-close-inset-right: 10px;
+
+  /* heading side padding — source constrains the text so it wraps with more
+     side spacing, narrower than the full content width */
+  --modal-exit-heading-inline-padding: 36px;
+
   /* source vyepti.com hover: both actions transition to steel-blue over 0.2s
      ease-in-out — Continue fills steel-blue, Cancel's border+text turn steel-blue */
   --modal-exit-button-hover-color: var(--brand-primary-light);
@@ -177,6 +185,7 @@
 
 .modal.exit dialog h2 {
   margin: 0 0 var(--modal-exit-heading-margin-bottom);
+  padding: 0 var(--modal-exit-heading-inline-padding);
   color: var(--modal-exit-heading-color);
   font-size: var(--modal-exit-heading-size);
   font-weight: var(--modal-exit-heading-weight);
@@ -189,6 +198,8 @@
 }
 
 .modal.exit .close-button {
+  top: var(--modal-exit-close-inset-top);
+  right: var(--modal-exit-close-inset-right);
   color: var(--text-color);
   background-color: transparent;
 }
