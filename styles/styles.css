@@ -36,6 +36,7 @@
   --brand-teal-muted: #41748d; /* @libs */
   --brand-rose: #c02c57; /* @libs */
   --brand-rose-dark: #9a2346; /* @libs */
+  --border-gray-light: #e0e0e0; 
   
   /* libs brand colors */
   --brand-primary: var(--brand-teal);
