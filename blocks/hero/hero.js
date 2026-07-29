@@ -1,17 +1,40 @@
 import { buildPictureContentFromImageCell, decorateInlineStyleTokens } from '../../scripts/utils.js';
 
 /**
- * Finds an author-entered caption paragraph inside a hero image column — a <p>
- * that has visible text and no image/link (the image column otherwise holds only
- * <picture> elements). Returns the <p> or null. Phrase-independent: any copy works.
+ * Finds an author-entered caption inside a hero image column and returns it as a
+ * <p> (or null). Phrase-independent — any copy works. Two delivered shapes are
+ * handled: (1) a <p> with visible text and no image/link, and (2) a loose text
+ * node sitting beside the <picture> stack (a trailing caption line the backend
+ * did not wrap in a <p>). In case (2) the text node is wrapped in a fresh <p>
+ * in place so it can be styled and relocated like an authored caption.
  * @param {Element} imageCol the image cell/column
  * @returns {HTMLParagraphElement|null}
  */
 function findCaptionParagraph(imageCol) {
   if (!imageCol) return null;
+
+  // (1) An explicit caption paragraph — visible text, no image/link.
   const paragraphs = [...imageCol.querySelectorAll('p')];
-  return paragraphs.find((p) => p.textContent.trim()
-    && !p.querySelector('picture, img, a')) || null;
+  const para = paragraphs.find((p) => p.textContent.trim()
+    && !p.querySelector('picture, img, a'));
+  if (para) return para;
+
+  // (2) A loose text-node caption beside the pictures. Ignore whitespace-only
+  // nodes and any text inside a picture or link; wrap the first real caption line.
+  const walker = document.createTreeWalker(imageCol, NodeFilter.SHOW_TEXT);
+  const captionNode = (() => {
+    for (let node = walker.nextNode(); node; node = walker.nextNode()) {
+      if (node.nodeValue.trim() && !node.parentElement.closest('picture, a')) {
+        return node;
+      }
+    }
+    return null;
+  })();
+  if (!captionNode) return null;
+  const p = document.createElement('p');
+  p.textContent = captionNode.nodeValue.trim();
+  captionNode.replaceWith(p);
+  return p;
 }
 
 /**
@@ -152,8 +175,13 @@ function consolidateSinglePanelImage(block) {
   const imageRow = block.querySelector(':scope > div:first-child');
   const imageCell = imageRow?.firstElementChild;
   if (!imageCell) return;
+  // Preserve the author-entered caption paragraph: replaceChildren() below would
+  // otherwise wipe it (buildPictureContentFromImageCell returns only the picture),
+  // leaving decorateSinglePanel nothing to relocate.
+  const caption = findCaptionParagraph(imageCell);
   const built = buildPictureContentFromImageCell(imageCell);
   imageCell.replaceChildren(built);
+  if (caption) imageCell.append(caption);
 }
 
 export default function decorate(block) {
