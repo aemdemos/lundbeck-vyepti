@@ -3,10 +3,13 @@ import { buildPictureContentFromImageCell } from '../../scripts/utils.js';
 /**
  * Finds an author-entered caption inside a hero image column and returns it as a
  * <p> (or null). Phrase-independent — any copy works. Two delivered shapes are
- * handled: (1) a <p> with visible text and no image/link, and (2) a loose text
- * node sitting beside the <picture> stack (a trailing caption line the backend
- * did not wrap in a <p>). In case (2) the text node is wrapped in a fresh <p>
- * in place so it can be styled and relocated like an authored caption.
+ * handled: (1) a <p> with visible text and no image/link, and (2) loose caption
+ * content sitting beside the <picture> stack (text and/or inline elements the
+ * backend did not wrap in a <p>). In case (2) the caption nodes are MOVED —
+ * preserving their inline structure (<em>/<strong>/<span>/<a>/<br>/<sup>) and any
+ * raw `[[class]text]` span-tag syntax — into a fresh <p> so author emphasis
+ * survives and the global decorateSpanTags pass (which runs after this block
+ * decorator) can resolve span tags on the relocated caption.
  * @param {Element} imageCol the image cell/column
  * @returns {HTMLParagraphElement|null}
  */
@@ -19,21 +22,19 @@ function findCaptionParagraph(imageCol) {
     && !p.querySelector('picture, img, a'));
   if (para) return para;
 
-  // (2) A loose text-node caption beside the pictures. Ignore whitespace-only
-  // nodes and any text inside a picture or link; wrap the first real caption line.
-  const walker = document.createTreeWalker(imageCol, NodeFilter.SHOW_TEXT);
-  const captionNode = (() => {
-    for (let node = walker.nextNode(); node; node = walker.nextNode()) {
-      if (node.nodeValue.trim() && !node.parentElement.closest('picture, a')) {
-        return node;
-      }
-    }
-    return null;
-  })();
-  if (!captionNode) return null;
+  // (2) Loose caption content beside the picture stack: the image column's direct
+  // child nodes that are neither a picture/image nor a wrapper containing one, and
+  // that are not whitespace-only. Flattening these to textContent would drop author
+  // <em>/<strong> and split-boundary span-tag markup, so move the nodes as-is.
+  const captionNodes = [...imageCol.childNodes].filter((node) => {
+    if (node.nodeType === Node.TEXT_NODE) return node.nodeValue.trim() !== '';
+    if (node.nodeType !== Node.ELEMENT_NODE) return false;
+    return !node.matches('picture, img') && !node.querySelector('picture, img');
+  });
+  if (!captionNodes.length) return null;
   const p = document.createElement('p');
-  p.textContent = captionNode.nodeValue.trim();
-  captionNode.replaceWith(p);
+  p.append(...captionNodes);
+  imageCol.append(p);
   return p;
 }
 
