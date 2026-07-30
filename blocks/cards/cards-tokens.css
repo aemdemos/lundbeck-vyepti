@@ -18,7 +18,8 @@
   --cards-resources-image-max-width: 164px;
   --cards-resources-title-margin-bottom: 28px;
   --cards-resources-body-margin-bottom: 40px;
-  --cards-resources-action-gap: 24px;
+  --cards-resources-action-gap: 49px;
+  --cards-resources-action-stack-gap: 12px;
   --cards-resources-title-color: #046183;
   --cards-resources-title-font-size: 20px;
   --cards-resources-title-line-height: 22px;
@@ -36,6 +37,5 @@
   :root {
     --cards-resources-title-font-size: 22px;
     --cards-resources-image-max-width: 140px;
-    --cards-resources-action-gap: 49px;
   }
 }

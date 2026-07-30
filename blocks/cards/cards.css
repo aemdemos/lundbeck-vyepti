@@ -99,15 +99,14 @@
 }
 
 /* Download / Email links: global decorateButtons wraps each in p.button-wrapper > a.button.
-   The body is a flex column; the trailing button-wrapper paragraphs are pulled into a single
-   wrapping row via align-self + a negative-free approach: we make the last run of wrappers
-   sit side by side by floating them (float ignores inter-element whitespace and the inline
-   margin-collapse quirk that pushed the 2nd link to a new line in the narrow tablet column).
-   Icon spacing comes from the global a.button:has(.icon) flex gap — no per-block JS needed. */
+   inline-flex keeps them on one line and respects the card body's text-align (centered on
+   mobile, left on desktop). Icon spacing comes from the global a.button:has(.icon) flex gap
+   — no per-block JS needed. */
 .cards.resources .cards-card-body .button-wrapper {
-  float: left;
+  display: inline-flex;
   width: auto;
   margin: 0 0 0 var(--cards-resources-action-gap);
+  vertical-align: top;
 }
 
 /* zero the leading gap on the first action link. :first-of-type matches the first <p>
@@ -117,15 +116,8 @@
   margin-left: 0;
 }
 
-/* clear the floats so the card body retains its height */
-.cards.resources .cards-card-body::after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
 /* the global a.button:has(.icon) sets justify-content:center + full width; shrink to content
-   so each link is only as wide as its text + icon */
+   so each link is only as wide as its text + icon (prevents the 2nd link wrapping) */
 .cards.resources .cards-card-body .button-wrapper .button {
   width: auto;
   justify-content: flex-start;
@@ -189,5 +181,19 @@
     grid-column: 2;
     grid-row: 1;
     text-align: left;
+  }
+
+}
+
+/* 768–991px: the text column is narrowest here, so the action links stack vertically
+   (Download above Email), each on its own line */
+@media (width >= 768px) and (width <= 991px) {
+  .cards.resources .cards-card-body .button-wrapper {
+    display: flex;
+    margin: 0 0 var(--cards-resources-action-stack-gap);
+  }
+
+  .cards.resources .cards-card-body .button-wrapper:last-of-type {
+    margin-bottom: 0;
   }
 }
