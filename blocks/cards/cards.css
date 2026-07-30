@@ -175,6 +175,7 @@
     grid-column: 1;
     grid-row: 1;
     margin-bottom: 0;
+    margin-right: 30px;
   }
 
   .cards.resources .cards-card-body {
@@ -183,11 +184,6 @@
     text-align: left;
   }
 
-}
-
-/* 768–991px: the text column is narrowest here, so the action links stack vertically
-   (Download above Email), each on its own line */
-@media (width >= 768px) and (width <= 991px) {
   .cards.resources .cards-card-body .button-wrapper {
     display: flex;
     margin: 0 0 var(--cards-resources-action-stack-gap);
