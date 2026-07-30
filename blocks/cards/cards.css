@@ -193,3 +193,15 @@
     margin-bottom: 0;
   }
 }
+
+@media (width >= 992px) {
+  /* desktop: wider text column — action links sit side by side again */
+  .cards.resources .cards-card-body .button-wrapper {
+    display: inline-flex;
+    margin: 0 0 0 var(--cards-resources-action-gap);
+  }
+
+  .cards.resources .cards-card-body .button-wrapper:not(.button-wrapper + .button-wrapper) {
+    margin-left: 0;
+  }
+}
