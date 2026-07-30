@@ -16,7 +16,8 @@ export default function decorate(brightcove) {
 
   const transcriptHTML = rows[4]?.children[1]?.innerHTML;
 
-  if (!accountId || !playerId || !videoId) {
+  //Account ID is optional for video player
+  if (!accountId || !playerId ) {
     brightcove.textContent = 'Brightcove configuration is missing.';
     return;
   }

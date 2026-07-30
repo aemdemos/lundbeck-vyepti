@@ -23,7 +23,7 @@ export default function getTranscript({
 
     const toggleIcon = document.createElement('img');
     toggleIcon.src = openTranscriptIcon;
-    toggleIcon.className = 'toggleIcon';
+    toggleIcon.className = 'toggle-icon';
     toggleIcon.alt = 'open-close-icon';
     toggle.appendChild(toggleIcon);
     toggle.appendChild(btnText);
