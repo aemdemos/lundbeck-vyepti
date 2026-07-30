@@ -31,15 +31,6 @@
   --cards-resources-link-font-size: 16px;
   --cards-resources-link-font-weight: 700;
   --cards-resources-link-line-height: 20px;
-}
-
-@media (width >= 992px) {
-  :root {
-    --cards-resources-title-font-size: 22px;
-    --cards-resources-image-max-width: 140px;
-  }
-  /* feature variant (concrete values: the global --spacing-* tokens are not
-     loaded at runtime, so referencing them yields invalid/empty values) */
   --cards-feature-gap: 16px; /* image-to-text gap (mobile column) */
   --cards-feature-icon-size: 112px; /* leading icon size in the tablet row */
   --cards-feature-icon-size-desktop: 112px; /* centered icon size at desktop */
@@ -64,4 +55,14 @@
   --cards-feature-badge-section-pb: 64px; /* section padding below the badge row (source, desktop) */
   --cards-feature-badge-section-pt-tablet: 17px; /* section padding above (source, tablet band) */
   --cards-feature-badge-section-pb-tablet: 21px; /* section padding below (source, tablet band) */
+
 }
+
+@media (width >= 992px) {
+  :root {
+    --cards-resources-title-font-size: 22px;
+    --cards-resources-image-max-width: 140px;
+  }
+}
+
+ 
