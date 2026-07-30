@@ -1,4 +1,4 @@
-import { buildPictureContentFromImageCell, decorateInlineStyleTokens } from '../../scripts/utils.js';
+import { buildPictureContentFromImageCell } from '../../scripts/utils.js';
 
 /**
  * Finds an author-entered caption inside a hero image column and returns it as a
@@ -38,21 +38,23 @@ function findCaptionParagraph(imageCol) {
 }
 
 /**
- * Applies the caption treatment: the shared .hero-caption positioning/shadow hook
- * plus inline [[token]text] styling, then relocates it to the caption slot (`target`).
+ * Applies the caption treatment: the shared .hero-caption positioning/shadow hook,
+ * then relocates it to the caption slot (`target`). Inline `[[class]text]` styling is
+ * left to the global decorateSpanTags pass, which runs after this block decorator, so
+ * the caption's raw bracket text must survive intact here.
  * @param {HTMLParagraphElement} caption
  * @param {Element} target element to append the caption into
  */
 function placeCaption(caption, target) {
   caption.classList.add('hero-caption');
-  decorateInlineStyleTokens(caption);
   target.appendChild(caption);
 }
 
 function applyAccentColor(block) {
   block.querySelectorAll('h1 strong, h2 strong, h3 strong, p strong').forEach((strong) => {
-    // Leave caption content alone: its styling comes from [[token]text] hooks, so a
-    // [[bold]…] <strong> must not be rewritten into the heading accent-color span.
+    // Leave caption content alone: author-applied bold in the caption must not be
+    // rewritten into the heading accent-color span (caption styling is author-driven
+    // via span-tags / inline emphasis, resolved by the global decorateSpanTags pass).
     if (strong.closest('.hero-caption')) return;
     const span = document.createElement('span');
     span.className = 'accent-color';
@@ -63,14 +65,17 @@ function applyAccentColor(block) {
 
 function decorateSinglePanel(block) {
   block.classList.add('single');
-  applyAccentColor(block);
 
   // Caption is authored in the image column (first cell); relocate it to the
-  // block-level caption slot for absolute bottom-right positioning.
+  // block-level caption slot for absolute bottom-right positioning. Do this before
+  // applyAccentColor so the .hero-caption class exists and its guard fires — author
+  // bold in the caption must stay <strong>, not become the heading accent-color span.
   const imageCol = block.querySelector(':scope > div:first-child > div')
     || block.querySelector(':scope > div:first-child');
   const caption = findCaptionParagraph(imageCol);
   if (caption) placeCaption(caption, block);
+
+  applyAccentColor(block);
 }
 
 function decorateDualPanel(block, rows) {

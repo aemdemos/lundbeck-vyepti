@@ -170,7 +170,7 @@
   text-align: center;
 }
 
-/* Caption — white, italic, bottom-right. Font-size, bottom
+/* Caption — white, bottom-right (emphasis is author-driven). Font-size, bottom
    offset match the source (12px; 11px mobile / 16px at 768px+). */
 .hero.teaser .hero-caption,
 .hero.teaser .hero-caption em,
@@ -186,7 +186,6 @@
   margin: 0;
   color: var(--hero-teaser-caption-color);
   text-shadow: var(--hero-text-shadow);
-  font-style: italic;
   font-weight: 400;
 }
 

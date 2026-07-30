@@ -1,10 +1,13 @@
 <!-- Test content for issue #105 hero caption refactor.
-     Caption <p> now lives in the IMAGE column (first cell), beneath the image.
-     Exercises: plain caption, each bracket token, malformed bracket, multiple phrases,
-     across single (default), single-light, single-dark, and dual-panel variants. -->
+     Caption <p> lives in the IMAGE column (first cell), beneath the image.
+     Inline styling uses the site-wide span-tag syntax ([[class]text], **bold**,
+     *italic*) resolved by the global decorateSpanTags pass — the hero block does
+     NOT parse tokens itself. Exercises: plain caption, brand-primary colour,
+     author bold, author italic, across single (default), single-light,
+     single-dark, and dual-panel variants. -->
 <main>
   <div>
-    <!-- Single (default): plain caption -->
+    <!-- Single (default): plain caption, no emphasis (stays upright) -->
     <div class="hero">
       <div>
         <div>
@@ -24,7 +27,7 @@
   </div>
 
   <div>
-    <!-- single-light: brand-primary colour token -->
+    <!-- single-light: brand-primary colour via span-tag -->
     <div class="hero">
       <div>
         <div>
@@ -44,12 +47,12 @@
   </div>
 
   <div>
-    <!-- single-dark: italic + malformed bracket left literal -->
+    <!-- single-dark: author italic (only italic because the author asked for it) -->
     <div class="hero">
       <div>
         <div>
           <picture><img src="https://picsum.photos/seed/hero3/1200/600" alt=""></picture>
-          <p>[[italic]Actor portrayal] [[unknown]stays literal] [[bold left open</p>
+          <p><em>Actor portrayal</em></p>
         </div>
         <div>
           <h1>Designed to help prevent migraine attacks</h1>
@@ -59,7 +62,7 @@
   </div>
 
   <div>
-    <!-- Dual-panel: two [image, text] rows, caption in each image cell -->
+    <!-- Dual-panel: two [image, text] rows; brand-secondary colour, then bold -->
     <div class="hero">
       <div>
         <div>
@@ -74,7 +77,7 @@
       <div>
         <div>
           <picture><img src="https://picsum.photos/seed/hero5/1200/600" alt=""></picture>
-          <p>[[bold]June, VYEPTI patient]</p>
+          <p><strong>June, VYEPTI patient</strong></p>
         </div>
         <div>
           <h2>Say yep to VYEPTI</h2>

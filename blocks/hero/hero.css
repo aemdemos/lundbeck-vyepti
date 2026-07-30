@@ -260,20 +260,6 @@ main > .section.hero-container > .hero-wrapper {
   }
 }
 
-/* Inline [[token]text] style hooks — colour tokens override the caption's default
-   colour; bold/italic use semantic <strong>/<em> and inherit caption styling. */
-.hero .hero-style-brand-primary {
-  color: var(--brand-primary);
-}
-
-.hero .hero-style-brand-secondary {
-  color: var(--brand-secondary);
-}
-
-.hero .hero-style-brand-primary-light {
-  color: var(--brand-primary-light);
-}
-
 .hero .hero-panel-light .hero-panel-description > p:nth-child(3) {
   color: var(--text-color) !important;
   font-size: var(--hero-light-body-font-size);
@@ -427,7 +413,7 @@ main > .section.hero-container > .hero-wrapper {
   color: var(--hero-single-cta-color);
 }
 
-/* Caption — italic, bottom-right */
+/* Caption — bottom-right (emphasis is author-driven) */
 .section.single-light .hero .hero-caption,
 .section.single-dark .hero .hero-caption {
   position: absolute;
@@ -435,7 +421,6 @@ main > .section.hero-container > .hero-wrapper {
   bottom: 20px;
   z-index: var(--hero-z-caption);
   margin: 0;
-  font-style: italic;
   font-weight: 400;
 }
 
