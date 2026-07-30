@@ -1,13 +1,16 @@
 // Google API Key link
-function loadGooglePlacesApi(callback) {
+function loadGooglePlacesApi(apiKey, callback) {
+  
   if (window.google?.maps?.places?.Autocomplete) {
+    
   callback();
   return;
 }
 
+
   const script = document.createElement('script');
   script.src =
-  'https://maps.googleapis.com/maps/api/js?key=AIzaSyDb18UYXgdQtqsWt12g466tldXw-r41r94&libraries=places&loading=async';
+  `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places&loading=async`;
   script.async = true;
   script.defer = true;
 
@@ -912,7 +915,7 @@ if (!value && touched) {
 }
 
 /*Builds the complete signup form with all fields, conditional logic, and validation wiring.*/
-function buildForm() {
+function buildForm(apiEndpoint) {
   const form = document.createElement('form');
   form.className = 'signup-form-fields';
   form.noValidate = true; // we render our own error messages instead of native browser ones
@@ -1227,7 +1230,8 @@ personalInfoContainer.append(
     submit.innerHTML = 'Submitting…';
 
     try {
-      const response = await fetch('https://vyepti-stage.d.lundbeckus.com/api/dtc/signup', {
+      
+      const response = await fetch(apiEndpoint, {
         method: 'POST',
         body: formData,
       });
@@ -1293,11 +1297,32 @@ function showConfirmationContent() {
 
 
 export default function decorate(block) {
-  
-  const rows = [...block.children];
-  const [introRow] = rows;
 
-  const intro = introRow?.textContent.trim();
+  const rows = [...block.children];
+
+  let googleApiKey = '';
+  let apiEndpoint = '';
+
+  rows.forEach((row) => {
+    const cols = [...row.children];
+
+    if (cols.length === 2) {
+      const label = cols[0].textContent.trim();
+      const value = cols[1].textContent.trim();
+
+      if (label === 'Google Maps API Key') {
+        googleApiKey = value;
+      }
+
+      if (label === 'API Endpoint') {
+        apiEndpoint = value;
+      }
+      
+
+    }
+  });
+
+  const intro = '';
 
   block.innerHTML = '';
 
@@ -1318,7 +1343,7 @@ export default function decorate(block) {
   requiredNote.className = 'signup-form-required-note';
   requiredNote.textContent = 'All fields are required unless marked optional';
 
-  content.append(info, requiredNote, buildForm());
+  content.append(info, requiredNote, buildForm(apiEndpoint));
 
 
 function initializeAddressAutocomplete() {
@@ -1423,7 +1448,9 @@ carousel?.classList.add('confirmation-hidden');
 columnsCta?.classList.add('confirmation-hidden');
 
 
-  loadGooglePlacesApi(() => {
+console.log({ googleApiKey, apiEndpoint });
+
+  loadGooglePlacesApi(googleApiKey, () => {
   initializeAddressAutocomplete();
 });
 }
