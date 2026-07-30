@@ -260,6 +260,14 @@ main > .section.hero-container > .hero-wrapper {
   }
 }
 
+/* Dual-panel caption is small regardless of authored emphasis. The source shrinks
+   it via a <sub> wrapper (12px); size the caption directly so it stays small even
+   when authored as plain text / <em> / <strong> without <sub>. Scoped to non-teaser
+   so the teaser variant keeps its own caption sizing. */
+.hero:not(.teaser) .hero-panel .hero-caption {
+  font-size: var(--hero-caption-sub-font-size);
+}
+
 .hero .hero-panel-light .hero-panel-description > p:nth-child(3) {
   color: var(--text-color) !important;
   font-size: var(--hero-light-body-font-size);
@@ -696,7 +704,7 @@ main > .section.hero-container > .hero-wrapper {
     font-size: 18px;
   }
 
-    .hero .hero-panel .hero-caption sub {
+    .hero:not(.teaser) .hero-panel .hero-caption {
     font-size: var(--hero-caption-sub-font-size-xl);
   }
 }
