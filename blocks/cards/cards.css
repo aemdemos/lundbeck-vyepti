@@ -27,6 +27,158 @@
   object-fit: var(--cards-image-object-fit); /* @boilerplate */
 }
 
+/* feature variant — image above centered text on mobile; the <li> becomes a
+   flexbox so the same markup can flip to a row at tablet widths. Image stays
+   first in source order, so it sits on top (column) or leading (row) naturally. */
+main .cards.feature > ul > li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--cards-feature-gap);
+  text-align: center;
+}
+
+/* the leading icon is square (not the card's default 3/2 crop) at the intended
+   size, centered above the text */
+main .cards.feature > ul > li .cards-card-image img {
+  width: var(--cards-feature-icon-size);
+  height: var(--cards-feature-icon-size);
+  aspect-ratio: 1;
+  margin-inline: auto;
+}
+
+/* no-CTA "badge" cards (how-vyepti-works) use a wide 2:1 badge asset rendered
+   at its natural width — not squared like the home-page icons. Height follows
+   the intrinsic aspect ratio; a wider badge-to-heading gap matches the source. */
+main .cards.feature > ul > li:not(:has(.cards-card-body > p:last-child a)) .cards-card-image img {
+  width: var(--cards-feature-badge-width);
+  height: auto;
+  aspect-ratio: auto;
+}
+
+main .cards.feature > ul > li:not(:has(.cards-card-body > p:last-child a)) {
+  gap: var(--cards-feature-badge-gap);
+}
+
+/* badge block (how-vyepti-works: no card has a CTA) carries the source's
+   section spacing above and below the row; the home CTA block is untouched */
+main .cards.feature:not(:has(.cards-card-body > p:last-child a)) {
+  padding-top: var(--cards-feature-badge-section-pt);
+  padding-bottom: var(--cards-feature-badge-section-pb);
+}
+
+/* the flex gap alone sets the badge-to-heading distance; the heading's default
+   top margin would otherwise stack on top of it and double the gap */
+main .cards.feature > ul > li:not(:has(.cards-card-body > p:last-child a)) .cards-card-body > :first-child {
+  margin-top: 0;
+}
+
+/* extra breathing room above the CTA in the mobile column */
+main .cards.feature > ul > li .cards-card-body > p:last-child:has(a) {
+  margin-top: var(--cards-feature-cta-gap-mobile);
+}
+
+/* tablet only — the source's Bootstrap md band. CTA cards (home) become
+   full-width stacked rows of icon | heading+copy | right-aligned CTA. No-CTA
+   cards (how-vyepti-works) keep the base centered-column stack. Reverts to the
+   centered column grid at 992px+ below. */
+@media (width >= 768px) and (width < 992px) {
+  /* single full-width column with wider vertical rhythm between the stacked
+     cards, matching the source (applies to both card types) */
+  main .cards.feature > ul {
+    grid-template-columns: 1fr;
+    row-gap: var(--cards-feature-row-gap);
+  }
+
+  main .cards.feature.cards-2-cols > ul > li,
+  main .cards.feature.cards-3-cols > ul > li {
+    width: auto;
+  }
+
+  /* no-CTA badge stack: tighter card-to-card gap than the CTA cards, matching
+     the source's how-vyepti-works spacing */
+  main .cards.feature:not(:has(.cards-card-body > p:last-child a)) > ul {
+    row-gap: var(--cards-feature-badge-row-stack-gap);
+  }
+
+  /* no-CTA badge cards (how-vyepti-works): flip to an icon-left row — badge on
+     the left, heading + copy left-aligned to its right — matching the source
+     and the ticket's tablet AC. No CTA, so no button column is needed. */
+  main .cards.feature > ul > li:not(:has(.cards-card-body > p:last-child a)) {
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+    gap: var(--cards-feature-badge-row-gap);
+  }
+
+  main .cards.feature > ul > li:not(:has(.cards-card-body > p:last-child a)) .cards-card-image {
+    flex: 0 0 var(--cards-feature-badge-width);
+  }
+
+  main .cards.feature > ul > li:not(:has(.cards-card-body > p:last-child a)) .cards-card-body {
+    flex: 1;
+  }
+
+  /* tighter section spacing in the tablet band (source uses 17/21 here, not the
+     larger desktop 48/64) */
+  main .cards.feature:not(:has(.cards-card-body > p:last-child a)) {
+    padding-top: var(--cards-feature-badge-section-pt-tablet);
+    padding-bottom: var(--cards-feature-badge-section-pb-tablet);
+  }
+
+  /* CTA cards only: flip to an icon-left row; the icon top-aligns with the
+     heading (not centered against the whole text) */
+  main .cards.feature > ul > li:has(.cards-card-body > p:last-child a) {
+    flex-direction: row;
+    align-items: flex-start;
+    text-align: left;
+    gap: var(--cards-feature-icon-gap);
+  }
+
+  main .cards.feature > ul > li:has(.cards-card-body > p:last-child a) .cards-card-image {
+    flex: 0 0 var(--cards-feature-icon-size);
+  }
+
+  /* CTA cards: three-column grid body — a capped text column (so the heading
+     wraps to two lines like the source), a flexible spacer, and an auto-width
+     column that holds the CTA at its natural width so the button never wraps */
+  main .cards.feature > ul > li:has(.cards-card-body > p:last-child a) .cards-card-body {
+    flex: 1;
+    display: grid;
+    grid-template-columns: minmax(0, var(--cards-feature-text-max)) 1fr auto;
+    align-items: start;
+    column-gap: 0;
+  }
+
+  main .cards.feature > ul > li:has(.cards-card-body > p:last-child a) .cards-card-body > :not(:last-child) {
+    grid-column: 1;
+  }
+
+  /* strip the heading's leading margin so the text starts flush with the icon,
+     and the copy's leading margin so it sits directly under the heading (the
+     source has no gap between heading and copy) */
+  main .cards.feature > ul > li:has(.cards-card-body > p:last-child a) .cards-card-body > :first-child,
+  main .cards.feature > ul > li:has(.cards-card-body > p:last-child a) .cards-card-body > h2 + p {
+    margin-top: 0;
+  }
+
+  main .cards.feature > ul > li:has(.cards-card-body > p:last-child a) .cards-card-body > :not(:last-child):last-of-type,
+  main .cards.feature > ul > li:has(.cards-card-body > p:last-child a) .cards-card-body > p:nth-last-child(2) {
+    margin-bottom: 0;
+  }
+
+  /* CTA sits in the auto-width column so the button sizes to its content and
+     never wraps; its top aligns with the bottom of the heading's first line
+     (a small top offset), right-justified */
+  main .cards.feature > ul > li .cards-card-body > p:last-child:has(a) {
+    grid-column: 3;
+    grid-row: 1 / -1;
+    place-self: start end;
+    margin: var(--cards-feature-cta-offset) 0 0;
+    white-space: nowrap;
+  }
+}
+
 @media (width >= 992px) {
   .cards.cards-2-cols > ul {
     grid-template-columns: repeat(2, 1fr);
@@ -45,6 +197,48 @@
 
   .cards.cards-3-cols > ul > li {
     width: var(--cards-3col-width);
+  }
+
+  /* desktop feature icon: square (not the card's 3/2 crop) at the intended
+     size, centered above the text like the source */
+  main .cards.feature > ul > li .cards-card-image img {
+    width: var(--cards-feature-icon-size-desktop);
+    height: var(--cards-feature-icon-size-desktop);
+    aspect-ratio: 1;
+    margin-inline: auto;
+  }
+
+  /* no-CTA badge cards keep the natural 2:1 badge at desktop, not the square */
+  main .cards.feature > ul > li:not(:has(.cards-card-body > p:last-child a)) .cards-card-image img {
+    width: var(--cards-feature-badge-width);
+    height: auto;
+    aspect-ratio: auto;
+  }
+
+  /* equal-height cards with the body filling the card, so the CTA pins to the
+     bottom and all three buttons line up on the same row like the source */
+  main .cards.feature.cards-3-cols > ul,
+  main .cards.feature.cards-2-cols > ul {
+    align-items: stretch;
+  }
+
+  main .cards.feature > ul > li .cards-card-body {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  main .cards.feature > ul > li .cards-card-body > p:last-child:has(a) {
+    margin-top: auto;
+    padding-top: var(--cards-feature-cta-gap-desktop);
+  }
+}
+
+/* wide viewport — the source serves a larger badge asset at 1200px+; match its
+   width so the no-CTA badge cards scale up like the source */
+@media (width >= 1200px) {
+  main .cards.feature > ul > li:not(:has(.cards-card-body > p:last-child a)) .cards-card-image img {
+    width: var(--cards-feature-badge-width-wide);
   }
 }
 

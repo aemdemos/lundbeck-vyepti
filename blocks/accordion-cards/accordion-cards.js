@@ -33,8 +33,8 @@ function isActionParagraph(node) {
 // it the .button class; here we only tag it as an action link. An authored /modals/… link
 // is still auto-opened as a modal by the global autolinkModals handler; the button chrome
 // is overridden to the plain text-link + icon style in CSS.
-function normalizeActionLinks(contentCol) {
-  const children = [...contentCol.children];
+function normalizeActionLinks(bodyCol) {
+  const children = [...bodyCol.children];
   const actionParagraphs = [];
   for (let i = children.length - 1; i >= 0; i -= 1) {
     const child = children[i];
@@ -54,172 +54,40 @@ function normalizeActionLinks(contentCol) {
       actions.append(anchor);
     });
   });
-  contentCol.append(actions);
+  bodyCol.append(actions);
   actionParagraphs.forEach((paragraph) => paragraph.remove());
 }
 
-function styleCardContent(contentCol) {
-  contentCol.classList.add('accordion-cards-card-content');
-  contentCol.querySelectorAll('h3, h4').forEach((heading) => {
+function styleCardBody(bodyCol) {
+  bodyCol.classList.add('accordion-cards-card-body');
+  bodyCol.querySelectorAll('h3, h4').forEach((heading) => {
     if (!heading.querySelector('picture, img')) {
       heading.classList.add('accordion-cards-card-title');
     }
   });
-  normalizeActionLinks(contentCol);
+  normalizeActionLinks(bodyCol);
 }
 
-function isIconImage(img) {
-  return img instanceof HTMLImageElement && !!img.closest('.icon, span[class*="icon-"]');
-}
-
-function hasCardMedia(node) {
-  if (!(node instanceof Element)) return false;
-  if (isActionParagraph(node)) return false;
-  if (node.querySelector('picture')) return true;
-  return [...node.querySelectorAll('img')].some((img) => !isIconImage(img));
-}
-
-function isImageOnlyNode(node) {
-  if (!(node instanceof Element)) return false;
-  if (!hasCardMedia(node)) return false;
-  const text = node.textContent.replace(/\s+/g, '');
-  return text.length === 0 || (node.matches('h3, h4, p') && !node.querySelector('a') && text.length < 4);
-}
-
-function startsNewCard(node, currentGroup) {
-  if (!(node instanceof Element) || !currentGroup.length) return false;
-  if (node.matches('p') && hasCardMedia(node)) return true;
-  if (node.matches('h3, h4') && hasCardMedia(node) && currentGroup.some((el) => !isImageOnlyNode(el))) {
-    return true;
-  }
-  return false;
-}
-
-function groupColumnNodes(columnEl) {
-  const nodes = [...columnEl.children].filter((child) => child instanceof Element);
-  if (!nodes.length) return [];
-
-  if (nodes.length === 1) return groupColumnNodes(nodes[0]);
-
-  // Explicit two-column card: image div | content div
-  if (nodes.length === 2 && hasCardMedia(nodes[0])) {
-    return [columnEl];
-  }
-
-  const groups = [];
-  let group = [];
-
-  nodes.forEach((node) => {
-    if (startsNewCard(node, group)) {
-      groups.push(group);
-      group = [node];
-    } else {
-      group.push(node);
-    }
-  });
-
-  if (group.length) groups.push(group);
-  if (groups.length <= 1) return [columnEl];
-
-  return groups.map((items) => {
-    const wrapper = document.createElement('div');
-    items.forEach((item) => wrapper.append(item));
-    return wrapper;
-  });
-}
-
-function getCardRows(columnEl) {
-  if (!(columnEl instanceof Element)) return [];
-  return groupColumnNodes(columnEl);
-}
-
-function findMediaNode(card) {
-  const children = [...card.children].filter((child) => child instanceof Element);
-  const mediaParagraph = children.find((child) => child.matches('p') && hasCardMedia(child));
-  if (mediaParagraph) return mediaParagraph;
-
-  const mediaHeading = children.find((child) => child.matches('h3, h4') && isImageOnlyNode(child));
-  if (mediaHeading) return mediaHeading;
-
-  return children.find((child) => child.matches('picture') || hasCardMedia(child));
-}
-
-function structureSplitCard(card) {
-  const children = [...card.children].filter((child) => child instanceof Element);
-  if (children.length !== 2) return false;
-  if (!hasCardMedia(children[0])) return false;
-
-  children[0].className = 'accordion-cards-card-image';
-  children[1].className = 'accordion-cards-card-content';
-  styleCardContent(children[1]);
-  return true;
-}
-
-function structureFlatCard(card) {
-  const mediaNode = findMediaNode(card);
-  if (mediaNode instanceof Element) {
-    const imageWrap = document.createElement('div');
-    imageWrap.className = 'accordion-cards-card-image';
-    imageWrap.append(mediaNode);
-    card.prepend(imageWrap);
-  }
-
-  const contentWrap = document.createElement('div');
-  contentWrap.className = 'accordion-cards-card-content';
-  [...card.children]
-    .filter((child) => !child.classList.contains('accordion-cards-card-image'))
-    .forEach((child) => contentWrap.append(child));
-  card.append(contentWrap);
-  styleCardContent(contentWrap);
-}
-
-function decorateCard(cardRow) {
+// A row is a single card: [heading, intro, image, body]. The image column becomes the
+// card's media, the body column its content. Both are re-used in place.
+function buildCard(imageCol, bodyCol) {
   const card = document.createElement('article');
   card.className = 'accordion-cards-card';
-  moveInstrumentation(cardRow, card);
-  while (cardRow.firstElementChild) card.append(cardRow.firstElementChild);
 
-  if (!structureSplitCard(card)) {
-    structureFlatCard(card);
+  const image = document.createElement('div');
+  image.className = 'accordion-cards-card-image';
+  if (imageCol instanceof Element) {
+    while (imageCol.firstElementChild) image.append(imageCol.firstElementChild);
   }
 
+  const body = document.createElement('div');
+  if (bodyCol instanceof Element) {
+    while (bodyCol.firstElementChild) body.append(bodyCol.firstElementChild);
+  }
+  styleCardBody(body);
+
+  card.append(image, body);
   return card;
-}
-
-function decorateColumn(columnEl, side) {
-  const column = document.createElement('div');
-  column.className = `accordion-cards-column accordion-cards-column-${side}`;
-
-  getCardRows(columnEl).forEach((row) => {
-    column.append(decorateCard(row));
-  });
-
-  return column;
-}
-
-function buildPanel(introCol, leftCol, rightCol, panelId) {
-  const panel = document.createElement('div');
-  panel.id = panelId;
-  panel.className = 'accordion-cards-item-panel';
-  panel.setAttribute('role', 'region');
-
-  if (introCol instanceof Element && introCol.textContent.trim()) {
-    introCol.className = 'accordion-cards-item-intro';
-    panel.append(introCol);
-  }
-
-  const columns = document.createElement('div');
-  columns.className = 'accordion-cards-columns';
-
-  if (leftCol instanceof Element && leftCol.children.length) {
-    columns.append(decorateColumn(leftCol, 'left'));
-  }
-  if (rightCol instanceof Element && rightCol.children.length) {
-    columns.append(decorateColumn(rightCol, 'right'));
-  }
-
-  if (columns.children.length) panel.append(columns);
-  return panel;
 }
 
 function createSectionHeader(labelCol, panelId) {
@@ -296,6 +164,37 @@ function scheduleAccordionCardsScroll(header) {
   });
 }
 
+function createSection(headingCol, introCol, panelId) {
+  const section = document.createElement('section');
+  section.className = 'accordion-cards-item';
+  section.append(createSectionHeader(headingCol, panelId));
+
+  const panel = document.createElement('div');
+  panel.id = panelId;
+  panel.className = 'accordion-cards-item-panel';
+  panel.setAttribute('role', 'region');
+
+  if (introCol instanceof Element && introCol.textContent.trim()) {
+    introCol.className = 'accordion-cards-item-intro';
+    panel.append(introCol);
+  }
+
+  const cards = document.createElement('div');
+  cards.className = 'accordion-cards-columns';
+  panel.append(cards);
+  section.append(panel);
+
+  const button = section.querySelector('.accordion-cards-item-trigger');
+  if (button instanceof HTMLButtonElement) {
+    button.addEventListener('click', () => {
+      setSectionExpanded(section, !section.classList.contains('is-expanded'));
+      scheduleAccordionCardsScroll(section.querySelector('.accordion-cards-item-header'));
+    });
+  }
+
+  return section;
+}
+
 export default function decorate(block) {
   // Buttonize authored links up front: a bold action link already carries the .button
   // class after this, so normalizeActionLinks only needs to tag and collect them.
@@ -305,40 +204,28 @@ export default function decorate(block) {
   const wrapper = document.createElement('div');
   wrapper.className = 'accordion-cards-sections';
 
-  [...block.children].forEach((row, index) => {
-    const section = document.createElement('section');
-    section.className = 'accordion-cards-item';
-    moveInstrumentation(row, section);
-    while (row.firstElementChild) section.append(row.firstElementChild);
+  let currentCards = null;
+  let sectionIndex = -1;
 
-    const panelId = `accordion-cards-panel-${index}`;
-    const [
-      headingCol,
-      introCol,
-      leftCol,
-      rightCol,
-    ] = [...section.children];
+  // Each row is one card: [heading, intro, image, body]. A non-empty heading starts a new
+  // accordion panel; an empty heading appends the row's card to the previous panel.
+  [...block.children].forEach((row) => {
+    const [headingCol, introCol, imageCol, bodyCol] = [...row.children];
+    const hasHeading = headingCol instanceof Element && headingCol.textContent.trim();
 
-    if (headingCol instanceof Element) {
-      section.prepend(createSectionHeader(headingCol, panelId));
-      headingCol.remove();
+    if (hasHeading) {
+      sectionIndex += 1;
+      const section = createSection(headingCol, introCol, `accordion-cards-panel-${sectionIndex}`);
+      wrapper.append(section);
+      currentCards = section.querySelector('.accordion-cards-columns');
+      if (sectionIndex === 0) setSectionExpanded(section, true);
     }
 
-    section.append(buildPanel(introCol, leftCol, rightCol, panelId));
+    if (!currentCards) return;
 
-    if (leftCol instanceof Element) leftCol.remove();
-    if (rightCol instanceof Element) rightCol.remove();
-
-    const button = section.querySelector('.accordion-cards-item-trigger');
-    if (button instanceof HTMLButtonElement) {
-      button.addEventListener('click', () => {
-        setSectionExpanded(section, !section.classList.contains('is-expanded'));
-        scheduleAccordionCardsScroll(section.querySelector('.accordion-cards-item-header'));
-      });
-    }
-
-    if (index === 0) setSectionExpanded(section, true);
-    wrapper.append(section);
+    const card = buildCard(imageCol, bodyCol);
+    moveInstrumentation(row, card);
+    currentCards.append(card);
   });
 
   block.textContent = '';
