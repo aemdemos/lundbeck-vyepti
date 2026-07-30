@@ -1,15 +1,44 @@
 import { buildPictureContentFromImageCell } from '../../scripts/utils.js';
 
 /**
+ * Collects the caption nodes inside a hero image column: the text and inline
+ * elements that carry the caption copy, skipping <picture>/<img> entirely. Descends
+ * into picture-bearing wrappers (the backend often nests the caption in the same
+ * <p> as the last <picture>), and returns the caption's own inline nodes in document
+ * order so their structure and any raw `[[class]text]` span-tag syntax are preserved.
+ * @param {Element} root the image cell/column
+ * @returns {ChildNode[]}
+ */
+function collectCaptionNodes(root) {
+  const out = [];
+  const visit = (parent) => {
+    parent.childNodes.forEach((node) => {
+      if (node.nodeType === Node.TEXT_NODE) {
+        if (node.nodeValue.trim()) out.push(node);
+      } else if (node.nodeType === Node.ELEMENT_NODE) {
+        if (node.matches('picture, img')) return; // the image itself — never the caption
+        if (node.querySelector('picture, img')) {
+          visit(node); // wrapper holding a picture (and maybe the caption) — descend
+        } else {
+          out.push(node); // inline caption element (<em>/<strong>/<span>/<a>/<sup>…)
+        }
+      }
+    });
+  };
+  visit(root);
+  return out;
+}
+
+/**
  * Finds an author-entered caption inside a hero image column and returns it as a
  * <p> (or null). Phrase-independent — any copy works. Two delivered shapes are
- * handled: (1) a <p> with visible text and no image/link, and (2) loose caption
- * content sitting beside the <picture> stack (text and/or inline elements the
- * backend did not wrap in a <p>). In case (2) the caption nodes are MOVED —
- * preserving their inline structure (<em>/<strong>/<span>/<a>/<br>/<sup>) and any
- * raw `[[class]text]` span-tag syntax — into a fresh <p> so author emphasis
- * survives and the global decorateSpanTags pass (which runs after this block
- * decorator) can resolve span tags on the relocated caption.
+ * handled: (1) a dedicated <p> with visible text and no image/link, and (2) caption
+ * content sitting beside (or nested in the same wrapper as) the <picture> stack —
+ * text and/or inline elements the backend did not give its own <p>. In case (2) the
+ * caption nodes are MOVED — preserving their inline structure
+ * (<em>/<strong>/<span>/<a>/<br>/<sup>) and any raw `[[class]text]` span-tag syntax —
+ * into a fresh <p> so author emphasis survives and the global decorateSpanTags pass
+ * (which runs after this block decorator) can resolve span tags on the caption.
  * @param {Element} imageCol the image cell/column
  * @returns {HTMLParagraphElement|null}
  */
@@ -22,15 +51,10 @@ function findCaptionParagraph(imageCol) {
     && !p.querySelector('picture, img, a'));
   if (para) return para;
 
-  // (2) Loose caption content beside the picture stack: the image column's direct
-  // child nodes that are neither a picture/image nor a wrapper containing one, and
-  // that are not whitespace-only. Flattening these to textContent would drop author
-  // <em>/<strong> and split-boundary span-tag markup, so move the nodes as-is.
-  const captionNodes = [...imageCol.childNodes].filter((node) => {
-    if (node.nodeType === Node.TEXT_NODE) return node.nodeValue.trim() !== '';
-    if (node.nodeType !== Node.ELEMENT_NODE) return false;
-    return !node.matches('picture, img') && !node.querySelector('picture, img');
-  });
+  // (2) Caption content among the pictures (loose, or nested in a picture wrapper).
+  // Move the collected nodes as-is — flattening to textContent would drop author
+  // <em>/<strong> and split-boundary span-tag markup.
+  const captionNodes = collectCaptionNodes(imageCol);
   if (!captionNodes.length) return null;
   const p = document.createElement('p');
   p.append(...captionNodes);
