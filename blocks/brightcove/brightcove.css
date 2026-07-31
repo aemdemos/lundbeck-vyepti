@@ -24,7 +24,7 @@
   background-color: var(--brand-teal);
 }
 
-.brightcove .bc-player-default_default:hover .vjs-big-play-button {
+.brightcove .bc-player-default-default:hover .vjs-big-play-button {
   background-color: var(--brand-teal);
 }
 
@@ -58,7 +58,7 @@
   column-gap: 5px;
 }
 
-.brightcove .video-transcript .transcript-toggle .toggleIcon {
+.brightcove .video-transcript .transcript-toggle .toggle-icon {
   padding: 0 0 0 20px;
 }
 
@@ -75,7 +75,7 @@
   padding: 0 20px;
   display: grid;
   grid-template-columns: auto 1fr;
-  gap: 16px 0px;
+  gap: 16px 0;
   margin-top: 10px;
 }
 
