@@ -20,15 +20,14 @@
   --carousel-nav-arrow-next-color: var(--brand-secondary);
   --carousel-transition-duration: var(--transition-duration); /* @boilerplate */
 
-  /* default carousel — clean card layout (image beside content on a light surface)
-     instead of the boilerplate dark-overlay hero. */
-  --carousel-radius: 6px;
-  --carousel-surface: var(--card-bg-light);
+  /* default carousel — simple inline layout (small icon beside text, no card
+     chrome) used e.g. for the post-signup confirmation slide. */
+  --carousel-radius: 0;
+  --carousel-surface: transparent;
   --carousel-card-text-color: var(--text-color);
-  --carousel-card-content-padding: 24px 32px;
-  --carousel-card-image-flex: 50%;
-  --carousel-card-image-height: 260px;
-  --carousel-card-image-height-desktop: 360px;
+  --carousel-card-content-padding: 0;
+  --carousel-card-gap: 24px;
+  --carousel-card-icon-size: 84px;
   --carousel-card-heading-color: var(--brand-primary);
 
   /* testimonial variant — tokenized from poc-vyepti / vyepti.com; brand sites override via tokens.
