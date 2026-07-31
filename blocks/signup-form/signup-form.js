@@ -34,7 +34,7 @@ script.onerror = () => {
 
 
 
-/*EDITABLE ERROR / VALIDATION MESSAGES*/
+/* EDITABLE ERROR / VALIDATION MESSAGES */
 const DEFAULT_MESSAGES = {
   toggleRequired: 'Please choose Yes or No',
   dob: {
@@ -114,7 +114,7 @@ function buildRevealTransition(durationMs) {
 }
 
 
-/*Animates an element open with a "slide down" effect*/
+/* Animates an element open with a "slide down" effect */
 function slideDown(el, durationMs = REVEAL_DURATION_MS) {
   el.style.transition = 'none';
   el.style.display = 'block';
@@ -608,7 +608,7 @@ function createSelectField(name, label, options, requiredMessage = null) {
   const arrow = document.createElement('span');
   arrow.className = 'select-arrow';
   arrow.setAttribute('aria-hidden', 'true');
-  arrow.innerHTML = ''; //select arrow
+  arrow.innerHTML = ''; // select arrow
   selectWrapper.append(select, arrow);
 
   const errorEl = createErrorMessage(name);
@@ -639,7 +639,7 @@ function createSelectField(name, label, options, requiredMessage = null) {
   return wrapper;
 }
 
-/*Checks whether a string matches the MM/DD/YYYY */
+/* Checks whether a string matches the MM/DD/YYYY */
 function matchesDatePattern(dateStr) {
   return /^\d{2}\/\d{2}\/\d{4}$/.test(dateStr);
 }
@@ -662,7 +662,7 @@ function isValidDateFormat(dateStr) {
   return true;
 }
 
-/*Attaches "numbers only, max 10 digits"*/
+/* Attaches "numbers only, max 10 digits" */
 function attachPhoneMask(input) {
   input.addEventListener('input', (e) => {
     let value = e.target.value.replace(/\D/g, ''); // strip everything but digits
@@ -680,7 +680,7 @@ function attachPhoneMask(input) {
   });
 }
 
-/* Attaches "numbers only, auto-formatted as MM/DD/YYYY"*/
+/* Attaches "numbers only, auto-formatted as MM/DD/YYYY" */
 function attachDateMask(input) {
   input.addEventListener('input', (e) => {
     let value = e.target.value.replace(/\D/g, ''); // strip everything but digits
@@ -693,7 +693,7 @@ function attachDateMask(input) {
   });
 }
 
-/* Creates the "Date of birth" field: MM/DD/YYYY masked input*/
+/* Creates the "Date of birth" field: MM/DD/YYYY masked input */
 function createDobField(messages = {}) {
   const msg = { ...DEFAULT_MESSAGES.dob, ...messages };
 
@@ -780,7 +780,7 @@ function createDobField(messages = {}) {
   return wrapper;
 }
 
-/*Creates a date field with MM/DD/YYYY masking/validation and a"Not scheduled" checkbox*/
+/* Creates a date field with MM/DD/YYYY masking/validation and a"Not scheduled" checkbox */
 function createDateField(name, label, messages = {}) {
   const msg = {
     required: 'Please enter a valid calendar date',
@@ -914,7 +914,7 @@ if (!value && touched) {
   return wrapper;
 }
 
-/*Builds the complete signup form with all fields, conditional logic, and validation wiring.*/
+/* Builds the complete signup form with all fields, conditional logic, and validation wiring. */
 function buildForm(apiEndpoint) {
   const form = document.createElement('form');
   form.className = 'signup-form-fields';

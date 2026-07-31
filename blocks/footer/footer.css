@@ -32,6 +32,7 @@ footer { /* @boilerplate */
 
 footer .footer p { /* @boilerplate */
   margin: 0; /* @boilerplate */
+  color: var(--footer-link-color); /* @boilerplate */
 } /* @boilerplate */
 
 footer .footer > div { /* @boilerplate */
