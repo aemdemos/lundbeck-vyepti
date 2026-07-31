@@ -1,0 +1,1177 @@
+
+.doctor-discussion-wrapper,
+.doctor-discussion {
+  background: #eef3f6;
+  display: flex;
+  justify-content: center;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+}
+
+main .section div.doctor-discussion-wrapper {
+  padding: 24px 0;
+}
+
+.doctor-discussion-container {
+  background: #eef3f6;
+  padding-top: 0px;
+}
+
+.doctor-discussion {
+  border-radius: 12px;
+  box-shadow: 0 2px 8px 0 #e0e0e0;
+  max-width: 563px;
+  padding: 0px;
+  width: 100%;
+}
+
+.doctor-discussion:has(.dg-results-header-wrapper){
+  max-width: 1110px;
+}
+
+/* ---------- Doctor Discussion Card ---------- */
+
+.dg-card {
+  
+  background: var(--dg-surface);
+  border-radius: 12px;
+  box-shadow: 0 4px 18px rgba(15, 42, 58, 0.08);
+  overflow: hidden;
+  width: 100%;
+}
+
+/* ---------- Header (step banner + progress bar) ---------- */
+
+.dg-header-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.dg-header {
+  align-items: center;
+  background: #046183;
+  border-radius: 12px 12px 0px 0px;
+  color: #fff;
+  display: flex;
+  padding: 10px 30px 25px 10px;
+  height: auto;
+}
+
+.dg-header-badge {
+  align-items: center;
+  background: #fff;
+  border-radius: 50%;
+  color: #046183;
+  display: inline-flex;
+  font-family: var(--heading-font-family);
+  font-size: 18px;
+  font-weight: 600;
+  justify-content: center;
+  height: 26px;
+  margin: 7px 8px 0 0;
+  padding: 2px;
+  width: 26px;
+}
+
+.dg-header-title {
+  color: #fff;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 24px;
+  padding-top: 0px;
+  width: fit-content;
+}
+
+.dg-progress {
+  display: flex;
+  gap: 2px;
+  margin-top: 1px;
+  padding: 0;
+}
+
+.dg-progress-segment {
+  background: #d1d1d1;
+  flex: 1;
+  height: 5px;
+}
+
+.dg-progress-segment.is-complete {
+  background: #f16464;
+}
+
+/* ---------- Form layout ---------- */
+
+.dg-form {
+  box-sizing: border-box;
+  padding: 10px 51px 0px 51px;
+  width: 100%;
+}
+
+.dg-field {
+  margin: 0px;
+}
+
+.dg-field-label-row,
+.dg-field-helper-row {
+  align-items: baseline;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+}
+
+.dg-field-label {
+  color: #046183;
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 0px;
+  line-height: 24px;
+}
+
+.dg-field-helper {
+  color: #666;
+  font-family: var(--body-font-family);
+  font-size: 12px;
+  font-style: italic;
+  font-weight: 400;
+  line-height: 14px;
+  margin-bottom: 0px;
+  margin-top: 4px;
+  margin: 4px 0px 0px 0px;
+}
+
+.dg-field-count {
+  color: #666;
+  font-family: var(--body-font-family);
+  font-size: 12px;
+  font-style: italic;
+  white-space: nowrap;
+}
+
+.dg-field-description {
+  color: #333;
+  font-family: var(--body-font-family);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 18px;
+  margin: 4px 0 16px 0;
+  text-align: left;
+}
+
+.dg-text-input {
+  border: 1px solid #484848;
+  border-radius: 9.5px;
+  box-sizing: border-box;
+  font-family: var(--body-font-family);
+  font-size: 18px;
+  height: 47px;
+  line-height: 24px;
+  margin: 8px 0px 16px 0px;
+  outline: 0;
+  padding: 5px 10px;
+  width: 100%;
+}
+
+.dg-text-input:focus {
+  outline: none;
+  border-color: var(--dg-navy);
+}
+
+/* ---------- Options (checkbox + radio share the same look) ---------- */
+
+.dg-field-checkbox, 
+.dg-field-radio {
+  min-height: 305px;
+}
+
+.dg-option-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.dg-option {
+  align-items: center;
+  border: 1px solid #7ebcc6;
+  border-radius: 22px;
+  background: rgba(4, 97, 131, 0.03);
+  display: flex;
+  gap: 13px;
+  padding: 12px 12px 12px 15px;
+  position: relative;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.dg-option-icon {
+  background-position: left center;
+  background-repeat: no-repeat;
+  height: 22px;
+  flex-shrink: 0;
+  font-size: 1.1rem;
+  text-align: center;
+  width: 25px;
+}
+
+.dg-step1-icon1 {
+  background-image: url(/icons/ddg-social-events-23-desktop.svg);
+}
+
+.dg-step1-icon2 {
+  background-image: url(/icons/ddg-work-school-21-desktop.svg);
+}
+
+.dg-step1-icon3 {
+  background-image: url(/icons/ddg-daily-life-22-desktop.svg);
+}
+
+.dg-step1-icon4 {
+  background-image: url(/icons/ddg-exercise-20-desktop.svg);
+}
+
+.dg-step1-icon5 {
+  background-image: url(/icons/ddg-plans-20-desktop.svg);
+}
+
+.dg-step1-icon6 {
+  background-image: url(/icons/ddg-none-23-desktop.svg);
+}
+
+.dg-option-text {
+  color: #484848;
+  flex: 1;
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 20px;
+}
+
+.dg-option-input {
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  height: 0;
+  width: 0;
+}
+
+.dg-option-control {
+  align-items: center;
+  background: #fff;
+  border: 1px solid rgba(126, 188, 198, 0.5);
+  border-radius: 4px; /* checkbox = rounded square */
+  box-sizing: border-box;
+  display: flex;
+  cursor:pointer;
+  flex-shrink: 0;
+  height: 22px;
+  justify-content: center;
+  position: relative;
+  width: 22px;
+}
+
+/* Radios, and the exclusive "None of the above" checkbox, are circular */
+.dg-option-input[type='radio'] + .dg-option-control,
+.dg-option-input[data-exclusive='true'] + .dg-option-control {
+  border-radius: 50%;
+  height: 24px;
+  width: 24px;
+}
+
+/* Checkbox checked state: control fills solid with a white checkmark */
+.dg-option-input:checked + .dg-option-control {
+  background: #046183;
+  border-color: #046183;
+}
+
+.dg-option-input:checked ~ .dg-option-text {
+  color: var(--dg-navy-dark);
+}
+
+.dg-option:has(.dg-option-input:checked) {
+  background-color: rgba(126, 188, 198, 0.2);
+  border: 1px solid #046183;
+  
+}
+
+.dg-option:has(.dg-option-input:checked) .dg-option-text {
+  color: #046183;
+}
+
+
+.dg-option-input:not([type='radio']):not([data-exclusive='true']):checked + .dg-option-control::after {
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  box-sizing: border-box;
+  content: '';
+  height: 12px;
+  margin-top: -2px;
+  transform: rotate(45deg);
+  width: 7px;
+}
+
+
+.dg-option-input[type='radio']:checked + .dg-option-control,
+.dg-option-input[data-exclusive='true']:checked + .dg-option-control {
+  background: #fff;
+  border-color: #046183;
+  border-width: 1px;
+}
+
+.dg-option-input[type='radio']:checked + .dg-option-control::after,
+.dg-option-input[data-exclusive='true']:checked + .dg-option-control::after {
+  background: #046183;
+  border-radius: 50%;
+  content: '';
+  height: 17px;
+  width: 17px;
+}
+
+/* ---------- Actions (Back / Next / Finish) ---------- */
+
+.dg-actions {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 18px;
+  padding-top: 16px;
+}
+
+.dg-next-btn,
+.dg-back-btn {
+  align-items: center;
+  border-radius: 999px;
+  cursor: pointer;
+  display: inline-flex;
+  font-family: inherit;
+  font-size: 1.05rem;
+  font-weight: 800;
+  gap: 15px;
+  padding: 14px 28px;
+}
+
+.dg-next-btn,
+.dg-next-btn:hover {
+  background: #046183;
+  border: 2px solid #046183;
+  border-radius: 30px;
+  color: #fff;
+  padding: 17px 24px 17px 24px;
+  position: relative;
+  margin-top: 0;
+  margin-left: auto;
+  max-width: max-content;
+  width: max-content;
+}
+
+
+.dg-next-btn.is-disabled,
+.dg-next-btn:disabled,
+.dg-next-btn.is-disabled:hover, 
+.dg-next-btn:disabled:hover{
+  background: #046183;
+  color: #fff;
+  opacity: 0.5;
+}
+
+.dg-next-arrow {
+  background: url(/icons/cta-button-arrow-20-global-white.svg);
+  background-repeat: no-repeat;
+  height: 10px;
+  width: 21px;
+}
+
+.dg-back-btn,
+.dg-back-btn:hover  {
+  background: #fff;
+  border: 2px solid #046183;
+  border-radius: 30px;
+  color: #046183;
+  padding: 17px 24px 17px 24px;
+  position: relative;
+  margin-top: 0;
+  max-width: 124px;
+  width: 124px;
+}
+
+.dg-back-arrow {
+  background: url(/icons/cta-button-arrow-20-global-blue.svg);
+  background-repeat: no-repeat;
+  transform: rotate(180deg);
+  height: 10px;
+  width: 21px;
+}
+
+/* ---------- DID YOU KNOW? callout ---------- */
+
+.dg-callout {
+  align-items: flex-start;
+  border-top: 1px solid #d1d1d1;
+  display: flex;
+  gap: 12px;
+}
+
+.dg-callout[hidden] {
+  display: none;
+}
+
+.dg-callout-wrapper {
+  display: flex;
+  gap:9px;
+  padding: 16px 49px 20px 30px;
+}
+
+.dg-callout-icon {
+  background-image: url(/icons/ddg-flag-17-desktop.svg);
+  background-repeat: no-repeat;
+  flex-shrink: 0;
+  height: 22px;
+  margin-top: 3px;
+  width: 17px;
+}
+
+.dg-callout-text {
+  color: #333;
+  font-size: 14px;
+  line-height: 18px;
+  margin: 0;
+}
+
+.dg-callout-heading {
+  color: #c02c57;
+  font-style: italic;
+  font-weight: 800;
+}
+
+/*Doctor Discussion — Results screen styles*/
+
+/* ---------- Results header (no badge, no progress bar) ---------- */
+
+.dg-results-header-wrapper {
+  border-radius: 12px 12px 0 0;
+  overflow: hidden;
+}
+
+.dg-results-header {
+  background: #046183;
+  justify-content: center;
+  padding: 16px 0px;
+}
+
+.dg-results-header-title {
+  font-family: var(--body-font-family);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 22px;
+  text-align: center;
+  margin: 0px;
+}
+
+/* ---------- Body wrapper ---------- */
+
+.dg-results-card {
+  padding-bottom: 4px;
+}
+
+.dg-results-body {
+  box-sizing: border-box;
+  padding: 20px 51px 24px 51px;
+}
+
+.dg-results-title {
+  color: #046183;
+  font-family: var(--body-font-family);
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 29px;
+  margin: 0 0 22px;
+  padding: 0;
+  text-align: center;
+}
+
+/* ---------- Numbered question / answer list ---------- */
+
+.dg-results-list {
+  counter-reset: dg-results-counter;
+  list-style: none;
+  margin: 0 0 20px;
+  padding-left: 22px; 
+}
+
+.dg-results-item {
+  counter-increment: dg-results-counter;
+  padding-left: 22px;
+  position: relative;
+  margin-bottom: 18px;
+}
+
+.dg-results-item::before {
+  color: #484848;
+  content: counter(dg-results-counter) ".";
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 22px;
+  left: -22px;
+  position: absolute;
+  top: 0;
+}
+
+.dg-results-question {
+  color: #484848;
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 22px;
+  margin: 0px;
+}
+
+.dg-results-answer {
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  line-height: 22px;
+  margin: 0;
+}
+
+.dg-results-answer-label {
+  color: #484848;
+  font-weight: 700;
+}
+
+.dg-results-answer-value {
+  color: #046183;
+  font-weight: 700;
+}
+
+/* ---------- Download / Email ---------- */
+
+.dg-results-download-label {
+  color: #1f2937;
+  margin: 0 0 16px;
+  font-family: var(--body-font-family);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 17px;
+}
+
+.dg-results-actions {
+  align-items: center;
+  display: flex;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.dg-results-download-btn,
+.dg-results-email-btn {
+  align-items: center;
+  background-color: #046183;
+  border: 1px solid #046183;;
+  border-radius: 30px;
+  color: #fff;
+  cursor: pointer;
+  display: inline-flex;
+  font-family: var(--body-font-family);
+  font-weight: 700;
+  font-size: 18px;
+  gap: 10px;
+  justify-content: center;
+  line-height: 22px;
+  padding: 19px 28px 19px 27px;
+  position: relative;
+  transition: all .2s ease-in-out;
+}
+
+.dg-results-download-btn:hover,
+.dg-results-email-btn:hover,
+.dg-results-download-btn:focus,
+.dg-results-email-btn:focus  {
+  background: #7ebcc6;
+  border-color: #7ebcc6;
+}
+
+.dg-download-icon,
+.dg-email-icon {
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  flex-shrink: 0;
+  height: 19px;
+  width: 18px;
+}
+
+.dg-download-icon {
+  background-image: url(/icons/download-white-20-desktop.svg);
+}
+
+.dg-email-icon {
+  background-image: url(/icons/ddg-mail-white-20-mobile.svg);
+}
+
+.dg-results-note {
+  color: #484848;
+  font-family: var(--body-font-family);
+  font-size: 14px;
+  font-style: italic;
+  line-height: 18px;
+  margin: 0px;
+  padding-bottom:17px;
+}
+
+/* ---------- Dividers ---------- */
+
+.dg-results-divider {
+  background: #e0e0e0;
+  border: 1px solid #a4a4a4;
+  height: 1px;
+  margin: 0;
+}
+
+/* ---------- CTA heading + Retake ---------- */
+
+.dg-results-cta-heading {
+  color: #333;
+  font-family: var(--body-font-family);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 28px;
+  margin: 25px 0 9px 0;
+}
+
+.dg-results-retake-btn {
+  align-items: center;
+  background: none;
+  border: none;
+  color: #046183;
+  cursor: pointer;
+  display: inline-flex;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  gap: 14px;
+  margin-bottom: 25px;
+  padding: 0;
+}
+
+.dg-results-retake-btn:hover,
+.dg-results-retake-btn:focus {
+  background: none;
+  border: none;
+  color: #046183;
+  text-decoration: none;
+}
+
+.dg-retake-icon {
+  background-image: url(/icons/icon-retake-21-mobile.svg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  flex-shrink: 0;
+  height: 16px;
+  width: 21px;
+}
+
+/* ---------- Closing tips callout ---------- */
+
+.dg-results-tips {
+  color: #c0392b;
+  padding-top:23px;
+}
+
+.dg-results-tips-heading {
+  color: #333;
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px; 
+  margin: 0 0 12px;
+}
+
+.dg-results-tips-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.dg-results-tips-list li {
+  color: #666;
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  line-height: 18px;
+  margin-bottom: 8px;
+  padding-left: 16px;
+  position: relative; 
+}
+
+.dg-results-tips-list li:last-child {
+  margin-bottom: 0;
+}
+
+.dg-results-tips-list li::before {
+  color: #c02c57;
+  content: '•';
+  font-size: 15px;
+  line-height: 20px;
+  left: 0;
+  position: absolute;
+  top: 0;
+}
+
+.dg-results-vyepti-link {
+  color: #046183;
+  font-size: 18px;
+  font-weight: bold;
+  line-height: 26px;
+  text-decoration: underline;
+}
+
+.dg-results-vyepti-link:hover {
+  color: #7ebcc6;
+  text-decoration: underline;
+}
+
+
+/*==== Mobile CSS ====*/
+
+/*-- Email Modal --*/
+@media (max-width: 767px) {
+  .dg-modal {
+    padding: 24px 20px 40px 20px;
+  }
+
+  .dg-modal-required-note {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .dg-modal-form {
+    margin: 0;
+  }
+
+/*-- Result screen --*/
+  main .section div.doctor-discussion-wrapper {
+    padding: 24px 15px;
+  }
+
+  .dg-results-header-title {
+    font-size: 18px;
+  }
+
+  .dg-results-actions {
+    flex-direction: column;
+    gap:16px;
+    margin-bottom: 16px;
+  }
+
+  .dg-results-note {
+    padding-bottom: 9px;
+    text-align:center;
+  }
+
+  .dg-results-cta-heading {
+    margin: 20px 0 16px 0;
+    text-align: center;
+  }
+
+  .dg-results-retake-btn {
+    display: flex;
+    margin: 0 auto 9px auto;
+  }
+
+  .dg-results-tips {
+    padding-top: 15px;
+  }
+
+  .dg-results-body {
+    padding: 20px 16px 17px;
+  }
+
+  .dg-results-tips-list li {
+    margin-bottom: 12px;
+  }
+
+  .dg-results-item {
+    padding-left: 0;
+  }
+
+  .dg-results-item::before {
+    left: -16px;
+  }
+
+  /*=== 9 Step Responsive CSS*===*/
+  .dg-form {
+    padding: 10px 18px 0px 18px;
+  }
+
+  .dg-callout-wrapper {
+    padding: 16px 36px 16px 16px;
+  }
+
+  .dg-header-title {
+    font-size: 18px;
+    line-height: 22px;
+    margin-top: 8px;
+  }
+
+  .dg-header {
+    align-items: flex-start;
+    min-height: 65px;
+    padding:12px 17px 13px 13px;
+  }
+
+  .dg-header-badge {
+    height: 23px;
+    width: 23px;
+  }
+
+  /*---Doctor Thankyou---*/
+  .dg-thankyou-content { 
+    padding: 40px 20px;
+  }
+
+}
+
+
+/* =====================================================================
+ * Modal styles (email modal + thank-you modal)
+ * NOTE: this used to be duplicated 3x in this file from earlier edits
+ * that appended instead of replacing. Collapsed here into one section —
+ * do not paste another copy below; edit this one in place.
+ * ===================================================================== */
+
+.d-none {
+  display: none !important;
+}
+
+/* Fallback background so any exposed edge (short pages, odd viewport
+   sizes) matches the block's grey instead of flashing browser-default
+   white. */
+html,
+body {
+  background: #eef3f6;
+}
+
+/* The .modal element IS the backdrop — a fixed full-screen overlay that
+   also acts as the scroll container, so the page behind it never
+   scrolls. No separate .modal-backdrop div is created in JS.
+   display:flex + align-items/justify-content:center is what centers
+   .modal-dialog both horizontally and vertically — .modal-dialog itself
+   must NOT carry its own position/top/left/transform, or it will fight
+   this centering. */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 1050;
+  background: rgba(20, 30, 40, 0.55);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+.modal.show {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+html.modal-open,
+body.modal-open {
+  height: 100%;
+}
+
+.modal-dialog {
+  position: relative;
+  top: auto;
+  left: auto;
+  right: auto;
+  bottom: auto;
+  transform: none;
+  width: 100%;
+  max-width: 535px;
+  margin: 0;
+}
+
+.modal-content {
+  position: relative;
+  background: #eef3f6;
+  border-radius: 10px;
+  padding: 24px 84px 40px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.patient-form-container {
+  padding: 0 11px;
+}
+
+.dg-modal-close-btn {
+  position: absolute;
+  top: 27px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 6px;
+  padding: 0;
+}
+
+.dg-modal-close-btn:hover {
+  background: transparent;
+}
+
+.dg-modal-close-btn::before {
+  content: "\2715";
+  font-size: 22px;
+  color: #333;
+}
+
+.dg-modal-close-btn:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.dg-modal-title {
+  margin: 0 0 16px;
+  font-size: 30px;
+  font-weight: 700;
+  color: #1f4e6b;
+  text-align: center;
+}
+
+.dg-modal-required-note {
+  margin: 0px 0px 8px;
+  font-style: italic;
+  font-size: 14px;
+  color: #444;
+}
+
+.dg-modal-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.dg-modal-field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 22px;
+}
+
+.dg-modal-field-label {
+  font-size: 17px;
+  font-weight: 700;
+  color: #1f4e6b;
+  padding-bottom:8px;
+}
+
+.dg-modal-input {
+  font-size: 16px;
+  position: relative;
+  border-radius: 5px;
+  padding: 25px 15px 21px 15px;
+  font-weight: 600;
+  border: 1px solid #484848;
+  box-sizing: border-box;
+  border-radius: 10px;
+  height: 0;
+  line-height: 22px;
+  font-family: var(--body-font-family);
+}
+
+
+.dg-modal-input:focus {
+  outline: none;
+  border: 1px solid #b9c4cc;
+  box-shadow: 0 0 0 .2rem rgba(0, 123, 255, .25);
+}
+
+.dg-modal-input.is-invalid {
+  border: 1px solid #b9c4cc;
+}
+
+.dg-modal-field-error {
+  color: #c02c57;
+  font-size: 13px;
+  margin: 0;
+}
+
+/* Consent checkbox row */
+.dg-modal-consent-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  cursor: pointer;
+}
+
+.dg-modal-consent-input {
+  margin-top: 4px;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  accent-color: #1f4e6b;
+}
+
+.dg-modal-consent-input.is-invalid {
+  outline: 2px solid #c0392b;
+  outline-offset: -1px;
+}
+
+.dg-modal-consent-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.dg-modal-consent-text {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #333;
+}
+
+.dg-modal-legal-link {
+  color: #1f4e6b;
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+.dg-modal-send-btn {
+  align-self: center;
+  margin-top: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 32px;
+  border: none;
+  border-radius: 999px;
+  background: #1f4e6b;
+  color: #fff;
+  font-weight: 700;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.dg-modal-send-btn:hover {
+  background: #163a51;
+}
+
+.dg-modal-send-arrow {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+}
+
+.dg-modal-send-arrow::before {
+  content: "\2192";
+}
+
+.success-message,
+.error-message {
+  font-size: 15px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.error-message {
+  color: #c0392b;
+  margin-top: 12px;
+}
+
+/* ---------- Thank You modal ---------- */
+
+.dg-thankyou-content {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    padding: 40px 84px;
+    text-align: center;
+}
+
+.dg-thankyou-content picture {
+  display: block;
+}
+
+.dg-thankyou-content p {
+  display: block;
+  font-family: var(--body-font-family);
+  color: #333;
+  font-size: 22px;
+  line-height: 22px;
+  margin: 0;
+}
+
+.dg-thankyou-icon {
+    height: 84px;
+    object-fit: contain;
+    width: 84px;
+}
+
+.dg-thankyou-title {
+    color: #1f4e6b;
+    font-size: 28px;
+    font-weight: 700;
+    margin-top: 24px;
+}
+
+#thank-you {
+  font-size: 22px;
+  font-weight: 700;
+  margin-top: 16px;
+  margin-bottom: 8px;
+  color: #046183;
+}
+
+.dg-thankyou-description {
+    color: #333;
+    font-size: 16px;
+    line-height: 1.5;
+    margin-top: 12px;
+}
+
+.dg-thankyou-close {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+}
+
+.dg-thankyou-close-btn {
+  position: absolute;
+  top: 11px;
+  right: 11px;
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 6px;
+  padding: 0;
+}
+
+.dg-thankyou-close-btn:hover {
+  background: transparent;
+}
+
+.dg-thankyou-close-btn::before {
+  content: "\2715";
+  font-size: 22px;
+  color: #333;
+}
+
+.dg-modal-success-icon {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 1px solid var(--color-border, #cfd8e3);
+  margin-bottom: 20px;
+}
+
+.dg-modal-success-heading {
+  color: var(--color-brand, #2c5c86);
+  font-size: 28px;
+  margin: 0 0 8px;
+}
+
+.dg-modal-success-text {
+  font-size: 20px;
+  margin: 0;
+}
