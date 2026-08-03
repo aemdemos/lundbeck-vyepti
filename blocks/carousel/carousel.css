@@ -16,24 +16,37 @@
   scroll-behavior: smooth; /* @boilerplate */
   scroll-snap-type: x mandatory; /* @boilerplate */
   overflow: scroll clip; /* @boilerplate */
+  width: 80%;
+  justify-self: anchor-center;
 }
 
 .carousel .carousel-slides::-webkit-scrollbar { /* @boilerplate */
   display: none; /* @boilerplate */
 }
 
-/* Clean card layout: image beside content on a light surface (not a dark-overlay hero). */
+/* Simple inline layout: small icon beside text, centered, no card chrome
+   (used e.g. for the post-signup confirmation slide). Not a boxed card and
+   not the boilerplate dark-overlay hero. */
 .carousel .carousel-slide {
   flex: 0 0 100%;
   scroll-snap-align: start;
+  font-size: 18px;
   display: flex;
-  flex-direction: column;
-  align-items: stretch;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
   justify-content: flex-start;
+  gap: var(--carousel-card-gap);
   position: relative;
   width: 100%;
   border-radius: var(--carousel-radius);
-  overflow: hidden;
+  overflow: visible;
+  margin: 40px 0 40px 0;
+}
+
+em {
+    font-style: normal;
+    color: #046183;
 }
 
 .carousel .carousel-slide > div {
@@ -41,8 +54,9 @@
 }
 
 .carousel .carousel-slide .carousel-slide-image {
-  width: 100%;
-  height: var(--carousel-card-image-height);
+  flex: 0 0 var(--carousel-card-icon-size);
+  width: var(--carousel-card-icon-size);
+  height: var(--carousel-card-icon-size);
   line-height: 0;
 }
 
@@ -53,9 +67,9 @@
 }
 
 .carousel .carousel-slide .carousel-slide-image picture > img {
-  height: 100%;
   width: 100%;
-  object-fit: cover;
+  height: 100%;
+  object-fit: contain;
 }
 
 .carousel .carousel-slide .carousel-slide-content {
@@ -66,6 +80,7 @@
   background-color: transparent;
   position: relative;
   width: auto;
+  flex: 1 1 260px;
 }
 
 .carousel .carousel-slide-content h2,
@@ -314,26 +329,9 @@
 }
 
 @media (width >= 768px) {
-  .carousel .carousel-slide {
-    flex-direction: row;
-    align-items: stretch;
-  }
-
-  .carousel .carousel-slide .carousel-slide-image {
-    flex: 0 0 var(--carousel-card-image-flex);
-    max-width: var(--carousel-card-image-flex);
-    height: var(--carousel-card-image-height-desktop);
-  }
-
-  .carousel .carousel-slide .carousel-slide-content {
-    flex: 1 1 0;
-    width: auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-
-  /* Side-by-side: quote left, photo right at full card height. */
+  /* Side-by-side: quote left, photo right at full card height. Default
+     (non-testimonial) variant is already row-aligned at every breakpoint,
+     so it needs no desktop-only overrides here. */
   .carousel.testimonial .carousel-slide {
     flex-direction: row;
     align-items: stretch;
