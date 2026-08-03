@@ -23,6 +23,36 @@ export default function decorate(block) {
   /* Mark the inline row so CSS can control its visibility */
   inlineRow.classList.add('isi-inline');
 
+  /* Split the inline copy into two groups so the layout can reorder them per
+     breakpoint (matches source): APPROVED USE leads on tablet/desktop but drops
+     below the safety copy on mobile. The authored cell is a flat sequence:
+     [APPROVED USE h + p][IMPORTANT SAFETY h + …rest]. Everything from the second
+     heading onward becomes the "safety" group; the leading heading + paragraph
+     become the "approved" group. */
+  const inlineCell = inlineRow.querySelector(':scope > div');
+  if (inlineCell) {
+    const headings = [...inlineCell.querySelectorAll(':scope > h1, :scope > h2, :scope > h3, :scope > h4, :scope > h5, :scope > h6')];
+    const safetyHeading = headings[1];
+    if (safetyHeading) {
+      const approvedGroup = document.createElement('div');
+      approvedGroup.className = 'isi-inline-approved';
+      const safetyGroup = document.createElement('div');
+      safetyGroup.className = 'isi-inline-safety';
+
+      /* Move the leading heading + everything up to (not including) the safety
+         heading into the approved group; the rest into the safety group. */
+      let node = inlineCell.firstElementChild;
+      let target = approvedGroup;
+      while (node) {
+        const next = node.nextElementSibling;
+        if (node === safetyHeading) target = safetyGroup;
+        target.append(node);
+        node = next;
+      }
+      inlineCell.append(approvedGroup, safetyGroup);
+    }
+  }
+
   /* ── 2. Build the fixed bottom bar ──────────────────────────── */
   const bar = document.createElement('div');
   bar.className = 'isi-bar';

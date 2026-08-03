@@ -17,6 +17,7 @@
   --isi-inline-paragraph-padding-bottom: 22px;
   --isi-inline-para-before-heading-padding-bottom: 16px;
   --isi-inline-list-padding-bottom: 16px;
+  --isi-inline-approved-padding-top: 24px;
   --isi-bar-z-index: 5; /* @boilerplate */
   --isi-bar-expanded-z-index: 10; /* @boilerplate */
   --isi-bar-background: var(--background-color); /* @boilerplate */
