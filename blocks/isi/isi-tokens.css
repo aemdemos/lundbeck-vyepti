@@ -4,7 +4,9 @@
   --isi-line-height: 1.5; /* @boilerplate */
   --isi-list-line-height: 1.7; /* @boilerplate */
   --isi-list-item-margin-bottom: 10px; /* @boilerplate */
-  --isi-inline-padding-bottom: 64px; /* @boilerplate */
+  --isi-section-margin-top: 48px;
+  --isi-section-padding-top: 57px;
+  --isi-section-padding-bottom: 32px;
   --isi-heading-color: var(--brand-primary-dark); /* @boilerplate */
   --isi-inline-heading-color: var(--brand-primary);
   --isi-heading-font-size: 18px; /* @boilerplate */
@@ -12,8 +14,9 @@
   --isi-heading-line-height: 22px; /* @boilerplate */
   --isi-heading-margin-bottom: 0; /* @boilerplate */
   --isi-inline-heading-padding-bottom: 16px;
-  --isi-inline-heading-padding-top: 16px;
   --isi-inline-paragraph-padding-bottom: 22px;
+  --isi-inline-para-before-heading-padding-bottom: 16px;
+  --isi-inline-list-padding-bottom: 16px;
   --isi-bar-z-index: 5; /* @boilerplate */
   --isi-bar-expanded-z-index: 10; /* @boilerplate */
   --isi-bar-background: var(--background-color); /* @boilerplate */
@@ -66,11 +69,18 @@
     --isi-bar-heading-padding-bottom: 18px;
     --isi-bar-paragraph-padding-bottom: 22px;
     --isi-toggle-right: var(--isi-toggle-right-tablet);
+
+    /* Roomier inner spacing at tablet+ (source: padding 64px 0). */
+    --isi-section-padding-top: 64px;
+    --isi-section-padding-bottom: 64px;
   }
 }
 
 @media (width >= 992px) { /* @boilerplate */
   :root { /* @boilerplate */
     --isi-toggle-right: var(--isi-toggle-right-desktop); /* @boilerplate */
+
+    /* Wider gap above the divider on desktop (source: margin-top 64px). */
+    --isi-section-margin-top: 64px;
   }
 }

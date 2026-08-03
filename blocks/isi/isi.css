@@ -1,14 +1,22 @@
 @import url('./isi-tokens.css');
 
-/* ── In-page ISI section (matches vyepti.com full-width divider) ─ */
+/* ── In-page ISI section (matches vyepti.com full-width divider) ─
+   The source panel (#SafetyPanelInfo) sets, around a full-width top border:
+     • margin-top  48px (mobile) / 64px (desktop) — space above the divider
+     • padding-top 57px (mobile) / 64px (tablet+) — space below the divider
+     • padding-bottom 32px (mobile) / 64px (tablet+) — space before the footer
+   Here the border lives on the section, so the same margin/padding go on it. */
 main .section.isi-container { /* @boilerplate */
+  margin-top: var(--isi-section-margin-top);
+  margin-bottom: 0;
+  padding-top: var(--isi-section-padding-top);
+  padding-bottom: var(--isi-section-padding-bottom);
   border-top: var(--isi-section-border-width) solid var(--isi-section-border-color); /* @boilerplate */
 }
 
 /* ── In-page inline content (Row 2) ───────────────────────────── */
 main .isi .isi-inline { /* @boilerplate */
   display: block; /* @boilerplate */
-  padding-bottom: var(--isi-inline-padding-bottom); /* @boilerplate */
 }
 
 main .isi .isi-inline > div { /* @boilerplate */
@@ -28,17 +36,20 @@ main .isi p {
   padding-bottom: var(--isi-inline-paragraph-padding-bottom);
 }
 
-/* Paragraph leading directly into a list has no gap (matches original) */
-main .isi p:has(+ ul) {
-  padding-bottom: 0;
+/* Paragraph directly before a heading uses the tighter heading gap (matches
+   original ~16px between a body paragraph and the next section heading). */
+main .isi p:has(+ h3) {
+  padding-bottom: var(--isi-inline-para-before-heading-padding-bottom);
 }
 
 main .isi p:last-child {
   padding-bottom: 0;
 }
 
+/* List sits below its intro paragraph with the source's ~16px trailing gap. */
 main .isi ul {
   margin: 0;
+  padding-bottom: var(--isi-inline-list-padding-bottom);
 }
 
 main .isi li { /* @boilerplate */
@@ -55,10 +66,8 @@ main .isi h3 {
   padding-bottom: var(--isi-inline-heading-padding-bottom);
 }
 
-/* Space above subsequent headings (e.g. IMPORTANT SAFETY after APPROVED USE) */
-main .isi h3:not(:first-child) {
-  padding-top: var(--isi-inline-heading-padding-top);
-}
+/* No top padding on subsequent headings — the gap above a heading is supplied
+   by the preceding paragraph's padding-bottom (matches original ~16px). */
 
 main .isi a { /* @boilerplate */
   text-decoration: underline; /* @boilerplate */
