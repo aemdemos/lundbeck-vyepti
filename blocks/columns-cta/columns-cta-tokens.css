@@ -25,6 +25,32 @@
   --columns-cta-callout-height: 10px;
   --columns-cta-callout-image: url("/icons/half-callout.svg");
 
+  /* single-column desktop variant: corner shard graphic (left, vertically
+     centered) + horizontal layout. Matches www.vyepti.com/how-vyepti-works
+     single columns-cta. Symmetric vertical padding gives the band enough height
+     for the graphic to keep white margin above and below (not edge-to-edge). */
+  --columns-cta-corner-image: url("/icons/cta-corner-shape.svg");
+  --columns-cta-corner-width: 100px;
+
+  /* larger left padding clears the corner shard so text starts to its right */
+  --columns-cta-single-padding: 44px 60px 44px 100px;
+  --columns-cta-single-row-gap-desktop: 28px;
+
+  /* breathing room below the eyebrow (its <strong> can't carry the spacing) */
+  --columns-cta-single-eyebrow-gap: 8px;
+
+  /* CTA button sized to ~260x62 at desktop (matches the source) */
+  --columns-cta-single-button-padding: 18px 24px;
+
+  /* single-column card has all four corners rounded (the stacked variant only
+     rounds the top because its striped callout sits flush at the bottom) */
+  --columns-cta-single-card-radius: 8px;
+
+  /* single-column description copy is larger/airier than the stacked variant
+     (18px / 1.5), matching the source text block */
+  --columns-cta-single-text-font-size: var(--body-font-size-ms);
+  --columns-cta-single-text-line-height: 1.5;
+
   /* eyebrow (teal) */
   --columns-cta-eyebrow-color: var(--brand-primary);
   --columns-cta-eyebrow-font-size: var(--heading-font-size-m);
