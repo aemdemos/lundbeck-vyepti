@@ -1,4 +1,4 @@
-import getBrightcoveScriptTag  from '../../scripts/config.js';
+import { getBrightcoveScriptTag } from '../../scripts/config.js';
 import getTranscript from './transcript.js';
 
 export default function decorate(brightcove) {
