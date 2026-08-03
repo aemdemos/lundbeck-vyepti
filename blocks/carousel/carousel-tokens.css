@@ -36,7 +36,7 @@
      Layout: light card with the quote on one side and the patient photo on the other,
      the photo filling the full card height. */
   --carousel-testimonial-radius: 6px;
-  --carousel-testimonial-gap-section: 40px;
+  --carousel-testimonial-gap-section: 40px; /* mobile; scaled up at tablet+ below */
   --carousel-testimonial-surface: var(--card-bg-light);
   --carousel-testimonial-content-padding: 24px 24px 32px;
   --carousel-testimonial-content-padding-desktop: 0 48px 0 56px;
@@ -138,10 +138,20 @@ main .carousel.testimonial .carousel-slide .carousel-slide-content {
   order: 1;
 }
 
+/* Breathing room above the testimonial so it doesn't crowd the content section
+   directly above it (the default 32px section gap reads as too tight here). */
+.carousel.testimonial {
+  margin-top: var(--carousel-testimonial-gap-section);
+}
+
 /* Tablet+ : side-by-side. The photo fills the card height and drives it, showing
    at natural proportions (as on the source). Tablet + small desktop ship a tall
    PORTRAIT photo, so the image column is wide (52%) to match the source. */
 @media (width >= 768px) {
+  :root {
+    --carousel-testimonial-gap-section: 64px;
+  }
+
   main .carousel.testimonial .carousel-slide {
     height: auto;
   }
