@@ -1,6 +1,6 @@
 // ui.js
 
-export function getElements(locator) {
+export default function getElements(locator) {
   return {
     searchBtn: locator.querySelector('.locator-search-btn'),
     zipInput: locator.querySelector('#locator-zip'),

@@ -1,4 +1,4 @@
-export const mockdata = {
+export default  {
     "status": true,
     "result": [
         {

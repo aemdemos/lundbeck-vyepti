@@ -1,9 +1,9 @@
 // search.js
 import { clearMarkers } from './map.js';
-import { searchLocations } from './api.js';
-import { renderResults } from './template.js';
+import  searchLocations  from './api.js';
+import  renderResults  from './template.js';
 
-export async function handleSearch({
+export default async function handleSearch({
   locator,
   ui,
   settings,
@@ -14,9 +14,8 @@ export async function handleSearch({
   if (!zip) {
     ui.errorLabel.classList.remove('selectHide');
     return;
-  } else {
+  } 
     ui.errorLabel.classList.add('selectHide');
-  }
 
   searchBtn.textContent = 'SEARCHING...';
   searchBtn.disabled = true;
@@ -30,8 +29,6 @@ export async function handleSearch({
   const distance = mileBlock.dataset.value || '25';
  
   try {
-
-     alert("Map API call");
     const results = await searchLocations(
       zip,
       distance,

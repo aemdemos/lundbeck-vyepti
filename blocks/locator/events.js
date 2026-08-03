@@ -1,5 +1,6 @@
-import { handleSearch } from './search.js';
-export function registerEvents({
+import handleSearch  from './search.js';
+
+export default function registerEvents({
   locator,
   ui,
   settings,

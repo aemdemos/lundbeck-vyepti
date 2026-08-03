@@ -2,7 +2,7 @@
 /**
  * Reusable Custom Dropdown Component Initializer
  */
-export function initCustomDropdown(dropdownContainer, type = 'select', onSelectCallback = null) {
+export default function initCustomDropdown(dropdownContainer, type = 'select', onSelectCallback = null) {
   if (!dropdownContainer) return null;
 
   const selectTrigger = dropdownContainer.querySelector('.select');
@@ -31,7 +31,14 @@ export function initCustomDropdown(dropdownContainer, type = 'select', onSelectC
       const textValue = targetItem.textContent;
       const dataValue = targetItem.getAttribute('data-value');
 
-      selectTrigger.innerHTML = `${textValue} <span class="select-arrow"></span>`;
+      selectTrigger.textContent = '';
+
+      selectTrigger.append(document.createTextNode(`${textValue} `));
+
+      const arrow = document.createElement('span');
+      arrow.className = 'select-arrow';
+
+      selectTrigger.appendChild(arrow);
       dropdownContainer.setAttribute('data-value', dataValue);
 
       itemsContainer.classList.add('selectHide');

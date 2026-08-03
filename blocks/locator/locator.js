@@ -1,14 +1,11 @@
-import { loadScript } from '../../scripts/aem.js';
 import { getSettings } from '../../scripts/config.js';
-import { createSearchForm, createMapContainer, createFacilityCards } from './createMarkup.js';
-import { initCustomDropdown } from './dropdwon.js';
-import { initializeMap, clearMarkers, addMarker, geocodeZip } from './map.js';
-import { searchLocations } from './api.js';
-import { getElements } from './ui.js';
-import { registerEvents } from './events.js';
-/* global google */
-// export let map;
-// export let markers = [];
+import createSearchForm from './createTemplate/searchForm.js';
+import createFacilityCards from './createTemplate/facilityCards.js';
+import createMapContainer from './createTemplate/mapContainer.js';
+import  initCustomDropdown from './dropdwon.js';
+import { initializeMap } from './map.js';
+import  getElements  from './ui.js';
+import  registerEvents  from './events.js';
 
 /**
  * Default Component Export Definition Core Function

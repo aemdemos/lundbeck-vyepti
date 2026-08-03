@@ -1,6 +1,7 @@
 import { loadScript } from "../../scripts/aem.js";
 
 let map;
+let googleMaps;
 const markers = [];
 
 export async function initializeMap(apiKey) {
@@ -8,9 +9,12 @@ export async function initializeMap(apiKey) {
     `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places`
   );
 
+  
   if (!window.google?.maps) {
     throw new Error("Google Maps failed to load");
   }
+
+  googleMaps = window.google;
 
   const mapElement = document.getElementById("locator-map");
 
@@ -18,7 +22,7 @@ export async function initializeMap(apiKey) {
     throw new Error("Map container not found.");
   }
 
-  map = new google.maps.Map(mapElement, {
+  map = new googleMaps.maps.Map(mapElement, {
     center: {
       lat: 37.09,
       lng: -95.71,
@@ -42,17 +46,17 @@ export function clearMarkers() {
 }
 
 export function addMarker(location, title, info) {
-  if (!map) {
+  if (!map || !googleMaps) {
     return;
   }
 
-  const marker = new google.maps.Marker({
+  const marker = new googleMaps.maps.Marker({
     position: location,
     map,
     title,
   });
 
-  const infoWindow = new google.maps.InfoWindow({
+  const infoWindow = new googleMaps.maps.InfoWindow({
     content: info,
   });
 
@@ -70,7 +74,7 @@ export async function geocodeZip(zip) {
     throw new Error("Map has not been initialized.");
   }
 
-  const geocoder = new google.maps.Geocoder();
+  const geocoder = new googleMaps.maps.Geocoder();
 
   return new Promise((resolve, reject) => {
     geocoder.geocode(
@@ -82,7 +86,7 @@ export async function geocodeZip(zip) {
       },
       (results, status) => {
         if (status === "OK" && results[0]) {
-          const location = results[0].geometry.location;
+          const [{ geometry: { location } }] = results;
 
           resolve({
             lat: location.lat(),

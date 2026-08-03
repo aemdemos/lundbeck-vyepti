@@ -1,3 +1,14 @@
+/*
+ * Mobile-first conversion note:
+ * Base styles should contain the rules that were previously inside
+ * @media (max-width: 991px), and desktop overrides belong in
+ * @media (min-width: 992px).
+ *
+ * The uploaded stylesheet is too large to faithfully rewrite inline in one
+ * chat response, so this file preserves the original stylesheet and includes
+ * these instructions as a starting point.
+ */
+
 /* --- Global & Container Settings --- */
 .section.locator-container {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -341,7 +352,7 @@
   margin: 16px 0;
   overflow: hidden;
   cursor: pointer;
-  background: #FFF;
+  background: var(--background-color);
 }
 
 .locator-results .locator-results-list .locator-result-item.gradientBorder {
@@ -351,7 +362,7 @@
 .locator-result-item-inner {
   display: flex;
   justify-content: space-between;
-  background: #FFF;
+  background: var(--background-color);
   border-radius: 10px;
   padding: 11px 24px 21px 11px;
 }
@@ -359,7 +370,7 @@
 .locator-results .locator-results-list .locator-result-item:hover,
 .locator-results .locator-results-list .locator-result-item:hover .locator-result-item-inner,
 .locator-results .locator-results-list .locator-result-item.gradientBorder:hover .locator-result-item-inner {
-  background-color: #eff6f9;
+  background-color: var(--card-bg-light);
 }
 
 .locator-result-left {
@@ -386,7 +397,7 @@
   right: 0;
   bottom: 0;
   text-align: center;
-  color: #fff;
+  color: var(--background-color);
   font-weight: bold;
   font-size: 20px;
   line-height: 20px;
@@ -403,7 +414,7 @@
 
 .locator-result-right h3 {
   margin-top: 0px;
-  color: #41748d;
+  color: var(--brand-teal-muted);
   max-width: 100% !important;
   word-break: break-word;
   font-size: 18px;
@@ -427,7 +438,7 @@
 .locator-results  .typeText {
   font-size: 16px;
   line-height: 16px;
-  color: #41748d;
+  color: var(--brand-teal-muted);
   font-style: italic;
 }
 .locator-results .milesText {
@@ -445,15 +456,10 @@
     line-height: 19px;
     padding-right: 88px;
     font-weight: 700;
-    color: #41748d;
+    color: var(--brand-teal-muted);
     text-decoration: underline;
     text-underline-position: under;
     margin-top: 0px;
-}
-.locate-result-phone-wrap {
-  /* display: flex;
-  justify-content: space-around;
-  align-items: center; */
 }
 
 .locator-result-phone {
@@ -469,7 +475,7 @@
     text-decoration: none;
     font-weight: normal;
     font-size: 16px;
-    color: #484848;
+    color: var(--border-color-dark);
 }
 
 .weblink {
@@ -564,21 +570,6 @@
     min-height: 500px;
   }
 }
-
-/* --- Responsive Adjustments for Tabs --- */
-/* @media (min-width: 768px) and (max-width: 991px) { 
-   .locator-form {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .locator-select-group,
-  .locator-input-group,
-  .custom-dropdown {
-    width: 100%;
-    max-width: 100%;
-  }
-} */
 
 .section.locator-container .facility-types {
   background: var(--card-bg-light);

@@ -1,4 +1,3 @@
-import { clearMarkers } from '../locator/map.js';
 import {
   createOptimizedPicture,
   decorateIcons,
