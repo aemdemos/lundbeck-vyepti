@@ -85,6 +85,10 @@ main .isi h3 {
    by the preceding paragraph's padding-bottom (matches original ~16px). */
 
 main .isi a { /* @boilerplate */
+  color: var(--isi-inline-link-color);
+  font-size: var(--isi-inline-link-font-size);
+  font-weight: var(--isi-inline-link-font-weight);
+  line-height: var(--isi-inline-link-line-height);
   text-decoration: underline; /* @boilerplate */
 }
 

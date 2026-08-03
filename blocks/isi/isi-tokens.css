@@ -2,7 +2,7 @@
 :root { /* @boilerplate */
   --isi-text-color: #484848; /* @boilerplate */
   --isi-line-height: 1.5; /* @boilerplate */
-  --isi-list-line-height: 1.7; /* @boilerplate */
+  --isi-list-line-height: 27px;
   --isi-list-item-margin-bottom: 10px; /* @boilerplate */
   --isi-section-margin-top: 48px;
   --isi-section-padding-top: 57px;
@@ -15,6 +15,10 @@
   --isi-heading-margin-bottom: 0; /* @boilerplate */
   --isi-inline-heading-padding-bottom: 16px;
   --isi-inline-paragraph-padding-bottom: 22px;
+  --isi-inline-link-color: var(--isi-text-color);
+  --isi-inline-link-font-size: 18px;
+  --isi-inline-link-font-weight: 700;
+  --isi-inline-link-line-height: 26px;
   --isi-inline-para-before-heading-padding-bottom: 16px;
   --isi-inline-list-padding-bottom: 16px;
   --isi-inline-approved-padding-top: 24px;
