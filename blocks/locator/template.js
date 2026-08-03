@@ -1,5 +1,5 @@
 import { addMarker } from './map.js';
-import { searchResult, noResult } from './createTemplate/searchResult.js';
+import { searchResult, noResult } from './createTemplate/searchresult.js';
 
 export default function renderResults(results, resultsContainer, settings) {
   resultsContainer.replaceChildren();
