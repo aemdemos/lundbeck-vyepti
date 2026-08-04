@@ -102,6 +102,7 @@ main .isi a { /* @boilerplate */
 }
 
 main .isi a:hover { /* @boilerplate */
+  color: var(--isi-inline-link-hover-color);
   text-decoration: underline; /* @boilerplate */
 }
 
