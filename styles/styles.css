@@ -107,8 +107,8 @@
   --h1-max-width: 14em; /* @libs */
 
   /* nav heights */
-  --nav-height: 200px; /* @libs */
-  --nav-height-mobile: 124px; /* fits the mobile nav content (no dead space) */
+  --nav-height: 204px; /* matches rendered nav height so main doesn't shift on load */
+  --nav-height-mobile: 138px; /* matches rendered mobile nav height (no post-load shift) */
   --nav-brand-row-height-mobile: 97px; /* @libs */
   --breadcrumbs-height: 34px; /* @libs */
   --header-height: var(--nav-height); /* @libs */

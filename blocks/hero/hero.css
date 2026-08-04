@@ -23,7 +23,7 @@ main > .section.hero-container > .hero-wrapper {
 
 .hero.single {
   position: relative;
-  min-height: var(--hero-single-min-height);
+  min-height: var(--hero-single-min-height, 350px);
   overflow: hidden;
 }
 
@@ -79,7 +79,7 @@ main > .section.hero-container > .hero-wrapper {
   overflow: hidden;
   display: flex;
   align-items: stretch;
-  min-height: var(--hero-panel-min-height);
+  min-height: var(--hero-panel-min-height, 336px);
 
   p {
     margin: 0;
@@ -543,6 +543,10 @@ main > .section.hero-container > .hero-wrapper {
     min-height: 0;
     height: 100%;
     align-self: stretch;
+
+    /* Reserve panel height from the source banner ratio (each half is 1440×1116)
+       so the panel doesn't collapse and reflow when the background image loads. */
+    aspect-ratio: 1440 / 1116;
   }
 
   /* Cancel legacy .hero.single fixed aspect-ratio — section variant is image-driven */
