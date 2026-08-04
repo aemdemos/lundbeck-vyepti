@@ -8,23 +8,42 @@ import { lockBodyScroll, unlockBodyScroll } from './doctor-discussion-modal-util
  * @param {string} [config.openEventName='dg:email-success']
  * @returns {{ open: Function, close: Function }}
  */
-export function createThankYouModalController({
+export default function createThankYouModalController({
   modalId = 'dg-thankyou-modal',
   openEventName = 'dg:email-success',
 } = {}) {
   const modal = document.getElementById(modalId);
 
+  // Forward-declared: close() and handleOutsideClick()/handleEscape() call
+  // each other, so close() needs these before they're assigned below.
+  let handleOutsideClick;
+  let handleEscape;
+
+  // Closes modal and unlocks scroll.
+  // Defined above handleOutsideClick since the two reference each other.
+  function close() {
+    if (!modal) return;
+    modal.classList.remove('show');
+    modal.style.display = 'none';
+
+    unlockBodyScroll();
+
+    document.body.removeEventListener('click', handleOutsideClick);
+    document.removeEventListener('keydown', handleEscape);
+  }
+
   // Closes modal if user clicks the backdrop (the .modal wrapper itself)
   // outside the .modal-dialog content.
-  function handleOutsideClick(event) {
+  handleOutsideClick = (event) => {
     const modalDialog = modal.querySelector('.modal-dialog');
     if (modalDialog && !modalDialog.contains(event.target)) {
       close();
     }
-  }
-  function handleEscape(event) {
+  };
+
+  handleEscape = (event) => {
     if (event.key === 'Escape') close();
-  }
+  };
 
   // Opens modal. 
   function open() {
@@ -38,18 +57,6 @@ export function createThankYouModalController({
       document.body.addEventListener('click', handleOutsideClick);
     }, 0);
     document.addEventListener('keydown', handleEscape);
-  }
-
-  // Closes modal and unlocks page scroll.
-  function close() {
-    if (!modal) return;
-    modal.classList.remove('show');
-    modal.style.display = 'none';
-
-    unlockBodyScroll();
-
-    document.body.removeEventListener('click', handleOutsideClick);
-    document.removeEventListener('keydown', handleEscape);
   }
 
   // The only way this modal ever opens: a successful email submission.

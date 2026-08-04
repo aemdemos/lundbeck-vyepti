@@ -9,7 +9,7 @@ import { lockBodyScroll, unlockBodyScroll } from './doctor-discussion-modal-util
  * @param {Object} config.quizData - Quiz payload object to merge with form input
  * @returns {{ open: Function, close: Function, handleSubmit: Function }}
  */
-export function createEmailModalController({ modalId = "mq-modal", formId = "emailForm", quizData = {} } = {}) {
+export default function createEmailModalController({ modalId = "mq-modal", formId = "emailForm", quizData = {} } = {}) {
   const modal = document.getElementById(modalId);
   const form = document.getElementById(formId);
 
@@ -41,35 +41,12 @@ export function createEmailModalController({ modalId = "mq-modal", formId = "ema
     if (consentErr) consentErr.style.display = "none";
   }
 
-  // Closes modal if user clicks the backdrop (the .modal wrapper itself)
-  // outside the .modal-dialog content.
+  // Forward-declared: close() and handleOutsideClick() call each other, so
+  // close() needs this before handleOutsideClick is assigned below.
+  let handleOutsideClick;
 
-  function handleOutsideClick(event) {
-    const modalDialog = modal.querySelector(".modal-dialog");
-    if (modalDialog && !modalDialog.contains(event.target)) {
-      close();
-    }
-  }
-
-  // Opens modal. 
-
-  function open() {
-    if (!modal) return;
-
-    resetModalState();
-
-    modal.classList.add("show");
-    modal.style.display = "flex";
-
-    lockBodyScroll();
-
-    // Listen for outside clicks
-    setTimeout(() => {
-      document.body.addEventListener("click", handleOutsideClick);
-    }, 0);
-  }
-
-  // Closes modal, unlocks page scroll, resets form, and cleans event listeners.
+  // Closes modal, unlocks scroll, resets form, cleans up listeners.
+  // Defined above handleOutsideClick since the two reference each other.
 
   function close() {
     if (!modal) return;
@@ -89,19 +66,46 @@ export function createEmailModalController({ modalId = "mq-modal", formId = "ema
     document.body.removeEventListener("click", handleOutsideClick);
   }
 
-  /**
-   * Validates inputs and posts combined quiz payload + user data to API.
-   *
-   * @param {Event} event
-   */
-  async function handleSubmit(event) {
-    event.preventDefault();
+  // Closes modal if user clicks the backdrop (the .modal wrapper itself)
+  // outside the .modal-dialog content.
 
+  handleOutsideClick = (event) => {
+    const modalDialog = modal.querySelector(".modal-dialog");
+    if (modalDialog && !modalDialog.contains(event.target)) {
+      close();
+    }
+  };
+
+  // Opens modal. 
+
+  function open() {
+    if (!modal) return;
+
+    resetModalState();
+
+    modal.classList.add("show");
+    modal.style.display = "flex";
+
+    lockBodyScroll();
+
+    // Listen for outside clicks
+    setTimeout(() => {
+      document.body.addEventListener("click", handleOutsideClick);
+    }, 0);
+  }
+
+  /**
+   * Validates form fields and toggles invalid styling/error messages.
+   * Extracted from handleSubmit to keep its complexity low.
+   *
+   * @returns {{ isValid: boolean, firstNameInput: Element, lastNameInput: Element,
+   *             emailInput: Element, consentInput: Element }}
+   */
+  function validateFormFields() {
     const firstNameInput = document.getElementById("FirstName");
     const lastNameInput = document.getElementById("LastName");
     const emailInput = document.getElementById("Email");
     const consentInput = document.getElementById("Consent");
-    const errorMsg = modal.querySelector(".error-message");
 
     const firstNameErr = document.getElementById("FirstName-error");
     const lastNameErr = document.getElementById("LastName-error");
@@ -123,7 +127,27 @@ export function createEmailModalController({ modalId = "mq-modal", formId = "ema
     if (emailErr) emailErr.style.display = isEmailValid ? "none" : "block";
     if (consentErr) consentErr.style.display = isConsentValid ? "none" : "block";
 
-    if (!isFirstNameValid || !isLastNameValid || !isEmailValid || !isConsentValid) return;
+    const isValid = isFirstNameValid && isLastNameValid && isEmailValid && isConsentValid;
+
+    return {
+      isValid, firstNameInput, lastNameInput, emailInput, consentInput,
+    };
+  }
+
+  /**
+   * Validates inputs and posts combined quiz payload + user data to API.
+   *
+   * @param {Event} event
+   */
+  async function handleSubmit(event) {
+    event.preventDefault();
+
+    const errorMsg = modal.querySelector(".error-message");
+    const {
+      isValid, firstNameInput, lastNameInput, emailInput, consentInput,
+    } = validateFormFields();
+
+    if (!isValid) return;
 
     // Build payload
     const payload = {
@@ -160,13 +184,13 @@ export function createEmailModalController({ modalId = "mq-modal", formId = "ema
 
       if (data === true) {
         handleSuccess();
-      } else {
+      } else if (errorMsg) {
+        errorMsg.classList.remove("d-none");
+      }
+      } catch (err) {
+        document.dispatchEvent(new CustomEvent("dg:email-error", { bubbles: true, detail: { error: err } }));
         if (errorMsg) errorMsg.classList.remove("d-none");
       }
-    } catch (err) {
-      console.error("Email API failed:", err);
-      if (errorMsg) errorMsg.classList.remove("d-none");
-    }
   }
 
   return { open, close, handleSubmit };

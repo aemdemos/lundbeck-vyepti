@@ -1,26 +1,25 @@
-
 .doctor-discussion-wrapper,
 .doctor-discussion {
   background: #eef3f6;
   display: flex;
   justify-content: center;
-  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+  font-family: var(--body-font-family); 
 }
 
 main .section div.doctor-discussion-wrapper {
-  padding: 24px 0;
+  padding: 24px 15px;
 }
 
 .doctor-discussion-container {
   background: #eef3f6;
-  padding-top: 0px;
+  padding-top: 0;
 }
 
 .doctor-discussion {
   border-radius: 12px;
   box-shadow: 0 2px 8px 0 #e0e0e0;
   max-width: 563px;
-  padding: 0px;
+  padding: 0;
   width: 100%;
 }
 
@@ -31,10 +30,9 @@ main .section div.doctor-discussion-wrapper {
 /* ---------- Doctor Discussion Card ---------- */
 
 .dg-card {
-  
-  background: var(--dg-surface);
+  background: #fff;
   border-radius: 12px;
-  box-shadow: 0 4px 18px rgba(15, 42, 58, 0.08);
+  box-shadow: 0 4px 18px rgb(15 42 58 / 8%);
   overflow: hidden;
   width: 100%;
 }
@@ -47,13 +45,14 @@ main .section div.doctor-discussion-wrapper {
 }
 
 .dg-header {
-  align-items: center;
+  align-items: flex-start;
   background: #046183;
-  border-radius: 12px 12px 0px 0px;
+  border-radius: 12px 12px 0 0;
   color: #fff;
   display: flex;
-  padding: 10px 30px 25px 10px;
+  padding:12px 17px 13px 13px;
   height: auto;
+  min-height: 65px;
 }
 
 .dg-header-badge {
@@ -66,18 +65,19 @@ main .section div.doctor-discussion-wrapper {
   font-size: 18px;
   font-weight: 600;
   justify-content: center;
-  height: 26px;
+  height: 23px;
   margin: 7px 8px 0 0;
   padding: 2px;
-  width: 26px;
+  width: 23px;
 }
 
 .dg-header-title {
   color: #fff;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 600;
-  line-height: 24px;
-  padding-top: 0px;
+  line-height: 22px;
+  margin-top: 8px;
+  padding-top: 0;
   width: fit-content;
 }
 
@@ -102,12 +102,12 @@ main .section div.doctor-discussion-wrapper {
 
 .dg-form {
   box-sizing: border-box;
-  padding: 10px 51px 0px 51px;
+  padding: 10px 18px 0;
   width: 100%;
 }
 
 .dg-field {
-  margin: 0px;
+  margin: 0;
 }
 
 .dg-field-label-row,
@@ -122,7 +122,7 @@ main .section div.doctor-discussion-wrapper {
   color: #046183;
   font-size: 18px;
   font-weight: 600;
-  margin-top: 0px;
+  margin-top: 0;
   line-height: 24px;
 }
 
@@ -133,9 +133,7 @@ main .section div.doctor-discussion-wrapper {
   font-style: italic;
   font-weight: 400;
   line-height: 14px;
-  margin-bottom: 0px;
-  margin-top: 4px;
-  margin: 4px 0px 0px 0px;
+  margin: 4px 0 0;
 }
 
 .dg-field-count {
@@ -152,7 +150,7 @@ main .section div.doctor-discussion-wrapper {
   font-size: 14px;
   font-weight: 500;
   line-height: 18px;
-  margin: 4px 0 16px 0;
+  margin: 4px 0 16px;
   text-align: left;
 }
 
@@ -164,7 +162,7 @@ main .section div.doctor-discussion-wrapper {
   font-size: 18px;
   height: 47px;
   line-height: 24px;
-  margin: 8px 0px 16px 0px;
+  margin: 8px 0 16px;
   outline: 0;
   padding: 5px 10px;
   width: 100%;
@@ -193,7 +191,7 @@ main .section div.doctor-discussion-wrapper {
   align-items: center;
   border: 1px solid #7ebcc6;
   border-radius: 22px;
-  background: rgba(4, 97, 131, 0.03);
+  background: rgb(4 97 131 / 3%);
   display: flex;
   gap: 13px;
   padding: 12px 12px 12px 15px;
@@ -212,27 +210,27 @@ main .section div.doctor-discussion-wrapper {
 }
 
 .dg-step1-icon1 {
-  background-image: url(/icons/ddg-social-events-23-desktop.svg);
+  background-image: url('/icons/ddg-social-events-23-desktop.svg');
 }
 
 .dg-step1-icon2 {
-  background-image: url(/icons/ddg-work-school-21-desktop.svg);
+  background-image: url('/icons/ddg-work-school-21-desktop.svg');
 }
 
 .dg-step1-icon3 {
-  background-image: url(/icons/ddg-daily-life-22-desktop.svg);
+  background-image: url('/icons/ddg-daily-life-22-desktop.svg');
 }
 
 .dg-step1-icon4 {
-  background-image: url(/icons/ddg-exercise-20-desktop.svg);
+  background-image: url('/icons/ddg-exercise-20-desktop.svg');
 }
 
 .dg-step1-icon5 {
-  background-image: url(/icons/ddg-plans-20-desktop.svg);
+  background-image: url('/icons/ddg-plans-20-desktop.svg');
 }
 
 .dg-step1-icon6 {
-  background-image: url(/icons/ddg-none-23-desktop.svg);
+  background-image: url('/icons/ddg-none-23-desktop.svg');
 }
 
 .dg-option-text {
@@ -255,7 +253,7 @@ main .section div.doctor-discussion-wrapper {
 .dg-option-control {
   align-items: center;
   background: #fff;
-  border: 1px solid rgba(126, 188, 198, 0.5);
+  border: 1px solid rgb(126 188 198 / 50%);
   border-radius: 4px; /* checkbox = rounded square */
   box-sizing: border-box;
   display: flex;
@@ -286,7 +284,7 @@ main .section div.doctor-discussion-wrapper {
 }
 
 .dg-option:has(.dg-option-input:checked) {
-  background-color: rgba(126, 188, 198, 0.2);
+  background-color: rgb(126 188 198 / 20%);
   border: 1px solid #046183;
   
 }
@@ -296,7 +294,7 @@ main .section div.doctor-discussion-wrapper {
 }
 
 
-.dg-option-input:not([type='radio']):not([data-exclusive='true']):checked + .dg-option-control::after {
+.dg-option-input:not([type='radio'], [data-exclusive='true']):checked + .dg-option-control::after {
   border: solid #fff;
   border-width: 0 2px 2px 0;
   box-sizing: border-box;
@@ -354,7 +352,7 @@ main .section div.doctor-discussion-wrapper {
   border: 2px solid #046183;
   border-radius: 30px;
   color: #fff;
-  padding: 17px 24px 17px 24px;
+  padding: 17px 24px;
   position: relative;
   margin-top: 0;
   margin-left: auto;
@@ -373,7 +371,7 @@ main .section div.doctor-discussion-wrapper {
 }
 
 .dg-next-arrow {
-  background: url(/icons/cta-button-arrow-20-global-white.svg);
+  background: url('/icons/cta-button-arrow-20-global-white.svg');
   background-repeat: no-repeat;
   height: 10px;
   width: 21px;
@@ -385,7 +383,7 @@ main .section div.doctor-discussion-wrapper {
   border: 2px solid #046183;
   border-radius: 30px;
   color: #046183;
-  padding: 17px 24px 17px 24px;
+  padding: 17px 24px;
   position: relative;
   margin-top: 0;
   max-width: 124px;
@@ -393,7 +391,7 @@ main .section div.doctor-discussion-wrapper {
 }
 
 .dg-back-arrow {
-  background: url(/icons/cta-button-arrow-20-global-blue.svg);
+  background: url('/icons/cta-button-arrow-20-global-blue.svg');
   background-repeat: no-repeat;
   transform: rotate(180deg);
   height: 10px;
@@ -416,11 +414,11 @@ main .section div.doctor-discussion-wrapper {
 .dg-callout-wrapper {
   display: flex;
   gap:9px;
-  padding: 16px 49px 20px 30px;
+  padding: 16px 36px 16px 16px;
 }
 
 .dg-callout-icon {
-  background-image: url(/icons/ddg-flag-17-desktop.svg);
+  background-image: url('/icons/ddg-flag-17-desktop.svg');
   background-repeat: no-repeat;
   flex-shrink: 0;
   height: 22px;
@@ -441,7 +439,7 @@ main .section div.doctor-discussion-wrapper {
   font-weight: 800;
 }
 
-/*Doctor Discussion — Results screen styles*/
+/* Doctor Discussion — Results screen styles */
 
 /* ---------- Results header (no badge, no progress bar) ---------- */
 
@@ -453,16 +451,16 @@ main .section div.doctor-discussion-wrapper {
 .dg-results-header {
   background: #046183;
   justify-content: center;
-  padding: 16px 0px;
+  padding: 16px 0;
 }
 
 .dg-results-header-title {
   font-family: var(--body-font-family);
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 600;
   line-height: 22px;
   text-align: center;
-  margin: 0px;
+  margin: 0;
 }
 
 /* ---------- Body wrapper ---------- */
@@ -473,7 +471,7 @@ main .section div.doctor-discussion-wrapper {
 
 .dg-results-body {
   box-sizing: border-box;
-  padding: 20px 51px 24px 51px;
+  padding: 20px 16px 17px;
 }
 
 .dg-results-title {
@@ -498,7 +496,7 @@ main .section div.doctor-discussion-wrapper {
 
 .dg-results-item {
   counter-increment: dg-results-counter;
-  padding-left: 22px;
+  padding-left: 0;
   position: relative;
   margin-bottom: 18px;
 }
@@ -510,7 +508,7 @@ main .section div.doctor-discussion-wrapper {
   font-size: 16px;
   font-weight: 400;
   line-height: 22px;
-  left: -22px;
+  left: -16px;
   position: absolute;
   top: 0;
 }
@@ -521,7 +519,7 @@ main .section div.doctor-discussion-wrapper {
   font-size: 16px;
   font-weight: 400;
   line-height: 22px;
-  margin: 0px;
+  margin: 0;
 }
 
 .dg-results-answer {
@@ -555,15 +553,16 @@ main .section div.doctor-discussion-wrapper {
 .dg-results-actions {
   align-items: center;
   display: flex;
-  gap: 24px;
-  margin-bottom: 24px;
+  flex-direction: column;
+  gap:16px;
+  margin-bottom: 16px;
 }
 
 .dg-results-download-btn,
 .dg-results-email-btn {
   align-items: center;
   background-color: #046183;
-  border: 1px solid #046183;;
+  border: 1px solid #046183;
   border-radius: 30px;
   color: #fff;
   cursor: pointer;
@@ -598,11 +597,11 @@ main .section div.doctor-discussion-wrapper {
 }
 
 .dg-download-icon {
-  background-image: url(/icons/download-white-20-desktop.svg);
+  background-image: url('/icons/download-white-20-desktop.svg');
 }
 
 .dg-email-icon {
-  background-image: url(/icons/ddg-mail-white-20-mobile.svg);
+  background-image: url('/icons/ddg-mail-white-20-mobile.svg');
 }
 
 .dg-results-note {
@@ -611,8 +610,9 @@ main .section div.doctor-discussion-wrapper {
   font-size: 14px;
   font-style: italic;
   line-height: 18px;
-  margin: 0px;
-  padding-bottom:17px;
+  margin: 0;
+  padding-bottom: 9px;
+  text-align:center;
 }
 
 /* ---------- Dividers ---------- */
@@ -632,7 +632,8 @@ main .section div.doctor-discussion-wrapper {
   font-size: 20px;
   font-weight: 600;
   line-height: 28px;
-  margin: 25px 0 9px 0;
+  margin: 20px 0 16px;
+  text-align: center;
 }
 
 .dg-results-retake-btn {
@@ -641,13 +642,13 @@ main .section div.doctor-discussion-wrapper {
   border: none;
   color: #046183;
   cursor: pointer;
-  display: inline-flex;
+  display: flex;
   font-family: inherit;
   font-size: 15px;
   font-weight: 700;
   gap: 14px;
-  margin-bottom: 25px;
-  padding: 0;
+  margin: 0 auto 9px;
+  padding: 0; 
 }
 
 .dg-results-retake-btn:hover,
@@ -659,7 +660,7 @@ main .section div.doctor-discussion-wrapper {
 }
 
 .dg-retake-icon {
-  background-image: url(/icons/icon-retake-21-mobile.svg);
+  background-image: url('/icons/icon-retake-21-mobile.svg');
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
@@ -672,7 +673,7 @@ main .section div.doctor-discussion-wrapper {
 
 .dg-results-tips {
   color: #c0392b;
-  padding-top:23px;
+  padding-top: 15px;
 }
 
 .dg-results-tips-heading {
@@ -695,7 +696,7 @@ main .section div.doctor-discussion-wrapper {
   font-family: var(--body-font-family);
   font-size: 16px;
   line-height: 18px;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
   padding-left: 16px;
   position: relative; 
 }
@@ -727,140 +728,21 @@ main .section div.doctor-discussion-wrapper {
   text-decoration: underline;
 }
 
-
-/*==== Mobile CSS ====*/
-
-/*-- Email Modal --*/
-@media (max-width: 767px) {
-  .dg-modal {
-    padding: 24px 20px 40px 20px;
-  }
-
-  .dg-modal-required-note {
-    margin-left: 0;
-    margin-right: 0;
-  }
-
-  .dg-modal-form {
-    margin: 0;
-  }
-
-/*-- Result screen --*/
-  main .section div.doctor-discussion-wrapper {
-    padding: 24px 15px;
-  }
-
-  .dg-results-header-title {
-    font-size: 18px;
-  }
-
-  .dg-results-actions {
-    flex-direction: column;
-    gap:16px;
-    margin-bottom: 16px;
-  }
-
-  .dg-results-note {
-    padding-bottom: 9px;
-    text-align:center;
-  }
-
-  .dg-results-cta-heading {
-    margin: 20px 0 16px 0;
-    text-align: center;
-  }
-
-  .dg-results-retake-btn {
-    display: flex;
-    margin: 0 auto 9px auto;
-  }
-
-  .dg-results-tips {
-    padding-top: 15px;
-  }
-
-  .dg-results-body {
-    padding: 20px 16px 17px;
-  }
-
-  .dg-results-tips-list li {
-    margin-bottom: 12px;
-  }
-
-  .dg-results-item {
-    padding-left: 0;
-  }
-
-  .dg-results-item::before {
-    left: -16px;
-  }
-
-  /*=== 9 Step Responsive CSS*===*/
-  .dg-form {
-    padding: 10px 18px 0px 18px;
-  }
-
-  .dg-callout-wrapper {
-    padding: 16px 36px 16px 16px;
-  }
-
-  .dg-header-title {
-    font-size: 18px;
-    line-height: 22px;
-    margin-top: 8px;
-  }
-
-  .dg-header {
-    align-items: flex-start;
-    min-height: 65px;
-    padding:12px 17px 13px 13px;
-  }
-
-  .dg-header-badge {
-    height: 23px;
-    width: 23px;
-  }
-
-  /*---Doctor Thankyou---*/
-  .dg-thankyou-content { 
-    padding: 40px 20px;
-  }
-
-}
-
-
-/* =====================================================================
- * Modal styles (email modal + thank-you modal)
- * NOTE: this used to be duplicated 3x in this file from earlier edits
- * that appended instead of replacing. Collapsed here into one section —
- * do not paste another copy below; edit this one in place.
- * ===================================================================== */
-
 .d-none {
-  display: none !important;
+  display: none;
 }
 
-/* Fallback background so any exposed edge (short pages, odd viewport
-   sizes) matches the block's grey instead of flashing browser-default
-   white. */
 html,
 body {
   background: #eef3f6;
 }
 
-/* The .modal element IS the backdrop — a fixed full-screen overlay that
-   also acts as the scroll container, so the page behind it never
-   scrolls. No separate .modal-backdrop div is created in JS.
-   display:flex + align-items/justify-content:center is what centers
-   .modal-dialog both horizontally and vertically — .modal-dialog itself
-   must NOT carry its own position/top/left/transform, or it will fight
-   this centering. */
 .modal {
   display: none;
   position: fixed;
   inset: 0;
   z-index: 1050;
-  background: rgba(20, 30, 40, 0.55);
+  background: rgb(20 30 40 / 55%);
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   padding: 24px;
@@ -880,10 +762,7 @@ body.modal-open {
 
 .modal-dialog {
   position: relative;
-  top: auto;
-  left: auto;
-  right: auto;
-  bottom: auto;
+  inset: auto;
   transform: none;
   width: 100%;
   max-width: 535px;
@@ -894,12 +773,12 @@ body.modal-open {
   position: relative;
   background: #eef3f6;
   border-radius: 10px;
-  padding: 24px 84px 40px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  padding: 24px 20px 40px;
+  box-shadow: 0 20px 60px rgb(0 0 0 / 30%);
 }
 
 .patient-form-container {
-  padding: 0 11px;
+  padding: 0;
 }
 
 .dg-modal-close-btn {
@@ -915,10 +794,6 @@ body.modal-open {
   padding: 0;
 }
 
-.dg-modal-close-btn:hover {
-  background: transparent;
-}
-
 .dg-modal-close-btn::before {
   content: "\2715";
   font-size: 22px;
@@ -926,22 +801,25 @@ body.modal-open {
 }
 
 .dg-modal-close-btn:hover {
-  background: rgba(0, 0, 0, 0.06);
+  background: rgb(0 0 0 / 6%);
 }
 
 .dg-modal-title {
   margin: 0 0 16px;
-  font-size: 30px;
+  font-size: 24px;
   font-weight: 700;
-  color: #1f4e6b;
+  color: #046183;
+  line-height: 29px;
   text-align: center;
+  font-family: var(--body-font-family);
 }
 
 .dg-modal-required-note {
-  margin: 0px 0px 8px;
+  margin: 0 0 8px;
   font-style: italic;
   font-size: 14px;
-  color: #444;
+  color: #333;
+  font-family: var(--body-font-family);
 }
 
 .dg-modal-form {
@@ -956,21 +834,23 @@ body.modal-open {
 }
 
 .dg-modal-field-label {
-  font-size: 17px;
-  font-weight: 700;
-  color: #1f4e6b;
+  font-family: var(--body-font-family);
+  font-size: 18px;
+  font-weight: 600;
+  color: #046183;
+  line-height: 24px;
   padding-bottom:8px;
 }
 
 .dg-modal-input {
   font-size: 16px;
   position: relative;
-  border-radius: 5px;
-  padding: 25px 15px 21px 15px;
+  border-radius: 10px;
+  color: #495057;
+  padding: 25px 15px 21px;
   font-weight: 600;
   border: 1px solid #484848;
   box-sizing: border-box;
-  border-radius: 10px;
   height: 0;
   line-height: 22px;
   font-family: var(--body-font-family);
@@ -980,7 +860,7 @@ body.modal-open {
 .dg-modal-input:focus {
   outline: none;
   border: 1px solid #b9c4cc;
-  box-shadow: 0 0 0 .2rem rgba(0, 123, 255, .25);
+  box-shadow: 0 0 0 .2rem rgb(0 123 255 / 25%);
 }
 
 .dg-modal-input.is-invalid {
@@ -989,7 +869,8 @@ body.modal-open {
 
 .dg-modal-field-error {
   color: #c02c57;
-  font-size: 13px;
+  font-size: 14px;
+  line-height: 20px;
   margin: 0;
 }
 
@@ -998,10 +879,11 @@ body.modal-open {
   display: flex;
   align-items: flex-start;
   gap: 14px;
-  cursor: pointer;
+  padding-bottom: 25px;
 }
 
 .dg-modal-consent-input {
+  cursor: pointer;
   margin-top: 4px;
   width: 20px;
   height: 20px;
@@ -1025,7 +907,7 @@ body.modal-open {
   flex-direction: column;
   gap: 12px;
   font-size: 14px;
-  line-height: 1.5;
+  line-height: 20px;
   color: #333;
 }
 
@@ -1035,9 +917,9 @@ body.modal-open {
   font-weight: 600;
 }
 
-.dg-modal-send-btn {
+.dg-modal-send-btn,
+.dg-modal-send-btn:focus {
   align-self: center;
-  margin-top: 8px;
   display: inline-flex;
   align-items: center;
   gap: 10px;
@@ -1052,13 +934,14 @@ body.modal-open {
 }
 
 .dg-modal-send-btn:hover {
-  background: #163a51;
+  background: #7ebcc6;
 }
 
 .dg-modal-send-arrow {
-  display: inline-block;
+  display: flex;
   width: 16px;
   height: 16px;
+  align-items: center;
 }
 
 .dg-modal-send-arrow::before {
@@ -1080,11 +963,11 @@ body.modal-open {
 /* ---------- Thank You modal ---------- */
 
 .dg-thankyou-content {
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    padding: 40px 84px;
-    text-align: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  padding: 40px 20px;
+  text-align: center;
 }
 
 .dg-thankyou-content picture {
@@ -1174,4 +1057,99 @@ body.modal-open {
 .dg-modal-success-text {
   font-size: 20px;
   margin: 0;
+}
+
+
+/* ==== Mobile CSS ==== */
+
+@media (width >= 768px) {
+/* -- Result screen -- */
+  main .section div.doctor-discussion-wrapper {
+    padding: 24px 0;
+  }
+
+  .dg-results-header-title {
+   font-size: 20px;
+  }
+
+  .dg-results-actions {
+    flex-direction: row;
+    gap: 24px;
+    margin-bottom: 24px;
+  }
+
+  .dg-results-note {
+    padding-bottom:17px;
+    text-align: left;
+  }
+
+  .dg-results-cta-heading {
+      margin: 25px 0 9px;
+      text-align: left;
+  }
+
+  .dg-results-retake-btn {
+    display: inline-flex;
+    margin-bottom: 25px;
+  }
+
+  .dg-results-tips {
+    padding-top:23px;
+  }
+
+  .dg-results-body {
+    padding: 20px 51px 24px;
+  }
+
+  .dg-results-tips-list li {
+    margin-bottom: 8px;
+  }
+
+  .dg-results-item {
+    padding-left: 22px;
+  }
+
+  .dg-results-item::before {
+    left: -22px;
+  }
+
+  /* === 9 Step Responsive CSS*=== */
+  .dg-form {
+    padding: 10px 51px 0;
+  }
+
+  .dg-callout-wrapper {
+    padding: 16px 49px 20px 30px;
+  }
+
+  .dg-header-title {
+    margin-top: 0;
+    line-height: 24px;
+    font-size: 20px;
+  }
+
+  .dg-header {
+    align-items: center;
+    min-height: auto;
+    padding: 10px 30px 25px 10px;
+  }
+
+  .dg-header-badge {
+    height: 26px;
+    width: 26px;
+  }
+  
+  /* ---Email Modal--- */
+  .modal-content {
+    padding: 24px 84px 40px;
+  }
+
+  .patient-form-container {
+    padding: 0 11px;
+  }
+
+  /* ---Doctor Thankyou--- */
+  .dg-thankyou-content { 
+    padding: 40px 84px;
+  }
 }

@@ -1,6 +1,6 @@
-import { createEmailModalController } from './doctor-discussion-email-modal.js';
-import { createPdfDownloadController } from './doctor-discussion-download-pdf.js';
-import { createThankYouModalController } from './doctor-discussion-thankyou-modal.js';
+import createEmailModalController from './doctor-discussion-email-modal.js';
+import createPdfDownloadController from './doctor-discussion-download-pdf.js';
+import createThankYouModalController from './doctor-discussion-thankyou-modal.js';
 
 // Default number of progress-dot segments shown when no total-steps row is authored.
 const TOTAL_STEPS_DEFAULT = 9;
@@ -14,6 +14,28 @@ const THANKYOU_MODAL_ID = 'dg-thankyou-modal';
 // Matches the wrapper EDS gives any block authored as "doctor-thankyou",
 // regardless of where it sits on the page.
 const THANKYOU_BLOCK_SELECTOR = '[data-block-name="doctor-thankyou"]';
+
+// Maps a modal element to its controller, avoiding a custom DOM property.
+const modalControllers = new WeakMap();
+
+// Blocked keys, to guard the answers store against prototype pollution.
+const UNSAFE_ANSWER_KEYS = new Set(['__proto__', 'constructor', 'prototype']);
+
+// Safely reads a dynamic field-name key off the shared answers object.
+function getAnswer(answers, key) {
+  if (UNSAFE_ANSWER_KEYS.has(key) || !Object.prototype.hasOwnProperty.call(answers, key)) {
+    return undefined;
+  }
+  return Reflect.get(answers, key);
+}
+
+// Safely writes a dynamic field-name key onto the shared answers object.
+function setAnswer(answers, key, value) {
+  if (UNSAFE_ANSWER_KEYS.has(key)) return;
+  Object.defineProperty(answers, key, {
+    value, writable: true, enumerable: true, configurable: true,
+  });
+}
 
 /**
  * Create a DOM element with attributes and children.
@@ -266,21 +288,21 @@ function getResultsQuestions(steps) {
 
 function formatAnswer(fieldDef, answers) {
   if (fieldDef.type === 'checkbox') {
-    return (answers[fieldDef.name] || []).join(', ');
+    return (getAnswer(answers, fieldDef.name) || []).join(', ');
   }
-  return answers[fieldDef.name] || '';
+  return getAnswer(answers, fieldDef.name) || '';
 }
 
 // Builds "{Name}'s personalized migraine discussion guide", falling back to "My..." when no name was entered.
 function formatResultsHeading(answers, nameFieldName) {
-  const name = nameFieldName ? (answers[nameFieldName] || '').trim() : '';
+  const name = nameFieldName ? (getAnswer(answers, nameFieldName) || '').trim() : '';
   return name ? `${name}'s personalized migraine discussion guide` : 'My personalized migraine discussion guide';
 }
 
 // Prefixes a question with the entered name (e.g. "Rohan... How does...") when the field is flagged for it and a name was given.
 function personalizeResultsLabel(fieldDef, answers, nameFieldName) {
   if (!fieldDef.personalizeWithName || !nameFieldName) return fieldDef.resultsLabel;
-  const name = (answers[nameFieldName] || '').trim();
+  const name = (getAnswer(answers, nameFieldName) || '').trim();
   return name ? `${name}... ${fieldDef.resultsLabel}` : fieldDef.resultsLabel;
 }
 
@@ -359,7 +381,8 @@ function buildEmailModalMarkup() {
     createEl('div', { className: 'dg-modal-consent-content' },
       createEl('span', { className: 'dg-modal-consent-text' },
         createEl('span', { className: 'dg-modal-consent-paragraph' },
-          'By submitting this form, I agree to receive email updates about migraine and migraine treatment with VYEPTI. I authorize Lundbeck, its affiliates, its employees, and its agents to use the information I am providing in order to enroll me in the email program.',
+          'By submitting this form, I agree to receive email updates about migraine and migraine treatment with VYEPTI. '
+          + 'I authorize Lundbeck, its affiliates, its employees, and its agents to use the information I am providing in order to enroll me in the email program.',
         ),
         createEl('span', { className: 'dg-modal-consent-paragraph' },
           'Lundbeck will not sell your provided data to any third party, at any time. By clicking "Send," you signify that you have read and agree to our ',
@@ -409,11 +432,8 @@ function buildEmailModalMarkup() {
   const errorMsg = createEl('div', { className: 'error-message d-none' }, 'Something went wrong. Please try again.');
   const patientFormContainer = createEl('div', { className: 'patient-form-container' }, form);
 
-  // Note: there is intentionally no "success" view built here. On a
-  // successful submission the email modal simply closes itself and the
-  // Thank You modal (built from the authored doctor-thankyou block, see
-  // doctor-thankyou.js) opens in its place — see
-  // doctor-discussion-email-modal.js's handleSubmit().
+// No "success" view here — on submit, this modal closes and the
+// Thank You modal opens instead (see doctor-discussion-email-modal.js).
   const modalContent = createEl('div', { className: 'modal-content' },
     closeBtn, headerTitle, patientFormContainer, errorMsg,
   );
@@ -428,8 +448,8 @@ function buildEmailModalMarkup() {
 // Builds the email modal 
 function getOrCreateEmailModal(answers) {
   // Reuse the existing modal/controller across opens instead of rebuilding it each time.
-  let modalEl = document.getElementById('mq-modal');
-  if (modalEl) return modalEl.__dgController;
+  const modalEl = document.getElementById('mq-modal');
+  if (modalEl) return modalControllers.get(modalEl);
 
   const {
     modal, closeBtn, submitBtn,
@@ -445,24 +465,13 @@ function getOrCreateEmailModal(answers) {
   closeBtn.addEventListener('click', () => controller.close());
   submitBtn.addEventListener('click', (e) => controller.handleSubmit(e));
 
-  // Stash the controller on the element so subsequent calls can find it again.
-  modal.__dgController = controller;
+  // Stash the controller so subsequent calls can find it again.
+  modalControllers.set(modal, controller);
   return controller;
 }
 
-/**
- * Finds the separately-authored "doctor-thankyou" block anywhere on the
- * page, moves its content — exactly as authored, nothing hardcoded here —
- * into a modal appended to <body>, and removes the original placeholder
- * from the page flow so it never renders inline.
- *
- * This intentionally lives here in doctor-discussion.js/folder rather than
- * a blocks/doctor-thankyou/ module: the "doctor-thankyou" block's only job
- * is to supply content for this modal, so doctor-discussion.js just reaches
- * out and claims it. By the time this runs, EDS has already converted the
- * authored table into plain DOM for every block on the page (that happens
- * before any block's custom JS executes), so the content is there to grab.
- */
+// Moves the authored "doctor-thankyou" block's content into a modal on <body>,
+// then removes the original placeholder so it doesn't render inline.
 function buildThankYouModal() {
   const thankYouBlock = document.querySelector(THANKYOU_BLOCK_SELECTOR);
   if (!thankYouBlock || document.getElementById(THANKYOU_MODAL_ID)) return;
@@ -488,15 +497,10 @@ function buildThankYouModal() {
 
   const controller = createThankYouModalController({ modalId: THANKYOU_MODAL_ID });
   closeBtn.addEventListener('click', () => controller.close());
-  modal.__dgController = controller;
+  modalControllers.set(modal, controller);
 }
 
-/**
- * Build the Download / Email action buttons, plus a hidden error message
- * for the PDF download controller to reveal on failure, and a hidden
- * "popup blocked" fallback link the controller reveals when the browser
- * blocks the auto-opened PDF tab (see doctor-discussion-download-pdf.js).
- */
+// Build the Download/Email buttons, plus hidden error and popup-blocked fallback messages.
 
 function buildResultsActions() {
   const downloadBtn = createEl('button', { type: 'button', className: 'dg-results-download-btn' },
@@ -513,10 +517,8 @@ function buildResultsActions() {
     role: 'alert',
   }, 'Something went wrong generating your PDF. Please try again.');
 
-  // Shown instead of a silent failure when the browser blocks the
-  // auto-opened tab (e.g. Safari's "Block Pop-ups" setting). The anchor's
-  // href/download attrs are set by the PDF controller once the blob is
-  // ready; clicking it is a real user gesture, so it always works.
+ // Shown if the browser blocks the auto-opened tab. href/download are
+// set by the PDF controller; clicking is a real gesture, so it works.
   const popupBlockedLink = createEl('a', {
     href: '#',
     className: 'dg-pdf-popup-blocked-link',
@@ -561,24 +563,43 @@ function buildResultsTips() {
   );
 }
 
+// Unchecks every other input in the group besides the one just interacted with.
+function deselectOtherInputs(inputs, input) {
+  inputs.forEach((other) => {
+    if (other !== input) other.checked = false;
+  });
+}
+
+// Unchecks every input flagged as the group's "exclusive" option (e.g. "None of the above").
+function deselectExclusiveInputs(inputs) {
+  inputs.forEach((other) => {
+    if (other.dataset.exclusive === 'true') other.checked = false;
+  });
+}
+
+// Change handler for a single checkbox within an exclusive-aware group.
+function handleExclusiveCheckboxChange(inputs, input) {
+  if (input.dataset.exclusive === 'true' && input.checked) {
+    deselectOtherInputs(inputs, input);
+  } else if (input.checked) {
+    deselectExclusiveInputs(inputs);
+  }
+}
+
 // Enforces "None of the above" as mutually exclusive with the other checkboxes in its group.
 function bindExclusiveCheckboxGroup(form) {
   form.querySelectorAll('.dg-option-list:not(.dg-option-list--radio)').forEach((group) => {
     const inputs = [...group.querySelectorAll('.dg-option-input')];
     inputs.forEach((input) => {
-      input.addEventListener('change', () => {
-        if (input.dataset.exclusive === 'true' && input.checked) {
-          inputs.forEach((other) => {
-            if (other !== input) other.checked = false;
-          });
-        } else if (input.checked) {
-          inputs.forEach((other) => {
-            if (other.dataset.exclusive === 'true') other.checked = false;
-          });
-        }
-      });
+      input.addEventListener('change', () => handleExclusiveCheckboxChange(inputs, input));
     });
   });
+}
+
+// Change handler for a single radio input within a group.
+function handleRadioChange(inputs, input) {
+  if (!input.checked) return;
+  deselectOtherInputs(inputs, input);
 }
 
 // Ensures only one radio option per group stays selected (native radio behavior, made explicit here).
@@ -586,12 +607,7 @@ function bindRadioGroup(form) {
   form.querySelectorAll('.dg-option-list--radio').forEach((group) => {
     const inputs = [...group.querySelectorAll('.dg-option-input[type="radio"]')];
     inputs.forEach((input) => {
-      input.addEventListener('change', () => {
-        if (!input.checked) return;
-        inputs.forEach((other) => {
-          if (other !== input) other.checked = false;
-        });
-      });
+      input.addEventListener('change', () => handleRadioChange(inputs, input));
     });
   });
 }
@@ -720,14 +736,14 @@ function collectStepAnswers(form, step, answers) {
   step.fields.forEach((f) => {
     if (f.type === 'text') {
       const input = form.querySelector(`#${f.name}`);
-      answers[f.name] = input ? input.value : '';
+      setAnswer(answers, f.name, input ? input.value : '');
     } else if (f.type === 'checkbox') {
       const checked = [...form.querySelectorAll(`input[name="${f.name}"]:checked`)]
         .map((el) => el.value);
-      answers[f.name] = checked;
+      setAnswer(answers, f.name, checked);
     } else if (f.type === 'radio') {
       const checked = form.querySelector(`input[name="${f.name}"]:checked`);
-      answers[f.name] = checked ? checked.value : '';
+      setAnswer(answers, f.name, checked ? checked.value : '');
     }
   });
 }
@@ -814,7 +830,8 @@ const DEFAULT_STEPS = [
     ],
     didYouKnow: {
       heading: 'DID YOU KNOW?',
-      text: '77% of people in a survey of 1,100 people with migraine (who also had a mental health condition) worried about the stigma of migraine and mental health. In fact, many were hesitant to discuss the issue with their doctor.',
+      text: '77% of people in a survey of 1,100 people with migraine (who also had a mental health condition) worried about the stigma of migraine and mental health. '
+        + 'In fact, many were hesitant to discuss the issue with their doctor.',
     },
   },
 
@@ -986,6 +1003,10 @@ export default function decorate(block) {
   const card = createEl('div', { className: 'dg-card' });
   block.append(card);
 
+ // Forward-declared: renderStep and renderResults call each other, so
+// renderStep needs this before renderResults is assigned below.
+  let renderResults;
+
   // Renders a single step (header, fields, callout, nav buttons) into the card, replacing whatever was there before.
   function renderStep(index) {
     const step = steps[index];
@@ -1004,11 +1025,11 @@ export default function decorate(block) {
     step.fields.forEach((fieldDef, i) => {
       const countLabel = i === 0 ? `${stepNumber} of ${totalSteps}` : '';
       if (fieldDef.type === 'text') {
-        form.append(buildTextQuestion(fieldDef, countLabel, answers[fieldDef.name]));
+        form.append(buildTextQuestion(fieldDef, countLabel, getAnswer(answers, fieldDef.name)));
       } else if (fieldDef.type === 'checkbox') {
-        form.append(buildCheckboxQuestion(fieldDef, countLabel, answers[fieldDef.name], stepNumber));
+        form.append(buildCheckboxQuestion(fieldDef, countLabel, getAnswer(answers, fieldDef.name), stepNumber));
       } else if (fieldDef.type === 'radio') {
-        form.append(buildRadioQuestion(fieldDef, countLabel, answers[fieldDef.name], stepNumber));
+        form.append(buildRadioQuestion(fieldDef, countLabel, getAnswer(answers, fieldDef.name), stepNumber));
       }
     });
 
@@ -1085,7 +1106,7 @@ export default function decorate(block) {
   }
 
   // Renders the final results screen: answer summary plus Download/Email/Retake actions.
-  function renderResults() {
+  renderResults = () => {
     card.textContent = '';
     card.classList.add('dg-results-card');
     card.append(buildResultsHeader());
@@ -1125,7 +1146,7 @@ export default function decorate(block) {
       createEl('span', { className: 'dg-retake-icon', 'aria-hidden': 'true' }),
     );
     retakeBtn.addEventListener('click', () => {
-      Object.keys(answers).forEach((key) => delete answers[key]);
+      Object.keys(answers).forEach((key) => Reflect.deleteProperty(answers, key));
       currentIndex = 0;
       card.classList.remove('dg-results-card');
       renderStep(currentIndex);
@@ -1137,7 +1158,7 @@ export default function decorate(block) {
     body.append(buildResultsTips());
 
     card.append(body);
-  }
+  };
 
   // Kick off the guide at step 1, then wire up the (separately authored) Thank You modal.
   renderStep(currentIndex);

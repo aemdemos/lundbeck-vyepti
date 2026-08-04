@@ -11,13 +11,13 @@
  * @returns {{ download: (quizData: unknown) => Promise<void> }}
  *          Returns an object exposing the download() function.
  */
-export function createPdfDownloadController({
+export default function createPdfDownloadController({
   apiUrl,
   button,
   errorElementId = 'pdf-error-msg',
   popupBlockedElementId = 'dg-pdf-popup-blocked',
 } = {}) {
-  //Indicates whether a download request is currently in progress.Prevents duplicate API requests if the user clicks multiple times.
+  // Indicates whether a download request is currently in progress. Prevents duplicate API requests if the user clicks multiple times.
 
   let isLoading = false;
 
@@ -39,10 +39,9 @@ export function createPdfDownloadController({
   }
 
   /**
-   * Shows or hides the "your browser blocked the popup" fallback UI, and
-   * points its link at the generated PDF so the user can open it with a
-   * real click (which browsers will not block, unlike a programmatic
-   * window.open() call made after an async fetch).
+   * Shows/hides the popup-blocked fallback UI and points its link at
+   * the generated PDF, so a real click can open it (unlike window.open()
+   * after an async fetch, which browsers block).
    *
    * @param {boolean} visible
    * @param {string} [url] - Object URL for the generated PDF.
@@ -156,9 +155,7 @@ export function createPdfDownloadController({
         URL.revokeObjectURL(urlToRevoke);
       }, revokeDelay);
     } catch (error) {
-
-      //Handle all download errors.
-      console.error('PDF Download Error:', error);
+      document.dispatchEvent(new CustomEvent('dg:pdf-error', { bubbles: true, detail: { error } }));
 
       if (pdfWindow) {
         pdfWindow.close();
