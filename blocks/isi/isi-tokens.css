@@ -65,19 +65,14 @@
   --isi-toggle-right-desktop: 32px; /* @boilerplate */
 }
 
-/* Space below the divider so APPROVED USE doesn't crowd the section above
-   (matches source ~69px). Lives here alongside its token. */
-main .isi .isi-inline {
-  padding-top: var(--isi-inline-padding-top);
-}
-
 /* Tablet and up — restore the wider collapsed bar, roomier padding and the
-   two-column popup spacing (mobile-first: base values above are for < 768px). */
+   two-column popup spacing (mobile-first: base values above are for < 768px).
+   The space below the divider is supplied solely by the section's padding-top
+   (--isi-section-padding-top); the inline wrapper adds no padding of its own. */
 @media (width >= 768px) {
   :root {
     /* Source loosens the list line-height from 24px (mobile) to 27px here. */
     --isi-list-line-height: 27px;
-    --isi-inline-padding-top: 64px;
     --isi-bar-height: 109px;
     --isi-bar-padding: 13px 13px 8px;
     --isi-bar-heading-padding-bottom: 18px;
