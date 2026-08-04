@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="21px" height="20px" viewBox="0 0 21 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>ddg-work-school-21-desktop</title>
+    <defs>
+        <polygon id="path-1" points="0 19.513 20.754 19.513 20.754 0 0 0"></polygon>
+        <polygon id="path-3" points="0 0 8.5784 0 8.5784 7.78009164 0 7.78009164"></polygon>
+    </defs>
+    <g id="Doctor-Discussion-Guide" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Layouts-/-Desktop-/-3.1.02_GettingTreatment_TalkToYourDoctorDDG_Q2" transform="translate(-506.000000, -836.000000)">
+            <g id="Group-18" transform="translate(439.000000, 618.000000)">
+                <g id="Group-18" transform="translate(51.000000, 154.000000)">
+                    <g id="6-10-years" transform="translate(0.000000, 52.000000)">
+                        <g id="ddg-work-school-21-desktop" transform="translate(16.000000, 12.000000)">
+                            <g id="Group-5">
+                                <polyline id="Stroke-1" stroke="#7EBCC6" stroke-linejoin="round" points="12.5968 3.0022 12.5968 0.5002 0.4998 0.5002 0.4998 16.5112 3.3568 16.5112"></polyline>
+                                <mask id="mask-2" fill="white">
+                                    <use xlink:href="#path-1"></use>
+                                </mask>
+                                <g id="Clip-4"></g>
+                                <polygon id="Stroke-3" stroke="#7EBCC6" stroke-linejoin="round" mask="url(#mask-2)" points="3.357 19.013 15.454 19.013 15.454 3.002 3.357 3.002"></polygon>
+                            </g>
+                            <line x1="12.2706" y1="7.2794" x2="5.7606" y2="7.2794" id="Stroke-6" stroke="#7EBCC6" stroke-linecap="round" stroke-linejoin="round"></line>
+                            <line x1="11.2252" y1="13.6375" x2="5.7602" y2="13.6375" id="Stroke-7" stroke="#7EBCC6" stroke-linecap="round" stroke-linejoin="round"></line>
+                            <line x1="9.7374" y1="10.5386" x2="5.7604" y2="10.5386" id="Stroke-8" stroke="#7EBCC6" stroke-linecap="round" stroke-linejoin="round"></line>
+                            <g id="Group-11" transform="translate(12.175600, 9.747600)">
+                                <mask id="mask-4" fill="white">
+                                    <use xlink:href="#path-3"></use>
+                                </mask>
+                                <g id="Clip-10"></g>
+                                <path d="M7.488,7.776 C7.286,7.758 7.087,7.678 6.922,7.534 L0.832,2.232 L0,0 L2.145,0.724 L8.235,6.026 C8.652,6.388 8.696,7.02 8.333,7.437 C8.114,7.688 7.797,7.804 7.488,7.776" id="Fill-9" fill="#7EBCC6" mask="url(#mask-4)"></path>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
