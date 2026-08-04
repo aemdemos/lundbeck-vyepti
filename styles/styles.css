@@ -684,6 +684,12 @@ main > .section { /* @libs */
   margin-bottom: var(--section-padding);
 }
 
+/* An empty section (no content authored) must not contribute spacing — otherwise
+   its margin-bottom leaves a stray gap (e.g. before the footer). */
+main > .section:empty {
+  margin: 0;
+}
+
 main > .section > div:not(.bg-image) {
   margin: auto;
   padding: 0 15px;
