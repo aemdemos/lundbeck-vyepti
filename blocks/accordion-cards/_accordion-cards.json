@@ -25,10 +25,11 @@
             "template": {
               "name": "Accordion Cards Item",
               "model": "accordion-cards-item",
-              "summary": "Getting Started With VYEPTI",
+              "summary": "",
               "intro": "",
-              "leftCards": "<div><div><picture><img src=\"\" alt=\"\"/></picture></div><div><h3>VYEPTI Brochure</h3><p>Resource description.</p><p><a href=\"#\">Download</a> <a href=\"#\">Email</a></p></div></div>",
-              "rightCards": "<div><div><picture><img src=\"\" alt=\"\"/></picture></div><div><h3>Doctor Discussion Guide</h3><p>Resource description.</p><p><a href=\"#\">Download</a> <a href=\"#\">Email</a></p></div></div>"
+              "image": "",
+              "imageAlt": "",
+              "body": "<h3>Resource Title</h3><p>Resource description.</p><p><a href=\"#\">Download</a> <a href=\"#\">Email</a></p>"
             }
           }
         }
@@ -44,7 +45,7 @@
           "valueType": "string",
           "name": "summary",
           "value": "",
-          "label": "Accordion Heading"
+          "label": "Accordion Heading (leave blank to append this card to the previous accordion)"
         },
         {
           "component": "richtext",
@@ -54,17 +55,24 @@
           "valueType": "string"
         },
         {
-          "component": "richtext",
-          "name": "leftCards",
+          "component": "reference",
+          "valueType": "string",
+          "name": "image",
           "value": "",
-          "label": "Left Column Cards",
-          "valueType": "string"
+          "label": "Card Image"
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "imageAlt",
+          "value": "",
+          "label": "Card Image Alt Text"
         },
         {
           "component": "richtext",
-          "name": "rightCards",
+          "name": "body",
           "value": "",
-          "label": "Right Column Cards",
+          "label": "Card Body",
           "valueType": "string"
         }
       ]

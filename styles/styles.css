@@ -61,6 +61,7 @@
   --section-padding: 32px;
   --flex-group-gap: 30px;
   --flex-group-narrow-copy-gap: 60px;
+  --section-tips-width: 444px;
   --div-width-margin: auto;
   --div-width-align-items: flex-start;
 
@@ -624,6 +625,24 @@ main .icon.icon-bullet { /* @libs */
   display: none;
 }
 
+.center, .center-mobile, .center-desktop,
+.left, .left-mobile, .left-desktop,
+.right, .right-mobile, .right-desktpo {
+  &:not(.cards) {
+    ol {
+      width: fit-content;
+    }
+
+    ul {
+      width: fit-content;
+    }
+
+    li {
+    text-align: left;
+  }
+ }
+}
+
 .center, .center-mobile {
   text-align: center;
 
@@ -632,13 +651,8 @@ main .icon.icon-bullet { /* @libs */
   }
 
   ol, ul {
-    width: fit-content;
     margin-left: auto;
     margin-right: auto;
-  }
-
-  li {
-    text-align: left;
   }
 }
 
@@ -658,12 +672,7 @@ main .icon.icon-bullet { /* @libs */
   }
 
   ol, ul {
-    width: fit-content;
     margin-left: auto;
-  }
-
-  li {
-    text-align: left;
   }
 }
 
@@ -740,6 +749,88 @@ main .flex-group {
 
 main .flex-group > .section.flex {
   margin: 0;
+}
+
+/* section metadata - tips (share-your-migraine-story "Tips for telling your
+   story" sidebar). Rounded light-blue card with a decorative shape banner
+   across the top (authored as the section background-image, delivered as a
+   static .bg-image block since the section is nested in a .flex-group and so
+   is not matched by the full-cover `main > .section > .bg-image` rule). Each
+   tip is one authored paragraph: leading icon + bold lead-in + copy, laid out
+   with a hanging indent so wrapped lines align under the text, not the icon. */
+main .section.tips {
+  background-color: var(--accent-bg);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+main .section.tips > .bg-image {
+  line-height: 0;
+}
+
+main .section.tips > .bg-image img {
+  width: 100%;
+  height: auto;
+}
+
+main .section.tips > .columns-wrapper {
+  padding: 20px 25px 41px 29px;
+}
+
+main .section.tips .columns > div > div {
+  display: block;
+}
+
+main .section.tips h3 {
+  margin: 0 0 12px;
+  font-size: 24px;
+  line-height: 1.2;
+  color: var(--brand-primary);
+  text-align: center;
+}
+
+main .section.tips .columns p {
+  margin: 0 0 18px;
+  font-size: var(--body-font-size-s);
+  line-height: 1.4;
+  color: var(--text-color);
+}
+
+main .section.tips .columns p:last-child {
+  margin-bottom: 0;
+}
+
+/* heading + intro line are centered above the left-aligned tip rows */
+main .section.tips .columns p:first-of-type {
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+/* tip rows: hanging indent so the icon floats top-left and copy wraps beneath
+   the lead-in text rather than under the icon. Base indent = icon (27px) + the
+   source's mobile 25px gap; widened at desktop where the card grows. */
+main .section.tips .columns p:has(picture) {
+  position: relative;
+  min-height: 27px;
+  padding-left: 52px;
+}
+
+main .section.tips .columns p picture {
+  position: absolute;
+  top: 0;
+  left: 0;
+  line-height: 0;
+}
+
+main .section.tips .columns p img {
+  width: 27px;
+  height: 27px;
+  object-fit: contain;
+}
+
+/* leftover empty heading from the section-metadata authoring */
+main .section.tips > .default-content-wrapper:has(> h4:empty) {
+  display: none;
 }
 
 /* section metadata - accent (light blue help strip) */
@@ -897,71 +988,69 @@ main .section.stats-callout h4 {
   }
 
   /* ==== START alignment + display for desktop ==== */
-    .hide-desktop {
-      display: none;
+  .hide-desktop {
+    display: none;
+  }
+
+  .hide-mobile {
+    display: revert;
+  }
+
+  .center-mobile, .left-mobile, .right-mobile {
+    text-align: revert;
+
+    ol, ul {
+    margin-left: revert;
+    margin-right: revert;
+    }
+
+    &:not(.cards) li {
+      text-align: revert;
+    }
+  }
+
+  .center-desktop {
+    text-align: center;
+  
+    &.columns .columns-img-col img {
+      display: inline-block;
     }
   
-    .hide-mobile {
-      display: revert;
+    ol, ul {
+      margin-left: auto;
+      margin-right: auto;
     }
-
-    .center-mobile, .left-mobile, .right-mobile {
-      text-align: revert;
-
-      ol, ul {
-      margin-left: revert;
-      margin-right: revert;
-      }
-
-      li {
-        text-align: revert;
-      }
-    }
-
-    .center-desktop {
-      text-align: center;
-    
-      &.columns .columns-img-col img {
-        display: inline-block;
-      }
-    
-      ol, ul {
-        width: fit-content;
-        margin-left: auto;
-        margin-right: auto;
-      }
-    
-      li {
-        text-align: left;
-      }
-    }
-    
-    .left-desktop {
+  
+    &:not(.cards) li {
       text-align: left;
-    
-      &.columns .columns-img-col img {
-        display: inline-block;
-      }
     }
-    
-    .right-desktop {
-      text-align: right;
-    
-      &.columns .columns-img-col img {
-        display: inline-block;
-      }
-    
-      ol, ul {
-        width: fit-content;
-        margin-left: auto;
-      }
-    
-      li {
-        text-align: left;
-      }
+  }
+  
+  .left-desktop {
+    text-align: left;
+  
+    &.columns .columns-img-col img {
+      display: inline-block;
     }
+  }
+  
+  .right-desktop {
+    text-align: right;
+  
+    &.columns .columns-img-col img {
+      display: inline-block;
+    }
+  
+    ol, ul {
+      margin-left: auto;
+    }
+  
+    &:not(.cards) li {
+      text-align: left;
+    }
+  }
 
-    /* ==== END alignment + display for desktop ==== */
+  /* ==== END alignment + display for desktop ==== */
 
     /* ==== Start widths ==== */
 
@@ -1059,6 +1148,31 @@ main .flex-group:has(> .section.flex .columns.narrow-copy) {
 
 main .flex-group > .section.flex:has(.columns.narrow-copy) {
   flex: 0 0 var(--columns-narrow-copy-max-width);
+}
+
+/* tips layout mirrors the source's 6/6 grid: the form fills the left half and
+   the tips card (fixed to its shape-banner width) is right-aligned in the right
+   half, leaving a wide gutter between them. margin-left:auto absorbs the slack
+   so the card sits flush to the container's right edge. Only applied from 992px,
+   where the container is wide enough; below this the two share the width. */
+main .flex-group:has(> .section.tips) > .section.flex:not(.tips) {
+  flex: 0 0 calc(50% - (var(--flex-group-gap) / 2));
+}
+
+main .flex-group > .section.tips.flex {
+  flex: 0 0 var(--section-tips-width);
+  margin-left: auto;
+}
+
+/* the tips card only reaches its full 444px width here, so the roomier source
+   padding + icon gutter (56px/45px, 34px gap) apply from this breakpoint; below
+   this the tighter mobile values keep the narrower card's copy from cramping. */
+main .section.tips > .columns-wrapper {
+  padding: 20px 45px 48px 56px;
+}
+
+main .section.tips .columns p:has(picture) {
+  padding-left: 61px;
 }
 
   main .section.accent > div { /* @libs */

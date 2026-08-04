@@ -36,7 +36,8 @@
      Layout: light card with the quote on one side and the patient photo on the other,
      the photo filling the full card height. */
   --carousel-testimonial-radius: 6px;
-  --carousel-testimonial-gap-section: 40px;
+  --carousel-testimonial-gap-section: 40px; /* mobile; scaled up at tablet+ below */
+  --carousel-testimonial-gap-section-mobile: 24px;
   --carousel-testimonial-surface: var(--card-bg-light);
   --carousel-testimonial-content-padding: 24px 24px 32px;
   --carousel-testimonial-content-padding-desktop: 0 48px 0 56px;
@@ -138,10 +139,18 @@ main .carousel.testimonial .carousel-slide .carousel-slide-content {
   order: 1;
 }
 
+.carousel.testimonial {
+  margin-top: var(--carousel-testimonial-gap-section-mobile);
+}
+
 /* Tablet+ : side-by-side. The photo fills the card height and drives it, showing
    at natural proportions (as on the source). Tablet + small desktop ship a tall
    PORTRAIT photo, so the image column is wide (52%) to match the source. */
 @media (width >= 768px) {
+  :root {
+    --carousel-testimonial-gap-section: 64px;
+  }
+
   main .carousel.testimonial .carousel-slide {
     height: auto;
   }
@@ -157,6 +166,12 @@ main .carousel.testimonial .carousel-slide .carousel-slide-content {
   main .carousel.testimonial .carousel-slide .carousel-slide-image img {
     height: 100%;
     object-fit: cover;
+  }
+}
+
+@media (width >= 992px) {
+  .carousel.testimonial {
+    margin-top: var(--carousel-testimonial-gap-section);
   }
 }
 
