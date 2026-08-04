@@ -1,8 +1,8 @@
 /* isi design tokens */
 :root { /* @boilerplate */
   --isi-text-color: #484848; /* @boilerplate */
-  --isi-line-height: 1.5; /* @boilerplate */
-  --isi-list-line-height: 27px;
+  --isi-line-height: 22px; /* source paragraph line-height (16px body) */
+  --isi-list-line-height: 24px; /* mobile; 27px at tablet+ (matches source) */
   --isi-list-item-margin-bottom: 10px; /* @boilerplate */
   --isi-section-margin-top: 48px;
   --isi-section-padding-top: 57px;
@@ -75,6 +75,8 @@ main .isi .isi-inline {
    two-column popup spacing (mobile-first: base values above are for < 768px). */
 @media (width >= 768px) {
   :root {
+    /* Source loosens the list line-height from 24px (mobile) to 27px here. */
+    --isi-list-line-height: 27px;
     --isi-inline-padding-top: 64px;
     --isi-bar-height: 109px;
     --isi-bar-padding: 13px 13px 8px;
