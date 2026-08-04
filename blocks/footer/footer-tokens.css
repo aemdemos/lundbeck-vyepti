@@ -93,8 +93,9 @@
 
   /* legal column (column 1) */
   --footer-legal-color: #484848; /* @boilerplate */
-  --footer-legal-font-size: 14px; /* @boilerplate */
-  --footer-legal-line-height: 21px; /* mobile */
+  --footer-legal-font-size: 16px; /* mobile — matches source Vyepti footer legal copy */
+  --footer-legal-font-size-desktop: 14px; /* 768px+ */
+  --footer-legal-line-height: 24px; /* mobile */
   --footer-legal-line-height-desktop: 20px;
   --footer-legal-margin-bottom: 21px; /* mobile: gap between copyright + disclaimer paragraphs */
   --footer-legal-margin-bottom-desktop: 20px;
@@ -142,7 +143,7 @@
   --footer-social-icon-gap-desktop: 8px;
   --footer-logo-width: 116px; /* mobile Lundbeck logo width */
   --footer-logo-width-tablet: 155px; /* 768-1199px */
-  --footer-logo-width-desktop: 160px; /* 1200px+ (Onfi uses ~114px flat) */
+  --footer-logo-width-desktop: 168px; /* 1200px+ — matches source Vyepti footer logo scale */
 
   /* logo sits 27px from the last social icon; the icon already emits a 13px
      right margin, so this adds the remaining 14px */
