@@ -14,6 +14,13 @@ main .section.isi-container { /* @boilerplate */
   border-top: var(--isi-section-border-width) solid var(--isi-section-border-color); /* @boilerplate */
 }
 
+/* The ISI fragment nests .isi-container inside an outer .section that still
+   carries the default section margin-bottom (--section-padding). In the source
+   the ISI sits flush against the footer, so drop that trailing gap. */
+main > .section:has(.isi-container) {
+  margin-bottom: 0;
+}
+
 /* ── In-page inline content (Row 2) ───────────────────────────── */
 main .isi .isi-inline { /* @boilerplate */
   display: block; /* @boilerplate */
