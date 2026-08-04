@@ -15,7 +15,7 @@
   --isi-heading-margin-bottom: 0; /* @boilerplate */
   --isi-inline-heading-padding-bottom: 16px;
   --isi-inline-paragraph-padding-bottom: 22px;
-  --isi-inline-link-color: var(--isi-text-color);
+  --isi-inline-link-color: var(--brand-teal); /* source ISI links are #046183 */
   --isi-inline-link-font-size: 18px;
   --isi-inline-link-font-weight: 700;
   --isi-inline-link-line-height: 26px;
