@@ -7,18 +7,20 @@
      • padding-bottom 32px (mobile) / 64px (tablet+) — space before the footer
    Here the border lives on the section, so the same margin/padding go on it. */
 main .section.isi-container { /* @boilerplate */
-  margin-top: var(--isi-section-margin-top);
+  margin-top: 0;
   margin-bottom: 0;
   padding-top: var(--isi-section-padding-top);
   padding-bottom: var(--isi-section-padding-bottom);
-  border-top: var(--isi-section-border-width) solid var(--isi-section-border-color); /* @boilerplate */
 }
 
-/* The ISI fragment nests .isi-container inside an outer .section that still
-   carries the default section margin-bottom (--section-padding). In the source
-   the ISI sits flush against the footer, so drop that trailing gap. */
+/* The ISI fragment nests .isi-container inside an outer full-width .section.
+   The divider border lives here (not on the inset .isi-container) so it spans
+   the full viewport width like the source, with the content inset below it.
+   The margin above the divider and the space before the footer live here too. */
 main > .section:has(.isi-container) {
+  margin-top: var(--isi-section-margin-top);
   margin-bottom: 0;
+  border-top: var(--isi-section-border-width) solid var(--isi-section-border-color); /* @boilerplate */
 }
 
 /* ── In-page inline content (Row 2) ───────────────────────────── */
@@ -346,10 +348,12 @@ body.isi-scroll-locked {
     display: block;
   }
 
-  /* Inline copy: APPROVED USE leads again at tablet+ (matches source). */
+  /* Inline copy: APPROVED USE leads again at tablet+ (matches source), with a
+     16px gap before the IMPORTANT SAFETY INFORMATION group below it. */
   main .isi .isi-inline-approved {
     order: 0;
     padding-top: 0;
+    margin-bottom: 16px;
   }
 
   main .isi .isi-inline-safety {
