@@ -15,9 +15,19 @@
  * to the section; the heading is constrained to the site width.
  */
 main .section.search-results-banner {
+  display: flex;
+  align-items: center;
+  min-height: 200px;
   margin: 0 0 20px;
-  padding: 40px 0;
-  background: linear-gradient(100deg, #bfe4f2 0%, #d6eef8 45%, #a9d8ec 100%);
+  padding: 32px 0;
+  /* soft, airy pale-blue band: a bright glow toward the upper-centre over a
+     gentle light-blue wash, matching the source hero. */
+  background:
+    radial-gradient(120% 140% at 60% 20%, #eaf6fc 0%, #cfeaf6 45%, #b3ddef 100%);
+}
+
+main .section.search-results-banner > div {
+  width: 100%;
 }
 
 main .section.search-results-banner h1 {
