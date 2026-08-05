@@ -9,34 +9,39 @@
  */
 
 /*
- * "Search Results" banner: light-blue gradient band with a left-aligned
- * heading. Rendered as a plain section (not the hero block) so it stays
- * simple and aligns to the site container. The full-bleed gradient is applied
- * to the section; the heading is constrained to the site width.
+ * "Search Results" banner: a normal section with the banner authored as a
+ * regular image (delivered as an optimized media_* <picture>, like every other
+ * image on the site) plus a heading. The image is positioned to fill the
+ * section as a background, with the heading centred over it.
  */
 main .section.search-results-banner {
-  box-sizing: border-box;
+  position: relative;
   display: flex;
   align-items: center;
-  margin: 0 0 20px;
-  padding: 0;
-
-  /* Source hero banner image (soft blue with a bright upper-centre glow).
-     The banner scales to full width and its height follows the image's aspect
-     ratio (like the source's fluid <img>), swapping the image + ratio per
-     breakpoint to match the source's art direction. A min-height floor keeps
-     the heading from clipping on very narrow screens. */
   min-height: 120px;
-  aspect-ratio: 750 / 404;
-  background-color: #cfeaf6;
-  background-image: url('./banner-mobile.webp');
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
+  margin: 0 0 20px;
+  padding: 32px 0;
+  overflow: hidden;
 }
 
-main .section.search-results-banner > div {
+/* the authored banner image fills the section behind the content */
+main .section.search-results-banner picture {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+main .section.search-results-banner picture img {
   width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+main .section.search-results-banner .default-content-wrapper {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  margin: 0 auto;
 }
 
 main .section.search-results-banner h1 {
@@ -46,10 +51,6 @@ main .section.search-results-banner h1 {
 }
 
 .search-results {
-  /* Reserve a baseline of vertical space so the footer doesn't jump (CLS) when
-     results are injected asynchronously after query-index.json loads. Sized to
-     roughly a first-screen of results; taller result sets extend naturally. */
-  min-height: 400px;
   padding: 24px 0 40px;
 }
 
@@ -192,29 +193,5 @@ main .section.search-results-banner h1 {
 .search-results .search-results-page:disabled {
   color: var(--text-color-light);
   cursor: default;
-}
-
-/* Banner image art-direction: swap the source hero image at the project's
-   established breakpoints (768 / 992 / 1200), scaling height by each image's
-   aspect ratio. */
-@media (width >= 768px) {
-  main .section.search-results-banner {
-    aspect-ratio: 1672 / 480;
-    background-image: url('./banner-tablet.webp');
-  }
-}
-
-@media (width >= 992px) {
-  main .section.search-results-banner {
-    aspect-ratio: 2880 / 480;
-    background-image: url('./banner-desktop.webp');
-  }
-}
-
-@media (width >= 1200px) {
-  main .section.search-results-banner {
-    aspect-ratio: 3840 / 480;
-    background-image: url('./banner-wide.webp');
-  }
 }
 
