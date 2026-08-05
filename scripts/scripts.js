@@ -717,7 +717,7 @@ export function decorateIconsAndBullets(element, prefix = '') {
   iconsToBullets(element);
 }
 
-/* === BRACKET TAGS ===
+/* === BRACKET TAGS v3 ===
  * Bracket syntax: [[class1,class2]text] → <span class="class1 class2">text</span>
  * Nested section syntax: [#section-id] → cloned content from section-metadata ID.
  * Only alphanumeric, hyphen, and underscore are allowed in class names.
@@ -736,14 +736,14 @@ function parseSplitClasses(raw) {
   return parseClasses(raw, /^[a-z0-9-]+$/);
 }
 
-const SPLIT_INLINE_TAGS = new Set(['STRONG', 'EM', 'A', 'BR']);
+const SPLIT_INLINE_TAGS = new Set(['STRONG', 'EM', 'A', 'BR', 'U', 'SUP', 'SUB', 'DEL']);
 
 const ALIGNMENT_CLASSES = new Set(['center', 'center-mobile', 'center-desktop',
   'left', 'left-mobile', 'left-desktop', 'right', 'right-mobile', 'right-desktop']);
 
 const SPAN_TAG_SELECTOR = 'h1, h2, h3, h4, h5, h6, p, li';
 
-const SPLIT_OPEN_RE = /\[\[([a-z0-9,-]+)\]\s*$/;
+const SPLIT_OPEN_RE = /\[\[([a-z0-9,-]+)\]([^\]]*)$/;
 
 const SPAN_TAG_RE = /\[\[(?=([^\]]+))\1\](?=([^\]]*))\2\]/g;
 
@@ -780,7 +780,21 @@ function splitAlignmentClasses(classes) {
   }, { alignClasses: [], regularClasses: [] });
 }
 
-function applySplitBoundaryPass(el) {
+// Descends through single-child wrappers (e.g. a heading whose entire content is one
+// <strong>) to find the element whose direct children actually hold the split text/inline
+// nodes. Bracket content can be nested one or more levels inside such a wrapper.
+function getSplitContainer(el) {
+  let container = el;
+  while (container.childNodes.length === 1) {
+    const [only] = container.childNodes;
+    if (only.nodeType !== Node.ELEMENT_NODE || !SPLIT_INLINE_TAGS.has(only.nodeName)) break;
+    container = only;
+  }
+  return container;
+}
+
+function applySplitBoundaryPass(container, alignTarget = container) {
+  const el = container;
   const children = [...el.childNodes];
 
   for (let i = 0; i < children.length - 2; i += 1) {
@@ -816,7 +830,7 @@ function applySplitBoundaryPass(el) {
         const closeMatch = openMatch && classes.length ? next.nodeValue.match(/^\s*\]/) : null;
         if (closeMatch) {
           const { alignClasses, regularClasses } = splitAlignmentClasses(classes);
-          if (alignClasses.length) el.classList.add(...alignClasses);
+          if (alignClasses.length) alignTarget.classList.add(...alignClasses);
           prev.nodeValue = prev.nodeValue.slice(0, -openMatch[0].length);
           next.nodeValue = next.nodeValue.slice(closeMatch[0].length);
           if (regularClasses.length) {
@@ -837,7 +851,7 @@ function applySplitBoundaryPass(el) {
       if (isPrevInline && isNextInline && openerText.endsWith('[[') && classes.length
         && closerText.startsWith(']') && closerText.endsWith(']')) {
         const { alignClasses, regularClasses } = splitAlignmentClasses(classes);
-        if (alignClasses.length) el.classList.add(...alignClasses);
+        if (alignClasses.length) alignTarget.classList.add(...alignClasses);
         next.textContent = closerText.slice(1, -1);
         if (regularClasses.length) {
           const insertRef = next.nextSibling;
@@ -1014,8 +1028,8 @@ function findMultiNodeSpanBoundary(el) {
   return null;
 }
 
-function applyMultiNodeSpanTag(el) {
-  const boundary = findMultiNodeSpanBoundary(el);
+function applyMultiNodeSpanTag(container, alignTarget = container) {
+  const boundary = findMultiNodeSpanBoundary(container);
   if (!boundary) return false;
   const {
     openNode, afterOpen, openIndex, classes, closeNode, closeIdx,
@@ -1035,7 +1049,7 @@ function applyMultiNodeSpanTag(el) {
   } else {
     range.insertNode(fragment);
   }
-  if (alignClasses.length) el.classList.add(...alignClasses);
+  if (alignClasses.length) alignTarget.classList.add(...alignClasses);
 
   openNode.nodeValue = openNode.nodeValue.slice(0, openIndex);
   closeNode.nodeValue = closeNode.nodeValue.slice(1);
@@ -1044,14 +1058,18 @@ function applyMultiNodeSpanTag(el) {
 
 export function decorateSpanTags(element) {
   element.querySelectorAll(SPAN_TAG_SELECTOR).forEach((el) => {
-    if (el.textContent.includes('[[')) hoistAlignmentAcrossInlines(el);
+    if (!el.textContent.includes('[[')) return;
+
+    hoistAlignmentAcrossInlines(el);
 
     const nodes = collectTextNodes(el, '[[');
     nodes.forEach((n) => replaceTextNode(n, el));
-    applySplitBoundaryPass(el);
+
+    const container = getSplitContainer(el);
+    applySplitBoundaryPass(container, el);
 
     while (el.textContent.includes('[[')) {
-      if (!applyMultiNodeSpanTag(el)) break;
+      if (!applyMultiNodeSpanTag(container, el)) break;
     }
   });
 
