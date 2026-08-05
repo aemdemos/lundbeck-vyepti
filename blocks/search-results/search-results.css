@@ -25,12 +25,13 @@ main .section.search-results-banner {
   overflow: hidden;
 }
 
-/* match the source banner proportions: the band scales with viewport width
-   (≈6:1, like the source hero image) rather than hugging the heading */
+/* the source banner is a fixed-height band (~216px) that the image stretches
+   to fill — it does not grow with viewport width */
 @media (width >= 768px) {
   main .section.search-results-banner {
+    height: 216px;
     min-height: 0;
-    aspect-ratio: 1280 / 213;
+    padding: 0;
   }
 }
 
