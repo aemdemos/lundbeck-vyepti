@@ -18,13 +18,16 @@ main .section.search-results-banner {
   box-sizing: border-box;
   display: flex;
   align-items: center;
-  min-height: 174px;
   margin: 0 0 20px;
   padding: 0;
 
   /* Source hero banner image (soft blue with a bright upper-centre glow).
-     A matching pale-blue fallback shows if the image fails to load. The image
-     is swapped per breakpoint to match the source's art direction. */
+     The banner scales to full width and its height follows the image's aspect
+     ratio (like the source's fluid <img>), swapping the image + ratio per
+     breakpoint to match the source's art direction. A min-height floor keeps
+     the heading from clipping on very narrow screens. */
+  min-height: 120px;
+  aspect-ratio: 750 / 404;
   background-color: #cfeaf6;
   background-image: url('https://stage.assets.lundbeck-tools.com/content/dam/lundbeck/vyepti/overhaul/images/image-header-default-375-mobile@2x.png');
   background-position: center;
@@ -189,18 +192,21 @@ main .section.search-results-banner h1 {
    mirroring the source <picture> (tablet ≥768, desktop ≥992, wide ≥1600). */
 @media (width >= 768px) {
   main .section.search-results-banner {
+    aspect-ratio: 1672 / 480;
     background-image: url('https://stage.assets.lundbeck-tools.com/content/dam/lundbeck/vyepti/overhaul/images/hero-tablet-default-836-tablet@2x.png');
   }
 }
 
 @media (width >= 992px) {
   main .section.search-results-banner {
+    aspect-ratio: 2880 / 480;
     background-image: url('https://stage.assets.lundbeck-tools.com/content/dam/lundbeck/vyepti/overhaul/images/image-header-default-1440-desktop@2x.png');
   }
 }
 
 @media (width >= 1600px) {
   main .section.search-results-banner {
+    aspect-ratio: 3840 / 480;
     background-image: url('https://stage.assets.lundbeck-tools.com/content/dam/lundbeck/vyepti/overhaul/images/image-header-default-1920-desktopwide@2x.png');
   }
 }
