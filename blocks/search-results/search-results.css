@@ -22,9 +22,10 @@ main .section.search-results-banner {
   padding: 32px 0;
 
   /* Source hero banner image (soft blue with a bright upper-centre glow).
-     A matching pale-blue fallback shows if the image fails to load. */
+     A matching pale-blue fallback shows if the image fails to load. The image
+     is swapped per breakpoint to match the source's art direction. */
   background-color: #cfeaf6;
-  background-image: url('https://stage.assets.lundbeck-tools.com/content/dam/lundbeck/vyepti/overhaul/images/image-header-default-1920-desktopwide@2x.png');
+  background-image: url('https://stage.assets.lundbeck-tools.com/content/dam/lundbeck/vyepti/overhaul/images/image-header-default-375-mobile@2x.png');
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -181,5 +182,25 @@ main .section.search-results-banner h1 {
 .search-results .search-results-page:disabled {
   color: var(--text-color-light);
   cursor: default;
+}
+
+/* Banner image art-direction: swap the source hero image per breakpoint,
+   mirroring the source <picture> (tablet ≥768, desktop ≥992, wide ≥1600). */
+@media (width >= 768px) {
+  main .section.search-results-banner {
+    background-image: url('https://stage.assets.lundbeck-tools.com/content/dam/lundbeck/vyepti/overhaul/images/hero-tablet-default-836-tablet@2x.png');
+  }
+}
+
+@media (width >= 992px) {
+  main .section.search-results-banner {
+    background-image: url('https://stage.assets.lundbeck-tools.com/content/dam/lundbeck/vyepti/overhaul/images/image-header-default-1440-desktop@2x.png');
+  }
+}
+
+@media (width >= 1600px) {
+  main .section.search-results-banner {
+    background-image: url('https://stage.assets.lundbeck-tools.com/content/dam/lundbeck/vyepti/overhaul/images/image-header-default-1920-desktopwide@2x.png');
+  }
 }
 
