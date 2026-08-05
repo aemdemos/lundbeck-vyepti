@@ -8,6 +8,24 @@
  * Matches the vyepti.com /search-results design.
  */
 
+/*
+ * "Search Results" banner: light-blue gradient band with a left-aligned
+ * heading. Rendered as a plain section (not the hero block) so it stays
+ * simple and aligns to the site container. The full-bleed gradient is applied
+ * to the section; the heading is constrained to the site width.
+ */
+main .section.search-results-banner {
+  margin: 0 0 20px;
+  padding: 40px 0;
+  background: linear-gradient(100deg, #bfe4f2 0%, #d6eef8 45%, #a9d8ec 100%);
+}
+
+main .section.search-results-banner h1 {
+  margin: 0;
+  color: var(--brand-primary);
+  font-family: var(--heading-font-family);
+}
+
 .search-results {
   padding: 24px 0 40px;
 }
