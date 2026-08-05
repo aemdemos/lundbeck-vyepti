@@ -266,7 +266,7 @@ h6 { /* @libs */
   color: var(--text-color); /* @libs */
 }
 
-h1 { /* @libs */
+h1, .size-h1 { /* @libs */
   font-size: var(--heading-font-size-xxl); /* @libs */
   line-height: 1.125; /* @libs */
   color: var(--brand-primary); /* @libs */
@@ -274,13 +274,13 @@ h1 { /* @libs */
   max-width: var(--h1-max-width); /* @libs */
 }
 
-h2 { /* @libs */
+h2, .size-h2 { /* @libs */
   font-size: var(--heading-font-size-xl); /* @libs */
   line-height: var(--heading-line-height); /* @libs */
   color: var(--brand-primary); /* @libs */
 }
 
-h3 { /* @libs */
+h3, .size-h3 { /* @libs */
   font-size: var(--heading-font-size-l); /* @libs */
   font-weight: var(--font-weight-bold); /* @libs */
   line-height: 1.6; /* @libs */
@@ -288,20 +288,20 @@ h3 { /* @libs */
   margin-bottom: 0; /* @libs */
 }
 
-h4 { /* @libs */
+h4, .size-h4 { /* @libs */
   font-size: var(--heading-font-size-m); /* @libs */
   font-weight: var(--font-weight-bold); /* @libs */
   line-height: 1.5; /* @libs */
 }
 
-h5 { /* @libs */
+h5, .size-h5 { /* @libs */
   font-size: var(--heading-font-size-s); /* @libs */
   font-weight: var(--font-weight-bold); /* @libs */
   line-height: 1.22; /* @libs */
   color: var(--brand-primary-dark); /* @libs */
 }
 
-h6 { /* @libs */
+h6, .size-h6 { /* @libs */
   font-size: var(--heading-font-size-xs); /* @libs */
   font-weight: var(--font-weight-bold); /* @libs */
 }
@@ -311,9 +311,11 @@ dl,
 ol,
 ul,
 pre,
-blockquote { /* @libs */
+blockquote,
+.size-p { /* @libs */
   margin-top: var(--block-margin-top); /* @libs */
   margin-bottom: var(--block-margin-bottom); /* @libs */
+  font-size: var(--body-font-size-s); /* @libs */
 }
 
 code,
