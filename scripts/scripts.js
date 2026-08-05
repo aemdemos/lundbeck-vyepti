@@ -743,7 +743,7 @@ const ALIGNMENT_CLASSES = new Set(['center', 'center-mobile', 'center-desktop',
 
 const SPAN_TAG_SELECTOR = 'h1, h2, h3, h4, h5, h6, p, li';
 
-const SPLIT_OPEN_RE = /\[\[([a-z0-9,-]+)\]([^\]]*)$/;
+const SPLIT_OPEN_RE = /\[\[([a-z0-9,-]+)\]\s*$/;
 
 const SPAN_TAG_RE = /\[\[(?=([^\]]+))\1\](?=([^\]]*))\2\]/g;
 
