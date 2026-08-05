@@ -143,6 +143,7 @@ header .search .search-results:empty {
 header .nav-links-container {
   max-width: var(--header-nav-max-width-mobile);
   margin: 0 auto;
+  padding: 0 15px;
 }
 
 header .nav-links-list {
@@ -268,7 +269,9 @@ header .nav-dropdown-menu a {
   header nav.nav-mobile-open .nav-links-row {
     display: block;
     margin-right: auto;
-    margin-left: auto;  
+    margin-left: auto;
+    padding-right: var(--header-padding-container);
+    padding-left: var(--header-padding-container);
   }
 
   header nav.nav-mobile-open .nav-links-row .nav-links-list {
@@ -609,6 +612,7 @@ header .nav-dropdown-menu a {
     padding-left: var(--header-padding-container);
     margin-right: auto;
     margin-left: auto;
+    max-width: var(--header-nav-max-width-mobile);
   }
 
   header .nav-utility-tagline {
@@ -728,21 +732,6 @@ header .nav-dropdown-menu a {
 
   header .nav-utility-dropdown-trigger[aria-expanded='true'] + .nav-utility-dropdown-menu {
     display: block;
-  }
-
-@media (width >= 576px) {
- header .nav-utility-container{
-  max-width: var(--header-nav-max-width-mobile);
- }
-
- header .nav-links-container {
-  padding: 0 15px;
- }
-
- header nav.nav-mobile-open .nav-links-row {
-  padding-right: var(--header-padding-container);
-  padding-left: var(--header-padding-container);
- }
   }
 
 @media (width >= 768px) {

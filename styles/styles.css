@@ -108,7 +108,6 @@
 
   /* nav heights */
   --nav-height: 204px; /* matches rendered nav height so main doesn't shift on load */
-  --nav-height-mobile: 138px; /* matches rendered mobile nav height (no post-load shift) */
   --nav-brand-row-height-mobile: 97px; /* @libs */
   --breadcrumbs-height: 34px; /* @libs */
   --header-height: var(--nav-height); /* @libs */
@@ -236,7 +235,11 @@ body.appear { /* @libs */
 }
 
 header { /* @libs */
-  min-height: var(--nav-height-mobile); /* fits mobile nav; grows to --nav-height at 992px+ */
+  /* One uniform mobile reservation for all widths < 768px. 128px matches the
+     header content (30px teal strip + ~98px brand row); the header grows to fit
+     when the tagline wraps to 3 lines on very narrow phones, so no gap appears
+     above the hero at any mobile width. Grows to --nav-height at 992px+. */
+  min-height: 128px;
   height: auto; /* fit nav content so it never overflows onto main */
 }
 
@@ -963,25 +966,6 @@ main .section.stats-callout > div:not(.bg-image) {
 main .section.stats-callout h2,
 main .section.stats-callout h4 {
   color: var(--brand-primary);
-}
-
-@media (width >= 576px) {
-  :root {
-    --max-width-site: 540px;
-  }
-
-  main .section.stats-callout > div:not(.bg-image) {
-    max-width: 540px;
-  }
-
-  /* From this width up the brand tagline fits on 2 lines, so the header content
-     is ~128px (30px teal strip + 98px brand row), matching vyepti.com's 129px —
-     not the 138px reserved for narrow phones (where it wraps to 3). Match the
-     reservation to real content to remove the gap above the hero, while narrow
-     phones below 576px keep 138px so there's no load-time shift. */
-  header {
-    min-height: 128px;
-  }
 }
 
 @media (width >= 768px) { /* @libs */
