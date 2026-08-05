@@ -1,0 +1,219 @@
+@import url('./search-results-tokens.css');
+
+/*
+ * search-results — dedicated search results page block for Vyepti.
+ * Reads ?searchText=<query>&p=<page>&rp=<results-per-page> and renders the
+ * matching pages from query-index.json client-side, with a "N results found"
+ * count and pagination controls (shown only when results span multiple pages).
+ * Matches the vyepti.com /search-results design.
+ */
+
+/*
+ * "Search Results" banner: a normal section with the banner authored as a
+ * regular image (delivered as an optimized media_* <picture>, like every other
+ * image on the site) plus a heading. The image is positioned to fill the
+ * section as a background, with the heading centred over it.
+ */
+main .section.search-results-banner {
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 174px;
+  margin: 0 0 20px;
+  padding: 32px 0;
+  overflow: hidden;
+}
+
+/* the source banner is a fixed-height band (~216px) that the image stretches
+   to fill — it does not grow with viewport width */
+@media (width >= 768px) {
+  main .section.search-results-banner {
+    height: 216px;
+    min-height: 0;
+    padding: 0;
+  }
+}
+
+/* the authored banner image fills the section behind the content; its <p>
+   wrapper is collapsed so it doesn't take layout space */
+main .section.search-results-banner .default-content-wrapper > p:has(picture) {
+  margin: 0;
+}
+
+/* the banner image is full-bleed: it lives inside the (max-width) content
+   wrapper but breaks out to span the full section width edge-to-edge */
+main .section.search-results-banner picture {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 100vw;
+  transform: translateX(-50%);
+  z-index: 0;
+}
+
+main .section.search-results-banner picture img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+main .section.search-results-banner .default-content-wrapper {
+  z-index: 1;
+  width: 100%;
+  margin: 0 auto;
+}
+
+main .section.search-results-banner h1 {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  color: var(--brand-primary);
+  font-family: var(--heading-font-family);
+}
+
+.search-results {
+  padding: 24px 0 40px;
+}
+
+/* "N results found" summary line — matches source: 16px, regular, grey */
+.search-results .search-results-count {
+  margin: 0;
+  color: var(--search-results-count-color);
+  font-family: var(--body-font-family);
+  font-size: 16px;
+}
+
+/* results list */
+.search-results ul.search-results-list {
+  display: block;
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+}
+
+.search-results ul.search-results-list > li {
+  padding: 0;
+  margin: 0;
+}
+
+/* each result is a link with a divider below and 32px vertical padding,
+   matching the source's result-wrapper spacing */
+.search-results ul.search-results-list > li > a {
+  display: block;
+  padding: 32px 0;
+  border-bottom: 1px solid #333;
+  background-color: transparent;
+  color: currentcolor;
+  cursor: pointer;
+}
+
+.search-results ul.search-results-list > li > a:hover,
+.search-results ul.search-results-list > li > a:focus {
+  text-decoration: none;
+}
+
+.search-results ul.search-results-list > li .search-results-result-title {
+  margin: 0;
+  padding: 0 0 8px;
+  color: var(--search-results-title-color);
+  font-family: var(--heading-font-family);
+  font-size: var(--search-results-title-size);
+  font-weight: 600;
+  line-height: 27px;
+}
+
+.search-results ul.search-results-list > li .search-results-result-title a {
+  color: var(--search-results-title-color);
+  font-weight: inherit;
+  text-decoration: none;
+}
+
+.search-results ul.search-results-list > li .search-results-result-title a:hover {
+  text-decoration: underline;
+}
+
+.search-results ul.search-results-list > li p {
+  margin: 0;
+  color: var(--text-color);
+  font-family: var(--body-font-family);
+  font-size: var(--heading-font-size-xs);
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+/* matched search terms (wrapped in <mark> by the block JS) */
+.search-results ul.search-results-list > li mark {
+  background-color: transparent;
+  color: var(--search-results-title-color);
+  font-weight: 700;
+}
+
+/* source shows text-only results — hide the thumbnail image */
+.search-results ul.search-results-list > li .search-results-result-image {
+  display: none;
+}
+
+/* no results / empty state */
+.search-results ul.search-results-list.no-results > li {
+  border: none;
+  padding: 0;
+  margin: 0;
+  color: var(--text-color);
+  font-family: var(--body-font-family);
+  font-size: var(--heading-font-size-xs);
+}
+
+/* pagination — connected segmented control, centered */
+.search-results .search-results-pagination {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0;
+  margin-top: 32px;
+}
+
+.search-results .search-results-page {
+  min-width: 44px;
+  height: 40px;
+  margin: 0;
+  padding: 0 14px;
+  border: 1px solid var(--search-results-border-color);
+  border-left-width: 0;
+  border-radius: 0; /* reset the site's default pill button radius */
+  background: var(--background-color);
+  color: var(--search-results-page-color);
+  font-family: var(--body-font-family);
+  font-size: var(--heading-font-size-xs);
+  cursor: pointer;
+}
+
+/* first/last buttons get the outer left/right edges */
+.search-results .search-results-page:first-child {
+  border-left-width: 1px;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+
+.search-results .search-results-page:last-child {
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+.search-results .search-results-page:hover:not(:disabled, .is-current) {
+  background: var(--light-color);
+}
+
+.search-results .search-results-page.is-current {
+  background: var(--search-results-page-current-bg);
+  border-color: var(--search-results-page-current-bg);
+  color: var(--search-results-page-current-color);
+  font-weight: 700;
+}
+
+.search-results .search-results-page:disabled {
+  color: var(--text-color-light);
+  cursor: default;
+}
+

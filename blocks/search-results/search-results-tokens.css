@@ -1,0 +1,10 @@
+/* search-results design tokens (Vyepti) */
+:root {
+  --search-results-title-color: var(--brand-primary); /* teal #046183 */
+  --search-results-title-size: 22px;
+  --search-results-border-color: #ccc;
+  --search-results-count-color: var(--text-color-light);
+  --search-results-page-color: var(--brand-primary);
+  --search-results-page-current-bg: var(--brand-primary);
+  --search-results-page-current-color: var(--background-color);
+}
