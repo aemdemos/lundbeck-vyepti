@@ -973,6 +973,15 @@ main .section.stats-callout h4 {
   main .section.stats-callout > div:not(.bg-image) {
     max-width: 540px;
   }
+
+  /* From this width up the brand tagline fits on 2 lines, so the header content
+     is ~128px (30px teal strip + 98px brand row), matching vyepti.com's 129px —
+     not the 138px reserved for narrow phones (where it wraps to 3). Match the
+     reservation to real content to remove the gap above the hero, while narrow
+     phones below 576px keep 138px so there's no load-time shift. */
+  header {
+    min-height: 128px;
+  }
 }
 
 @media (width >= 768px) { /* @libs */

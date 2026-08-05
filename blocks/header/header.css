@@ -594,6 +594,11 @@ header .nav-dropdown-menu a {
     background: var(--brand-primary);
     padding: 2px 0;
     text-align: center;
+
+    /* Match the source teal strip height exactly (vyepti.com renders 30px).
+       box-sizing: border-box keeps the 2px padding inside the 30px. */
+    box-sizing: border-box;
+    min-height: 30px;
   }
 
   header .nav-utility-container {
