@@ -1,0 +1,138 @@
+@import url('./search-results-tokens.css');
+
+/*
+ * search-results — dedicated search results page block for Vyepti.
+ * Reads ?searchText=<query>&p=<page>&rp=<results-per-page> and renders the
+ * matching pages from query-index.json client-side, with a "N results found"
+ * count and pagination controls (shown only when results span multiple pages).
+ * Matches the vyepti.com /search-results design.
+ */
+
+.search-results {
+  padding: 24px 0 40px;
+}
+
+/* "N results found" summary line */
+.search-results .search-results-count {
+  margin: 0 0 24px;
+  color: var(--search-results-count-color);
+  font-family: var(--body-font-family);
+  font-size: 14px;
+}
+
+/* results list */
+.search-results ul.search-results-list {
+  display: block;
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+}
+
+.search-results ul.search-results-list > li {
+  padding: 0 0 24px;
+  margin: 0 0 24px;
+  border-bottom: 1px solid var(--search-results-border-color);
+}
+
+.search-results ul.search-results-list > li:last-child {
+  border-bottom: 0;
+}
+
+.search-results ul.search-results-list > li > a {
+  display: block;
+  height: 100%;
+  background-color: transparent;
+  color: currentcolor;
+  cursor: pointer;
+}
+
+.search-results ul.search-results-list > li > a:hover,
+.search-results ul.search-results-list > li > a:focus {
+  text-decoration: none;
+}
+
+.search-results ul.search-results-list > li .search-results-result-title {
+  margin: 0 0 8px;
+  padding: 0;
+  color: var(--search-results-title-color);
+  font-family: var(--heading-font-family);
+  font-size: var(--search-results-title-size);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.search-results ul.search-results-list > li .search-results-result-title a {
+  color: var(--search-results-title-color);
+  text-decoration: none;
+}
+
+.search-results ul.search-results-list > li .search-results-result-title a:hover {
+  text-decoration: underline;
+}
+
+.search-results ul.search-results-list > li p {
+  margin: 0;
+  color: var(--text-color);
+  font-size: var(--heading-font-size-xs);
+  line-height: 1.5;
+}
+
+/* matched search terms (wrapped in <mark> by the block JS) */
+.search-results ul.search-results-list > li mark {
+  background-color: transparent;
+  color: var(--search-results-title-color);
+  font-weight: 700;
+}
+
+/* source shows text-only results — hide the thumbnail image */
+.search-results ul.search-results-list > li .search-results-result-image {
+  display: none;
+}
+
+/* no results / empty state */
+.search-results ul.search-results-list.no-results > li {
+  border: none;
+  padding: 0;
+  margin: 0;
+  color: var(--text-color);
+  font-family: var(--body-font-family);
+  font-size: var(--heading-font-size-xs);
+}
+
+/* pagination */
+.search-results .search-results-pagination {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 32px;
+}
+
+.search-results .search-results-page {
+  min-width: 40px;
+  height: 40px;
+  padding: 0 12px;
+  border: 1px solid var(--search-results-border-color);
+  border-radius: 4px;
+  background: var(--background-color);
+  color: var(--search-results-page-color);
+  font-family: var(--body-font-family);
+  font-size: var(--heading-font-size-xs);
+  cursor: pointer;
+}
+
+.search-results .search-results-page:hover:not(:disabled, .is-current) {
+  background: var(--light-color);
+}
+
+.search-results .search-results-page.is-current {
+  background: var(--search-results-page-current-bg);
+  border-color: var(--search-results-page-current-bg);
+  color: var(--search-results-page-current-color);
+  font-weight: 700;
+}
+
+.search-results .search-results-page:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+

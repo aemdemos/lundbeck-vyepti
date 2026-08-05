@@ -1,4 +1,4 @@
-import { getMetadata, decorateBlock, loadBlock } from '../../scripts/aem.js';
+import { getMetadata, decorateIcons } from '../../scripts/aem.js';
 import { loadFragment } from '../fragment/fragment.js';
 
 /**
@@ -62,9 +62,22 @@ function closeOnClickOutside(e) {
 }
 
 /**
- * Builds a search block instance (uses the shared blocks/search block) and
- * loads its CSS + JS. Wrapped in a .nav-search container for header layout.
- * @returns {HTMLElement} wrapper containing the (async-decorated) search block
+ * Resolve the /search-results page path, mirroring any "/content" prefix used
+ * by the current page so it works in both authoring and published contexts.
+ * @returns {string}
+ */
+function searchResultsPath() {
+  const contentPrefix = window.location.pathname.startsWith('/content/') ? '/content' : '';
+  return `${contentPrefix}/search-results`;
+}
+
+/**
+ * Builds the header search control: a search input inside the styled pill with
+ * a magnifying-glass submit icon. Submitting (Enter or icon click) navigates to
+ * the /search-results page with the query in ?searchText=, where the
+ * search-results block renders the matches. Reuses the existing
+ * .search-box / .search-input / .icon-search markup for styling parity.
+ * @returns {HTMLElement} wrapper containing the search form
  */
 function buildSearchBlock() {
   const searchWrapper = document.createElement('div');
@@ -72,11 +85,42 @@ function buildSearchBlock() {
 
   const searchBlock = document.createElement('div');
   searchBlock.className = 'search block';
-  searchBlock.dataset.blockName = 'search';
+
+  const form = document.createElement('form');
+  form.className = 'search-box';
+  form.setAttribute('role', 'search');
+
+  const input = document.createElement('input');
+  input.type = 'search';
+  input.className = 'search-input';
+  input.name = 'searchText';
+  input.placeholder = 'Search...';
+  input.setAttribute('aria-label', 'Search');
+
+  const button = document.createElement('button');
+  button.type = 'submit';
+  button.className = 'search-submit';
+  button.setAttribute('aria-label', 'Search');
+  const buttonIcon = document.createElement('span');
+  buttonIcon.className = 'icon icon-search';
+  button.append(buttonIcon);
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const query = input.value.trim();
+    if (!query) return;
+    const url = new URL(searchResultsPath(), window.location.origin);
+    url.searchParams.set('searchText', query);
+    url.searchParams.set('p', '1');
+    url.searchParams.set('rp', '10');
+    window.location.assign(url.toString());
+  });
+
+  form.append(input, button);
+  searchBlock.append(form);
   searchWrapper.append(searchBlock);
 
-  decorateBlock(searchBlock);
-  loadBlock(searchBlock);
+  decorateIcons(searchWrapper);
 
   return searchWrapper;
 }

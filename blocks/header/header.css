@@ -100,8 +100,8 @@ header .search .search-box .search-input::placeholder {
   color: var(--header-text-color);
 }
 
-/* search icon button (right half of the pill) */
-header .search .search-box .icon-search {
+/* search icon submit button (right half of the pill) */
+header .search .search-box .search-submit {
   grid-column: 2;
   display: flex;
   align-items: center;
@@ -110,11 +110,19 @@ header .search .search-box .icon-search {
   height: 100%;
   padding: 0 12px;
   box-sizing: border-box;
+  border: 0;
+  background: transparent;
   cursor: pointer;
-  margin-bottom:-20px;
+  margin-bottom: -20px;
 }
 
-header .search .search-box .icon-search img {
+header .search .search-box .search-submit .icon-search {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+header .search .search-box .search-submit .icon-search img {
   width: 18px;
   height: 18px;
 }
