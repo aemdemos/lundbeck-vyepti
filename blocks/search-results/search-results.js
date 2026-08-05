@@ -105,7 +105,7 @@ function renderPagination(block, filteredData, searchTerms, perPage, currentPage
   const lastPage = Math.min(totalPages, firstPage + WINDOW - 1);
   firstPage = Math.max(1, lastPage - WINDOW + 1);
 
-  nav.append(makeButton('Prev', currentPage - 1, { disabled: currentPage <= 1 }));
+  nav.append(makeButton('Previous', currentPage - 1, { disabled: currentPage <= 1 }));
   for (let page = firstPage; page <= lastPage; page += 1) {
     nav.append(makeButton(String(page), page, { current: page === currentPage }));
   }
