@@ -72,12 +72,12 @@ function searchResultsPath() {
 }
 
 /**
- * Builds the header search control: a search input inside the styled pill with
- * a magnifying-glass submit icon. Submitting (Enter or icon click) navigates to
- * the /search-results page with the query in ?searchText=, where the
- * search-results block renders the matches. Reuses the existing
- * .search-box / .search-input / .icon-search markup for styling parity.
- * @returns {HTMLElement} wrapper containing the search form
+ * Builds the header search control. Keeps the exact original DOM structure
+ * (.search-box > .icon-search span + .search-input) so the existing header CSS
+ * styles it unchanged; the only behavior change is that submitting (Enter or
+ * clicking the icon) navigates to the /search-results page with the query in
+ * ?searchText=, rather than searching inline.
+ * @returns {HTMLElement} wrapper containing the search control
  */
 function buildSearchBlock() {
   const searchWrapper = document.createElement('div');
@@ -86,27 +86,23 @@ function buildSearchBlock() {
   const searchBlock = document.createElement('div');
   searchBlock.className = 'search block';
 
+  // A form wrapper enables submitting with Enter without altering the styled
+  // .search-box / .icon-search / .search-input elements the CSS targets.
   const form = document.createElement('form');
   form.className = 'search-box';
   form.setAttribute('role', 'search');
+
+  const icon = document.createElement('span');
+  icon.classList.add('icon', 'icon-search');
 
   const input = document.createElement('input');
   input.type = 'search';
   input.className = 'search-input';
   input.name = 'searchText';
   input.placeholder = 'Search...';
-  input.setAttribute('aria-label', 'Search');
+  input.setAttribute('aria-label', 'Search...');
 
-  const button = document.createElement('button');
-  button.type = 'submit';
-  button.className = 'search-submit';
-  button.setAttribute('aria-label', 'Search');
-  const buttonIcon = document.createElement('span');
-  buttonIcon.className = 'icon icon-search';
-  button.append(buttonIcon);
-
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
+  const goToResults = () => {
     const query = input.value.trim();
     if (!query) return;
     const url = new URL(searchResultsPath(), window.location.origin);
@@ -114,9 +110,17 @@ function buildSearchBlock() {
     url.searchParams.set('p', '1');
     url.searchParams.set('rp', '10');
     window.location.assign(url.toString());
-  });
+  };
 
-  form.append(input, button);
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    goToResults();
+  });
+  icon.addEventListener('click', goToResults);
+
+  // Match the original append order (icon first, then input); CSS grid places
+  // the icon in column 2 (right) and the input in column 1 (left).
+  form.append(icon, input);
   searchBlock.append(form);
   searchWrapper.append(searchBlock);
 
