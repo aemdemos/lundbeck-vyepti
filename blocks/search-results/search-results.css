@@ -20,10 +20,14 @@ main .section.search-results-banner {
   min-height: 200px;
   margin: 0 0 20px;
   padding: 32px 0;
-  /* soft, airy pale-blue band: a bright glow toward the upper-centre over a
-     gentle light-blue wash, matching the source hero. */
-  background:
-    radial-gradient(120% 140% at 60% 20%, #eaf6fc 0%, #cfeaf6 45%, #b3ddef 100%);
+
+  /* Source hero banner image (soft blue with a bright upper-centre glow).
+     A matching pale-blue fallback shows if the image fails to load. */
+  background-color: #cfeaf6;
+  background-image: url('https://stage.assets.lundbeck-tools.com/content/dam/lundbeck/vyepti/overhaul/images/image-header-default-1920-desktopwide@2x.png');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 main .section.search-results-banner > div {
