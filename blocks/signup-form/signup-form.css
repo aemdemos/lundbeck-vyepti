@@ -1,10 +1,4 @@
 /* Signup Form — styles
- * Mobile-first: unqueried rules below are the MOBILE default.
- * @media (width >= 768px)  = tablet and up
- * @media (width >= 992px)  = desktop and up
- * Rendered output at every viewport width matches the previous four-tier
- * (max-width) version, except .form-field label / .toggle-legend, which now
- * stay at 18px on mobile instead of dropping to 16px, per request.
  */
 .signup-form {
   display: flex;
@@ -282,8 +276,8 @@ p.signup-form-required-note {
   position: absolute;
   top: 1px;
   right: 1px;
-  width: 32px;    
-  height: 32px;    
+  width: 32px;
+  height: 32px;
   border: none;
   background: transparent;
   cursor: pointer;
@@ -299,8 +293,8 @@ p.signup-form-required-note {
 .form-field-popover-close::after {
   content: '';
   position: absolute;
-  width: 30px;      
-  height: 1.5px;      
+  width: 30px;
+  height: 1.5px;
   background: currentColor;
   border-radius: 2px;
 }
