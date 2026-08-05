@@ -29,7 +29,7 @@ main .section.search-results-banner {
   min-height: 120px;
   aspect-ratio: 750 / 404;
   background-color: #cfeaf6;
-  background-image: url('https://stage.assets.lundbeck-tools.com/content/dam/lundbeck/vyepti/overhaul/images/image-header-default-375-mobile@2x.png');
+  background-image: url('./banner-mobile.webp');
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -200,21 +200,21 @@ main .section.search-results-banner h1 {
 @media (width >= 768px) {
   main .section.search-results-banner {
     aspect-ratio: 1672 / 480;
-    background-image: url('https://stage.assets.lundbeck-tools.com/content/dam/lundbeck/vyepti/overhaul/images/hero-tablet-default-836-tablet@2x.png');
+    background-image: url('./banner-tablet.webp');
   }
 }
 
 @media (width >= 992px) {
   main .section.search-results-banner {
     aspect-ratio: 2880 / 480;
-    background-image: url('https://stage.assets.lundbeck-tools.com/content/dam/lundbeck/vyepti/overhaul/images/image-header-default-1440-desktop@2x.png');
+    background-image: url('./banner-desktop.webp');
   }
 }
 
 @media (width >= 1200px) {
   main .section.search-results-banner {
     aspect-ratio: 3840 / 480;
-    background-image: url('https://stage.assets.lundbeck-tools.com/content/dam/lundbeck/vyepti/overhaul/images/image-header-default-1920-desktopwide@2x.png');
+    background-image: url('./banner-wide.webp');
   }
 }
 
