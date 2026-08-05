@@ -188,8 +188,9 @@ main .section.search-results-banner h1 {
   cursor: default;
 }
 
-/* Banner image art-direction: swap the source hero image per breakpoint,
-   mirroring the source <picture> (tablet ≥768, desktop ≥992, wide ≥1600). */
+/* Banner image art-direction: swap the source hero image at the project's
+   established breakpoints (768 / 992 / 1200), scaling height by each image's
+   aspect ratio. */
 @media (width >= 768px) {
   main .section.search-results-banner {
     aspect-ratio: 1672 / 480;
@@ -204,7 +205,7 @@ main .section.search-results-banner h1 {
   }
 }
 
-@media (width >= 1600px) {
+@media (width >= 1200px) {
   main .section.search-results-banner {
     aspect-ratio: 3840 / 480;
     background-image: url('https://stage.assets.lundbeck-tools.com/content/dam/lundbeck/vyepti/overhaul/images/image-header-default-1920-desktopwide@2x.png');
