@@ -46,6 +46,10 @@ main .section.search-results-banner h1 {
 }
 
 .search-results {
+  /* Reserve a baseline of vertical space so the footer doesn't jump (CLS) when
+     results are injected asynchronously after query-index.json loads. Sized to
+     roughly a first-screen of results; taller result sets extend naturally. */
+  min-height: 400px;
   padding: 24px 0 40px;
 }
 
