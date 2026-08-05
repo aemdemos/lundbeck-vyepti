@@ -24,7 +24,12 @@ main .section.search-results-banner {
   overflow: hidden;
 }
 
-/* the authored banner image fills the section behind the content */
+/* the authored banner image fills the section behind the content; its <p>
+   wrapper is collapsed so it doesn't take layout space */
+main .section.search-results-banner .default-content-wrapper > p:has(picture) {
+  margin: 0;
+}
+
 main .section.search-results-banner picture {
   position: absolute;
   inset: 0;
