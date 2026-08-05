@@ -129,9 +129,11 @@ main .section.search-results-banner h1 {
 .search-results .search-results-page {
   min-width: 44px;
   height: 40px;
+  margin: 0;
   padding: 0 14px;
   border: 1px solid var(--search-results-border-color);
   border-left-width: 0;
+  border-radius: 0; /* reset the site's default pill button radius */
   background: var(--background-color);
   color: var(--search-results-page-color);
   font-family: var(--body-font-family);
