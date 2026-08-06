@@ -95,26 +95,13 @@ function buildBar(abbreviatedRow) {
   const bar = document.createElement('div');
   bar.className = 'isi-bar';
   bar.setAttribute('aria-label', 'Important Safety Information');
-  /* Pin critical positioning AND the collapsed height inline so the bar is both
-     fixed and height-capped the instant it enters the DOM — prevents a large
-     layout shift (CLS up to 1.0) when the block CSS has not finished loading as
-     the bar is appended to <body>. Without the height cap the bar renders at
-     full content height anchored to bottom:0, filling the viewport, then snaps
-     down to the collapsed bar height once isi.css loads. --isi-bar-height (118px
-     mobile / 109px desktop) is the same token isi.css uses; the literal fallback
-     covers the window before isi-tokens.css resolves the custom property. */
+  /* Pin critical positioning inline so the bar is fixed the instant it enters
+     the DOM — prevents a large layout shift (CLS) if the block CSS has not
+     finished loading when the bar is appended to <body>. */
   bar.style.position = 'fixed';
   bar.style.left = '0';
   bar.style.right = '0';
   bar.style.bottom = '0';
-  bar.style.boxSizing = 'border-box';
-  bar.style.overflow = 'hidden';
-  bar.style.maxHeight = 'var(--isi-bar-height, 118px)';
-  /* Hidden until its internal layout settles (revealed in decorate on the next
-     frame). visibility:hidden elements are excluded from layout-shift scoring,
-     so the bar's content reflow while isi.css/isi-tokens.css finish applying is
-     not counted as CLS — matching the boilerplate header/footer reveal pattern. */
-  bar.style.visibility = 'hidden';
 
   const barContent = document.createElement('div');
   barContent.className = 'isi-bar-content';
@@ -165,12 +152,6 @@ function wireBar(bar, toggle, section) {
      Applied at all widths — harmless on desktop where the panel is short. */
   const setExpanded = (expanded) => {
     bar.classList.toggle('full', expanded);
-    /* Drop the inline CLS-guard height cap (set in buildBar) so the stylesheet's
-       .isi-bar / .isi-bar.full rules govern height from the first interaction —
-       an inline max-height would out-specify the .full rule and block expansion.
-       By the time any expand/collapse fires, isi.css has long since loaded. */
-    bar.style.removeProperty('max-height');
-    bar.style.removeProperty('overflow');
     document.body.classList.toggle('isi-scroll-locked', expanded);
     toggle.setAttribute('aria-expanded', String(expanded));
     toggle.setAttribute(
@@ -230,12 +211,4 @@ export default function decorate(block) {
 
   /* 3. Wire behaviour + visibility observer. */
   wireBar(bar, toggle, block.closest('.section'));
-
-  /* Reveal the bar once its internal layout has settled (see buildBar). Two RAFs
-     ensure a full style/layout pass has run so no post-reveal reflow is scored. */
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      bar.style.removeProperty('visibility');
-    });
-  });
 }

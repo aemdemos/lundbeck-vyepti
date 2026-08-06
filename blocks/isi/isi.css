@@ -176,12 +176,6 @@ body.isi-scroll-locked {
 .isi-bar-col { /* @boilerplate */
   flex: 1 1 100%;
   min-width: 0; /* @boilerplate */
-  margin-bottom: var(--isi-bar-col-margin-bottom);
-}
-
-/* The full-width ISI copy below the two top columns carries no bottom gap. */
-.isi-bar-col-full {
-  margin-bottom: 0;
 }
 
 /* Mobile: APPROVED USE stacks last (after the full ISI copy), matching the

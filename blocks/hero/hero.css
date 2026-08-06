@@ -23,7 +23,7 @@ main > .section.hero-container > .hero-wrapper {
 
 .hero.single {
   position: relative;
-  min-height: var(--hero-single-min-height, 350px);
+  min-height: var(--hero-single-min-height);
   overflow: hidden;
 }
 
@@ -79,29 +79,15 @@ main > .section.hero-container > .hero-wrapper {
   overflow: hidden;
   display: flex;
   align-items: stretch;
-
-  /* Mobile: the dark/light halves are DIFFERENT heights on vyepti.com — each
-     panel matches its source crop's aspect ratio (dark 1024×800, light 750×700).
-     object-fit: cover on the image crops to fit, so the imported asset's own
-     ratio doesn't dictate panel height. Desktop restores the equal-height row. */
-  min-height: 0;
+  min-height: var(--hero-panel-min-height);
 
   p {
     margin: 0;
   }
 }
 
-.hero-panel-dark {
-  aspect-ratio: 1024 / 800;
-}
-
-.hero-panel-light {
-  aspect-ratio: 750 / 700;
-}
-
 /* Panel background image */
 .hero-panel-bg {
-  position: absolute;
   inset: 0;
   z-index: var(--hero-z-bg);
 }
@@ -557,23 +543,6 @@ main > .section.hero-container > .hero-wrapper {
     min-height: 0;
     height: 100%;
     align-self: stretch;
-
-    /* Panel proportions track the source's art-directed crop at each breakpoint
-       (vyepti.com swaps the image per viewport, so the panel ratio changes too).
-       Tablet (768–991) uses the near-square 834×840 crop. Wider breakpoints
-       override this below. Cancels the per-panel mobile ratios set earlier. */
-    aspect-ratio: 834 / 840;
-  }
-
-  .hero-panel-dark,
-  .hero-panel-light {
-    aspect-ratio: 834 / 840;
-  }
-
-  /* Desktop: images fill the equal-height row (cover), overriding the mobile
-     intrinsic-ratio sizing. */
-  .hero-panel-bg img {
-    height: 100%;
   }
 
   /* Cancel legacy .hero.single fixed aspect-ratio — section variant is image-driven */
@@ -625,13 +594,6 @@ main > .section.hero-container > .hero-wrapper {
 }
 
 @media (width >= 992px) {
-  /* Source swaps to the 1024×800 crop at this breakpoint. */
-  .hero-panel,
-  .hero-panel-dark,
-  .hero-panel-light {
-    aspect-ratio: 1024 / 800;
-  }
-
   .hero-panel-dark .hero-panel-description {
     max-width: 100%;
   }
@@ -673,13 +635,6 @@ main > .section.hero-container > .hero-wrapper {
 }
 
 @media (width >= 1200px) {
-  /* Source swaps to the 1440×1116 crop at this breakpoint. */
-  .hero-panel,
-  .hero-panel-dark,
-  .hero-panel-light {
-    aspect-ratio: 1440 / 1116;
-  }
-
   .hero-panel-content {
     padding-top: 40px;
   }
@@ -755,13 +710,6 @@ main > .section.hero-container > .hero-wrapper {
 }
 
 @media (width >= 1600px) {
-  /* Source swaps to the wide 1920×1116 crop at this breakpoint (shorter panels). */
-  .hero-panel,
-  .hero-panel-dark,
-  .hero-panel-light {
-    aspect-ratio: 1920 / 1116;
-  }
-
   .hero-panel-light .hero-panel-description {
     width: 75%;
     margin-right: 25%;
