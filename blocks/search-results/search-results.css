@@ -25,13 +25,22 @@ main .section.search-results-banner {
   overflow: hidden;
 }
 
-/* the source banner is a fixed-height band (240px) that the image crops to
-   fill — it does not grow with viewport width */
-@media (width >= 768px) {
+/* the source banner has no fixed height: its image is stretched to fill and
+   the band height follows the image's aspect ratio, so it scales with the
+   viewport width (e.g. 1440px → 240px, 2056px → 257px). The source swaps a
+   6:1 image (>=1200px) for an 8:1 wide image (>=1600px). */
+@media (width >= 1200px) {
   main .section.search-results-banner {
-    height: 240px;
+    height: auto;
     min-height: 0;
     padding: 0;
+    aspect-ratio: 6 / 1;
+  }
+}
+
+@media (width >= 1600px) {
+  main .section.search-results-banner {
+    aspect-ratio: 8 / 1;
   }
 }
 
