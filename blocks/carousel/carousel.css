@@ -22,7 +22,7 @@
   display: none; /* @boilerplate */
 }
 
-/* Clean card layout: image beside content on a light surface (not a dark-overlay hero). */
+/* card layout: image beside content on a light surface */
 .carousel .carousel-slide {
   flex: 0 0 100%;
   scroll-snap-align: start;
@@ -112,8 +112,7 @@
   z-index: 2; /* above .carousel-slide-content (z-index: 1) so arrows stay clickable */
 }
 
-/* Bare angle arrows — no circle/background. Color comes from currentColor:
-   prev = brand red, next = white. */
+/* bare angle arrows, colored via currentColor */
 /* stylelint-disable-next-line no-descending-specificity */
 .carousel .carousel-navigation-buttons button {
   position: relative;
@@ -160,8 +159,7 @@
   left: calc(50% - var(--carousel-nav-arrow-offset));
 }
 
-/* Testimonial variant — light card: quote on one side, patient photo on the other
-   filling the full card height. Token-driven; brand sites refine via --carousel-testimonial-* tokens. */
+/* testimonial variant — light card: quote one side, patient photo the other */
 .carousel.testimonial .carousel-slide {
   display: flex;
   flex-direction: column;
@@ -173,7 +171,7 @@
   overflow: hidden;
 }
 
-/* Image fills its area full-height (its colored backdrop is baked into the photo). */
+/* image fills its area full-height (colored backdrop is baked into the photo) */
 .carousel.testimonial .carousel-slide .carousel-slide-image {
   width: 100%;
   height: var(--carousel-testimonial-image-height);
@@ -198,7 +196,7 @@
   object-fit: cover;
 }
 
-/* Quote panel — solid (no overlay), so text is fully legible. */
+/* quote panel — centered on mobile; left-aligned beside the photo at 768px+ (below) */
 .carousel.testimonial .carousel-slide .carousel-slide-content {
   position: relative;
   width: auto;
@@ -206,17 +204,19 @@
   padding: var(--carousel-testimonial-content-padding);
   color: var(--text-color);
   background-color: var(--carousel-testimonial-surface);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 
-/* Optional decorative quote icon above the heading. Deferred asset: hidden by default,
-   so the box never shows a broken/empty image. A brand site opts in by setting both
-   --carousel-testimonial-quote-icon (a url()) and --carousel-testimonial-quote-icon-display: block. */
+/* decorative quote icon above the heading; opt-in via the quote-icon tokens */
 .carousel.testimonial .carousel-slide-content h2::before {
   content: '';
   display: var(--carousel-testimonial-quote-icon-display, none);
   width: var(--carousel-testimonial-icon-size);
   height: var(--carousel-testimonial-icon-size);
-  margin-bottom: var(--spacing-xs, 8px);
+  margin: 0 auto var(--spacing-xs, 8px);
   background-image: var(--carousel-testimonial-quote-icon);
   background-repeat: no-repeat;
   background-size: contain;
@@ -230,25 +230,27 @@
   margin: var(--carousel-testimonial-heading-margin);
 }
 
-/* Coral divider after the quote. CSS-drawn (no asset needed). */
+/* coral divider after the quote */
 .carousel.testimonial .carousel-slide-content h2::after {
   content: '';
   display: block;
   width: var(--carousel-testimonial-divider-width);
   height: var(--carousel-testimonial-divider-height);
-  margin-top: var(--carousel-testimonial-divider-gap);
+  margin: var(--carousel-testimonial-divider-gap) auto 0;
   background-color: var(--carousel-testimonial-divider-color);
 }
 
 /* Attribution paragraph (name + role) directly after the divider */
 .carousel.testimonial .carousel-slide-content h2 + p {
   font-size: var(--carousel-testimonial-attribution-size);
+  line-height: var(--carousel-testimonial-attribution-line-height);
   color: var(--carousel-testimonial-text-color);
 }
 
 /* Disclaimer (emphasised small print) */
 .carousel.testimonial .carousel-slide-content p em {
   font-size: var(--carousel-testimonial-disclaimer-size);
+  line-height: var(--carousel-testimonial-disclaimer-line-height);
   color: var(--carousel-testimonial-text-color);
   font-style: normal;
 }
@@ -257,12 +259,26 @@
 .carousel.testimonial .carousel-slide-content a {
   color: var(--carousel-testimonial-link-color);
   font-weight: var(--carousel-testimonial-link-weight);
+  text-decoration: none;
   transition: color var(--carousel-transition-duration);
 }
 
 .carousel.testimonial .carousel-slide-content a:hover,
 .carousel.testimonial .carousel-slide-content a:focus-visible {
   color: var(--carousel-testimonial-link-hover-color);
+}
+
+/* right-chevron after testimonial links */
+.carousel.testimonial .carousel-slide-content a::after {
+  content: '';
+  display: inline-block;
+  width: var(--carousel-testimonial-link-arrow-size);
+  height: var(--carousel-testimonial-link-arrow-size);
+  margin-left: var(--carousel-testimonial-link-arrow-gap);
+  border: var(--carousel-testimonial-link-arrow-thickness) solid;
+  border-bottom: 0;
+  border-left: 0;
+  transform: rotate(45deg) translateY(-1px);
 }
 
 /* Author-supplied per-slide icon image, if present in content */
@@ -290,20 +306,33 @@
   background-color: var(--carousel-testimonial-indicator-color);
 }
 
-/* Keep the arrows at the outer edges of the card so they don't sit over the text. */
+/* arrows overlay the card edges at all breakpoints (as the source does) */
 .carousel.testimonial .carousel-navigation-buttons {
   left: var(--carousel-testimonial-nav-inset);
   right: var(--carousel-testimonial-nav-inset);
 }
 
+/* color by card style so both arrows read over the panel (source swaps red/white assets) */
 .carousel.testimonial .carousel-navigation-buttons button {
   width: var(--carousel-testimonial-nav-button-size);
   height: var(--carousel-testimonial-nav-button-size);
+  color: var(--carousel-nav-arrow-prev-color);
 }
 
-/* Testimonial's next arrow sits over the image, where white reads better. */
-.carousel.testimonial .carousel-navigation-buttons button.slide-next {
-  color: var(--carousel-testimonial-nav-arrow-next-color);
+.carousel.testimonial.dark .carousel-navigation-buttons button {
+  color: #fff;
+}
+
+/* "Swipe for more" hint — mobile only, under the dots */
+.carousel.testimonial .carousel-swipe-hint {
+  display: block;
+  margin: 0;
+  padding: var(--carousel-testimonial-swipe-hint-padding);
+  color: var(--carousel-testimonial-swipe-hint-color);
+  font-size: var(--carousel-testimonial-swipe-hint-size);
+  font-weight: var(--carousel-testimonial-swipe-hint-weight);
+  text-align: center;
+  background-color: transparent;
 }
 
 @media (width >= 600px) {
@@ -333,7 +362,7 @@
     justify-content: center;
   }
 
-  /* Side-by-side: quote left, photo right at full card height. */
+  /* side-by-side: quote left, photo right */
   .carousel.testimonial .carousel-slide {
     flex-direction: row;
     align-items: stretch;
@@ -354,5 +383,19 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .carousel.testimonial .carousel-slide-content h2::before {
+    margin: 0 0 var(--spacing-xs, 8px);
+  }
+
+  .carousel.testimonial .carousel-slide-content h2::after {
+    margin: var(--carousel-testimonial-divider-gap) 0 0;
+  }
+
+  .carousel.testimonial .carousel-swipe-hint {
+    display: none;
   }
 }

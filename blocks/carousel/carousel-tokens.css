@@ -20,8 +20,7 @@
   --carousel-nav-arrow-next-color: var(--brand-secondary);
   --carousel-transition-duration: var(--transition-duration); /* @boilerplate */
 
-  /* default carousel — clean card layout (image beside content on a light surface)
-     instead of the boilerplate dark-overlay hero. */
+  /* default carousel — clean card layout (image beside content on a light surface) */
   --carousel-radius: 6px;
   --carousel-surface: var(--card-bg-light);
   --carousel-card-text-color: var(--text-color);
@@ -31,22 +30,20 @@
   --carousel-card-image-height-desktop: 360px;
   --carousel-card-heading-color: var(--brand-primary);
 
-  /* testimonial variant — tokenized from poc-vyepti / vyepti.com; brand sites override via tokens.
-     Icon URLs are intentionally empty (none): brand sites set them; absent = graceful CSS fallback.
-     Layout: light card with the quote on one side and the patient photo on the other,
-     the photo filling the full card height. */
-  --carousel-testimonial-radius: 6px;
+  /* testimonial variant — light card, quote beside patient photo; brand sites override via tokens */
+  --carousel-testimonial-radius: 12px;
   --carousel-testimonial-gap-section: 40px; /* mobile; scaled up at tablet+ below */
   --carousel-testimonial-gap-section-mobile: 24px;
+  --carousel-testimonial-gap-below: 32px;
   --carousel-testimonial-surface: var(--card-bg-light);
   --carousel-testimonial-content-padding: 24px 24px 32px;
-  --carousel-testimonial-content-padding-desktop: 0 48px 0 56px;
+  --carousel-testimonial-content-padding-desktop: 0 4% 0 10%; /* % of card width, so the indent scales like the source (~10% left) */
 
   /* heading (quote) */
   --carousel-testimonial-heading-color: var(--brand-primary);
   --carousel-testimonial-heading-size: var(--heading-font-size-xl);
-  --carousel-testimonial-heading-weight: 800;
-  --carousel-testimonial-heading-line-height: 1.2;
+  --carousel-testimonial-heading-weight: 700;
+  --carousel-testimonial-heading-line-height: 1.375; /* 33px at 24px, matches source */
   --carousel-testimonial-heading-margin: 0 0 16px;
 
   /* coral divider after the quote (vyepti.com computed: #f16464, 50x4) */
@@ -56,18 +53,23 @@
   --carousel-testimonial-divider-gap: 16px;
 
   /* attribution / disclaimer */
-  --carousel-testimonial-attribution-size: var(--body-font-size-s);
+  --carousel-testimonial-attribution-size: var(--body-font-size-ms);
+  --carousel-testimonial-attribution-line-height: 33px; /* matches source */
   --carousel-testimonial-disclaimer-size: var(--body-font-size-xs);
+  --carousel-testimonial-disclaimer-line-height: 18px; /* matches source */
   --carousel-testimonial-text-color: var(--text-color);
 
   /* link */
   --carousel-testimonial-link-color: var(--link-color);
   --carousel-testimonial-link-hover-color: var(--link-hover-color);
   --carousel-testimonial-link-weight: 700;
+  --carousel-testimonial-link-arrow-size: 8px;
+  --carousel-testimonial-link-arrow-thickness: 2px;
+  --carousel-testimonial-link-arrow-gap: 8px;
 
-  /* quote icon above heading — teal circle with white quote marks
-     (matches vyepti.com's quotes-blue-60-desktop.svg, rendered 58×58). */
-  --carousel-testimonial-quote-icon: url('/icons/quote-mark.svg');
+  /* quote icon above heading — coral by default, teal for the dark variant (remapped below) */
+  --carousel-testimonial-quote-icon: url('/icons/quote-mark-coral.svg');
+  --carousel-testimonial-quote-icon-dark: url('/icons/quote-mark.svg');
   --carousel-testimonial-quote-icon-display: block;
   --carousel-testimonial-icon-size: 58px;
 
@@ -78,74 +80,84 @@
   /* nav buttons */
   --carousel-testimonial-nav-button-size: 36px;
   --carousel-testimonial-nav-inset: 16px;
-  --carousel-testimonial-nav-arrow-next-color: #fff;
 
-  /* image — photo fills its side at full card height; on mobile it's a fixed-height band. */
-  --carousel-testimonial-image-flex: 40%;
-  --carousel-testimonial-image-height: 280px;
+  /* "Swipe for more" hint (multi-slide, mobile only) */
+  --carousel-testimonial-swipe-hint-color: var(--carousel-testimonial-divider-color);
+  --carousel-testimonial-swipe-hint-size: var(--body-font-size-xs);
+  --carousel-testimonial-swipe-hint-weight: 700;
+  --carousel-testimonial-swipe-hint-padding: 8px 0 0;
+
+  /* image — photo fills its side at full card height; on mobile it's a fixed-height band.
+     The source ships a ~fixed-width photo, so as a fraction of the card it's wider on the
+     narrower small-desktop card (~50%) and narrower on the wide desktop card (~38%). A
+     wider column also lets `cover` show the whole composition instead of a zoomed crop. */
+  --carousel-testimonial-image-flex: 38%;
+  --carousel-testimonial-image-flex-tablet: 42%;
+  --carousel-testimonial-image-height: 240px;
   --carousel-testimonial-slide-height-desktop: 400px;
 
-  /* dark variant — quote on a solid teal panel with white text, so the panel
-     blends seamlessly with the teal edge baked into the patient photo (matching
-     the source's full-bleed teal → magenta composition on vyepti.com). Applied
-     by the .carousel.testimonial.dark selector below. */
+  /* desktop card min-height (floor, not cap); source: 330 multi, 340 single, 398 single dark, 380 with a link */
+  --carousel-testimonial-slide-min-height-desktop: 330px;
+  --carousel-testimonial-slide-min-height-desktop-single: 340px;
+  --carousel-testimonial-slide-min-height-desktop-single-dark: 398px;
+  --carousel-testimonial-slide-min-height-desktop-link: 380px;
+
+  /* dark variant — quote on a solid teal panel with white text (applied via .dark below) */
   --carousel-testimonial-dark-surface: var(--dark-color);
   --carousel-testimonial-dark-heading-color: #fff;
   --carousel-testimonial-dark-text-color: #fff;
+  --carousel-testimonial-dark-link-color: #fff;
+  --carousel-testimonial-dark-link-hover-color: var(--carousel-testimonial-divider-color);
 }
 
-/* dark variant — remap the surface/text tokens the base testimonial rules
-   already consume to the dark values, so the quote sits on a solid teal panel
-   with white text and blends seamlessly with the photo's teal edge. Purely a
-   token remap — no property rules are duplicated. */
+/* dark variant — token remap only; no property rules duplicated */
 .carousel.testimonial.dark {
   --carousel-surface: var(--carousel-testimonial-dark-surface);
   --carousel-testimonial-surface: var(--carousel-testimonial-dark-surface);
+  --carousel-testimonial-quote-icon: var(--carousel-testimonial-quote-icon-dark);
   --carousel-testimonial-heading-color: var(--carousel-testimonial-dark-heading-color);
   --carousel-testimonial-text-color: var(--carousel-testimonial-dark-text-color);
+  --carousel-testimonial-link-color: var(--carousel-testimonial-dark-link-color);
+  --carousel-testimonial-link-hover-color: var(--carousel-testimonial-dark-link-hover-color);
   --text-color: var(--carousel-testimonial-dark-text-color);
 }
 
-/* Disclaimer sizing — the disclaimer ("Individual experiences may vary…") is the
-   paragraph after the attribution. It may be plain text (no <em>), so the base
-   `p em` rule doesn't catch it; size it here to match the source's 14px. */
+/* disclaimer (2nd paragraph after quote) may be plain text, so size it explicitly */
 .carousel.testimonial .carousel-slide-content h2 + p + p {
   font-size: var(--carousel-testimonial-disclaimer-size);
+  line-height: var(--carousel-testimonial-disclaimer-line-height);
 }
 
-/* Layout overrides to match vyepti.com exactly. These live here (imported first by
-   carousel.css) and use a `main` prefix so they out-specify the base testimonial
-   rules regardless of source order — no edits to carousel.css needed.
-   1) The source ships a differently-proportioned photo per breakpoint and stretches
-      it to fit (object-fit: fill), so the whole photo shows with no cropping.
-   2) The photo keeps its natural aspect ratio (height: auto) instead of a fixed band.
-   3) On mobile the quote sits ABOVE the photo (content order 1, image order 2). */
+/* layout overrides (`main` prefix wins over base): content-driven height, photo flush top+bottom */
+main .carousel.testimonial .carousel-slide .carousel-slide-content {
+  order: 1;
+  flex: 0 0 auto;
+}
+
 main .carousel.testimonial .carousel-slide .carousel-slide-image {
-  height: auto;
   order: 2;
+  flex: 1 1 auto;
+  min-height: var(--carousel-testimonial-image-height);
+  height: auto;
 }
 
 main .carousel.testimonial .carousel-slide .carousel-slide-image p,
 main .carousel.testimonial .carousel-slide .carousel-slide-image picture {
-  height: auto;
+  height: 100%;
 }
 
 main .carousel.testimonial .carousel-slide .carousel-slide-image img {
-  height: auto;
-  object-fit: fill;
-}
-
-main .carousel.testimonial .carousel-slide .carousel-slide-content {
-  order: 1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .carousel.testimonial {
   margin-top: var(--carousel-testimonial-gap-section-mobile);
+  margin-bottom: var(--carousel-testimonial-gap-below);
 }
 
-/* Tablet+ : side-by-side. The photo fills the card height and drives it, showing
-   at natural proportions (as on the source). Tablet + small desktop ship a tall
-   PORTRAIT photo, so the image column is wide (52%) to match the source. */
+/* tablet+ : side-by-side; photo absolutely positioned so it can't inflate the card */
 @media (width >= 768px) {
   :root {
     --carousel-testimonial-gap-section: 64px;
@@ -153,19 +165,49 @@ main .carousel.testimonial .carousel-slide .carousel-slide-content {
 
   main .carousel.testimonial .carousel-slide {
     height: auto;
+    align-items: stretch;
+    min-height: var(--carousel-testimonial-slide-min-height-desktop);
+  }
+
+  main .carousel.testimonial .carousel-slide .carousel-slide-content {
+    flex: 1 1 0;
   }
 
   main .carousel.testimonial .carousel-slide .carousel-slide-image {
+    position: relative;
+    flex: 0 0 var(--carousel-testimonial-image-flex-tablet);
+    max-width: var(--carousel-testimonial-image-flex-tablet);
+    min-height: 0;
     height: auto;
-    flex-basis: 52%;
-    max-width: 52%;
   }
 
-  /* cover (not fill) so the portrait photo keeps its true proportions and fills
-     the card without vertical stretching; any overflow is cropped minimally. */
+  /* cover crops the art-directed photo's transparent margins so the composition fills
+     the column edge-to-edge (the assets carry uneven transparent padding). The slightly
+     left-of-centre horizontal position crops past the heavy right margin on the landscape
+     side-effects crop; portrait crops have no horizontal overflow, so it doesn't move them. */
   main .carousel.testimonial .carousel-slide .carousel-slide-image img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: 35% 50%;
+  }
+
+  /* card min-height floors (applied once side-by-side begins; base multi floor is on
+     .carousel-slide above) */
+  main .carousel.testimonial:has(.carousel-slides > li:only-child) .carousel-slide {
+    min-height: var(--carousel-testimonial-slide-min-height-desktop-single);
+  }
+
+  /* dark single-slide runs taller on the source (study-results ships a larger photo) */
+  main .carousel.testimonial.dark:has(.carousel-slides > li:only-child) .carousel-slide {
+    min-height: var(--carousel-testimonial-slide-min-height-desktop-single-dark);
+  }
+
+  /* a link in the copy needs more room, so grow the floor (matches source's link slides) */
+  main .carousel.testimonial:has(.carousel-slide-content a) .carousel-slide {
+    min-height: var(--carousel-testimonial-slide-min-height-desktop-link);
   }
 }
 
@@ -175,11 +217,10 @@ main .carousel.testimonial .carousel-slide .carousel-slide-content {
   }
 }
 
-/* Desktop : the photo becomes a wider landscape rendition, so the image column
-   returns to the narrower base width and the quote gets more room. */
+/* wide desktop: the card is wide enough that the ~fixed-width photo is a smaller fraction */
 @media (width >= 1200px) {
   main .carousel.testimonial .carousel-slide .carousel-slide-image {
-    flex-basis: var(--carousel-testimonial-image-flex);
+    flex: 0 0 var(--carousel-testimonial-image-flex);
     max-width: var(--carousel-testimonial-image-flex);
   }
 }
