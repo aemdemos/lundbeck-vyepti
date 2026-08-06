@@ -38,6 +38,7 @@
   --isi-content-max-width: var(--max-width-site); /* @boilerplate */
   --isi-bar-content-gap: 0 24px; /* @boilerplate */
   --isi-bar-col-flex-basis: 45%; /* @boilerplate */
+  --isi-bar-col-margin-bottom: 0; /* desktop adds 24px below the two top columns */
   --isi-bar-heading-color: var(--brand-primary-dark);
   --isi-bar-heading-padding-bottom: 18px;
   --isi-bar-paragraph-line-height: 22px;
@@ -91,5 +92,8 @@
 
     /* Wider gap above the divider on desktop (source: margin-top 64px). */
     --isi-section-margin-top: 64px;
+
+    /* Source adds a 24px gap below the two top columns (.mb-lg-24). */
+    --isi-bar-col-margin-bottom: 24px;
   }
 }
