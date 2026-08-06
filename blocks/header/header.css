@@ -255,10 +255,10 @@ header .nav-dropdown-menu a {
   header .nav-links-row {
     display: none;
     position: fixed;
-    top: 38px;
+    top: var(--nav-utility-height);
     left: 0;
     width: 100%;
-    height: calc(100vh - 38px);
+    height: calc(100vh - var(--nav-utility-height));
     background: #fff;
     z-index: 100;
     overflow-y: auto;
@@ -699,7 +699,7 @@ header .nav-dropdown-menu a {
   header .nav-utility-dropdown-menu {
     display: none;
     position: fixed;
-    top: 38px;
+    top: var(--nav-utility-height);
     left: 0;
     right: 0;
     width: 100%;
