@@ -90,6 +90,7 @@ main .section.search-results-banner h1 {
 /* "N results found" summary line — matches source: 16px, regular, grey */
 .search-results .search-results-count {
   margin: 0;
+  padding-bottom: 16px; /* matches source: 16px gap below count before results */
   color: var(--search-results-count-color);
   font-family: var(--body-font-family);
   font-size: 16px;
