@@ -125,6 +125,19 @@
    eyebrow must override the homepage split-banner p rules (white, 38–64px,
    weight 800) that otherwise apply to .hero-panel-description > p. */
 
+/* Panel proportions: the teaser is a single wide sub-banner, NOT the homepage
+   split hero, so it must NOT inherit the homepage's art-directed panel crops
+   (1024/800, 834/840, 1440/1116, …) applied to .hero-panel* by the dual-panel
+   rules. The background is absolutely positioned, so the panel needs its own
+   height source: on mobile use the source teaser crop (750×700); at 768px+ the
+   media-query rule below supplies an explicit min-height, so the ratio is
+   cleared there. Scoped to .hero.teaser so the homepage hero is untouched. */
+.hero.teaser .hero-panel,
+.hero.teaser .hero-panel-dark,
+.hero.teaser .hero-panel-light {
+  aspect-ratio: 750 / 700;
+}
+
 /* Mobile: text overlay top-anchored + centred over the image (top % is relative
    to the panel height, so the text sits ~10.5% down regardless of image size). */
 .hero.teaser .hero-panel-content {
@@ -190,8 +203,14 @@
 }
 
 @media (width >= 768px) {
-  /* Explicit banner height (the shared dual-panel rule sets min-height:0). */
-  .hero.teaser .hero-panel {
+  /* Explicit banner height (the shared dual-panel rule sets min-height:0). The
+     mobile teaser crop ratio is cleared here so the wide sub-banner is governed
+     by this height, not the near-square 750/700 mobile ratio, and the homepage
+     panel ratios (834/840, 1024/800, …) never leak back in. */
+  .hero.teaser .hero-panel,
+  .hero.teaser .hero-panel-dark,
+  .hero.teaser .hero-panel-light {
+    aspect-ratio: auto;
     min-height: var(--hero-teaser-min-height-desktop);
   }
 
