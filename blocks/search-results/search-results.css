@@ -25,11 +25,11 @@ main .section.search-results-banner {
   overflow: hidden;
 }
 
-/* the source banner is a fixed-height band (~216px) that the image stretches
-   to fill — it does not grow with viewport width */
+/* the source banner is a fixed-height band (240px) that the image crops to
+   fill — it does not grow with viewport width */
 @media (width >= 768px) {
   main .section.search-results-banner {
-    height: 216px;
+    height: 240px;
     min-height: 0;
     padding: 0;
   }
