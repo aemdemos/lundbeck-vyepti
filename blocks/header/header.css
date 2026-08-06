@@ -143,6 +143,7 @@ header .search .search-results:empty {
 header .nav-links-container {
   max-width: var(--header-nav-max-width-mobile);
   margin: 0 auto;
+  padding: 0 15px;
 }
 
 header .nav-links-list {
@@ -254,10 +255,10 @@ header .nav-dropdown-menu a {
   header .nav-links-row {
     display: none;
     position: fixed;
-    top: 38px;
+    top: var(--nav-utility-height);
     left: 0;
     width: 100%;
-    height: calc(100vh - 38px);
+    height: calc(100vh - var(--nav-utility-height));
     background: #fff;
     z-index: 100;
     overflow-y: auto;
@@ -268,7 +269,9 @@ header .nav-dropdown-menu a {
   header nav.nav-mobile-open .nav-links-row {
     display: block;
     margin-right: auto;
-    margin-left: auto;  
+    margin-left: auto;
+    padding-right: var(--header-padding-container);
+    padding-left: var(--header-padding-container);
   }
 
   header nav.nav-mobile-open .nav-links-row .nav-links-list {
@@ -594,6 +597,11 @@ header .nav-dropdown-menu a {
     background: var(--brand-primary);
     padding: 2px 0;
     text-align: center;
+
+    /* Match the source teal strip height exactly (vyepti.com renders 30px).
+       box-sizing: border-box keeps the 2px padding inside the 30px. */
+    box-sizing: border-box;
+    min-height: 30px;
   }
 
   header .nav-utility-container {
@@ -604,6 +612,7 @@ header .nav-dropdown-menu a {
     padding-left: var(--header-padding-container);
     margin-right: auto;
     margin-left: auto;
+    max-width: var(--header-nav-max-width-mobile);
   }
 
   header .nav-utility-tagline {
@@ -690,7 +699,7 @@ header .nav-dropdown-menu a {
   header .nav-utility-dropdown-menu {
     display: none;
     position: fixed;
-    top: 38px;
+    top: var(--nav-utility-height);
     left: 0;
     right: 0;
     width: 100%;
@@ -723,21 +732,6 @@ header .nav-dropdown-menu a {
 
   header .nav-utility-dropdown-trigger[aria-expanded='true'] + .nav-utility-dropdown-menu {
     display: block;
-  }
-
-@media (width >= 576px) {
- header .nav-utility-container{
-  max-width: var(--header-nav-max-width-mobile);
- }
-
- header .nav-links-container {
-  padding: 0 15px;
- }
-
- header nav.nav-mobile-open .nav-links-row {
-  padding-right: var(--header-padding-container);
-  padding-left: var(--header-padding-container);
- }
   }
 
 @media (width >= 768px) {
