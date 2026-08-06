@@ -82,6 +82,7 @@ header .search .search-box {
 }
 
 header .search .search-box .search-input {
+  order: 1;
   flex: 1 1 auto;
   min-width: 0;
   box-sizing: border-box;
@@ -105,6 +106,7 @@ header .search .search-box .search-input::placeholder {
 
 /* search icon button (right half of the pill), vertically centred */
 header .search .search-box .icon-search {
+  order: 2;
   flex: 0 0 auto;
   display: flex;
   align-items: center;
@@ -116,9 +118,11 @@ header .search .search-box .icon-search {
   cursor: pointer;
 }
 
+/* mirror so the magnifier handle points lower-left, matching the source */
 header .search .search-box .icon-search img {
   width: 18px;
   height: 18px;
+  transform: scaleX(-1);
 }
 
 /* results overlay below the pill (don't disturb header layout) */
