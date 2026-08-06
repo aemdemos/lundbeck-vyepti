@@ -102,6 +102,10 @@
   --carousel-testimonial-slide-min-height-desktop-single-dark: 398px;
   --carousel-testimonial-slide-min-height-desktop-link: 380px;
 
+  /* small-desktop (992–1199) swaps to a tall portrait crop; taller floor keeps it from
+     vertically over-cropping the dark single-slide (study-results) */
+  --carousel-testimonial-slide-min-height-smalldesktop-single-dark: 464px;
+
   /* dark variant — quote on a solid teal panel with white text (applied via .dark below) */
   --carousel-testimonial-dark-surface: var(--dark-color);
   --carousel-testimonial-dark-heading-color: #fff;
@@ -214,6 +218,14 @@ main .carousel.testimonial .carousel-slide .carousel-slide-image img {
 @media (width >= 992px) {
   .carousel.testimonial {
     margin-top: var(--carousel-testimonial-gap-section);
+  }
+}
+
+/* small-desktop: the dark single-slide (study-results) loads a tall portrait crop here;
+   give it the source's taller card so cover doesn't vertically over-crop the photo */
+@media (width >= 992px) and (width < 1200px) {
+  main .carousel.testimonial.dark:has(.carousel-slides > li:only-child) .carousel-slide {
+    min-height: var(--carousel-testimonial-slide-min-height-smalldesktop-single-dark);
   }
 }
 
