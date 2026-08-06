@@ -1,6 +1,6 @@
 // Google API Key link
 function loadGooglePlacesApi(apiKey, callback) {
-  if (window.google?.maps?.places?.Autocomplete) {
+  if (window.google?.maps?.places?.PlaceAutocompleteElement) {
     callback();
     return;
   }
@@ -11,7 +11,7 @@ function loadGooglePlacesApi(apiKey, callback) {
 
   window[callbackName] = () => {
     delete window[callbackName];
-    if (window.google?.maps?.places?.Autocomplete) {
+    if (window.google?.maps?.places?.PlaceAutocompleteElement) {
       callback();
     } else {
       // eslint-disable-next-line no-console
@@ -21,10 +21,6 @@ function loadGooglePlacesApi(apiKey, callback) {
 
   const script = document.createElement('script');
   // Built with URL/URLSearchParams instead of a template literal — this is
-  // the standard safe way to construct a query string (values are encoded
-  // automatically) and it also avoids the "key=${...}" text shape that the
-  // secure-coding scanner was heuristically matching against LDAP filter
-  // syntax (there is no LDAP involved here at all).
   const mapsScriptUrl = new URL('https://maps.googleapis.com/maps/api/js');
   mapsScriptUrl.searchParams.set('key', apiKey);
   mapsScriptUrl.searchParams.set('libraries', 'places');
@@ -65,7 +61,7 @@ const DEFAULT_MESSAGES = {
 
   address1: 'Please enter your address',
   state: 'Please select your state',
-  invalidAddress: 'We couldn\'t verify that address. Please select an address from the suggestions list.',
+  invalidAddress: 'Please enter a valid address',
   server: 'Something went wrong submitting your information. Please try again.',
 
 };
@@ -167,9 +163,6 @@ function slideDown(el, durationMs = REVEAL_DURATION_MS) {
   el.style.opacity = '0';
 
   // Force a reflow so the browser registers the "0px" starting state before
-  // we animate to the target height below (otherwise the transition is skipped).
-  // getBoundingClientRect() is a call expression (not a bare property read),
-  // so it isn't flagged by no-unused-expressions the way `el.offsetHeight;` was.
   el.getBoundingClientRect();
 
   const targetHeight = el.scrollHeight;
@@ -187,9 +180,7 @@ function slideDown(el, durationMs = REVEAL_DURATION_MS) {
   el.addEventListener('transitionend', onEnd);
 }
 
-/**
- * Animates an element closed with a "slide up" effect,
- */
+/*Animates an element closed with a "slide up" effect,*/
 function slideUp(el, onComplete, durationMs = REVEAL_DURATION_MS) {
   const startHeight = el.scrollHeight;
   el.style.transition = 'none';
@@ -223,14 +214,7 @@ function slideUp(el, onComplete, durationMs = REVEAL_DURATION_MS) {
   el.addEventListener('transitionend', onEnd);
 }
 
-/**
- * Plays the visible "dropdown replay" — collapses, optionally swaps
- * contents while fully hidden, then reopens.
- * @param {Element} el
- * @param {Function} [beforeReopen] - runs once the element is fully
- *   collapsed, e.g. to swap which conditional pieces are visible so the
- *   reopen height reflects the NEW state instead of flashing the old one
- */
+/*Plays the visible "dropdown replay" — collapses, optionally swaps*/
 function replayDropdown(el, beforeReopen) {
   if (!el) return;
   const halfDuration = REVEAL_DURATION_MS / 2;
@@ -305,8 +289,6 @@ function hideConditionalField(el) {
 
 /**
  * Shows/hides each branch target based on which toggle value was selected.
- * Pulled out of createToggle()'s change-listener to keep function-nesting
- * depth in check.
  */
 function applyToggleBranches(branches, selectedValue) {
   Object.entries(branches).forEach(([branchValue, target]) => {
@@ -390,12 +372,10 @@ function createToggle(
 }
 
 // Single shared backdrop element — declared before closeAllPopovers() below
-// so it isn't referenced before its definition.
 let popoverBackdrop = null;
 
 /**
  * Closes every open popover + hides the shared backdrop. Declared before
- * getPopoverBackdrop() below so it's not referenced before its definition.
  */
 function closeAllPopovers() {
   document.querySelectorAll('.form-field-popover').forEach((p) => {
@@ -587,8 +567,6 @@ function createTextField(
   let touched = false;
 
   // Bounded quantifiers ({1,64} / {1,255} / {1,63}) instead of unbounded "+"
-  // — functionally identical for real email addresses, but removes the
-  // polynomial-backtracking shape the ReDoS scanner flags.
   const EMAIL_REGEX = /^[^\s@]{1,64}@[^\s@]{1,255}\.[^\s@]{1,63}$/;
 
   const validate = () => {
@@ -944,7 +922,6 @@ function createDateField(name, label, messages = {}) {
 
 /**
  * Reveals confirmation content (carousel + CTA columns) after a successful
- * submit. Declared above buildForm() since buildForm's submit handler calls it.
  */
 function showConfirmationContent() {
   const carousel = document.querySelector('.carousel');
@@ -966,8 +943,6 @@ function showConfirmationContent() {
 
 /**
  * Applies the visible/hidden state for everything gated behind the
- * "Have you been prescribed VYEPTI?" toggle. Pulled out of the radio
- * change-listener below to keep function-nesting depth in check.
  */
 function applyPrescribedAnswerState({
   isYes,
@@ -1003,7 +978,7 @@ function applyPrescribedAnswerState({
   }
 }
 
-/* Builds the complete signup form with all fields, conditional logic, and validation wiring. */
+/* Builds the complete signup form with all fields */
 function buildForm(apiEndpoint) {
   const form = document.createElement('form');
   form.className = 'signup-form-fields';
@@ -1369,10 +1344,7 @@ function buildForm(apiEndpoint) {
   return form;
 }
 
-/**
- * Wires up Google Places autocomplete on the address field. Declared at
- * module scope (not nested inside decorate()) to keep nesting shallow.
- */
+/* Wires up Google Places autocomplete on the address field. Declared at*/
 function initializeAddressAutocomplete() {
   const addressInput = document.getElementById('address1');
   const cityInput = document.getElementById('city');
@@ -1381,32 +1353,90 @@ function initializeAddressAutocomplete() {
 
   if (!addressInput) return;
 
-  if (!window.google?.maps?.places?.Autocomplete) {
+  if (!window.google?.maps?.places?.PlaceAutocompleteElement) {
     // eslint-disable-next-line no-console
     console.error('Google Places Autocomplete failed to load — check your Maps configuration.');
     return;
   }
 
-  const autocomplete = new window.google.maps.places.Autocomplete(
-    addressInput,
-    {
-      types: ['address'],
-      componentRestrictions: {
-        country: 'us',
-      },
+  addressInput.type = 'hidden';
+
+  const placeAutocomplete = new window.google.maps.places.PlaceAutocompleteElement({
+    componentRestrictions: {
+      country: 'us',
     },
-  );
+    // Legacy Autocomplete's types
+    includedPrimaryTypes: ['street_address', 'premise', 'subpremise'],
+  });
 
 
-  autocomplete.setFields(['address_components']);
 
-  autocomplete.addListener('place_changed', () => {
-    const place = autocomplete.getPlace();
+  // Hide the widget's built-in search icon and clear ("x") button so it
+  placeAutocomplete.noInputIcon = true;
+  placeAutocomplete.noClearButton = true;
 
-    if (!place || !place.address_components) {
+  const computedInputStyle = window.getComputedStyle(addressInput);
+  placeAutocomplete.classList.add(...addressInput.classList);
+  placeAutocomplete.style.setProperty('display', 'block', 'important');
+  placeAutocomplete.style.setProperty('box-sizing', 'border-box', 'important');
+
+  placeAutocomplete.style.setProperty('border', computedInputStyle.border, 'important');
+  placeAutocomplete.style.setProperty('border-radius', computedInputStyle.borderRadius, 'important');
+  placeAutocomplete.style.setProperty('background-color', computedInputStyle.backgroundColor, 'important');
+  placeAutocomplete.style.setProperty('color', computedInputStyle.color, 'important');
+  placeAutocomplete.style.setProperty('font-family', computedInputStyle.fontFamily, 'important');
+  placeAutocomplete.style.setProperty('font-size', computedInputStyle.fontSize, 'important');
+  placeAutocomplete.style.setProperty('font-weight', computedInputStyle.fontWeight, 'important');
+  placeAutocomplete.style.setProperty('line-height', computedInputStyle.lineHeight, 'important');
+  placeAutocomplete.style.setProperty('padding', computedInputStyle.padding, 'important');
+
+  addressInput.insertAdjacentElement('afterend', placeAutocomplete);
+
+  placeAutocomplete.addEventListener('gmp-select', async ({ placePrediction }) => {
+    const place = placePrediction.toPlace();
+
+    try {
+      await place.fetchFields({ fields: ['addressComponents'] });
+    } catch (fetchError) {
+      // eslint-disable-next-line no-console
+      console.error('Failed to fetch place details:', fetchError);
       showFieldError(addressInput, addressInput.errorEl, DEFAULT_MESSAGES.invalidAddress);
       return;
     }
+
+
+    if (!place.addressComponents) {
+      showFieldError(addressInput, addressInput.errorEl, DEFAULT_MESSAGES.invalidAddress);
+      return;
+    }
+
+    let countryCode = '';
+
+place.addressComponents.forEach((component) => {
+  if (component.types.includes('country')) {
+    countryCode = component.shortText;
+  }
+});
+
+if (countryCode !== 'US') {
+  addressInput.value = '';
+  if (cityInput) cityInput.value = '';
+  if (zipInput) zipInput.value = '';
+  if (stateSelect) {
+  stateSelect.value = '';
+  stateSelect.dispatchEvent(
+    new Event('change', { bubbles: true }),
+  );
+}
+
+  showFieldError(
+    addressInput,
+    addressInput.errorEl,
+    'Please enter a valid address',
+  );
+
+  return;
+}
 
     let streetNumber = '';
     let route = '';
@@ -1414,36 +1444,41 @@ function initializeAddressAutocomplete() {
     let state = '';
     let zip = '';
 
-    place.address_components.forEach((component) => {
+    place.addressComponents.forEach((component) => {
       const type = component.types[0];
 
       if (type === 'street_number') {
-        streetNumber = component.long_name;
+        streetNumber = component.longText;
       }
 
       if (type === 'route') {
-        route = component.long_name;
+        route = component.longText;
       }
 
       if (type === 'locality' || (type === 'sublocality_level_1' && !city)) {
-        city = component.long_name;
+        city = component.longText;
       }
 
       if (type === 'administrative_area_level_1') {
-        state = component.short_name;
+        state = component.shortText;
       }
 
       if (type === 'postal_code') {
-        zip = component.long_name;
+        zip = component.longText;
       }
     });
 
-    if (!zip) {
-      showFieldError(addressInput, addressInput.errorEl, DEFAULT_MESSAGES.invalidAddress);
-      return;
-    }
+    if (!streetNumber && !route && !city) {
+  showFieldError(
+    placeAutocomplete,
+    addressInput.errorEl,
+    DEFAULT_MESSAGES.invalidAddress,
+  );
+  return;
+}
+``
 
-    clearFieldError(addressInput, addressInput.errorEl);
+    clearFieldError(placeAutocomplete, addressInput.errorEl);
 
     const streetOnly = [streetNumber, route].filter(Boolean).join(' ');
     addressInput.value = streetOnly || addressInput.value;

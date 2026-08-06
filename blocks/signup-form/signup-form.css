@@ -100,6 +100,26 @@ p.signup-form-required-note {
   box-sizing: border-box;
 }
 
+.form-field gmp-place-autocomplete {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+
+/* Kill the widget's own internal focus ring */
+gmp-place-autocomplete::part(focus-ring) {
+  border: none;
+  box-shadow: none;
+  outline: none;
+}
+
+/* Reapply the site's normal focus style  */
+gmp-place-autocomplete:focus-within {
+  border-color: #1a6fb3; /* replace with your real focus border color */
+  box-shadow: 0 0 0 3px rgba(26, 111, 179, 0.25); /* replace with your real focus box-shadow */
+}
+
 .form-field select {
   width: 100%;
   max-width: 100%;
@@ -546,6 +566,15 @@ p.signup-form-required-note {
   max-width: 100%;
 }
 
+.form-field gmp-place-autocomplete.error {
+  border-color: var(--error-color, #c02c57) !important;
+}
+
+.form-field gmp-place-autocomplete.error:focus-within {
+  border-color: var(--error-color, #c02c57) !important;
+  box-shadow: none !important;
+}
+
 
 /* ==========================================================================
    TABLET / IPAD — 768px and up
@@ -554,6 +583,11 @@ p.signup-form-required-note {
   .form-field input {
     max-width: 70%;
   }
+
+  .form-field gmp-place-autocomplete {
+    max-width: 70%;
+  }
+
   #dob,
   #phone {
     max-width: 200px;
@@ -590,6 +624,11 @@ p.signup-form-required-note {
   .form-field input {
     max-width: 50%;
   }
+
+  .form-field gmp-place-autocomplete {
+    max-width: 50%;
+  }
+
   #dob,
   #phone {
     max-width: 240px;
@@ -606,8 +645,7 @@ p.signup-form-required-note {
     width: 290px;
   }
 
-  /* left/right use a fluid formula so this single tier covers both the old
-     992–1199px fixed-40px range and the old 1200px+ fluid range identically */
+  /* left/right use a fluid formula*/
   .form-field-popover {
     left: max(40px, calc(50% - 640px));
     right: max(40px, calc(50% - 340px));
