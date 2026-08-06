@@ -130,8 +130,14 @@ main .section.search-results-banner h1 {
   text-decoration: none;
 }
 
+/* on hover the whole title shifts to the lighter teal (matches source), no underline */
 .search-results ul.search-results-list > li .search-results-result-title a:hover {
-  text-decoration: underline;
+  color: var(--link-hover-color);
+  text-decoration: none;
+}
+
+.search-results ul.search-results-list > li .search-results-result-title a:hover mark {
+  color: var(--link-hover-color);
 }
 
 .search-results ul.search-results-list > li p {
