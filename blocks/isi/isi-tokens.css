@@ -39,7 +39,7 @@
   --isi-bar-content-gap: 0 24px; /* @boilerplate */
   --isi-bar-col-flex-basis: 45%; /* @boilerplate */
   --isi-bar-heading-color: var(--brand-primary-dark);
-  --isi-bar-heading-padding-bottom: 8px;
+  --isi-bar-heading-padding-bottom: 18px;
   --isi-bar-paragraph-line-height: 22px;
   --isi-bar-paragraph-padding-bottom: 16px;
   --isi-bar-list-padding-left: 20px; /* @boilerplate */
@@ -76,7 +76,6 @@
     --isi-list-line-height: 27px;
     --isi-bar-height: 109px;
     --isi-bar-padding: 13px 13px 8px;
-    --isi-bar-heading-padding-bottom: 18px;
     --isi-bar-paragraph-padding-bottom: 22px;
     --isi-toggle-right: var(--isi-toggle-right-tablet);
 
