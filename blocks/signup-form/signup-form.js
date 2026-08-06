@@ -1370,7 +1370,6 @@ function initializeAddressAutocomplete() {
   });
 
 
-
   // Hide the widget's built-in search icon and clear ("x") button so it
   placeAutocomplete.noInputIcon = true;
   placeAutocomplete.noClearButton = true;
