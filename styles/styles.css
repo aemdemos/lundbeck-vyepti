@@ -968,6 +968,20 @@ main .section.stats-callout h4 {
   color: var(--brand-primary);
 }
 
+/* First step of the Bootstrap-container-equivalent width ladder (540/720/960/
+   1140 at 576/768/992/1200px). Narrows the site content to 540px from this
+   width up so sections match vyepti.com's container instead of staying full
+   width until 768px. */
+@media (width >= 576px) {
+  :root {
+    --max-width-site: 540px;
+  }
+
+  main .section.stats-callout > div:not(.bg-image) {
+    max-width: 540px;
+  }
+}
+
 @media (width >= 768px) { /* @libs */
   :root { /* @libs */
     --max-width-site: 720px;
