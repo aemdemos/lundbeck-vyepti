@@ -20,7 +20,7 @@ main .section.search-results-banner {
   display: flex;
   align-items: center;
   min-height: 174px;
-  margin: 0 0 20px;
+  margin: 0;
   padding: 32px 0;
   overflow: hidden;
 }
@@ -84,7 +84,8 @@ main .section.search-results-banner h1 {
 }
 
 .search-results {
-  padding: 24px 0 40px;
+  /* 48px top gap below the banner matches the source (.results-wrapper) */
+  padding: 48px 0 40px;
 }
 
 /* "N results found" summary line — matches source: 16px, regular, grey */
