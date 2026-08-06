@@ -2,8 +2,10 @@
 :root {
   --search-results-title-color: var(--brand-primary); /* teal #046183 */
   --search-results-title-size: 22px;
+  --search-results-text-color: #484848; /* body/count text — matches source */
+  --search-results-text-line-height: 22px; /* matches source */
   --search-results-border-color: #ccc;
-  --search-results-count-color: var(--text-color-light);
+  --search-results-count-color: var(--search-results-text-color);
   --search-results-page-color: var(--brand-primary);
   --search-results-page-current-bg: var(--brand-primary);
   --search-results-page-current-color: var(--background-color);
