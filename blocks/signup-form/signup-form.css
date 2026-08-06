@@ -101,9 +101,10 @@ p.signup-form-required-note {
 }
 
 .form-field gmp-place-autocomplete {
-  width: 100%;
-  max-width: 100%;
-  box-sizing: border-box;
+ width: 100% !important;
+margin-bottom: 10px !important;
+padding: 0 !important;
+box-sizing: border-box !important;
 }
 
 
