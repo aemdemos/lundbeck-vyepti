@@ -106,6 +106,33 @@ main .columns.locations p {
   font-weight: var(--columns-locations-label-font-weight);
 }
 
+/* statistic-accent section style (why-iv-treatment, what-to-expect survey-result
+   callouts) — icon centered above a two-tone stat headline on mobile; icon fixed
+   beside a left-aligned headline at 768px+. The class lives on the section
+   wrapper (authored via Section Style), not the columns block itself, so it's
+   reached from there rather than as a columns block variant. */
+main .section.statistic-accent .columns > div {
+  gap: var(--columns-statistic-accent-gap-mobile);
+  padding-top: 27px;
+  padding-bottom: 27px;
+}
+
+main .section.statistic-accent .columns-img-col {
+  flex: 0 0 auto;
+  max-width: var(--columns-statistic-accent-icon-size-mobile);
+  margin: 0 auto;
+}
+
+main .section.statistic-accent .columns-img-col img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: contain;
+}
+
+main .section.statistic-accent .columns > div > div:not(.columns-img-col) {
+  text-align: center;
+}
+
 /* stats-callout variant — vyepti study/survey results callouts.
    Teal headings, large red italic "X fewer" numbers, centered copy. */
 main .columns.stats-callout > div > div {
@@ -258,6 +285,22 @@ main .columns.stats-callout:has(img) > div > div:not(.columns-img-col) > p:first
   main .columns.stats-callout:has(img) > div > div:not(.columns-img-col) {
     text-align: left;
   }
+
+  main .section.statistic-accent .columns > div {
+    gap: var(--columns-statistic-accent-gap);
+    padding-top: 22px;
+    padding-bottom: 22px;
+  }
+
+  main .section.statistic-accent .columns-img-col {
+    flex: 0 0 var(--columns-statistic-accent-icon-size);
+    max-width: none;
+    margin: 0;
+  }
+
+  main .section.statistic-accent .columns > div > div:not(.columns-img-col) {
+    text-align: left;
+  }
 }
 
 /* locations: all four option cards in a single row at 992px+ (the source's
@@ -270,6 +313,16 @@ main .columns.stats-callout:has(img) > div > div:not(.columns-img-col) > p:first
     flex-wrap: nowrap;
     justify-content: flex-start;
     gap: var(--columns-locations-gap);
+  }
+
+  main .section.statistic-accent .columns > div {
+    padding-top: 45px;
+    padding-bottom: 45px;
+  }
+
+  main .section.statistic-accent .columns h2 {
+    font-size: 32px;
+    line-height: 36px;
   }
 
   main .columns.locations > div > div {
