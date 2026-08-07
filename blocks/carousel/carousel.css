@@ -242,6 +242,7 @@
 
 /* Attribution paragraph (name + role) directly after the divider */
 .carousel.testimonial .carousel-slide-content h2 + p {
+  margin: var(--carousel-testimonial-attribution-margin);
   font-size: var(--carousel-testimonial-attribution-size);
   line-height: var(--carousel-testimonial-attribution-line-height);
   color: var(--carousel-testimonial-text-color);
@@ -393,6 +394,17 @@
 
   .carousel.testimonial .carousel-slide-content h2::after {
     margin: var(--carousel-testimonial-divider-gap) 0 0;
+  }
+
+  /* dark cards top-align the content (source icon sits ~22px from the top on dark pages;
+     default pages stay centered) with the source's ~20px gap below the icon */
+  .carousel.testimonial.dark .carousel-slide .carousel-slide-content {
+    justify-content: flex-start;
+    padding-top: var(--carousel-testimonial-content-pad-top-dark);
+  }
+
+  .carousel.testimonial.dark .carousel-slide-content h2::before {
+    margin-bottom: var(--carousel-testimonial-icon-gap-dark);
   }
 
   .carousel.testimonial .carousel-swipe-hint {

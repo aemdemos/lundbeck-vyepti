@@ -37,26 +37,30 @@
   --carousel-testimonial-gap-below: 32px;
   --carousel-testimonial-surface: var(--card-bg-light);
   --carousel-testimonial-content-padding: 24px 24px 32px;
-  --carousel-testimonial-content-padding-desktop: 0 4% 0 10%; /* % of card width, so the indent scales like the source (~10% left) */
+  --carousel-testimonial-content-padding-desktop: 0 2% 0 10%; /* % of card width; 10% left indent matches source, tight right so the quote isn't constricted */
 
   /* heading (quote) */
   --carousel-testimonial-heading-color: var(--brand-primary);
   --carousel-testimonial-heading-size: var(--heading-font-size-xl);
   --carousel-testimonial-heading-weight: 700;
   --carousel-testimonial-heading-line-height: 1.375; /* 33px at 24px, matches source */
-  --carousel-testimonial-heading-margin: 0 0 16px;
+  --carousel-testimonial-heading-margin: 0 0 12px;
+  --carousel-testimonial-content-pad-top-dark: 22px; /* dark cards top-align content like the source */
+  --carousel-testimonial-icon-gap-dark: 20px; /* space below the icon on dark cards (source h2 padding-top) */
 
   /* coral divider after the quote (vyepti.com computed: #f16464, 50x4) */
   --carousel-testimonial-divider-color: #f16464;
   --carousel-testimonial-divider-width: 50px;
   --carousel-testimonial-divider-height: 4px;
-  --carousel-testimonial-divider-gap: 16px;
+  --carousel-testimonial-divider-gap: 8px;
 
-  /* attribution / disclaimer */
+  /* attribution / disclaimer — tight vertical rhythm to match the source */
   --carousel-testimonial-attribution-size: var(--body-font-size-ms);
-  --carousel-testimonial-attribution-line-height: 33px; /* matches source */
+  --carousel-testimonial-attribution-line-height: 25px; /* source name box ≈25px */
+  --carousel-testimonial-attribution-margin: 4px 0 0;
   --carousel-testimonial-disclaimer-size: var(--body-font-size-xs);
-  --carousel-testimonial-disclaimer-line-height: 18px; /* matches source */
+  --carousel-testimonial-disclaimer-line-height: 18px;
+  --carousel-testimonial-disclaimer-margin: 5px 0 0;
   --carousel-testimonial-text-color: var(--text-color);
 
   /* link */
@@ -92,7 +96,7 @@
      narrower small-desktop card (~50%) and narrower on the wide desktop card (~38%). A
      wider column also lets `cover` show the whole composition instead of a zoomed crop. */
   --carousel-testimonial-image-flex: 38%;
-  --carousel-testimonial-image-flex-tablet: 42%;
+  --carousel-testimonial-image-flex-tablet: 38%;
   --carousel-testimonial-image-height: 240px;
   --carousel-testimonial-slide-height-desktop: 400px;
 
@@ -102,9 +106,10 @@
   --carousel-testimonial-slide-min-height-desktop-single-dark: 398px;
   --carousel-testimonial-slide-min-height-desktop-link: 380px;
 
-  /* small-desktop (992–1199) swaps to a tall portrait crop; taller floor keeps it from
-     vertically over-cropping the dark single-slide (study-results) */
-  --carousel-testimonial-slide-min-height-smalldesktop-single-dark: 464px;
+  /* 768–1199 swaps to tall portrait crops; the dark pages need taller floors so cover doesn't
+     over-crop (nurse multi 413 @tablet / 464 @small-desktop; study single 464 @small-desktop) */
+  --carousel-testimonial-slide-min-height-tablet-multi-dark: 413px;
+  --carousel-testimonial-slide-min-height-smalldesktop-dark: 464px;
 
   /* dark variant — quote on a solid teal panel with white text (applied via .dark below) */
   --carousel-testimonial-dark-surface: var(--dark-color);
@@ -128,6 +133,7 @@
 
 /* disclaimer (2nd paragraph after quote) may be plain text, so size it explicitly */
 .carousel.testimonial .carousel-slide-content h2 + p + p {
+  margin: var(--carousel-testimonial-disclaimer-margin);
   font-size: var(--carousel-testimonial-disclaimer-size);
   line-height: var(--carousel-testimonial-disclaimer-line-height);
 }
@@ -215,17 +221,27 @@ main .carousel.testimonial .carousel-slide .carousel-slide-image img {
   }
 }
 
+/* tablet: the dark multi-slide (nurse-support) loads a tall portrait crop; taller floor
+   matches the source and keeps cover from over-cropping the photo */
+@media (width >= 768px) and (width < 992px) {
+  main .carousel.testimonial.dark:not(:has(.carousel-slides > li:only-child)) .carousel-slide {
+    min-height: var(--carousel-testimonial-slide-min-height-tablet-multi-dark);
+  }
+}
+
 @media (width >= 992px) {
   .carousel.testimonial {
     margin-top: var(--carousel-testimonial-gap-section);
   }
 }
 
-/* small-desktop: the dark single-slide (study-results) loads a tall portrait crop here;
-   give it the source's taller card so cover doesn't vertically over-crop the photo */
+/* small-desktop: the dark pages (study single, nurse multi) load tall portrait crops here;
+   give them the source's taller card so cover doesn't vertically over-crop the photo.
+   Two rules (single + multi) to match the specificity of the desktop dark-single floor above. */
 @media (width >= 992px) and (width < 1200px) {
-  main .carousel.testimonial.dark:has(.carousel-slides > li:only-child) .carousel-slide {
-    min-height: var(--carousel-testimonial-slide-min-height-smalldesktop-single-dark);
+  main .carousel.testimonial.dark:has(.carousel-slides > li:only-child) .carousel-slide,
+  main .carousel.testimonial.dark:not(:has(.carousel-slides > li:only-child)) .carousel-slide {
+    min-height: var(--carousel-testimonial-slide-min-height-smalldesktop-dark);
   }
 }
 
