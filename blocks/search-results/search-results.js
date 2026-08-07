@@ -62,7 +62,7 @@ function goToPage(block, filteredData, searchTerms, page) {
     window.history.replaceState({}, '', url.toString());
   }
   // eslint-disable-next-line no-use-before-define
-  renderResults(block, filteredData, searchTerms);
+  renderResults(block, filteredData, searchTerms, searchParams.get(PARAM_QUERY));
   block.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
@@ -114,14 +114,48 @@ function renderPagination(block, filteredData, searchTerms, perPage, currentPage
   block.append(nav);
 }
 
-function renderResults(block, filteredData, searchTerms) {
+/**
+ * Renders the "No results found for <query>" empty state, matching the source:
+ * a centred brand-secondary heading with the query on its own line, plus a
+ * "Try another search…" note. The query is set via textContent (never
+ * innerHTML) so user input can't inject markup.
+ */
+function renderNoResults(block, query) {
+  let empty = block.querySelector('.search-results-empty');
+  if (!empty) {
+    empty = document.createElement('div');
+    empty.className = 'search-results-empty';
+
+    const heading = document.createElement('h2');
+    heading.className = 'search-results-empty-heading';
+    heading.append(document.createTextNode('No results found for'));
+    const term = document.createElement('span');
+    term.className = 'search-results-empty-query';
+    heading.append(term);
+
+    const note = document.createElement('p');
+    note.className = 'search-results-empty-note';
+    note.textContent = "Try another search and we'll do our best to find it for you.";
+
+    empty.append(heading, note);
+    block.querySelector('.search-results-list').before(empty);
+  }
+  empty.querySelector('.search-results-empty-query').textContent = query;
+}
+
+function clearNoResults(block) {
+  const empty = block.querySelector('.search-results-empty');
+  if (empty) empty.remove();
+}
+
+function renderResults(block, filteredData, searchTerms, query) {
   const searchResults = block.querySelector('.search-results-list');
   searchResults.innerHTML = '';
   const headingTag = searchResults.dataset.h;
 
-  renderCount(block, filteredData.length);
-
   if (filteredData.length) {
+    clearNoResults(block);
+    renderCount(block, filteredData.length);
     searchResults.classList.remove('no-results');
     const perPage = getPerPage();
     const totalPages = Math.ceil(filteredData.length / perPage);
@@ -136,12 +170,13 @@ function renderResults(block, filteredData, searchTerms) {
 
     renderPagination(block, filteredData, searchTerms, perPage, currentPage);
   } else {
+    // zero results: hide the count + list, show the big "No results" message
     const existing = block.querySelector('.search-results-pagination');
     if (existing) existing.remove();
-    const noResultsMessage = document.createElement('li');
+    const count = block.querySelector('.search-results-count');
+    if (count) count.remove();
     searchResults.classList.add('no-results');
-    noResultsMessage.textContent = 'No results found.';
-    searchResults.append(noResultsMessage);
+    renderNoResults(block, query);
   }
 }
 
@@ -163,7 +198,7 @@ export default async function decorate(block) {
     const searchTerms = searchValue.toLowerCase().split(/\s+/).filter((term) => !!term);
     const data = await fetchData(source);
     const filteredData = filterData(searchTerms, data || []);
-    renderResults(block, filteredData, searchTerms);
+    renderResults(block, filteredData, searchTerms, searchValue);
   } else {
     renderCount(block, 0);
     block.querySelector('.search-results-list').classList.add('no-results');

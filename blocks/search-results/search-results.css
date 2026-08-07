@@ -174,14 +174,50 @@ main .section.search-results-banner h1 {
   display: none;
 }
 
-/* no results / empty state */
-.search-results ul.search-results-list.no-results > li {
-  border: none;
-  padding: 0;
+/* no results / empty state — the results list is hidden and a centred
+   "No results found for <query>" message is shown instead (matches source) */
+.search-results ul.search-results-list.no-results {
+  display: none;
+}
+
+.search-results .search-results-empty {
+  padding: 24px 0;
+  text-align: center;
+}
+
+.search-results .search-results-empty-heading {
   margin: 0;
+  color: var(--brand-secondary); /* rose #c02c57 */
+  font-family: var(--heading-font-family);
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 40px;
+}
+
+/* the searched query sits on its own line under the label */
+.search-results .search-results-empty-query {
+  display: block;
+}
+
+.search-results .search-results-empty-note {
+  margin: 0;
+  padding-top: 25px;
   color: var(--text-color);
   font-family: var(--body-font-family);
-  font-size: var(--heading-font-size-xs);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 22px;
+}
+
+@media (width >= 900px) {
+  .search-results .search-results-empty-heading {
+    font-size: 56px;
+    line-height: 60px;
+  }
+
+  .search-results .search-results-empty-note {
+    padding-top: 31px;
+  }
 }
 
 /* pagination — connected segmented control, centered */
