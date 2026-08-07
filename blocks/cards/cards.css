@@ -421,4 +421,8 @@ main .cards.feature > ul > li .cards-card-body > p:last-child:has(a) {
   .cards.resources .cards-card-body .button-wrapper:not(.button-wrapper + .button-wrapper) {
     margin-left: 0;
   }
+
+  .cards.statistics ul {
+    flex-direction: row;
+  }
 }
