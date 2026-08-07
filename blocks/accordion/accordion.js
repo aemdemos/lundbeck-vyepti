@@ -62,14 +62,20 @@ export default function decorate(block) {
     if (label !== null && label !== undefined) {
       label.className = 'accordion-item-label';
 
-      // Convention: author bolds the lead phrase; the remaining inline content
-      // becomes the "detail", which is collapsed on mobile and revealed on tablet up.
-      const labelText = label.querySelector('p') || label;
+      // The label splits into a lead phrase and a trailing "detail". Authors mark
+      // the split one of two ways: bolding the lead phrase, or a line break between
+      // the two phrases. The detail is collapsed on mobile and revealed from tablet up.
+      const labelText = label.querySelector('p, h1, h2, h3, h4, h5, h6') || label;
       const lead = labelText.querySelector(':scope > strong, :scope > b');
-      if (lead && lead.nextSibling) {
+      const lineBreak = labelText.querySelector(':scope > br');
+      // Detail begins after the bold lead, or at the line break itself (the <br> is
+      // kept inside the detail so CSS controls the wrap: hidden on mobile, its own
+      // line on tablet, folded onto one line on desktop).
+      const detailStart = (lead && lead.nextSibling) ? lead.nextSibling : lineBreak;
+      if (detailStart) {
         const detail = document.createElement('span');
         detail.className = 'accordion-item-label-detail';
-        let node = lead.nextSibling;
+        let node = detailStart;
         while (node) {
           const next = node.nextSibling;
           detail.append(node);
