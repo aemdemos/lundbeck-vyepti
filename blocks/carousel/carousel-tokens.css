@@ -37,7 +37,7 @@
   --carousel-testimonial-gap-below: 32px;
   --carousel-testimonial-surface: var(--card-bg-light);
   --carousel-testimonial-content-padding: 24px 24px 32px;
-  --carousel-testimonial-content-padding-desktop: 0 2% 0 10%; /* % of card width; 10% left indent matches source, tight right so the quote isn't constricted */
+  --carousel-testimonial-content-padding-desktop: 0 2% 0 8.5%; /* % of card width; left indent aligns the icon/quote to the source's X (our card is ~15px narrower), tight right so the quote isn't constricted */
 
   /* heading (quote) */
   --carousel-testimonial-heading-color: var(--brand-primary);
