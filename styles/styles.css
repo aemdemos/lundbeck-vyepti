@@ -1178,6 +1178,11 @@ main .section.video-accent .default-content-wrapper {
   text-align: left;
 }
 
+/* the boilerplate 93% video cap doesn't apply in this narrow column */
+main .section.video-accent .video {
+  max-width: 100%;
+}
+
 /* narrow-copy flex-group (what-to-expect "Choosing a location" + "Prepare for
    each step"): the source is NOT a 50/50 split — the copy column is fixed to
    its readable measure and the companion column fills the rest, with a wider
