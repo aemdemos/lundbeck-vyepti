@@ -9,6 +9,7 @@
   padding: 0 15px;
   font-family: var(--body-font-family, 'proxima-nova', 'Helvetica Neue', Helvetica, Arial, sans-serif);
 }
+
 .signup-form-info {
   display: none;
 }
@@ -33,11 +34,13 @@ p.signup-form-required-note {
   margin: 0 0 14px;
   font-family: var(--body-font-family, 'proxima-nova', 'Helvetica Neue', Helvetica, Arial, sans-serif);
 }
+
 .toggle-options {
   display: flex;
   flex-direction: column;
   gap: 25px;
 }
+
 .toggle-option {
   display: flex;
   align-items: center;
@@ -45,6 +48,7 @@ p.signup-form-required-note {
   cursor: pointer;
   width: fit-content;
 }
+
 .toggle-option input[type='radio'] {
   width: 20px;
   height: 20px;
@@ -64,12 +68,12 @@ p.signup-form-required-note {
   color: var(--link-color, #046183);
 }
 
-
 /* Conditional container */
 .conditional-container {
   display: none;
   margin-bottom: 4px;
 }
+
 .conditional-container.visible {
   display: block;
 }
@@ -82,9 +86,9 @@ p.signup-form-required-note {
   display: flex;
   align-items: center;
   gap: 6px;
-  margin: 10px 0px 8px 0px;
-
+  margin: 10px 0 8px;
 }
+
 .form-field label {
   display: block;
   font-weight: 600;
@@ -100,8 +104,7 @@ p.signup-form-required-note {
   box-sizing: border-box;
 }
 
-/* Wraps the address input so the custom suggestions dropdown can be
-   positioned relative to it. Sized the same way .form-field input is. */
+
 .address-autocomplete-wrapper {
   position: relative;
   width: 100%;
@@ -112,11 +115,7 @@ p.signup-form-required-note {
   max-width: 100%;
 }
 
-/* The wrapper already carries the 70%/50% breakpoint sizing that matches
-   Street address 2. The input inside it should just fill the wrapper —
-   without this, .form-field input's own max-width would apply a *second*
-   70%/50% cap on top of the wrapper's, shrinking the field to half of
-   its intended width. */
+
 #address1-wrapper input {
   max-width: 100%;
 }
@@ -133,7 +132,7 @@ p.signup-form-required-note {
   background: var(--background-color, #fff);
   border: 1px solid #d9d9d9;
   border-radius: 9.5px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 18%);
   max-height: 280px;
   overflow-y: auto;
 }
@@ -152,7 +151,7 @@ p.signup-form-required-note {
 
 .address-suggestion:hover,
 .address-suggestion.is-active {
-  background: rgba(4, 97, 131, 0.08);
+  background: rgb(192 17 75 / 6%);
 }
 
 .address-suggestion-icon {
@@ -190,11 +189,16 @@ p.signup-form-required-note {
   border-color: var(--error-color, #c02c57);
 }
 
+/* stylelint-disable property-no-vendor-prefix */
 .form-field select {
-  width: 100%;
-  max-width: 100%;
-  box-sizing: border-box;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding-right: 56px;
+  cursor: pointer;
 }
+/* stylelint-enable property-no-vendor-prefix */
+
 .form-field input,
 .form-field select {
   padding: 12px 14px;
@@ -211,6 +215,7 @@ p.signup-form-required-note {
 #phone {
   max-width: 100%;
 }
+
 #zip {
   max-width: 100%;
 }
@@ -227,14 +232,6 @@ p.signup-form-required-note {
   box-sizing: border-box;
 }
 
-
-.form-field select {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  padding-right: 56px;
-  cursor: pointer;
-}
 
 .select-arrow {
   position: absolute;
@@ -255,6 +252,7 @@ p.signup-form-required-note {
   background: linear-gradient(0deg, var(--link-color, #046183) 0%, var(--link-color, #046183) 100%);
   color: var(--background-color, #fff);
 }
+
 .form-field input::placeholder {
   color: #999;
 }
@@ -264,7 +262,7 @@ p.signup-form-required-note {
 .form-field select:focus {
   outline: none;
   border-color: var(--link-color, #046183);
-  box-shadow: 0 0 0 4px rgba(0, 94, 184, 0.25);
+  box-shadow: 0 0 0 4px rgb(0 94 184 / 25%);;
 }
 
 
@@ -301,7 +299,7 @@ p.signup-form-required-note {
   color: var(--link-color, #046183);
 }
 .form-field-info-btn:focus-visible {
-  box-shadow: 0 0 0 3px rgba(0, 94, 184, 0.35);
+  box-shadow: 0 0 0 3px rgb(0 94 184 / 35%);
 }
 
 /* Popover position/padding: mobile default below, scales up at 768/992 */
@@ -312,10 +310,11 @@ p.signup-form-required-note {
   background: var(--background-color, #fff);
   border: 1px solid #d9d9d9;
   border-radius: 5px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 18%);
   padding: 20px 16px;
   box-sizing: border-box;
   z-index: 2;
+
   --arrow-left: 40px;
 }
 
@@ -340,6 +339,7 @@ p.signup-form-required-note {
   height: 0;
 }
 
+
 .form-field-popover::after {
   content: '';
   position: absolute;
@@ -354,14 +354,13 @@ p.signup-form-required-note {
 
 .form-field-popover-text {
   margin: 0;
-  padding: 10px 0px 10px 0px;
+  padding: 10px 0;
   font-size: var(--body-font-size-s, 16px);
   line-height: 24px;
   color: var(--text-color, #333);
 }
 
-/* top/right rendered as 1px/1px at every real breakpoint in the old file
-   (mobile, tablet, and desktop queries all set it) — folded in here directly */
+
 .form-field-popover-close {
   position: absolute;
   top: 1px;
@@ -385,7 +384,7 @@ p.signup-form-required-note {
   position: absolute;
   width: 30px;
   height: 1.5px;
-  background: currentColor;
+  background: currentcolor;
   border-radius: 2px;
 }
 
@@ -407,13 +406,13 @@ p.signup-form-required-note {
 }
 
 .form-field-popover-close:focus-visible {
-  box-shadow: 0 0 0 3px rgba(0, 94, 184, 0.35);
+  box-shadow: 0 0 0 3px rgb(0 94 184 / 35%);;
 }
 
 .form-field-popover-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgb(4 97 131 / 8%);
   z-index: 1;
 }
 
@@ -427,7 +426,6 @@ p.signup-form-required-note {
 }
 
 
-/* DATE FIELDS */
 .date-field-group {
   display: none;
   margin-bottom: 24px;
@@ -510,7 +508,7 @@ p.signup-form-required-note {
   line-height: 20px;
   font-weight: 600;
   color: var(--error-color, #c02c57);
-  background: rgba(192, 17, 75, 0.06);
+  background: rgb(0 0 0 / 40%);;
   border: 1px solid var(--error-color, #c02c57);
   border-radius: 8px;
 }
@@ -556,7 +554,7 @@ p.signup-form-required-note {
 }
 
 
-/* Legal disclaimer*/
+/* Legal disclaimer */
 .form-consent-legal {
   margin: 16px 0 24px;
   padding-left: 28px;
@@ -656,12 +654,15 @@ p.signup-form-required-note {
   #phone {
     max-width: 200px;
   }
+
   #zip {
     max-width: 70%;
   }
+
   #state-wrapper {
     max-width: 70%;
   }
+
   #first-infusion-date,
   #next-doctor-appointment {
     max-width: 240px;
@@ -701,29 +702,26 @@ p.signup-form-required-note {
   #phone {
     max-width: 240px;
   }
+
   #zip {
     max-width: 290px;
   }
+
   #state-wrapper {
     max-width: 290px;
   }
 
-  /* Select reverts to its fixed desktop width instead of stretching full-width */
   .form-field select {
     width: 290px;
   }
 
-  /* left/right use a fluid formula*/
   .form-field-popover {
     left: max(40px, calc(50% - 640px));
     right: max(40px, calc(50% - 340px));
     padding: 40px 30px;
   }
 
-  /* Popover text loses its mobile/tablet padding at desktop size */
   .form-field-popover-text {
     padding: 0;
   }
-
-
 }
