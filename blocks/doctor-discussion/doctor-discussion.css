@@ -1,6 +1,6 @@
 .doctor-discussion-wrapper,
 .doctor-discussion {
-  background: #eef3f6;
+  background: var(--doctor-discussion-bg);
   display: flex;
   justify-content: center;
   font-family: var(--body-font-family); 
@@ -11,13 +11,13 @@ main .section div.doctor-discussion-wrapper {
 }
 
 .doctor-discussion-container {
-  background: #eef3f6;
+  background: var(--doctor-discussion-bg);
   padding-top: 0;
 }
 
 .doctor-discussion {
   border-radius: 12px;
-  box-shadow: 0 2px 8px 0 #e0e0e0;
+  box-shadow: 0 2px 8px 0 var(--card-box-shadow);
   max-width: 563px;
   padding: 0;
   width: 100%;
@@ -30,7 +30,7 @@ main .section div.doctor-discussion-wrapper {
 /* ---------- Doctor Discussion Card ---------- */
 
 .dg-card {
-  background: #fff;
+  background: var(--background-color);
   border-radius: 12px;
   box-shadow: 0 4px 18px rgb(15 42 58 / 8%);
   overflow: hidden;
@@ -46,9 +46,9 @@ main .section div.doctor-discussion-wrapper {
 
 .dg-header {
   align-items: flex-start;
-  background: #046183;
+  background: var(--brand-teal);
   border-radius: 12px 12px 0 0;
-  color: #fff;
+  color: var(--brand-color-white);
   display: flex;
   padding:12px 17px 13px 13px;
   height: auto;
@@ -57,13 +57,11 @@ main .section div.doctor-discussion-wrapper {
 
 .dg-header-badge {
   align-items: center;
-  background: #fff;
+  background: var(--background-color);
   border-radius: 50%;
-  color: #046183;
+  color: var(--brand-teal);
   display: inline-flex;
-  font-family: var(--heading-font-family);
-  font-size: 18px;
-  font-weight: 600;
+  font: 600 18px/var(--body-line-height) var(--body-font-family);
   justify-content: center;
   height: 23px;
   margin: 7px 8px 0 0;
@@ -72,7 +70,7 @@ main .section div.doctor-discussion-wrapper {
 }
 
 .dg-header-title {
-  color: #fff;
+  color: var(--brand-color-white);
   font-size: 18px;
   font-weight: 600;
   line-height: 22px;
@@ -89,13 +87,13 @@ main .section div.doctor-discussion-wrapper {
 }
 
 .dg-progress-segment {
-  background: #d1d1d1;
+  background: var(--brand-grey-light);
   flex: 1;
   height: 5px;
 }
 
 .dg-progress-segment.is-complete {
-  background: #f16464;
+  background: var(--brand-rose-light);
 }
 
 /* ---------- Form layout ---------- */
@@ -119,7 +117,7 @@ main .section div.doctor-discussion-wrapper {
 }
 
 .dg-field-label {
-  color: #046183;
+  color: var(--brand-teal);
   font-size: 18px;
   font-weight: 600;
   margin-top: 0;
@@ -127,41 +125,34 @@ main .section div.doctor-discussion-wrapper {
 }
 
 .dg-field-helper {
-  color: #666;
-  font-family: var(--body-font-family);
+  color: var(--text-color-light);
+  font: italic 400 12px/14px var(--body-font-family);
   font-size: 12px;
   font-style: italic;
   font-weight: 400;
   line-height: 14px;
-  margin: 4px 0 0;
+  margin: 4px 0 0; 
 }
 
 .dg-field-count {
-  color: #666;
-  font-family: var(--body-font-family);
-  font-size: 12px;
-  font-style: italic;
+  color: var(--text-color-light);
+  font: italic 12px var(--body-font-family);
   white-space: nowrap;
 }
 
 .dg-field-description {
-  color: #333;
-  font-family: var(--body-font-family);
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 18px;
+  color: var(--text-color);
+  font: 500 14px/18px var(--body-font-family);
   margin: 4px 0 16px;
   text-align: left;
 }
 
 .dg-text-input {
-  border: 1px solid #484848;
+  border: 1px solid var(--brand-grey-dark);
   border-radius: 9.5px;
   box-sizing: border-box;
-  font-family: var(--body-font-family);
-  font-size: 18px;
+  font: 18px/24px var(--body-font-family);
   height: 47px;
-  line-height: 24px;
   margin: 8px 0 16px;
   outline: 0;
   padding: 5px 10px;
@@ -175,11 +166,6 @@ main .section div.doctor-discussion-wrapper {
 
 /* ---------- Options (checkbox + radio share the same look) ---------- */
 
-.dg-field-checkbox, 
-.dg-field-radio {
-  min-height: 305px;
-}
-
 .dg-option-list {
   display: flex;
   flex-direction: column;
@@ -189,7 +175,7 @@ main .section div.doctor-discussion-wrapper {
 
 .dg-option {
   align-items: center;
-  border: 1px solid #7ebcc6;
+  border: 1px solid var(--brand-teal-light);
   border-radius: 22px;
   background: rgb(4 97 131 / 3%);
   display: flex;
@@ -234,12 +220,9 @@ main .section div.doctor-discussion-wrapper {
 }
 
 .dg-option-text {
-  color: #484848;
+  color: var(--brand-grey-dark);
   flex: 1;
-  font-family: var(--body-font-family);
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 20px;
+  font: 600 16px/20px var(--body-font-family);
 }
 
 .dg-option-input {
@@ -252,7 +235,7 @@ main .section div.doctor-discussion-wrapper {
 
 .dg-option-control {
   align-items: center;
-  background: #fff;
+  background: transparent;
   border: 1px solid rgb(126 188 198 / 50%);
   border-radius: 4px; /* checkbox = rounded square */
   box-sizing: border-box;
@@ -275,8 +258,8 @@ main .section div.doctor-discussion-wrapper {
 
 /* Checkbox checked state: control fills solid with a white checkmark */
 .dg-option-input:checked + .dg-option-control {
-  background: #046183;
-  border-color: #046183;
+  background: var(--brand-teal);
+  border-color: var(--brand-teal);
 }
 
 .dg-option-input:checked ~ .dg-option-text {
@@ -285,17 +268,17 @@ main .section div.doctor-discussion-wrapper {
 
 .dg-option:has(.dg-option-input:checked) {
   background-color: rgb(126 188 198 / 20%);
-  border: 1px solid #046183;
+  border: 1px solid var(--brand-teal);
   
 }
 
 .dg-option:has(.dg-option-input:checked) .dg-option-text {
-  color: #046183;
+  color: var(--brand-teal);
 }
 
 
 .dg-option-input:not([type='radio'], [data-exclusive='true']):checked + .dg-option-control::after {
-  border: solid #fff;
+  border: solid var(--brand-color-white);
   border-width: 0 2px 2px 0;
   box-sizing: border-box;
   content: '';
@@ -308,14 +291,14 @@ main .section div.doctor-discussion-wrapper {
 
 .dg-option-input[type='radio']:checked + .dg-option-control,
 .dg-option-input[data-exclusive='true']:checked + .dg-option-control {
-  background: #fff;
-  border-color: #046183;
+  background: var(--background-color);
+  border-color: var(--brand-teal);
   border-width: 1px;
 }
 
 .dg-option-input[type='radio']:checked + .dg-option-control::after,
 .dg-option-input[data-exclusive='true']:checked + .dg-option-control::after {
-  background: #046183;
+  background: var(--brand-teal);
   border-radius: 50%;
   content: '';
   height: 17px;
@@ -339,19 +322,17 @@ main .section div.doctor-discussion-wrapper {
   border-radius: 999px;
   cursor: pointer;
   display: inline-flex;
-  font-family: inherit;
-  font-size: 1.05rem;
-  font-weight: 800;
+  font: 800 1.05rem var(--body-font-family);
   gap: 15px;
   padding: 14px 28px;
 }
 
 .dg-next-btn,
-.dg-next-btn:hover {
-  background: #046183;
-  border: 2px solid #046183;
+.dg-next-btn:focus {
+  background: var(--brand-teal);
+  border: 2px solid var(--brand-teal);
   border-radius: 30px;
-  color: #fff;
+  color: var(--brand-color-white);
   padding: 17px 24px;
   position: relative;
   margin-top: 0;
@@ -360,13 +341,17 @@ main .section div.doctor-discussion-wrapper {
   width: max-content;
 }
 
+.dg-next-btn:hover { 
+  background-color: var(--brand-teal-light);
+  border-color: var(--brand-teal-light);
+}
 
 .dg-next-btn.is-disabled,
 .dg-next-btn:disabled,
 .dg-next-btn.is-disabled:hover, 
 .dg-next-btn:disabled:hover{
-  background: #046183;
-  color: #fff;
+  background: var(--brand-teal);
+  color: var(--brand-color-white);
   opacity: 0.5;
 }
 
@@ -378,16 +363,22 @@ main .section div.doctor-discussion-wrapper {
 }
 
 .dg-back-btn,
-.dg-back-btn:hover  {
-  background: #fff;
-  border: 2px solid #046183;
+.dg-back-btn:focus {
+  background: var(--background-color);
+  border: 2px solid var(--brand-teal);
   border-radius: 30px;
-  color: #046183;
+  color: var(--brand-teal);
   padding: 17px 24px;
   position: relative;
   margin-top: 0;
-  max-width: 124px;
-  width: 124px;
+  max-width: 126px;
+  width: 126px;
+}
+
+.dg-back-btn:hover  {
+  background-color: var(--background-color);
+  border-color: var(--brand-teal-light);
+  color: var(--brand-teal-light);
 }
 
 .dg-back-arrow {
@@ -398,11 +389,15 @@ main .section div.doctor-discussion-wrapper {
   width: 21px;
 }
 
+.dg-back-btn:hover .dg-back-arrow {
+  opacity: 0.5;
+}
+
 /* ---------- DID YOU KNOW? callout ---------- */
 
 .dg-callout {
   align-items: flex-start;
-  border-top: 1px solid #d1d1d1;
+  border-top: 1px solid var(--doctor-disussion-divider);
   display: flex;
   gap: 12px;
 }
@@ -427,16 +422,14 @@ main .section div.doctor-discussion-wrapper {
 }
 
 .dg-callout-text {
-  color: #333;
-  font-size: 14px;
-  line-height: 18px;
+  color: var(--text-color);
+  font: 14px/18px var(--body-font-family);
   margin: 0;
 }
 
 .dg-callout-heading {
-  color: #c02c57;
-  font-style: italic;
-  font-weight: 800;
+  color: var(--brand-rose);
+  font: italic 800 14px/18px var(--body-font-family);
 }
 
 /* Doctor Discussion — Results screen styles */
@@ -448,17 +441,14 @@ main .section div.doctor-discussion-wrapper {
   overflow: hidden;
 }
 
-.dg-results-header {
-  background: #046183;
+.dg-header.dg-results-header {
+  background: var(--brand-teal);
   justify-content: center;
   padding: 16px 0;
 }
 
-.dg-results-header-title {
-  font-family: var(--body-font-family);
-  font-size: 18px;
-  font-weight: 600;
-  line-height: 22px;
+.dg-results-header .dg-results-header-title {
+  font: 600 18px/22px var(--body-font-family);
   text-align: center;
   margin: 0;
 }
@@ -475,11 +465,8 @@ main .section div.doctor-discussion-wrapper {
 }
 
 .dg-results-title {
-  color: #046183;
-  font-family: var(--body-font-family);
-  font-size: 24px;
-  font-weight: 800;
-  line-height: 29px;
+  color: var(--brand-teal);
+  font: 800 24px/29px var(--body-font-family);
   margin: 0 0 22px;
   padding: 0;
   text-align: center;
@@ -502,52 +489,41 @@ main .section div.doctor-discussion-wrapper {
 }
 
 .dg-results-item::before {
-  color: #484848;
+  color: var(--brand-grey-dark);
   content: counter(dg-results-counter) ".";
-  font-family: var(--body-font-family);
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 22px;
+  font: 400 16px/22px var(--body-font-family);
   left: -16px;
   position: absolute;
   top: 0;
 }
 
 .dg-results-question {
-  color: #484848;
-  font-family: var(--body-font-family);
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 22px;
+  color: var(--brand-grey-dark);
+  font: 400 16px/22px var(--body-font-family);
   margin: 0;
 }
 
 .dg-results-answer {
-  font-family: var(--body-font-family);
-  font-size: 16px;
-  line-height: 22px;
+  font: 16px/22px var(--body-font-family);
   margin: 0;
 }
 
 .dg-results-answer-label {
-  color: #484848;
+  color: var(--brand-grey-dark);
   font-weight: 700;
 }
 
 .dg-results-answer-value {
-  color: #046183;
+  color: var(--brand-teal);
   font-weight: 700;
 }
 
 /* ---------- Download / Email ---------- */
 
 .dg-results-download-label {
-  color: #1f2937;
+  color: var(--text-color);
   margin: 0 0 16px;
-  font-family: var(--body-font-family);
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 17px;
+  font: 700 14px/17px var(--body-font-family);
 }
 
 .dg-results-actions {
@@ -561,18 +537,15 @@ main .section div.doctor-discussion-wrapper {
 .dg-results-download-btn,
 .dg-results-email-btn {
   align-items: center;
-  background-color: #046183;
-  border: 1px solid #046183;
+  background-color: var(--brand-teal);
+  border: 1px solid var(--brand-teal);
   border-radius: 30px;
-  color: #fff;
+  color: var(--brand-color-white);
   cursor: pointer;
   display: inline-flex;
-  font-family: var(--body-font-family);
-  font-weight: 700;
-  font-size: 18px;
+  font: 700 18px/22px var(--body-font-family);
   gap: 10px;
   justify-content: center;
-  line-height: 22px;
   padding: 19px 28px 19px 27px;
   position: relative;
   transition: all .2s ease-in-out;
@@ -582,8 +555,8 @@ main .section div.doctor-discussion-wrapper {
 .dg-results-email-btn:hover,
 .dg-results-download-btn:focus,
 .dg-results-email-btn:focus  {
-  background: #7ebcc6;
-  border-color: #7ebcc6;
+  background: var(--brand-teal-light);
+  border-color: var(--brand-teal-light);
 }
 
 .dg-download-icon,
@@ -605,11 +578,8 @@ main .section div.doctor-discussion-wrapper {
 }
 
 .dg-results-note {
-  color: #484848;
-  font-family: var(--body-font-family);
-  font-size: 14px;
-  font-style: italic;
-  line-height: 18px;
+  color: var(--brand-grey-dark);
+  font: italic 14px/18px var(--body-font-family);
   margin: 0;
   padding-bottom: 9px;
   text-align:center;
@@ -618,8 +588,8 @@ main .section div.doctor-discussion-wrapper {
 /* ---------- Dividers ---------- */
 
 .dg-results-divider {
-  background: #e0e0e0;
-  border: 1px solid #a4a4a4;
+  background: var(--result-divider-bg);
+  border: 1px solid var(--result-divider-border);
   height: 1px;
   margin: 0;
 }
@@ -627,11 +597,8 @@ main .section div.doctor-discussion-wrapper {
 /* ---------- CTA heading + Retake ---------- */
 
 .dg-results-cta-heading {
-  color: #333;
-  font-family: var(--body-font-family);
-  font-size: 20px;
-  font-weight: 600;
-  line-height: 28px;
+  color: var(--text-color);
+  font: 600 20px/28px var(--body-font-family);
   margin: 20px 0 16px;
   text-align: center;
 }
@@ -640,12 +607,10 @@ main .section div.doctor-discussion-wrapper {
   align-items: center;
   background: none;
   border: none;
-  color: #046183;
+  color: var(--brand-teal);
   cursor: pointer;
   display: flex;
-  font-family: inherit;
-  font-size: 15px;
-  font-weight: 700;
+  font: 700 15px var(--body-font-family);
   gap: 14px;
   margin: 0 auto 9px;
   padding: 0; 
@@ -655,7 +620,7 @@ main .section div.doctor-discussion-wrapper {
 .dg-results-retake-btn:focus {
   background: none;
   border: none;
-  color: #046183;
+  color: var(--brand-teal);
   text-decoration: none;
 }
 
@@ -672,16 +637,12 @@ main .section div.doctor-discussion-wrapper {
 /* ---------- Closing tips callout ---------- */
 
 .dg-results-tips {
-  color: #c0392b;
   padding-top: 15px;
 }
 
 .dg-results-tips-heading {
-  color: #333;
-  font-family: var(--body-font-family);
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 24px; 
+  color: var(--text-color);
+  font: 400 16px/24px var(--body-font-family);
   margin: 0 0 12px;
 }
 
@@ -692,10 +653,8 @@ main .section div.doctor-discussion-wrapper {
 }
 
 .dg-results-tips-list li {
-  color: #666;
-  font-family: var(--body-font-family);
-  font-size: 16px;
-  line-height: 18px;
+  color: var(--text-color-light);
+  font: 16px/18px var(--body-font-family);
   margin-bottom: 12px;
   padding-left: 16px;
   position: relative; 
@@ -706,7 +665,7 @@ main .section div.doctor-discussion-wrapper {
 }
 
 .dg-results-tips-list li::before {
-  color: #c02c57;
+  color: var(--brand-rose);
   content: '•';
   font-size: 15px;
   line-height: 20px;
@@ -716,15 +675,13 @@ main .section div.doctor-discussion-wrapper {
 }
 
 .dg-results-vyepti-link {
-  color: #046183;
-  font-size: 18px;
-  font-weight: bold;
-  line-height: 26px;
+  color: var(--link-color);
+  font: bold 18px/26px var(--body-font-family);
   text-decoration: underline;
 }
 
 .dg-results-vyepti-link:hover {
-  color: #7ebcc6;
+  color: var(--link-hover-color);
   text-decoration: underline;
 }
 
@@ -734,14 +691,14 @@ main .section div.doctor-discussion-wrapper {
 
 html,
 body {
-  background: #eef3f6;
+  background: var(--doctor-discussion-bg);
 }
 
 .modal {
   display: none;
   position: fixed;
   inset: 0;
-  z-index: 1050;
+  z-index: 2;
   background: rgb(20 30 40 / 55%);
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
@@ -751,7 +708,6 @@ body {
 
 .modal.show {
   display: flex;
-  align-items: center;
   justify-content: center;
 }
 
@@ -771,7 +727,7 @@ body.modal-open {
 
 .modal-content {
   position: relative;
-  background: #eef3f6;
+  background: var(--doctor-discussion-bg);
   border-radius: 10px;
   padding: 24px 20px 40px;
   box-shadow: 0 20px 60px rgb(0 0 0 / 30%);
@@ -783,7 +739,7 @@ body.modal-open {
 
 .dg-modal-close-btn {
   position: absolute;
-  top: 27px;
+  top: 23px;
   right: 16px;
   width: 32px;
   height: 32px;
@@ -797,29 +753,26 @@ body.modal-open {
 .dg-modal-close-btn::before {
   content: "\2715";
   font-size: 22px;
-  color: #333;
+  color: var(--text-color);
 }
 
-.dg-modal-close-btn:hover {
-  background: rgb(0 0 0 / 6%);
+.dg-modal-close-btn:hover,
+.dg-modal-close-btn:focus {
+  background: transparent;
 }
 
 .dg-modal-title {
   margin: 0 0 16px;
-  font-size: 24px;
-  font-weight: 700;
-  color: #046183;
-  line-height: 29px;
+  font: 700 24px/29px var(--body-font-family);
+  color: var(--brand-teal);
+  padding: 0 56px;
   text-align: center;
-  font-family: var(--body-font-family);
 }
 
 .dg-modal-required-note {
   margin: 0 0 8px;
-  font-style: italic;
-  font-size: 14px;
-  color: #333;
-  font-family: var(--body-font-family);
+  font: italic 14px var(--body-font-family);
+  color: var(--text-color);
 }
 
 .dg-modal-form {
@@ -834,43 +787,36 @@ body.modal-open {
 }
 
 .dg-modal-field-label {
-  font-family: var(--body-font-family);
-  font-size: 18px;
-  font-weight: 600;
-  color: #046183;
-  line-height: 24px;
+  font: 600 18px/24px var(--body-font-family);
+  color: var(--brand-teal);
   padding-bottom:8px;
 }
 
 .dg-modal-input {
-  font-size: 16px;
+  font: 600 16px/22px var(--body-font-family);
   position: relative;
   border-radius: 10px;
-  color: #495057;
+  color: var(--doctor-discussion-input-color);
   padding: 25px 15px 21px;
-  font-weight: 600;
-  border: 1px solid #484848;
+  border: 1px solid var(--brand-grey-dark);
   box-sizing: border-box;
   height: 0;
-  line-height: 22px;
-  font-family: var(--body-font-family);
 }
 
 
 .dg-modal-input:focus {
   outline: none;
-  border: 1px solid #b9c4cc;
+  border: 1px solid var(--form-input-outline);
   box-shadow: 0 0 0 .2rem rgb(0 123 255 / 25%);
 }
 
 .dg-modal-input.is-invalid {
-  border: 1px solid #b9c4cc;
+  border: 1px solid var(--form-input-outline);
 }
 
 .dg-modal-field-error {
-  color: #c02c57;
-  font-size: 14px;
-  line-height: 20px;
+  color: var(--error-color);
+  font: 14px/20px var(--body-font-family);
   margin: 0;
 }
 
@@ -888,11 +834,11 @@ body.modal-open {
   width: 20px;
   height: 20px;
   flex-shrink: 0;
-  accent-color: #1f4e6b;
+  accent-color: var(--brand-teal);
 }
 
 .dg-modal-consent-input.is-invalid {
-  outline: 2px solid #c0392b;
+  outline: 2px solid var(--checkbox-error-border);
   outline-offset: -1px;
 }
 
@@ -908,13 +854,16 @@ body.modal-open {
   gap: 12px;
   font-size: 14px;
   line-height: 20px;
-  color: #333;
+  color: var(--text-color);
 }
 
 .dg-modal-legal-link {
-  color: #1f4e6b;
   text-decoration: underline;
   font-weight: 600;
+}
+
+.dg-modal-legal-link:hover {
+  text-decoration: underline;
 }
 
 .dg-modal-send-btn,
@@ -926,15 +875,14 @@ body.modal-open {
   padding: 16px 32px;
   border: none;
   border-radius: 999px;
-  background: #1f4e6b;
-  color: #fff;
-  font-weight: 700;
-  font-size: 16px;
+  background: var(--brand-teal);
+  color: var(--brand-color-white);
   cursor: pointer;
+  font: 700 16px var(--body-font-family);
 }
 
 .dg-modal-send-btn:hover {
-  background: #7ebcc6;
+  background: var(--brand-teal-light);
 }
 
 .dg-modal-send-arrow {
@@ -950,13 +898,12 @@ body.modal-open {
 
 .success-message,
 .error-message {
-  font-size: 15px;
-  line-height: 1.5;
+  font: 15px/1.5 var(--body-font-family);
   text-align: center;
 }
 
 .error-message {
-  color: #c0392b;
+  color: var(--brand-rose);
   margin-top: 12px;
 }
 
@@ -976,11 +923,9 @@ body.modal-open {
 
 .dg-thankyou-content p {
   display: block;
-  font-family: var(--body-font-family);
-  color: #333;
-  font-size: 22px;
-  line-height: 22px;
+  color: var(--text-color);
   margin: 0;
+  font: 22px/22px var(--body-font-family);
 }
 
 .dg-thankyou-icon {
@@ -990,24 +935,21 @@ body.modal-open {
 }
 
 .dg-thankyou-title {
-    color: #1f4e6b;
-    font-size: 28px;
-    font-weight: 700;
+    color: var(--brand-teal);
+    font: 700 28px var(--body-font-family);
     margin-top: 24px;
 }
 
 #thank-you {
-  font-size: 22px;
-  font-weight: 700;
+  font: 700 22px var(--body-font-family);
   margin-top: 16px;
   margin-bottom: 8px;
-  color: #046183;
+  color: var(--brand-teal);
 }
 
 .dg-thankyou-description {
-    color: #333;
-    font-size: 16px;
-    line-height: 1.5;
+    color: var(--text-color);
+    font: 16px/1.5 var(--body-font-family);
     margin-top: 12px;
 }
 
@@ -1037,19 +979,19 @@ body.modal-open {
 .dg-thankyou-close-btn::before {
   content: "\2715";
   font-size: 22px;
-  color: #333;
+  color: var(--text-color);
 }
 
 .dg-modal-success-icon {
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  border: 1px solid var(--color-border, #cfd8e3);
+  border: 1px solid var(--color-border);
   margin-bottom: 20px;
 }
 
 .dg-modal-success-heading {
-  color: var(--color-brand, #2c5c86);
+  color: var(--color-brand);
   font-size: 28px;
   margin: 0 0 8px;
 }
@@ -1114,6 +1056,15 @@ body.modal-open {
   }
 
   /* === 9 Step Responsive CSS*=== */
+
+  .dg-field-step4,
+  .dg-field-step5,
+  .dg-field-step7,
+  .dg-field-step9
+   {
+    padding-bottom: 104px;
+  }
+
   .dg-form {
     padding: 10px 51px 0;
   }
@@ -1123,9 +1074,8 @@ body.modal-open {
   }
 
   .dg-header-title {
-    margin-top: 0;
-    line-height: 24px;
-    font-size: 20px;
+    margin: 3px 0 0;
+    font: 20px/24px var(--body-font-family);
   }
 
   .dg-header {
@@ -1146,6 +1096,10 @@ body.modal-open {
 
   .patient-form-container {
     padding: 0 11px;
+  }
+
+  .dg-modal-title {
+    padding: 0;
   }
 
   /* ---Doctor Thankyou--- */

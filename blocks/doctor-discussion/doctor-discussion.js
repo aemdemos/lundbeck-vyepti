@@ -80,9 +80,9 @@ function buildHeader(stepNumber, totalSteps, title) {
 
 // Build a free-text 
 
-function buildTextQuestion(fieldDef, countLabel, savedValue) {
+function buildTextQuestion(fieldDef, countLabel, savedValue, stepNumber) {
   const { name, label, helper } = fieldDef;
-  const field = createEl('div', { className: 'dg-field dg-field-text' });
+  const field = createEl('div', { className: `dg-field dg-field-step${stepNumber} dg-field-text` });
 
   const labelRowChildren = [createEl('h3', { className: 'dg-field-label' }, label)];
   if (countLabel) {
@@ -137,7 +137,7 @@ function buildCheckboxQuestion(fieldDef, countLabel, savedValues, stepNumber) {
   const {
     name, label, helper, description, options,
   } = fieldDef;
-  const field = createEl('div', { className: 'dg-field dg-field-checkbox' });
+  const field = createEl('div', { className: `dg-field dg-field-step${stepNumber} dg-field-checkbox` });
 
   if (label) {
     field.append(createEl('h3', { className: 'dg-field-label' }, label));
@@ -196,7 +196,7 @@ function buildRadioQuestion(fieldDef, countLabel, savedValue, stepNumber) {
   const {
     name, label, helper, description, options,
   } = fieldDef;
-  const field = createEl('div', { className: 'dg-field dg-field-checkbox dg-field-radio' });
+  const field = createEl('div', { className: `dg-field dg-field-step${stepNumber} dg-field-checkbox dg-field-radio` });
 
   if (label) {
     field.append(createEl('h3', { className: 'dg-field-label' }, label));
@@ -329,39 +329,87 @@ function buildResultsList(steps, answers, nameFieldName) {
   return list;
 }
 
+/**
+ * Shared per-field validation used by both the "input" and "blur" listeners
+ * below. Picks the correct message depending on *why* the field is invalid:
+ * - empty required field  -> errorEl's data-empty-message
+ * - non-empty but invalid -> errorEl's data-invalid-message (bad pattern/email format, etc.)
+ * Hides the error entirely once the field is valid.
+ */
+function refreshFieldValidity(input, errorEl) {
+  const valid = input.checkValidity();
+  input.classList.toggle('is-invalid', !valid);
+
+  if (valid) {
+    errorEl.style.display = 'none';
+    return;
+  }
+
+  errorEl.textContent = input.validity.valueMissing
+    ? errorEl.dataset.emptyMessage
+    : errorEl.dataset.invalidMessage;
+  errorEl.style.display = 'block';
+}
+
 // Build the DOM markup the email modal controller
 
 function buildEmailModalMarkup() {
+  // Letters, spaces, apostrophes, hyphens only. NOTE: hyphen must stay
+  // escaped (\\-) or it's a silent no-op under the "v"-flag regex engine.
+  const NAME_PATTERN = "[A-Za-z\\s'\\-]+";
+
   const firstNameInput = createEl('input', {
-    type: 'text', id: 'FirstName', name: 'FirstName', className: 'dg-modal-input', required: '',
+    type: 'text', id: 'FirstName', name: 'FirstName', className: 'dg-modal-input', required: '', pattern: NAME_PATTERN,
   });
   const lastNameInput = createEl('input', {
-    type: 'text', id: 'LastName', name: 'LastName', className: 'dg-modal-input', required: '',
+    type: 'text', id: 'LastName', name: 'LastName', className: 'dg-modal-input', required: '', pattern: NAME_PATTERN,
   });
+  // Native type="email" alone accepts junk like "r@gma.8" — this pattern
+  // requires a letters-only TLD of 2+ chars (compiles under "v"-flag regex).
+  const EMAIL_PATTERN = "[^\\s@]+@[^\\s@]+\\.[A-Za-z]{2,}";
+
   const emailInput = createEl('input', {
-    type: 'email', id: 'Email', name: 'Email', className: 'dg-modal-input', required: '',
+    type: 'email', id: 'Email', name: 'Email', className: 'dg-modal-input', required: '', pattern: EMAIL_PATTERN,
   });
   const consentInput = createEl('input', {
     type: 'checkbox', id: 'Consent', name: 'Consent', className: 'dg-modal-consent-input', required: '',
   });
 
-  const firstNameError = createEl('p', { id: 'FirstName-error', className: 'dg-modal-field-error', style: 'display:none;' }, 'Please enter your first name');
-  const lastNameError = createEl('p', { id: 'LastName-error', className: 'dg-modal-field-error', style: 'display:none;' }, 'Please enter your last name');
-  const emailError = createEl('p', { id: 'Email-error', className: 'dg-modal-field-error', style: 'display:none;' }, 'Please enter a valid email address');
+  // Each error element carries both messages as data attributes, so
+  // refreshFieldValidity() and validateFormFields() can pick the right one.
+  const firstNameError = createEl('p', {
+    id: 'FirstName-error',
+    className: 'dg-modal-field-error',
+    style: 'display:none;',
+    'data-empty-message': 'Please enter your first name',
+    'data-invalid-message': 'Please enter a valid first name',
+  }, 'Please enter your first name');
+  const lastNameError = createEl('p', {
+    id: 'LastName-error',
+    className: 'dg-modal-field-error',
+    style: 'display:none;',
+    'data-empty-message': 'Please enter your last name',
+    'data-invalid-message': 'Please enter a valid last name',
+  }, 'Please enter your last name');
+  const emailError = createEl('p', {
+    id: 'Email-error',
+    className: 'dg-modal-field-error',
+    style: 'display:none;',
+    'data-empty-message': 'Please enter your email address',
+    'data-invalid-message': 'Please enter a valid email address',
+  }, 'Please enter your email address');
   const consentError = createEl('p', { id: 'Consent-error', className: 'dg-modal-field-error', style: 'display:none;' }, 'Please check the box');
 
-  // Live-validate each field as the user types, clearing its error once it becomes valid.
+   // Validate on input AND blur, so leaving an empty field shows its
+  // error immediately, without needing a submit first.
   const fieldsWithErrors = [
     [firstNameInput, firstNameError],
     [lastNameInput, lastNameError],
     [emailInput, emailError],
   ];
   fieldsWithErrors.forEach(([input, errorEl]) => {
-    input.addEventListener('input', () => {
-      const valid = input.checkValidity();
-      input.classList.toggle('is-invalid', !valid);
-      if (valid) errorEl.style.display = 'none';
-    });
+    input.addEventListener('input', () => refreshFieldValidity(input, errorEl));
+    input.addEventListener('blur', () => refreshFieldValidity(input, errorEl));
   });
   consentInput.addEventListener('change', () => {
     consentInput.classList.toggle('is-invalid', !consentInput.checked);
@@ -387,14 +435,14 @@ function buildEmailModalMarkup() {
         createEl('span', { className: 'dg-modal-consent-paragraph' },
           'Lundbeck will not sell your provided data to any third party, at any time. By clicking "Send," you signify that you have read and agree to our ',
           createEl('a', {
-            href: 'https://www.vyepti.com/terms-of-use',
+            href: 'https://www.lundbeck.com/us/terms-of-use',
             target: '_blank',
             rel: 'noopener noreferrer',
             className: 'dg-modal-legal-link',
           }, 'Terms of Use'),
           ' and ',
           createEl('a', {
-            href: 'https://www.vyepti.com/privacy-policy',
+            href: 'https://www.lundbeck.com/us/privacy-policy',
             target: '_blank',
             rel: 'noopener noreferrer',
             className: 'dg-modal-legal-link',
@@ -1025,7 +1073,7 @@ export default function decorate(block) {
     step.fields.forEach((fieldDef, i) => {
       const countLabel = i === 0 ? `${stepNumber} of ${totalSteps}` : '';
       if (fieldDef.type === 'text') {
-        form.append(buildTextQuestion(fieldDef, countLabel, getAnswer(answers, fieldDef.name)));
+        form.append(buildTextQuestion(fieldDef, countLabel, getAnswer(answers, fieldDef.name), stepNumber));
       } else if (fieldDef.type === 'checkbox') {
         form.append(buildCheckboxQuestion(fieldDef, countLabel, getAnswer(answers, fieldDef.name), stepNumber));
       } else if (fieldDef.type === 'radio') {

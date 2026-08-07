@@ -1,6 +1,22 @@
 import { lockBodyScroll, unlockBodyScroll } from './doctor-discussion-modal-utils.js';
 
 /**
+ * Picks the right error message for a field based on *why* it's invalid:
+ * empty (valueMissing) vs. filled with a bad value (pattern/type mismatch).
+ * Relies on data-empty-message / data-invalid-message attributes set on the
+ * error element in doctor-discussion.js's buildEmailModalMarkup().
+ *
+ * @param {HTMLInputElement} input
+ * @param {HTMLElement} errorEl
+ * @returns {string}
+ */
+function getFieldErrorMessage(input, errorEl) {
+  if (!input || !errorEl) return '';
+  if (input.validity.valueMissing) return errorEl.dataset.emptyMessage || '';
+  return errorEl.dataset.invalidMessage || '';
+}
+
+/**
  * Initializes and manages the Email Popup Modal.
  *
  * @param {Object} config
@@ -31,14 +47,28 @@ export default function createEmailModalController({ modalId = "mq-modal", formI
     if (formContainer) formContainer.classList.remove("d-none");
     if (errorMsg) errorMsg.classList.add("d-none");
 
+    const firstNameInput = document.getElementById("FirstName");
+    const lastNameInput = document.getElementById("LastName");
+    const emailInput = document.getElementById("Email");
+    const consentInput = document.getElementById("Consent");
+
     const firstNameErr = document.getElementById("FirstName-error");
     const lastNameErr = document.getElementById("LastName-error");
     const emailErr = document.getElementById("Email-error");
     const consentErr = document.getElementById("Consent-error");
-    if (firstNameErr) firstNameErr.style.display = "none";
-    if (lastNameErr) lastNameErr.style.display = "none";
-    if (emailErr) emailErr.style.display = "none";
+
+    // Hide errors and reset their text back to the "empty" message so a
+    // stale "invalid" message from a previous visit isn't left behind.
+    [firstNameErr, lastNameErr, emailErr].forEach((errorEl) => {
+      if (!errorEl) return;
+      errorEl.style.display = "none";
+      errorEl.textContent = errorEl.dataset.emptyMessage || errorEl.textContent;
+    });
     if (consentErr) consentErr.style.display = "none";
+
+    [firstNameInput, lastNameInput, emailInput, consentInput].forEach((input) => {
+      input?.classList.remove("is-invalid");
+    });
   }
 
   // Forward-declared: close() and handleOutsideClick() call each other, so
@@ -95,8 +125,49 @@ export default function createEmailModalController({ modalId = "mq-modal", formI
   }
 
   /**
+   * Applies validity state to a single text/email field: toggles the
+   * is-invalid class, and (if the field is invalid) sets the error
+   * element's text via getFieldErrorMessage() and reveals it.
+   * Extracted out of validateFormFields() so that function stays a flat
+   * sequence of calls instead of repeating this branching per field.
+   *
+   * @param {HTMLInputElement|null} input
+   * @param {HTMLElement|null} errorEl
+   * @returns {boolean} whether the field is valid
+   */
+  function applyFieldValidation(input, errorEl) {
+    const valid = !!input?.validity.valid;
+    input?.classList.toggle("is-invalid", !valid);
+    if (errorEl) {
+      if (!valid) errorEl.textContent = getFieldErrorMessage(input, errorEl);
+      errorEl.style.display = valid ? "none" : "block";
+    }
+    return valid;
+  }
+
+  /**
+   * Same as applyFieldValidation() but for the consent checkbox, which is
+   * validated by "checked" rather than native input validity and has no
+   * empty-vs-invalid distinction (just a single message).
+   *
+   * @param {HTMLInputElement|null} consentInput
+   * @param {HTMLElement|null} consentErr
+   * @returns {boolean} whether consent is valid (checked)
+   */
+  function applyConsentValidation(consentInput, consentErr) {
+    const valid = !!consentInput?.checked;
+    consentInput?.classList.toggle("is-invalid", !valid);
+    if (consentErr) consentErr.style.display = valid ? "none" : "block";
+    return valid;
+  }
+
+  /**
    * Validates form fields and toggles invalid styling/error messages.
    * Extracted from handleSubmit to keep its complexity low.
+   *
+   * Distinguishes between an empty required field ("Please enter your...")
+   * and a field with a value that fails format validation
+   * ("Please enter a valid...") using getFieldErrorMessage() above.
    *
    * @returns {{ isValid: boolean, firstNameInput: Element, lastNameInput: Element,
    *             emailInput: Element, consentInput: Element }}
@@ -107,25 +178,10 @@ export default function createEmailModalController({ modalId = "mq-modal", formI
     const emailInput = document.getElementById("Email");
     const consentInput = document.getElementById("Consent");
 
-    const firstNameErr = document.getElementById("FirstName-error");
-    const lastNameErr = document.getElementById("LastName-error");
-    const emailErr = document.getElementById("Email-error");
-    const consentErr = document.getElementById("Consent-error");
-
-    const isFirstNameValid = !!firstNameInput?.validity.valid;
-    const isLastNameValid = !!lastNameInput?.validity.valid;
-    const isEmailValid = !!emailInput?.validity.valid;
-    const isConsentValid = !!consentInput?.checked;
-
-    firstNameInput?.classList.toggle("is-invalid", !isFirstNameValid);
-    lastNameInput?.classList.toggle("is-invalid", !isLastNameValid);
-    emailInput?.classList.toggle("is-invalid", !isEmailValid);
-    consentInput?.classList.toggle("is-invalid", !isConsentValid);
-
-    if (firstNameErr) firstNameErr.style.display = isFirstNameValid ? "none" : "block";
-    if (lastNameErr) lastNameErr.style.display = isLastNameValid ? "none" : "block";
-    if (emailErr) emailErr.style.display = isEmailValid ? "none" : "block";
-    if (consentErr) consentErr.style.display = isConsentValid ? "none" : "block";
+    const isFirstNameValid = applyFieldValidation(firstNameInput, document.getElementById("FirstName-error"));
+    const isLastNameValid = applyFieldValidation(lastNameInput, document.getElementById("LastName-error"));
+    const isEmailValid = applyFieldValidation(emailInput, document.getElementById("Email-error"));
+    const isConsentValid = applyConsentValidation(consentInput, document.getElementById("Consent-error"));
 
     const isValid = isFirstNameValid && isLastNameValid && isEmailValid && isConsentValid;
 
