@@ -19,6 +19,12 @@
   padding: 48px 0 40px;
 }
 
+/* no-results: drop the wrapper padding so the powder-blue band sits flush
+   against the banner (source has 0 gap; the band supplies its own padding) */
+.search-results:has(.search-results-empty) {
+  padding: 0;
+}
+
 /* "N results found" summary line — matches source: 16px, regular, grey */
 .search-results .search-results-count {
   margin: 0;
