@@ -114,8 +114,16 @@
   display: none;
 }
 
+/* full-bleed powder-blue band behind the empty-state message (matches source:
+   #eff6f9, edge-to-edge, 64px/78px vertical padding). The block lives inside a
+   max-width wrapper, so break out to the full viewport width. */
 .search-results .search-results-empty {
-  padding: 24px 0;
+  position: relative;
+  left: 50%;
+  width: 100vw;
+  margin-left: -50vw;
+  padding: 64px 0 78px;
+  background-color: var(--accent-bg); /* powder blue #eff6f9 */
   text-align: center;
 }
 
