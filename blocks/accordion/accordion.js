@@ -111,13 +111,16 @@ export default function decorate(block) {
       if (isTranscript) {
         updateTranscriptLabel = decorateTranscriptLabel(label);
       } else {
-        // author bolds the lead phrase; the rest becomes the collapsible "detail"
-        const labelText = label.querySelector('p') || label;
+        // Author marks the lead/detail split by bolding the lead phrase or a line
+        // break between the two. Detail is collapsed on mobile, revealed from tablet up.
+        const labelText = label.querySelector('p, h1, h2, h3, h4, h5, h6') || label;
         const lead = labelText.querySelector(':scope > strong, :scope > b');
-        if (lead && lead.nextSibling) {
+        const lineBreak = labelText.querySelector(':scope > br');
+        const detailStart = (lead && lead.nextSibling) ? lead.nextSibling : lineBreak;
+        if (detailStart) {
           const detail = document.createElement('span');
           detail.className = 'accordion-item-label-detail';
-          let node = lead.nextSibling;
+          let node = detailStart;
           while (node) {
             const next = node.nextSibling;
             detail.append(node);
