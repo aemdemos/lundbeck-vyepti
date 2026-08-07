@@ -150,7 +150,8 @@
   margin-top: 4px;
 }
 
-.accordion.transcript .accordion-item-label {
+.accordion.transcript .accordion-item-label,
+.accordion.transcript li.active .accordion-item-label {
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -159,12 +160,20 @@
   color: var(--link-color);
   font-family: var(--body-font-family);
   font-size: 16px;
-  font-weight: 400;
+  font-weight: 700;
   line-height: 24px;
 }
 
 .accordion.transcript .accordion-item-label p {
   margin: 0;
+}
+
+.accordion.transcript .accordion-item-label strong,
+.accordion.transcript .accordion-item-label b,
+.accordion.transcript li.active .accordion-item-label strong,
+.accordion.transcript li.active .accordion-item-label b {
+  color: inherit;
+  font-weight: inherit;
 }
 
 .accordion.transcript .accordion-item-label .accordion-transcript-icon {
@@ -177,10 +186,6 @@
 
 .accordion.transcript .accordion-item-label::after {
   content: none;
-}
-
-.accordion.transcript li.active .accordion-item-label {
-  color: var(--link-color);
 }
 
 .accordion.transcript li.active .accordion-item-body {

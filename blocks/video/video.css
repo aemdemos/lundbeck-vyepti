@@ -68,6 +68,7 @@
   display: block;
   width: var(--video-placeholder-play-size);
   height: var(--video-placeholder-play-size);
+  border: none;
   border-radius: 50%;
   background-color: var(--brand-primary);
   outline: none;
