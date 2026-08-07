@@ -2,7 +2,7 @@
 :root { /* @libs */
   /* block spacing — matches source .vyepti-insurance-accordion outer margins */
   --accordion-margin-top: 28px; /* @libs — mobile */
-  --accordion-margin-bottom: 0; /* @libs — mobile */
+  --accordion-margin-bottom: 32px; /* @libs — mobile bottom separation */
 
   /* item card */
   --accordion-item-bg: var(--card-bg-light); /* @libs */
@@ -59,6 +59,12 @@
 .accordion { /* @libs */
   margin-top: var(--accordion-margin-top); /* @libs */
   margin-bottom: var(--accordion-margin-bottom); /* @libs */
+}
+
+/* split lead/detail accordions (e.g. financial-assistance) use a tighter 16px
+   row gap on mobile; FAQ-style accordions keep the default 24px */
+.accordion:has(.accordion-item-label-detail) { /* @libs */
+  --accordion-item-gap: 16px; /* @libs */
 }
 
 .accordion > ul > li { /* @libs */
@@ -181,6 +187,11 @@
     --accordion-body-list-indent: 23px; /* @libs */
     --accordion-body-content-indent: 58px; /* @libs */
     --accordion-body-panel-padding-bottom: 13px; /* @libs */
+  }
+
+  /* desktop row gap returns to 24px for the split lead/detail accordions */
+  .accordion:has(.accordion-item-label-detail) { /* @libs */
+    --accordion-item-gap: 24px; /* @libs */
   }
 
   .accordion > ul > li.active .accordion-item-label { /* @libs */
