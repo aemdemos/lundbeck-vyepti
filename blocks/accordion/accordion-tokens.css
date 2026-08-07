@@ -138,6 +138,15 @@
   padding-bottom: var(--accordion-body-panel-padding-bottom); /* @libs */
 }
 
+.accordion .accordion-item-label :is(h1, h2, h3, h4, h5, h6) { /* @libs */
+  margin: 0; /* @libs */
+}
+
+.accordion li.active .accordion-item-label, /* @libs */
+.accordion li.active .accordion-item-label :is(h1, h2, h3, h4, h5, h6) {
+  color: var(--accordion-label-active-color); /* @libs */
+}
+
 /* tablet+ scale-ups — vyepti-faq keeps mobile card padding until 992px */
 
 @media (width >= 992px) { /* @libs */
