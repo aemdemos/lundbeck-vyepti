@@ -1,6 +1,6 @@
 // Google API Key link
 function loadGooglePlacesApi(apiKey, callback) {
-  if (window.google?.maps?.places?.PlaceAutocompleteElement) {
+  if (window.google?.maps?.places?.AutocompleteSuggestion) {
     callback();
     return;
   }
@@ -11,7 +11,7 @@ function loadGooglePlacesApi(apiKey, callback) {
 
   window[callbackName] = () => {
     delete window[callbackName];
-    if (window.google?.maps?.places?.PlaceAutocompleteElement) {
+    if (window.google?.maps?.places?.AutocompleteSuggestion) {
       callback();
     } else {
       // eslint-disable-next-line no-console
@@ -1344,7 +1344,114 @@ function buildForm(apiEndpoint) {
   return form;
 }
 
-/* Wires up Google Places autocomplete on the address field. Declared at*/
+/**
+ * Fills the address form fields (city/state/zip) from a resolved Place's
+ * address components, and applies the same US-only + "looks like a real
+ * address" validation the site has always used.
+ */
+function applyPlaceToAddressFields(place, { addressInput, cityInput, stateSelect, zipInput }) {
+  if (!place.addressComponents) {
+    showFieldError(addressInput, addressInput.errorEl, DEFAULT_MESSAGES.invalidAddress);
+    return false;
+  }
+
+  let countryCode = '';
+  place.addressComponents.forEach((component) => {
+    if (component.types.includes('country')) {
+      countryCode = component.shortText;
+    }
+  });
+
+  if (countryCode !== 'US') {
+    addressInput.value = '';
+    if (cityInput) cityInput.value = '';
+    if (zipInput) zipInput.value = '';
+    if (stateSelect) {
+      stateSelect.value = '';
+      stateSelect.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+    showFieldError(addressInput, addressInput.errorEl, 'Please enter a valid address');
+    return false;
+  }
+
+  let streetNumber = '';
+  let route = '';
+  let city = '';
+  let state = '';
+  let zip = '';
+
+  place.addressComponents.forEach((component) => {
+    const type = component.types[0];
+
+    if (type === 'street_number') streetNumber = component.longText;
+    if (type === 'route') route = component.longText;
+    if (type === 'locality' || (type === 'sublocality_level_1' && !city)) city = component.longText;
+    if (type === 'administrative_area_level_1') state = component.shortText;
+    if (type === 'postal_code') zip = component.longText;
+  });
+
+  if (!streetNumber && !route && !city) {
+    showFieldError(addressInput, addressInput.errorEl, DEFAULT_MESSAGES.invalidAddress);
+    return false;
+  }
+
+  clearFieldError(addressInput, addressInput.errorEl);
+
+  const streetOnly = [streetNumber, route].filter(Boolean).join(' ');
+  addressInput.value = streetOnly || addressInput.value;
+
+  if (cityInput) {
+    cityInput.value = city;
+    clearFieldError(cityInput, cityInput.errorEl);
+  }
+  if (zipInput) {
+    zipInput.value = zip;
+    clearFieldError(zipInput, zipInput.errorEl);
+  }
+  if (stateSelect) {
+    stateSelect.value = state;
+    stateSelect.dispatchEvent(new Event('change', { bubbles: true }));
+  }
+
+  return true;
+}
+
+/**
+ * Builds one <li> suggestion row (pin icon + main/secondary text) for the
+ * custom address dropdown.
+ */
+function createSuggestionItem(placePrediction, index) {
+  const item = document.createElement('li');
+  item.className = 'address-suggestion';
+  item.id = `address1-suggestion-${index}`;
+  item.setAttribute('role', 'option');
+  item.setAttribute('aria-selected', 'false');
+
+  const icon = document.createElement('span');
+  icon.className = 'address-suggestion-icon';
+  icon.setAttribute('aria-hidden', 'true');
+
+  const textWrap = document.createElement('span');
+  textWrap.className = 'address-suggestion-text';
+
+  const main = document.createElement('span');
+  main.className = 'address-suggestion-main';
+  main.textContent = (placePrediction.mainText && placePrediction.mainText.text)
+    || placePrediction.text.text;
+
+  const secondary = document.createElement('span');
+  secondary.className = 'address-suggestion-secondary';
+  secondary.textContent = (placePrediction.secondaryText && placePrediction.secondaryText.text) || '';
+
+  textWrap.append(main, secondary);
+  item.append(icon, textWrap);
+  return item;
+}
+
+/* Wires up Google Places autocomplete on the address field with a fully
+ * custom dropdown (built on the Autocomplete Data API), so the experience
+ * is identical on mobile and desktop instead of using the PlaceAutocompleteElement
+ * widget's own UI, which switches to a native fullscreen picker on narrow viewports. */
 function initializeAddressAutocomplete() {
   const addressInput = document.getElementById('address1');
   const cityInput = document.getElementById('city');
@@ -1353,45 +1460,68 @@ function initializeAddressAutocomplete() {
 
   if (!addressInput) return;
 
-  if (!window.google?.maps?.places?.PlaceAutocompleteElement) {
+  if (!window.google?.maps?.places?.AutocompleteSuggestion) {
     // eslint-disable-next-line no-console
-    console.error('Google Places Autocomplete failed to load — check your Maps configuration.');
+    console.error('Google Places Autocomplete Data API failed to load — check your Maps configuration.');
     return;
   }
 
-  addressInput.type = 'hidden';
+  const { AutocompleteSuggestion, AutocompleteSessionToken } = window.google.maps.places;
 
-  const placeAutocomplete = new window.google.maps.places.PlaceAutocompleteElement({
-    componentRestrictions: {
-      country: 'us',
-    },
-    // Legacy Autocomplete's types
-    includedPrimaryTypes: ['street_address', 'premise', 'subpremise'],
-  });
+  // Wrap the input so the suggestions list can be positioned relative to it,
+  // without disturbing the label row that comes before it in the DOM.
+  const wrapper = document.createElement('div');
+  wrapper.className = 'address-autocomplete-wrapper';
+  addressInput.insertAdjacentElement('beforebegin', wrapper);
+  wrapper.append(addressInput);
 
+  addressInput.autocomplete = 'off';
+  addressInput.setAttribute('role', 'combobox');
+  addressInput.setAttribute('aria-autocomplete', 'list');
+  addressInput.setAttribute('aria-expanded', 'false');
 
-  // Hide the widget's built-in search icon and clear ("x") button so it
-  placeAutocomplete.noInputIcon = true;
-  placeAutocomplete.noClearButton = true;
+  const list = document.createElement('ul');
+  list.className = 'address-suggestions';
+  list.id = 'address1-suggestions';
+  list.setAttribute('role', 'listbox');
+  list.hidden = true;
+  wrapper.append(list);
+  addressInput.setAttribute('aria-controls', list.id);
 
-  const computedInputStyle = window.getComputedStyle(addressInput);
-  placeAutocomplete.classList.add(...addressInput.classList);
-  placeAutocomplete.style.setProperty('display', 'block', 'important');
-  placeAutocomplete.style.setProperty('box-sizing', 'border-box', 'important');
+  // Session tokens group a search+select into one billable session; a new
+  // one is started after every selection or invalid-address rejection.
+  let sessionToken = new AutocompleteSessionToken();
+  let currentSuggestions = [];
+  let activeIndex = -1;
+  let debounceTimer = null;
+  let requestId = 0;
 
-  placeAutocomplete.style.setProperty('border', computedInputStyle.border, 'important');
-  placeAutocomplete.style.setProperty('border-radius', computedInputStyle.borderRadius, 'important');
-  placeAutocomplete.style.setProperty('background-color', computedInputStyle.backgroundColor, 'important');
-  placeAutocomplete.style.setProperty('color', computedInputStyle.color, 'important');
-  placeAutocomplete.style.setProperty('font-family', computedInputStyle.fontFamily, 'important');
-  placeAutocomplete.style.setProperty('font-size', computedInputStyle.fontSize, 'important');
-  placeAutocomplete.style.setProperty('font-weight', computedInputStyle.fontWeight, 'important');
-  placeAutocomplete.style.setProperty('line-height', computedInputStyle.lineHeight, 'important');
-  placeAutocomplete.style.setProperty('padding', computedInputStyle.padding, 'important');
+  const closeList = () => {
+    list.hidden = true;
+    list.replaceChildren();
+    currentSuggestions = [];
+    activeIndex = -1;
+    addressInput.setAttribute('aria-expanded', 'false');
+    addressInput.removeAttribute('aria-activedescendant');
+  };
 
-  addressInput.insertAdjacentElement('afterend', placeAutocomplete);
+  const setActive = (index) => {
+    const items = list.querySelectorAll('.address-suggestion');
+    items.forEach((item, i) => {
+      item.classList.toggle('is-active', i === index);
+      item.setAttribute('aria-selected', i === index ? 'true' : 'false');
+    });
+    activeIndex = index;
+    if (index >= 0 && items[index]) {
+      addressInput.setAttribute('aria-activedescendant', items[index].id);
+      items[index].scrollIntoView({ block: 'nearest' });
+    } else {
+      addressInput.removeAttribute('aria-activedescendant');
+    }
+  };
 
-  placeAutocomplete.addEventListener('gmp-select', async ({ placePrediction }) => {
+  // eslint-disable-next-line no-use-before-define
+  const selectSuggestion = async (placePrediction) => {
     const place = placePrediction.toPlace();
 
     try {
@@ -1400,103 +1530,105 @@ function initializeAddressAutocomplete() {
       // eslint-disable-next-line no-console
       console.error('Failed to fetch place details:', fetchError);
       showFieldError(addressInput, addressInput.errorEl, DEFAULT_MESSAGES.invalidAddress);
+      closeList();
+      sessionToken = new AutocompleteSessionToken();
       return;
     }
 
-
-    if (!place.addressComponents) {
-      showFieldError(addressInput, addressInput.errorEl, DEFAULT_MESSAGES.invalidAddress);
-      return;
-    }
-
-    let countryCode = '';
-
-place.addressComponents.forEach((component) => {
-  if (component.types.includes('country')) {
-    countryCode = component.shortText;
-  }
-});
-
-if (countryCode !== 'US') {
-  addressInput.value = '';
-  if (cityInput) cityInput.value = '';
-  if (zipInput) zipInput.value = '';
-  if (stateSelect) {
-  stateSelect.value = '';
-  stateSelect.dispatchEvent(
-    new Event('change', { bubbles: true }),
-  );
-}
-
-  showFieldError(
-    addressInput,
-    addressInput.errorEl,
-    'Please enter a valid address',
-  );
-
-  return;
-}
-
-    let streetNumber = '';
-    let route = '';
-    let city = '';
-    let state = '';
-    let zip = '';
-
-    place.addressComponents.forEach((component) => {
-      const type = component.types[0];
-
-      if (type === 'street_number') {
-        streetNumber = component.longText;
-      }
-
-      if (type === 'route') {
-        route = component.longText;
-      }
-
-      if (type === 'locality' || (type === 'sublocality_level_1' && !city)) {
-        city = component.longText;
-      }
-
-      if (type === 'administrative_area_level_1') {
-        state = component.shortText;
-      }
-
-      if (type === 'postal_code') {
-        zip = component.longText;
-      }
+    applyPlaceToAddressFields(place, {
+      addressInput, cityInput, stateSelect, zipInput,
     });
 
-    if (!streetNumber && !route && !city) {
-  showFieldError(
-    placeAutocomplete,
-    addressInput.errorEl,
-    DEFAULT_MESSAGES.invalidAddress,
-  );
-  return;
-}
-``
+    closeList();
+    addressInput.focus();
+    sessionToken = new AutocompleteSessionToken();
+  };
 
-    clearFieldError(placeAutocomplete, addressInput.errorEl);
+  const renderSuggestions = (suggestions) => {
+    list.replaceChildren();
+    currentSuggestions = suggestions;
+    activeIndex = -1;
 
-    const streetOnly = [streetNumber, route].filter(Boolean).join(' ');
-    addressInput.value = streetOnly || addressInput.value;
-
-    if (cityInput) {
-      cityInput.value = city;
-      clearFieldError(cityInput, cityInput.errorEl);
-    }
-    if (zipInput) {
-      zipInput.value = zip;
-      clearFieldError(zipInput, zipInput.errorEl);
+    if (!suggestions.length) {
+      closeList();
+      return;
     }
 
-    if (stateSelect) {
-      stateSelect.value = state;
-      stateSelect.dispatchEvent(new Event('change', {
-        bubbles: true,
-      }));
+    suggestions.forEach((suggestion, index) => {
+      const { placePrediction } = suggestion;
+      const item = createSuggestionItem(placePrediction, index);
+
+      // mousedown (not click) fires before the input's blur handler closes the list
+      item.addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        selectSuggestion(placePrediction);
+      });
+      item.addEventListener('mouseenter', () => setActive(index));
+
+      list.append(item);
+    });
+
+    list.hidden = false;
+    addressInput.setAttribute('aria-expanded', 'true');
+  };
+
+  const fetchSuggestions = async (query) => {
+    const thisRequestId = ++requestId;
+
+    if (!query) {
+      closeList();
+      return;
     }
+
+    try {
+      const { suggestions } = await AutocompleteSuggestion.fetchAutocompleteSuggestions({
+        input: query,
+        sessionToken,
+        includedRegionCodes: ['us'],
+        includedPrimaryTypes: ['street_address', 'premise', 'subpremise'],
+      });
+
+      if (thisRequestId !== requestId) return; // superseded by a newer keystroke
+      renderSuggestions(suggestions);
+    } catch (fetchError) {
+      if (thisRequestId !== requestId) return;
+      // eslint-disable-next-line no-console
+      console.error('Failed to fetch address suggestions:', fetchError);
+      closeList();
+    }
+  };
+
+  addressInput.addEventListener('input', () => {
+    clearTimeout(debounceTimer);
+    const { value } = addressInput;
+    debounceTimer = setTimeout(() => fetchSuggestions(value.trim()), 200);
+  });
+
+  addressInput.addEventListener('keydown', (e) => {
+    if (list.hidden || !currentSuggestions.length) return;
+
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setActive(Math.min(activeIndex + 1, currentSuggestions.length - 1));
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setActive(Math.max(activeIndex - 1, 0));
+    } else if (e.key === 'Enter' && activeIndex >= 0) {
+      e.preventDefault();
+      selectSuggestion(currentSuggestions[activeIndex].placePrediction);
+    } else if (e.key === 'Escape') {
+      closeList();
+    }
+  });
+
+  // Slight delay so a mousedown-triggered selection can still register
+  // before the list gets torn down.
+  addressInput.addEventListener('blur', () => {
+    setTimeout(closeList, 100);
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!wrapper.contains(e.target)) closeList();
   });
 }
 
