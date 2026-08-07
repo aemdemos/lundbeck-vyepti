@@ -361,12 +361,14 @@ main .cards.feature > ul > li .cards-card-body > p:last-child:has(a) {
 .cards.statistics .cards-card-image img {
   width: 169px;
   height: 169px;
+  max-width: none;
 }
 
 .cards.statistics .cards-card-body h3 {
   padding: 0 22px 7px 22px;
   color: var(--brand-primary);
   line-height: 1.2;
+  font-weight: 900;
 }
 
 @media (width >= 768px) {
