@@ -58,7 +58,9 @@ function scrollAccordionItemIntoView(item) {
 // transcript variant: icon + "Open/Close transcript" label that swap on toggle
 function decorateTranscriptLabel(label) {
   const textEl = label.querySelector('p') || label;
-  const openText = textEl.textContent.trim() || 'Open transcript';
+  // write into the authored strong/b if present so its bold styling is preserved
+  const target = textEl.querySelector('strong, b') || textEl;
+  const openText = target.textContent.trim() || 'Open transcript';
   const closeText = openText.replace(/^open\b/i, (m) => (m === 'OPEN' ? 'CLOSE' : 'Close'));
 
   const icon = document.createElement('img');
@@ -71,7 +73,7 @@ function decorateTranscriptLabel(label) {
 
   return (isActive) => {
     icon.src = isActive ? TRANSCRIPT_COLLAPSE_ICON : TRANSCRIPT_EXPAND_ICON;
-    textEl.textContent = isActive ? closeText : openText;
+    target.textContent = isActive ? closeText : openText;
   };
 }
 
