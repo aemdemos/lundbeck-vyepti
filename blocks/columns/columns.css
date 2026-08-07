@@ -144,7 +144,7 @@ main .columns.intro {
 }
 
 main .columns.intro > div {
-  gap: var(--columns-intro-gap);
+  gap: var(--columns-intro-gap-mobile);
   align-items: center;
 }
 
@@ -329,7 +329,13 @@ main .columns.stats-callout:has(img) > div > div:not(.columns-img-col) > p:first
 
   /* intro: icon left of the copy on desktop, both left-aligned. The icon column
      stays sized to its glyph (overrides the boilerplate flex:1 above) so the
-     text takes the remaining width, matching the source's narrow-icon layout. */
+     text takes the remaining width, matching the source's narrow-icon layout.
+     Widen the icon-to-copy gap to the source's ~60px (the mobile stack uses a
+     tighter gap). */
+  main .columns.intro > div {
+    gap: var(--columns-intro-gap);
+  }
+
   main .columns.intro .columns-img-col {
     flex: 0 0 auto;
     order: unset;

@@ -63,7 +63,17 @@
      ~98px inside a narrow left column; the text takes the rest of the row.
      Mobile stacks the icon centered above the text. */
   --columns-intro-icon-size: 98px;
-  --columns-intro-gap: 32px;
+
+  /* gap between the icon and the copy.
+     Desktop: the source pins the icon left of a wide grid column, so the copy
+     starts ~60px right of the icon glyph (15px column gutter + 15px text-column
+     padding + 30px paragraph inset). We collapse that to one explicit gap.
+     Mobile: stacked, the source leaves a tight ~31px vertical gap between the
+     icon glyph and the first line of copy — so the desktop 60px would be far
+     too loose when stacked. The text's own line-height adds ~20px of leading
+     above the first line, so a ~12px box gap lands the visible gap at ~31px. */
+  --columns-intro-gap-mobile: 12px;
+  --columns-intro-gap: 60px;
 
   /* vertical rhythm around the section (source: 48px above, 32px below). */
   --columns-intro-margin-top: 48px;
