@@ -366,7 +366,7 @@ main .cards.feature > ul > li .cards-card-body > p:last-child:has(a) {
 
 .cards.statistics .cards-card-image img {
   width: 169px;
-  height: 169px;
+  height: auto;
   max-width: none;
   aspect-ratio: 1 / 1;
 }
@@ -433,7 +433,11 @@ main .cards.feature > ul > li .cards-card-body > p:last-child:has(a) {
     margin-bottom: 0;
   }
 
-  .section:has(cards.statistics) h2 {
+  .cards.statistics .cards-card-image img {
+    width: 223px;
+  }
+
+  .section:has(.cards.statistics) h2 {
     text-align: left;
   }
 }
@@ -451,5 +455,15 @@ main .cards.feature > ul > li .cards-card-body > p:last-child:has(a) {
 
   .cards.statistics ul {
     flex-direction: row;
+  }
+
+  .cards.statistics .cards-card-image img {
+    width: 156px;
+  }
+}
+
+@media (width >= 1200px) {
+  .cards.statistics .cards-card-image img {
+    width: 223px;
   }
 }
