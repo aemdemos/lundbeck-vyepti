@@ -100,25 +100,81 @@ p.signup-form-required-note {
   box-sizing: border-box;
 }
 
-.form-field gmp-place-autocomplete {
- width: 100% !important;
-margin-bottom: 10px !important;
-padding: 0 !important;
-box-sizing: border-box !important;
+/* Wraps the address input so the custom suggestions dropdown can be
+   positioned relative to it. Sized the same way .form-field input is. */
+.address-autocomplete-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
 }
 
-
-/* Kill the widget's own internal focus ring */
-gmp-place-autocomplete::part(focus-ring) {
-  border: none;
-  box-shadow: none;
-  outline: none;
+.address-suggestions {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  z-index: 3;
+  margin: 0;
+  padding: 6px 0;
+  list-style: none;
+  background: var(--background-color, #fff);
+  border: 1px solid #d9d9d9;
+  border-radius: 9.5px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  max-height: 280px;
+  overflow-y: auto;
 }
 
-/* Reapply the site's normal focus style  */
-gmp-place-autocomplete:focus-within {
-  border-color: #1a6fb3; /* replace with your real focus border color */
-  box-shadow: 0 0 0 3px rgba(26, 111, 179, 0.25); /* replace with your real focus box-shadow */
+.address-suggestions[hidden] {
+  display: none;
+}
+
+.address-suggestion {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 14px;
+  cursor: pointer;
+}
+
+.address-suggestion:hover,
+.address-suggestion.is-active {
+  background: rgba(4, 97, 131, 0.08);
+}
+
+.address-suggestion-icon {
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  background: center / contain no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23046183' stroke-width='1.6'%3E%3Cpath d='M12 21s-7-6.1-7-11.2A7 7 0 0 1 19 9.8C19 14.9 12 21 12 21z'/%3E%3Ccircle cx='12' cy='9.5' r='2.3'/%3E%3C/svg%3E");
+}
+
+.address-suggestion-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.address-suggestion-main {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-color, #333);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.address-suggestion-secondary {
+  font-size: 13px;
+  color: #767676;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.form-field .address-autocomplete-wrapper input.error {
+  border-color: var(--error-color, #c02c57);
 }
 
 .form-field select {
@@ -567,16 +623,6 @@ gmp-place-autocomplete:focus-within {
   max-width: 100%;
 }
 
-.form-field gmp-place-autocomplete.error {
-  border-color: var(--error-color, #c02c57) !important;
-}
-
-.form-field gmp-place-autocomplete.error:focus-within {
-  border-color: var(--error-color, #c02c57) !important;
-  box-shadow: none !important;
-}
-
-
 /* ==========================================================================
    TABLET / IPAD — 768px and up
    ========================================================================== */
@@ -585,7 +631,7 @@ gmp-place-autocomplete:focus-within {
     max-width: 70%;
   }
 
-  .form-field gmp-place-autocomplete {
+  .address-autocomplete-wrapper {
     max-width: 70%;
   }
 
@@ -626,7 +672,7 @@ gmp-place-autocomplete:focus-within {
     max-width: 50%;
   }
 
-  .form-field gmp-place-autocomplete {
+  .address-autocomplete-wrapper {
     max-width: 50%;
   }
 
