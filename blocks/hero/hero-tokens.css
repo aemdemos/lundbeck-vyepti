@@ -89,7 +89,7 @@
   --hero-teaser-heading-line-height: 36px;
   --hero-teaser-heading-line-height-md: 40px;
   --hero-teaser-heading-color: var(--brand-primary);
-  --hero-teaser-caption-color: var(--hero-text-color-light);
+  --hero-teaser-caption-color: #333;
   --hero-teaser-caption-font-size: 12px;
 
   /* mobile overlay top offset (% of image-driven banner height) — text sits over
@@ -128,14 +128,30 @@
 /* Panel proportions: the teaser is a single wide sub-banner, NOT the homepage
    split hero, so it must NOT inherit the homepage's art-directed panel crops
    (1024/800, 834/840, 1440/1116, …) applied to .hero-panel* by the dual-panel
-   rules. The background is absolutely positioned, so the panel needs its own
-   height source: on mobile use the source teaser crop (750×700); at 768px+ the
-   media-query rule below supplies an explicit min-height, so the ratio is
-   cleared there. Scoped to .hero.teaser so the homepage hero is untouched. */
+   rules.
+
+   Mobile CLS fix: a fixed 750/700 aspect-ratio forces every teaser image into
+   the same box, but the mobile crops don't all share that ratio (e.g.
+   vyepti-side-effects), so object-fit:cover clipped them oddly. Instead the
+   background image flows in normal document flow and drives the panel height:
+   EDS stamps width/height on the <img>, so the browser reserves the correct
+   space before the image loads (no CLS) while the image keeps its natural
+   ratio (no crop). The text overlay stays absolutely positioned on top. At
+   768px+ the media-query rule below restores the full-bleed fixed-height strip
+   (background absolute, explicit min-height). Scoped to .hero.teaser so the
+   homepage hero is untouched. */
 .hero.teaser .hero-panel,
 .hero.teaser .hero-panel-dark,
 .hero.teaser .hero-panel-light {
-  aspect-ratio: 750 / 700;
+  aspect-ratio: auto;
+}
+
+.hero.teaser .hero-panel-bg {
+  position: relative;
+}
+
+.hero.teaser .hero-panel-bg img {
+  height: auto;
 }
 
 /* Mobile: text overlay top-anchored + centred over the image (top % is relative
@@ -183,7 +199,7 @@
   text-align: center;
 }
 
-/* Caption — white, bottom-right (emphasis is author-driven). Font-size, bottom
+/* Caption — grey #333, bottom-right (emphasis is author-driven). Font-size, bottom
    offset match the source (12px; 11px mobile / 16px at 768px+). */
 .hero.teaser .hero-caption,
 .hero.teaser .hero-caption em,
@@ -198,8 +214,24 @@
   z-index: var(--hero-z-caption);
   margin: 0;
   color: var(--hero-teaser-caption-color);
-  text-shadow: var(--hero-text-shadow);
+  text-shadow: none;
   font-weight: 400;
+}
+
+/* The caption copy is author-driven and pages tag it with different colour
+   span-classes ([[brand-primary]] teal, [[grey]] grey, plain white). Those
+   inline colours (from styles.css .brand-primary/.grey/.teal etc.) would win
+   over the caption's inherited colour, so the teaser caption looked teal on
+   some pages and grey on others. Normalise every teaser caption to the same
+   grey #333 regardless of the authored class, and drop the drop-shadow so the
+   grey reads cleanly on the light banner. */
+.hero.teaser .hero-caption,
+.hero.teaser .hero-caption span,
+.hero.teaser .hero-caption em,
+.hero.teaser .hero-caption strong,
+.hero.teaser .hero-caption sup {
+  color: var(--hero-teaser-caption-color);
+  text-shadow: none;
 }
 
 @media (width >= 768px) {
@@ -212,6 +244,17 @@
   .hero.teaser .hero-panel-light {
     aspect-ratio: auto;
     min-height: var(--hero-teaser-min-height-desktop);
+  }
+
+  /* Desktop restores the full-bleed strip: the explicit min-height above governs
+     the panel height, so the background goes back to absolute fill (undoing the
+     mobile in-flow, natural-height treatment). */
+  .hero.teaser .hero-panel-bg {
+    position: absolute;
+  }
+
+  .hero.teaser .hero-panel-bg img {
+    height: 100%;
   }
 
   /* Overlay: container-centred, vertically centred, left-aligned. Uses the

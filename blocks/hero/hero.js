@@ -106,6 +106,14 @@ function decorateSinglePanel(block) {
 function decorateDualPanel(block, rows) {
   const panels = [];
 
+  // The teaser sub-banner is the single, above-the-fold hero on interior pages, so
+  // its background is the LCP image: load it eagerly (not lazily like the homepage
+  // split panels). Combined with the mobile natural-height treatment, this lets the
+  // image size to its own ratio (no fixed 750/700 crop) while an eager, high-priority
+  // fetch resolves that height before content below paints — avoiding the CLS the
+  // former hard-coded aspect-ratio was meant to prevent.
+  const eager = block.classList.contains('teaser');
+
   rows.forEach((row, index) => {
     const cells = [...row.children];
     const panel = document.createElement('div');
@@ -118,7 +126,14 @@ function decorateDualPanel(block, rows) {
       const caption = findCaptionParagraph(imgCell);
       const bgDiv = document.createElement('div');
       bgDiv.className = 'hero-panel-bg';
-      const bgContent = buildPictureContentFromImageCell(imgCell);
+      const bgContent = buildPictureContentFromImageCell(imgCell, {
+        eagerArtDirection: eager,
+        eagerSingle: eager,
+      });
+      if (eager) {
+        const img = bgContent.querySelector('img');
+        if (img) img.setAttribute('fetchpriority', 'high');
+      }
       imgCell.replaceChildren();
       bgDiv.append(bgContent);
       panel.appendChild(bgDiv);
