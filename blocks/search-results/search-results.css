@@ -74,13 +74,16 @@
   text-decoration: none;
 }
 
-/* on hover the whole title shifts to the lighter teal (matches source), no underline */
-.search-results ul.search-results-list > li .search-results-result-title a:hover {
+/* hovering anywhere in the result (title or description) shifts the title to
+   the lighter teal, no underline — matches the source, where the whole result
+   is one link */
+.search-results ul.search-results-list > li > a:hover .search-results-result-title,
+.search-results ul.search-results-list > li > a:hover .search-results-result-title a {
   color: var(--link-hover-color);
   text-decoration: none;
 }
 
-.search-results ul.search-results-list > li .search-results-result-title a:hover mark {
+.search-results ul.search-results-list > li > a:hover .search-results-result-title mark {
   color: var(--link-hover-color);
 }
 
