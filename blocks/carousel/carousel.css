@@ -269,17 +269,20 @@
   color: var(--carousel-testimonial-link-hover-color);
 }
 
-/* right-chevron after testimonial links */
+/* right arrow (stem + head) after testimonial links — same asset/shape as the CTA buttons,
+   tinted to the link color via currentColor */
 .carousel.testimonial .carousel-slide-content a::after {
   content: '';
   display: inline-block;
-  width: var(--carousel-testimonial-link-arrow-size);
-  height: var(--carousel-testimonial-link-arrow-size);
+  width: var(--button-icon-width);
+  height: var(--button-icon-height);
   margin-left: var(--carousel-testimonial-link-arrow-gap);
-  border: var(--carousel-testimonial-link-arrow-thickness) solid;
-  border-bottom: 0;
-  border-left: 0;
-  transform: rotate(45deg) translateY(-1px);
+  vertical-align: middle;
+  background-color: currentcolor;
+  mask-image: var(--button-icon-url);
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
 }
 
 /* Author-supplied per-slide icon image, if present in content */
@@ -324,10 +327,18 @@
   color: #fff;
 }
 
-/* "Swipe for more" hint — mobile only, under the dots */
+/* above mobile the next (right) arrow sits over the photo, so it reads white; the prev (left)
+   arrow stays its branded color over the light panel (source swaps red/white assets) */
+@media (width >= 768px) {
+  .carousel.testimonial .carousel-navigation-buttons button.slide-next {
+    color: #fff;
+  }
+}
+
+/* "Swipe for more" hint — shown under the dots up to 991px */
 .carousel.testimonial .carousel-swipe-hint {
   display: block;
-  margin: 0;
+  margin: -10px 0 0; /* pull up ~50% closer to the dots, matching the source */
   padding: var(--carousel-testimonial-swipe-hint-padding);
   color: var(--carousel-testimonial-swipe-hint-color);
   font-size: var(--carousel-testimonial-swipe-hint-size);
@@ -407,6 +418,11 @@
     margin-bottom: var(--carousel-testimonial-icon-gap-dark);
   }
 
+}
+
+/* the swipe hint stays visible through the tablet band (≤991, where the carousel still swipes);
+   hide it only once the layout is wide enough that it's no longer needed */
+@media (width >= 992px) {
   .carousel.testimonial .carousel-swipe-hint {
     display: none;
   }

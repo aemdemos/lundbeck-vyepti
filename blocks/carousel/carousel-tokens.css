@@ -14,7 +14,7 @@
   --carousel-nav-inset-desktop: 24px;
   --carousel-nav-button-size: 44px; /* @boilerplate */
   --carousel-nav-arrow-size: 12px; /* @boilerplate */
-  --carousel-nav-arrow-thickness: 2px; /* @boilerplate */
+  --carousel-nav-arrow-thickness: 2.5px; /* slightly thicker chevron to match the source */
   --carousel-nav-arrow-offset: 2px; /* @boilerplate */
   --carousel-nav-arrow-prev-color: var(--brand-secondary);
   --carousel-nav-arrow-next-color: var(--brand-secondary);
@@ -75,7 +75,7 @@
   --carousel-testimonial-quote-icon: url('/icons/quote-mark-coral.svg');
   --carousel-testimonial-quote-icon-dark: url('/icons/quote-mark.svg');
   --carousel-testimonial-quote-icon-display: block;
-  --carousel-testimonial-icon-size: 58px;
+  --carousel-testimonial-icon-size: 45px; /* mobile: source's mid-size quote icon; 58px at 768+ */
 
   /* indicators (ring style) */
   --carousel-testimonial-indicator-size: 13px;
@@ -86,7 +86,7 @@
   --carousel-testimonial-nav-inset: 16px;
 
   /* "Swipe for more" hint (multi-slide, mobile only) */
-  --carousel-testimonial-swipe-hint-color: var(--carousel-testimonial-divider-color);
+  --carousel-testimonial-swipe-hint-color: var(--brand-secondary); /* rgb(192 44 87), matches the source */
   --carousel-testimonial-swipe-hint-size: var(--body-font-size-xs);
   --carousel-testimonial-swipe-hint-weight: 700;
   --carousel-testimonial-swipe-hint-padding: 8px 0 0;
@@ -171,6 +171,7 @@ main .carousel.testimonial .carousel-slide .carousel-slide-image img {
 @media (width >= 768px) {
   :root {
     --carousel-testimonial-gap-section: 64px;
+    --carousel-testimonial-icon-size: 58px;
   }
 
   main .carousel.testimonial .carousel-slide {
@@ -231,6 +232,14 @@ main .carousel.testimonial .carousel-slide .carousel-slide-image img {
   main .carousel.testimonial.dark:not(:has(.carousel-slides > li:only-child)) .carousel-slide {
     min-height: var(--carousel-testimonial-slide-min-height-tablet-multi-dark);
   }
+
+  /* On the narrow 768–991 card the photo column widens to 50% so `cover` shows the patient
+     head-to-hip like the source (at 38% the narrow card cropped them to a tight sliver).
+     Scoped to this band only — 992+ keeps the 38% column. */
+  main .carousel.testimonial .carousel-slide .carousel-slide-image {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
 }
 
 @media (width >= 992px) {
@@ -254,5 +263,12 @@ main .carousel.testimonial .carousel-slide .carousel-slide-image img {
   main .carousel.testimonial .carousel-slide .carousel-slide-image {
     flex: 0 0 var(--carousel-testimonial-image-flex);
     max-width: var(--carousel-testimonial-image-flex);
+  }
+
+  /* study-results (dark single): trim the text area ~5% and give it to the photo so it isn't
+     cropped as tightly (a small step to reevaluate) */
+  main .carousel.testimonial.dark:has(.carousel-slides > li:only-child) .carousel-slide .carousel-slide-image {
+    flex-basis: 43%;
+    max-width: 43%;
   }
 }
