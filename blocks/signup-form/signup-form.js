@@ -7,9 +7,12 @@ function loadGooglePlacesApi(apiKey, callback) {
 
   // Google's "callback" URL param is invoked by Google's own loader once
 
+  // eslint-disable-next-line sonarjs/pseudo-random -- used only to build a unique, non-secret global callback name, not for anything security-sensitive
   const callbackName = `__loadGooglePlacesApiCallback_${Date.now()}_${Math.floor(Math.random() * 1e6)}`;
 
+  // eslint-disable-next-line secure-coding/detect-object-injection -- callbackName is a locally generated, non-user-controlled string, not user input
   window[callbackName] = () => {
+    // eslint-disable-next-line secure-coding/detect-object-injection -- same locally generated key as above
     delete window[callbackName];
     if (window.google?.maps?.places?.AutocompleteSuggestion) {
       callback();
@@ -20,7 +23,6 @@ function loadGooglePlacesApi(apiKey, callback) {
   };
 
   const script = document.createElement('script');
-  // Built with URL/URLSearchParams instead of a template literal — this is
   const mapsScriptUrl = new URL('https://maps.googleapis.com/maps/api/js');
   mapsScriptUrl.searchParams.set('key', apiKey);
   mapsScriptUrl.searchParams.set('libraries', 'places');
@@ -31,6 +33,7 @@ function loadGooglePlacesApi(apiKey, callback) {
   script.defer = true;
 
   script.onerror = () => {
+    // eslint-disable-next-line secure-coding/detect-object-injection -- callbackName is a locally generated, non-user-controlled string, not user input
     delete window[callbackName];
     // eslint-disable-next-line no-console
     console.error('Failed to load Google Maps script.');
@@ -66,11 +69,7 @@ const DEFAULT_MESSAGES = {
 
 };
 
-/**
- * Error message for invalid fields
- * @param {string} id
- * @returns {Element}
- */
+
 function createErrorMessage(id) {
   const p = document.createElement('p');
   p.className = 'field-error';
@@ -79,12 +78,7 @@ function createErrorMessage(id) {
   return p;
 }
 
-/**
- * Puts a field into its error state:
- * @param {Element} field
- * @param {Element} errorEl
- * @param {string} message
- */
+
 function showFieldError(field, errorEl, message) {
   field.classList.add('error');
   field.setAttribute('aria-invalid', 'true');
@@ -95,11 +89,7 @@ function showFieldError(field, errorEl, message) {
   }
 }
 
-/**
- * Clears a field's error
- * @param {Element} field
- * @param {Element} errorEl
- */
+
 function clearFieldError(field, errorEl) {
   field.classList.remove('error');
   field.removeAttribute('aria-invalid');
@@ -109,7 +99,7 @@ function clearFieldError(field, errorEl) {
   }
 }
 
-/* Attaches "numbers only, max 10 digits" */
+
 function attachPhoneMask(input) {
   input.addEventListener('input', (e) => {
     let value = e.target.value.replace(/\D/g, ''); // strip everything but digits
@@ -127,7 +117,7 @@ function attachPhoneMask(input) {
   });
 }
 
-/* Attaches "numbers only, auto-formatted as MM/DD/YYYY" */
+
 function attachDateMask(input) {
   input.addEventListener('input', (e) => {
     let value = e.target.value.replace(/\D/g, ''); // strip everything but digits
@@ -141,7 +131,7 @@ function attachDateMask(input) {
 }
 
 
-/* REVEAL / COLLAPSE ANIMATION */
+
 const REVEAL_DURATION_MS = 600;
 const REVEAL_EASING = 'cubic-bezier(0.16, 1, 0.3, 1)';
 
@@ -153,7 +143,7 @@ function buildRevealTransition(durationMs) {
 }
 
 
-/* Animates an element open with a "slide down" effect */
+
 function slideDown(el, durationMs = REVEAL_DURATION_MS) {
   el.style.transition = 'none';
   el.style.display = 'block';
@@ -162,7 +152,7 @@ function slideDown(el, durationMs = REVEAL_DURATION_MS) {
   el.style.maxHeight = '0px';
   el.style.opacity = '0';
 
-  // Force a reflow so the browser registers the "0px" starting state before
+
   el.getBoundingClientRect();
 
   const targetHeight = el.scrollHeight;
@@ -180,7 +170,7 @@ function slideDown(el, durationMs = REVEAL_DURATION_MS) {
   el.addEventListener('transitionend', onEnd);
 }
 
-/*Animates an element closed with a "slide up" effect,*/
+
 function slideUp(el, onComplete, durationMs = REVEAL_DURATION_MS) {
   const startHeight = el.scrollHeight;
   el.style.transition = 'none';
@@ -214,7 +204,7 @@ function slideUp(el, onComplete, durationMs = REVEAL_DURATION_MS) {
   el.addEventListener('transitionend', onEnd);
 }
 
-/*Plays the visible "dropdown replay" — collapses, optionally swaps*/
+
 function replayDropdown(el, beforeReopen) {
   if (!el) return;
   const halfDuration = REVEAL_DURATION_MS / 2;
@@ -235,9 +225,7 @@ function replayDropdown(el, beforeReopen) {
   }, halfDuration);
 }
 
-/**
- * Resets everything inside a conditional field/container: unchecks
- */
+
 function resetConditionalFieldContents(el) {
   if (!el) return;
 
@@ -270,9 +258,7 @@ function resetConditionalFieldContents(el) {
   });
 }
 
-/**
- * Hides a conditional field/container
- */
+
 function hideConditionalField(el) {
   if (!el) return;
 
@@ -287,9 +273,7 @@ function hideConditionalField(el) {
   slideUp(el, () => resetConditionalFieldContents(el));
 }
 
-/**
- * Shows/hides each branch target based on which toggle value was selected.
- */
+
 function applyToggleBranches(branches, selectedValue) {
   Object.entries(branches).forEach(([branchValue, target]) => {
     const els = Array.isArray(target) ? target : [target];
@@ -304,9 +288,7 @@ function applyToggleBranches(branches, selectedValue) {
   });
 }
 
-/**
- * Creates a Yes/No toggle question. Each answer can independently reveal one
- */
+
 function createToggle(
   name,
   label,
@@ -371,12 +353,9 @@ function createToggle(
   return wrapper;
 }
 
-// Single shared backdrop element — declared before closeAllPopovers() below
 let popoverBackdrop = null;
 
-/**
- * Closes every open popover + hides the shared backdrop. Declared before
- */
+
 function closeAllPopovers() {
   document.querySelectorAll('.form-field-popover').forEach((p) => {
     p.hidden = true;
@@ -396,9 +375,6 @@ function getPopoverBackdrop() {
   return popoverBackdrop;
 }
 
-/**
- * Positions an open popover directly above
- */
 function positionPopover(popover, anchorButton) {
   const gap = 14; // space between icon and popover, matches the old CSS bottom offset
   const viewportMargin = 8; // never let the popover touch the very top edge
@@ -435,7 +411,6 @@ function positionPopover(popover, anchorButton) {
   popover.style.setProperty('--arrow-left', `${clampedArrowLeft}px`);
 }
 
-// Re-run positionPopover() for whichever popover is currently open if the
 function repositionOpenPopover() {
   const openPopover = document.querySelector('.form-field-popover:not([hidden])');
   if (openPopover && openPopover.anchorButton) {
@@ -445,9 +420,7 @@ function repositionOpenPopover() {
 window.addEventListener('resize', repositionOpenPopover);
 window.addEventListener('scroll', repositionOpenPopover, true);
 
-/**
- * Creates a clickable "i" info icon
- */
+
 function createInfoIcon(text) {
   const wrapper = document.createElement('span');
   wrapper.className = 'form-field-info';
@@ -516,9 +489,7 @@ document.addEventListener('keydown', (e) => {
 });
 
 
-/**
- * Creates a standard text input field with a label above it
- */
+
 function createTextField(
   name,
   label,
@@ -566,7 +537,6 @@ function createTextField(
   const invalidFormatMessage = formatMessage || defaultFormatMessage;
   let touched = false;
 
-  // Bounded quantifiers ({1,64} / {1,255} / {1,63}) instead of unbounded "+"
   const EMAIL_REGEX = /^[^\s@]{1,64}@[^\s@]{1,255}\.[^\s@]{1,63}$/;
 
   const validate = () => {
@@ -591,7 +561,6 @@ function createTextField(
     return true;
   };
 
-  // Errors are only shown once the person has actually typed in this field
   input.addEventListener('blur', () => {
     if (touched) validate();
   });
@@ -606,9 +575,7 @@ function createTextField(
   return wrapper;
 }
 
-/**
- * Creates a dropdown select field with a label above it
- */
+
 function createSelectField(name, label, options, requiredMessage = null) {
   const wrapper = document.createElement('div');
   wrapper.className = 'form-field';
@@ -623,7 +590,6 @@ function createSelectField(name, label, options, requiredMessage = null) {
 
 
 
-  // Wraps the select + arrow icon so the arrow can be positioned relative
   const selectWrapper = document.createElement('div');
   selectWrapper.className = 'select-wrapper';
   selectWrapper.id = `${name}-wrapper`;
@@ -645,7 +611,6 @@ function createSelectField(name, label, options, requiredMessage = null) {
     select.append(o);
   });
 
-  // Real DOM element, not a CSS background-image — see function comment.
   const arrow = document.createElement('span');
   arrow.className = 'select-arrow';
   arrow.setAttribute('aria-hidden', 'true');
@@ -679,12 +644,10 @@ function createSelectField(name, label, options, requiredMessage = null) {
   return wrapper;
 }
 
-/* Checks whether a string matches the MM/DD/YYYY */
 function matchesDatePattern(dateStr) {
   return /^\d{2}\/\d{2}\/\d{4}$/.test(dateStr);
 }
 
-/* Validates a date string as MM/DD/YYYY with proper date ranges */
 function isValidDateFormat(dateStr) {
   if (!matchesDatePattern(dateStr)) return false;
 
@@ -702,7 +665,6 @@ function isValidDateFormat(dateStr) {
   return true;
 }
 
-/* Creates the "Date of birth" field: MM/DD/YYYY masked input */
 function createDobField(messages = {}) {
   const msg = { ...DEFAULT_MESSAGES.dob, ...messages };
 
@@ -758,7 +720,7 @@ function createDobField(messages = {}) {
       return false;
     }
 
-    // Must be at least 18 years old to register
+
     const [month, day, year] = value.split('/').map(Number);
     const dob = new Date(year, month - 1, day);
     const eighteenYearsAgo = new Date();
@@ -789,7 +751,6 @@ function createDobField(messages = {}) {
   return wrapper;
 }
 
-/* Creates a date field with MM/DD/YYYY masking/validation and a"Not scheduled" checkbox */
 function createDateField(name, label, messages = {}) {
   const msg = {
     required: 'Please enter a valid calendar date',
@@ -823,8 +784,7 @@ function createDateField(name, label, messages = {}) {
   const checkboxErrorEl = createErrorMessage(`${name}-checkbox`);
   let touched = false;
 
-  // Declared here — before validate() below references it — instead of
-  // further down where the checkbox element used to be created.
+
   const checkbox = document.createElement('input');
   checkbox.type = 'checkbox';
   checkbox.name = `${name}-not-scheduled`;
@@ -920,9 +880,7 @@ function createDateField(name, label, messages = {}) {
   return wrapper;
 }
 
-/**
- * Reveals confirmation content (carousel + CTA columns) after a successful
- */
+
 function showConfirmationContent() {
   const carousel = document.querySelector('.carousel');
   const columnsCta = document.querySelector('.columns-cta');
@@ -941,9 +899,7 @@ function showConfirmationContent() {
   });
 }
 
-/**
- * Applies the visible/hidden state for everything gated behind the
- */
+
 function applyPrescribedAnswerState({
   isYes,
   isNo,
@@ -978,7 +934,6 @@ function applyPrescribedAnswerState({
   }
 }
 
-/* Builds the complete signup form with all fields */
 function buildForm(apiEndpoint) {
   const form = document.createElement('form');
   form.className = 'signup-form-fields';
@@ -1190,7 +1145,6 @@ function buildForm(apiEndpoint) {
 
   consentContainer.append(consent, consentLegal, consentError);
 
-  // Wrapper holds everything that should react together when "prescribed" is answered, so it's one animation instead of several out-of-sync ones
   const belowPrescribedWrapper = document.createElement('div');
   belowPrescribedWrapper.className = 'below-prescribed-wrapper';
   belowPrescribedWrapper.classList.add('visible'); // personal info is shown from page load, so treat the wrapper as already open
@@ -1204,7 +1158,6 @@ function buildForm(apiEndpoint) {
 
   form.append(prescribedToggle, belowPrescribedWrapper);
 
-  // One listener now drives every conditional piece plus the single shared animation
   prescribedToggle.querySelectorAll('input[type="radio"]').forEach((radio) => {
     radio.addEventListener('change', () => {
       const isYes = radio.checked && radio.value === 'yes';
@@ -1221,7 +1174,6 @@ function buildForm(apiEndpoint) {
     });
   });
 
-  // Server-side / network error message — shown above the submit button
   const serverError = document.createElement('p');
   serverError.className = 'field-error form-server-error';
   serverError.id = 'server-error';
@@ -1344,11 +1296,7 @@ function buildForm(apiEndpoint) {
   return form;
 }
 
-/**
- * Fills the address form fields (city/state/zip) from a resolved Place's
- * address components, and applies the same US-only + "looks like a real
- * address" validation the site has always used.
- */
+
 function applyPlaceToAddressFields(place, { addressInput, cityInput, stateSelect, zipInput }) {
   if (!place.addressComponents) {
     showFieldError(addressInput, addressInput.errorEl, DEFAULT_MESSAGES.invalidAddress);
@@ -1416,10 +1364,8 @@ function applyPlaceToAddressFields(place, { addressInput, cityInput, stateSelect
   return true;
 }
 
-/**
- * Builds one <li> suggestion row (pin icon + main/secondary text) for the
- * custom address dropdown.
- */
+
+
 function createSuggestionItem(placePrediction, index) {
   const item = document.createElement('li');
   item.className = 'address-suggestion';
@@ -1448,10 +1394,7 @@ function createSuggestionItem(placePrediction, index) {
   return item;
 }
 
-/* Wires up Google Places autocomplete on the address field with a fully
- * custom dropdown (built on the Autocomplete Data API), so the experience
- * is identical on mobile and desktop instead of using the PlaceAutocompleteElement
- * widget's own UI, which switches to a native fullscreen picker on narrow viewports. */
+
 function initializeAddressAutocomplete() {
   const addressInput = document.getElementById('address1');
   const cityInput = document.getElementById('city');
@@ -1468,8 +1411,7 @@ function initializeAddressAutocomplete() {
 
   const { AutocompleteSuggestion, AutocompleteSessionToken } = window.google.maps.places;
 
-  // Wrap the input so the suggestions list can be positioned relative to it,
-  // without disturbing the label row that comes before it in the DOM.
+
   const wrapper = document.createElement('div');
   wrapper.className = 'address-autocomplete-wrapper';
   addressInput.insertAdjacentElement('beforebegin', wrapper);
@@ -1488,8 +1430,7 @@ function initializeAddressAutocomplete() {
   wrapper.append(list);
   addressInput.setAttribute('aria-controls', list.id);
 
-  // Session tokens group a search+select into one billable session; a new
-  // one is started after every selection or invalid-address rejection.
+
   let sessionToken = new AutocompleteSessionToken();
   let currentSuggestions = [];
   let activeIndex = -1;
@@ -1520,7 +1461,6 @@ function initializeAddressAutocomplete() {
     }
   };
 
-  // eslint-disable-next-line no-use-before-define
   const selectSuggestion = async (placePrediction) => {
     const place = placePrediction.toPlace();
 
@@ -1558,7 +1498,7 @@ function initializeAddressAutocomplete() {
       const { placePrediction } = suggestion;
       const item = createSuggestionItem(placePrediction, index);
 
-      // mousedown (not click) fires before the input's blur handler closes the list
+
       item.addEventListener('mousedown', (e) => {
         e.preventDefault();
         selectSuggestion(placePrediction);
@@ -1573,7 +1513,8 @@ function initializeAddressAutocomplete() {
   };
 
   const fetchSuggestions = async (query) => {
-    const thisRequestId = ++requestId;
+    requestId += 1;
+    const thisRequestId = requestId;
 
     if (!query) {
       closeList();
@@ -1607,22 +1548,26 @@ function initializeAddressAutocomplete() {
   addressInput.addEventListener('keydown', (e) => {
     if (list.hidden || !currentSuggestions.length) return;
 
+    // eslint-disable-next-line secure-coding/no-insecure-comparison -- comparing a keyboard event key name, not a secret
     if (e.key === 'ArrowDown') {
       e.preventDefault();
       setActive(Math.min(activeIndex + 1, currentSuggestions.length - 1));
+      // eslint-disable-next-line secure-coding/no-insecure-comparison -- comparing a keyboard event key name, not a secret
     } else if (e.key === 'ArrowUp') {
       e.preventDefault();
       setActive(Math.max(activeIndex - 1, 0));
+      // eslint-disable-next-line secure-coding/no-insecure-comparison -- comparing a keyboard event key name, not a secret
     } else if (e.key === 'Enter' && activeIndex >= 0) {
       e.preventDefault();
+      // eslint-disable-next-line secure-coding/detect-object-injection -- activeIndex is a bounds-checked numeric index, not user-controlled input
       selectSuggestion(currentSuggestions[activeIndex].placePrediction);
+      // eslint-disable-next-line secure-coding/no-insecure-comparison -- comparing a keyboard event key name, not a secret
     } else if (e.key === 'Escape') {
       closeList();
     }
   });
 
-  // Slight delay so a mousedown-triggered selection can still register
-  // before the list gets torn down.
+
   addressInput.addEventListener('blur', () => {
     setTimeout(closeList, 100);
   });
