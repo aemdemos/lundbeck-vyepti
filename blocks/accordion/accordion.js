@@ -75,6 +75,23 @@ function decorateTranscriptLabel(label) {
   };
 }
 
+// split each transcript line's leading "M:SS" timestamp into its own column
+function splitTranscriptTimestamps(body) {
+  body.querySelectorAll(':scope > p').forEach((p) => {
+    const match = p.textContent.match(/^\s*(\d+:\d{2})\s*(.*)$/s);
+    if (!match) return;
+    const [, time, rest] = match;
+    p.textContent = '';
+    const num = document.createElement('span');
+    num.className = 'accordion-transcript-number';
+    num.textContent = time;
+    const text = document.createElement('span');
+    text.className = 'accordion-transcript-text';
+    text.textContent = rest;
+    p.append(num, text);
+  });
+}
+
 export default function decorate(block) {
   const isTranscript = !!block.closest('.section.video-accent');
   if (isTranscript) block.classList.add('transcript');
@@ -110,7 +127,10 @@ export default function decorate(block) {
         }
       }
     }
-    if (body !== null && body !== undefined) body.className = 'accordion-item-body';
+    if (body !== null && body !== undefined) {
+      body.className = 'accordion-item-body';
+      if (isTranscript) splitTranscriptTimestamps(body);
+    }
 
     // The whole card toggles the item; clicks inside the open body are ignored
     // so links stay clickable and body text stays selectable.

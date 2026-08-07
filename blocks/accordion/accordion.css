@@ -142,7 +142,7 @@
 .accordion.transcript > ul > li {
   background-color: var(--background-color);
   border-radius: 12px;
-  padding: 11px 20px;
+  padding: 11px 0;
   margin-top: 4px;
 }
 
@@ -156,7 +156,7 @@
   align-items: center;
   justify-content: flex-start;
   gap: 8px;
-  padding: 0;
+  padding: 0 20px;
   color: var(--link-color);
   font-family: var(--body-font-family);
   font-size: 16px;
@@ -196,6 +196,7 @@
 }
 
 .accordion.transcript .accordion-item-body p {
+  display: flex;
   margin: 0 0 12px;
   padding-left: 0;
   color: var(--text-color);
@@ -206,6 +207,16 @@
 
 .accordion.transcript .accordion-item-body p:last-child {
   margin-bottom: 0;
+}
+
+.accordion.transcript .accordion-transcript-number {
+  flex: none;
+  width: 64px;
+  padding-left: 20px;
+}
+
+.accordion.transcript .accordion-transcript-text {
+  padding-right: 20px;
 }
 
 /* tablet+: toggle scales to 18px/27px */
