@@ -69,12 +69,25 @@
   --columns-intro-margin-top: 48px;
   --columns-intro-margin-bottom: 32px;
 
-  /* lead line: on the source the emphasized first line ("Being informed starts
-     here") renders as a teal 24px/800 heading even though it is authored as a
-     bold paragraph. Style that leading bold-only paragraph to match. */
+  /* body copy: the source renders all intro copy at 24px with a relaxed 1.5
+     rhythm (larger than the site's default 16px body). The 24px value already
+     exists as --body-font-size-m; wire it to the intro text cell. */
+  --columns-intro-body-font-size: var(--body-font-size-m, 24px);
+  --columns-intro-body-line-height: 1.5;
+
+  /* teal emphasis lead (stay-connected "Being informed starts here"): authored
+     as a bold-only paragraph, rendered as a teal 24px/800 heading with a tight
+     gap to the copy below. */
   --columns-intro-lead-color: var(--brand-primary);
-  --columns-intro-lead-font-size: var(--heading-font-size-xl, 24px);
   --columns-intro-lead-line-height: 1.2;
   --columns-intro-lead-font-weight: var(--heading-font-weight, 800);
   --columns-intro-lead-gap: 6px;
+
+  /* grey bold lead (real-patient-stories): authored as a heading (h2/h3),
+     rendered dark grey 24px/800 with a larger 24px gap before the body copy. */
+  --columns-intro-heading-lead-gap: 24px;
+
+  /* grey semibold line (downloadable-resources): authored as an h4/h5, rendered
+     dark grey 24px at a lighter 600 weight on the relaxed 1.5 rhythm. */
+  --columns-intro-subhead-font-weight: 600;
 }

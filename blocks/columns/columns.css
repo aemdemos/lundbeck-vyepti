@@ -164,29 +164,53 @@ main .columns.intro > div > div:not(.columns-img-col) {
   text-align: center;
 }
 
-/* lead line: the first line reads as a teal heading. It may be authored either
-   as a real heading or as a bold-only paragraph (as on stay-connected) — style
-   both the same so the section matches the source regardless of how it was
-   authored. */
-main .columns.intro > div > div:not(.columns-img-col) > h2:first-child,
-main .columns.intro > div > div:not(.columns-img-col) > h3:first-child,
-main .columns.intro > div > div:not(.columns-img-col) > h4:first-child,
-main .columns.intro > div > div:not(.columns-img-col) > h5:first-child,
+/* body copy: the source renders all intro copy at 24px on a relaxed 1.5 rhythm
+   (larger than the site's default 16px). Color (#333) and weight (400) already
+   match the global paragraph defaults, so only size/line-height are set here. */
+main .columns.intro > div > div:not(.columns-img-col) p {
+  font-size: var(--columns-intro-body-font-size);
+  line-height: var(--columns-intro-body-line-height);
+}
+
+/* teal emphasis lead (stay-connected "Being informed starts here") — authored
+   as a bold-only paragraph, rendered as a teal 24px/800 heading with a tight
+   gap to the copy below. Size is inherited from the body rule above. */
 main .columns.intro > div > div:not(.columns-img-col) > p:first-child:has(> strong:only-child) {
   margin: 0 0 var(--columns-intro-lead-gap);
   color: var(--columns-intro-lead-color);
-  font-family: var(--heading-font-family);
-  font-size: var(--columns-intro-lead-font-size);
-  line-height: var(--columns-intro-lead-line-height);
   font-weight: var(--columns-intro-lead-font-weight);
+  line-height: var(--columns-intro-lead-line-height);
 }
 
-/* the authored lead line uses <strong> for the bold weight; neutralize its
-   inherited boldness so the heading token controls weight and it inherits the
-   teal color above. */
+/* the emphasis lead uses <strong> for its bold weight; neutralize it so the
+   token above controls weight and it inherits the teal color. */
 main .columns.intro > div > div:not(.columns-img-col) > p:first-child > strong:only-child {
   font-weight: inherit;
   color: inherit;
+}
+
+/* grey bold headline lead (real-patient-stories "Everyone has a story to
+   tell") — authored as a Heading 2 or 3, rendered dark grey 24px/800 with a
+   24px gap before the body copy. The grey overrides the global teal h2 color. */
+main .columns.intro > div > div:not(.columns-img-col) h2,
+main .columns.intro > div > div:not(.columns-img-col) h3 {
+  margin: 0 0 var(--columns-intro-heading-lead-gap);
+  color: var(--text-color);
+  font-size: var(--columns-intro-body-font-size);
+  font-weight: var(--heading-font-weight);
+  line-height: var(--columns-intro-lead-line-height);
+}
+
+/* grey semibold line (downloadable-resources "Managing migraine can be
+   overwhelming…") — authored as a Heading 4 or 5, rendered dark grey 24px at a
+   lighter 600 weight on the relaxed 1.5 rhythm. */
+main .columns.intro > div > div:not(.columns-img-col) h4,
+main .columns.intro > div > div:not(.columns-img-col) h5 {
+  margin: 0;
+  color: var(--text-color);
+  font-size: var(--columns-intro-body-font-size);
+  font-weight: var(--columns-intro-subhead-font-weight);
+  line-height: var(--columns-intro-body-line-height);
 }
 
 /* stats-callout variant — vyepti study/survey results callouts.

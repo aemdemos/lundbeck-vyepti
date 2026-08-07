@@ -12,17 +12,11 @@
 <body>
   <header></header>
   <!-- Test content for issue #149 columns(intro) variant.
-       The intro sections that sit under the banner on several vyepti.com pages are
-       authored as a 2-cell Columns (intro) block: cell 1 = leading icon, cell 2 =
-       rich text (heading + copy, or copy only, or bold + normal). The `intro`
-       variant sizes the icon to its glyph, puts it left of the copy on desktop
-       (centered/stacked on mobile), and matches the source's 48/32 section rhythm.
-
-       Section 1 mirrors vyepti.com/stay-connected  (mail icon + bold heading + copy)
-       Section 2 mirrors vyepti.com/vyepti-faq       (question icon + single paragraph) -->
+       One row per source page, exercising each text treatment the source uses.
+       All copy renders at 24px; the leads differ (teal bold / grey bold / grey semibold). -->
   <main>
     <div>
-      <!-- Stay Connected: icon + bold heading + paragraph -->
+      <!-- STAY CONNECTED: icon + teal bold lead (bold paragraph) + body -->
       <div class="columns intro">
         <div>
           <div>
@@ -37,7 +31,7 @@
     </div>
 
     <div>
-      <!-- FAQ: icon + single paragraph -->
+      <!-- FAQ: icon + single body paragraph -->
       <div class="columns intro">
         <div>
           <div>
@@ -45,6 +39,30 @@
           </div>
           <div>
             <p>Find answers to your questions about VYEPTI, how it works, side effects, support, and more.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <!-- DOWNLOADABLE RESOURCES: text-only, grey semibold line (Heading 4) -->
+      <div class="columns intro">
+        <div>
+          <div>
+            <h4>Managing migraine can be overwhelming. So we’ve gathered resources about VYEPTI treatment, savings, infusion location support, and more.</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <!-- REAL PATIENT STORIES: text-only, grey bold headline lead (Heading 3) + two body paragraphs -->
+      <div class="columns intro">
+        <div>
+          <div>
+            <h3>Everyone has a story to tell—hear from people living with migraine who want to share theirs</h3>
+            <p>These stories are from real people, just like you, who've struggled with the devastating impact of migraine attacks.</p>
+            <p>Find out how they experienced real change after having more migraine-free days with VYEPTI, and get inspired by those who advocated for themselves and asked their doctor about VYEPTI.</p>
           </div>
         </div>
       </div>
