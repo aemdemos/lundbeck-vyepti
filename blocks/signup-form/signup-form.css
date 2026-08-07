@@ -1,10 +1,4 @@
 /* Signup Form — styles
- * Mobile-first: unqueried rules below are the MOBILE default.
- * @media (width >= 768px)  = tablet and up
- * @media (width >= 992px)  = desktop and up
- * Rendered output at every viewport width matches the previous four-tier
- * (max-width) version, except .form-field label / .toggle-legend, which now
- * stay at 18px on mobile instead of dropping to 16px, per request.
  */
 .signup-form {
   display: flex;
@@ -104,6 +98,96 @@ p.signup-form-required-note {
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
+}
+
+/* Wraps the address input so the custom suggestions dropdown can be
+   positioned relative to it. Sized the same way .form-field input is. */
+.address-autocomplete-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+}
+
+.address-autocomplete-wrapper > input {
+  max-width: 100%;
+}
+
+/* The wrapper already carries the 70%/50% breakpoint sizing that matches
+   Street address 2. The input inside it should just fill the wrapper —
+   without this, .form-field input's own max-width would apply a *second*
+   70%/50% cap on top of the wrapper's, shrinking the field to half of
+   its intended width. */
+#address1-wrapper input {
+  max-width: 100%;
+}
+
+.address-suggestions {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  z-index: 3;
+  margin: 0;
+  padding: 6px 0;
+  list-style: none;
+  background: var(--background-color, #fff);
+  border: 1px solid #d9d9d9;
+  border-radius: 9.5px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.address-suggestions[hidden] {
+  display: none;
+}
+
+.address-suggestion {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 14px;
+  cursor: pointer;
+}
+
+.address-suggestion:hover,
+.address-suggestion.is-active {
+  background: rgba(4, 97, 131, 0.08);
+}
+
+.address-suggestion-icon {
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  background: center / contain no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23046183' stroke-width='1.6'%3E%3Cpath d='M12 21s-7-6.1-7-11.2A7 7 0 0 1 19 9.8C19 14.9 12 21 12 21z'/%3E%3Ccircle cx='12' cy='9.5' r='2.3'/%3E%3C/svg%3E");
+}
+
+.address-suggestion-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.address-suggestion-main {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-color, #333);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.address-suggestion-secondary {
+  font-size: 13px;
+  color: #767676;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.form-field .address-autocomplete-wrapper input.error {
+  border-color: var(--error-color, #c02c57);
 }
 
 .form-field select {
@@ -282,8 +366,8 @@ p.signup-form-required-note {
   position: absolute;
   top: 1px;
   right: 1px;
-  width: 32px;    
-  height: 32px;    
+  width: 32px;
+  height: 32px;
   border: none;
   background: transparent;
   cursor: pointer;
@@ -299,8 +383,8 @@ p.signup-form-required-note {
 .form-field-popover-close::after {
   content: '';
   position: absolute;
-  width: 30px;      
-  height: 1.5px;      
+  width: 30px;
+  height: 1.5px;
   background: currentColor;
   border-radius: 2px;
 }
@@ -552,7 +636,6 @@ p.signup-form-required-note {
   max-width: 100%;
 }
 
-
 /* ==========================================================================
    TABLET / IPAD — 768px and up
    ========================================================================== */
@@ -560,6 +643,15 @@ p.signup-form-required-note {
   .form-field input {
     max-width: 70%;
   }
+
+  .address-autocomplete-wrapper {
+    max-width: 70%;
+  }
+
+  .address-autocomplete-wrapper > input {
+  max-width: 100%;
+}
+
   #dob,
   #phone {
     max-width: 200px;
@@ -596,6 +688,15 @@ p.signup-form-required-note {
   .form-field input {
     max-width: 50%;
   }
+
+  .address-autocomplete-wrapper {
+    max-width: 50%;
+  }
+
+  .address-autocomplete-wrapper > input {
+  max-width: 100%;
+}
+
   #dob,
   #phone {
     max-width: 240px;
@@ -612,8 +713,7 @@ p.signup-form-required-note {
     width: 290px;
   }
 
-  /* left/right use a fluid formula so this single tier covers both the old
-     992–1199px fixed-40px range and the old 1200px+ fluid range identically */
+  /* left/right use a fluid formula*/
   .form-field-popover {
     left: max(40px, calc(50% - 640px));
     right: max(40px, calc(50% - 340px));
@@ -624,4 +724,6 @@ p.signup-form-required-note {
   .form-field-popover-text {
     padding: 0;
   }
+
+
 }
