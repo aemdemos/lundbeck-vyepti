@@ -48,4 +48,12 @@
   /* desktop (992px+) cards pack at their natural content width, left-aligned,
      with this gap between them — matching the ~20px spacing on the source. */
   --columns-locations-gap: 20px;
+
+  /* statistic-accent section style (why-iv-treatment, what-to-expect survey-result
+     callouts) — icon centered above the stat headline on mobile; icon fixed to a
+     column at 768px+ beside the left-aligned headline. */
+  --columns-statistic-accent-icon-size-mobile: 150px;
+  --columns-statistic-accent-icon-size: 230px;
+  --columns-statistic-accent-gap-mobile: 24px;
+  --columns-statistic-accent-gap: 40px;
 }
