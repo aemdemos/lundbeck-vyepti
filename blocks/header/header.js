@@ -99,8 +99,8 @@ function buildSearchBlock() {
   input.type = 'search';
   input.className = 'search-input';
   input.name = 'searchText';
-  input.placeholder = 'Search...';
-  input.setAttribute('aria-label', 'Search...');
+  input.placeholder = 'Search';
+  input.setAttribute('aria-label', 'Search');
 
   const goToResults = () => {
     const query = input.value.trim();

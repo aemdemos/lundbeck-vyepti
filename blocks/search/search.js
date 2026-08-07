@@ -221,8 +221,8 @@ function searchInput(block, config) {
   input.setAttribute('type', 'search');
   input.className = 'search-input';
 
-  input.placeholder = 'Search...';
-  input.setAttribute('aria-label', 'Search...');
+  input.placeholder = 'Search';
+  input.setAttribute('aria-label', 'Search');
 
   input.addEventListener('input', (e) => {
     handleSearch(e, block, config);
