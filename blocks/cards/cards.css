@@ -366,7 +366,6 @@ main .cards.feature > ul > li .cards-card-body > p:last-child:has(a) {
 
 .cards.statistics .cards-card-image img {
   height: 169px;
-  height: auto;
   max-width: none;
   aspect-ratio: 1 / 1;
 }
@@ -469,7 +468,7 @@ main .cards.feature > ul > li .cards-card-body > p:last-child:has(a) {
   .cards.statistics .cards-card-image img {
     height: 223px;
   }
-  
+
   .cards.statistics .cards-card-body h3 {
     font-size: 22px;
   }
