@@ -56,4 +56,25 @@
   --columns-statistic-accent-icon-size: 230px;
   --columns-statistic-accent-gap-mobile: 24px;
   --columns-statistic-accent-gap: 40px;
+
+  /* intro variant — small leading icon + rich-text block, matching the
+     "image + text" intro sections under the banner on vyepti.com
+     (stay-connected, vyepti-faq). The source renders the icon at its natural
+     ~98px inside a narrow left column; the text takes the rest of the row.
+     Mobile stacks the icon centered above the text. */
+  --columns-intro-icon-size: 98px;
+  --columns-intro-gap: 32px;
+
+  /* vertical rhythm around the section (source: 48px above, 32px below). */
+  --columns-intro-margin-top: 48px;
+  --columns-intro-margin-bottom: 32px;
+
+  /* lead line: on the source the emphasized first line ("Being informed starts
+     here") renders as a teal 24px/800 heading even though it is authored as a
+     bold paragraph. Style that leading bold-only paragraph to match. */
+  --columns-intro-lead-color: var(--brand-primary);
+  --columns-intro-lead-font-size: var(--heading-font-size-xl, 24px);
+  --columns-intro-lead-line-height: 1.2;
+  --columns-intro-lead-font-weight: var(--heading-font-weight, 800);
+  --columns-intro-lead-gap: 6px;
 }

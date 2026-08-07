@@ -133,6 +133,62 @@ main .section.statistic-accent .columns > div > div:not(.columns-img-col) {
   text-align: center;
 }
 
+/* intro variant — small leading icon + rich-text block, matching the "image +
+   text" intro sections under the banner on vyepti.com (stay-connected,
+   vyepti-faq). Mobile-first: icon centered above the text, both centered. The
+   icon sizes to a fixed box (it is a decorative glyph, not a responsive photo).
+   Section rhythm matches the source (48px above / 32px below). */
+main .columns.intro {
+  margin-top: var(--columns-intro-margin-top);
+  margin-bottom: var(--columns-intro-margin-bottom);
+}
+
+main .columns.intro > div {
+  gap: var(--columns-intro-gap);
+  align-items: center;
+}
+
+main .columns.intro .columns-img-col {
+  order: 0;
+  flex: 0 0 auto;
+  text-align: center;
+}
+
+main .columns.intro .columns-img-col img {
+  width: var(--columns-intro-icon-size);
+  height: auto;
+}
+
+/* text cell: centered on mobile, flush rhythm between heading and copy */
+main .columns.intro > div > div:not(.columns-img-col) {
+  text-align: center;
+}
+
+/* lead line: the first line reads as a teal heading. It may be authored either
+   as a real heading or as a bold-only paragraph (as on stay-connected) — style
+   both the same so the section matches the source regardless of how it was
+   authored. */
+main .columns.intro > div > div:not(.columns-img-col) > h2:first-child,
+main .columns.intro > div > div:not(.columns-img-col) > h3:first-child,
+main .columns.intro > div > div:not(.columns-img-col) > h4:first-child,
+main .columns.intro > div > div:not(.columns-img-col) > h5:first-child,
+main .columns.intro > div > div:not(.columns-img-col) > p:first-child:has(> strong:only-child) {
+  margin: 0 0 var(--columns-intro-lead-gap);
+  color: var(--columns-intro-lead-color);
+  font-family: var(--heading-font-family);
+  font-size: var(--columns-intro-lead-font-size);
+  line-height: var(--columns-intro-lead-line-height);
+  font-weight: var(--columns-intro-lead-font-weight);
+}
+
+/* the authored lead line uses <strong> for the bold weight; neutralize its
+   inherited boldness so the heading token controls weight and it inherits the
+   teal color above. */
+main .columns.intro > div > div:not(.columns-img-col) > p:first-child > strong:only-child {
+  font-weight: inherit;
+  color: inherit;
+}
+
 /* stats-callout variant — vyepti study/survey results callouts.
    Teal headings, large red italic "X fewer" numbers, centered copy. */
 main .columns.stats-callout > div > div {
@@ -245,6 +301,19 @@ main .columns.stats-callout:has(img) > div > div:not(.columns-img-col) > p:first
   .columns > div > div { /* @boilerplate */
     flex: 1; /* @boilerplate */
     order: unset; /* @boilerplate */
+  }
+
+  /* intro: icon left of the copy on desktop, both left-aligned. The icon column
+     stays sized to its glyph (overrides the boilerplate flex:1 above) so the
+     text takes the remaining width, matching the source's narrow-icon layout. */
+  main .columns.intro .columns-img-col {
+    flex: 0 0 auto;
+    order: unset;
+    text-align: left;
+  }
+
+  main .columns.intro > div > div:not(.columns-img-col) {
+    text-align: left;
   }
 
   .columns.divider.columns-2-cols > div {

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Columns (intro) variant test — issue #149</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script nonce="aem" src="/scripts/aem.js" type="module"></script>
+  <script nonce="aem" src="/scripts/scripts.js" type="module"></script>
+  <link rel="stylesheet" href="https://use.typekit.net/ysg8ozy.css"/>
+  <link rel="stylesheet" href="/styles/styles.css"/>
+</head>
+<body>
+  <header></header>
+  <!-- Test content for issue #149 columns(intro) variant.
+       The intro sections that sit under the banner on several vyepti.com pages are
+       authored as a 2-cell Columns (intro) block: cell 1 = leading icon, cell 2 =
+       rich text (heading + copy, or copy only, or bold + normal). The `intro`
+       variant sizes the icon to its glyph, puts it left of the copy on desktop
+       (centered/stacked on mobile), and matches the source's 48/32 section rhythm.
+
+       Section 1 mirrors vyepti.com/stay-connected  (mail icon + bold heading + copy)
+       Section 2 mirrors vyepti.com/vyepti-faq       (question icon + single paragraph) -->
+  <main>
+    <div>
+      <!-- Stay Connected: icon + bold heading + paragraph -->
+      <div class="columns intro">
+        <div>
+          <div>
+            <picture><img src="/media-da/stay-connected/mail-84-desktop-6da6305d.svg" alt=""></picture>
+          </div>
+          <div>
+            <p><strong>Being informed starts here</strong></p>
+            <p>This is your ticket in—sign up to learn more about VYEPTI and how it works, get insurance info, study results, and more.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <!-- FAQ: icon + single paragraph -->
+      <div class="columns intro">
+        <div>
+          <div>
+            <picture><img src="/media-da/vyepti-faq/question-84-desktop-1b7d1eb0.svg" alt=""></picture>
+          </div>
+          <div>
+            <p>Find answers to your questions about VYEPTI, how it works, side effects, support, and more.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer></footer>
+</body>
+</html>
