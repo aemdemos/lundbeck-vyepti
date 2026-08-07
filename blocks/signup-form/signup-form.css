@@ -108,6 +108,10 @@ p.signup-form-required-note {
   max-width: 100%;
 }
 
+.address-autocomplete-wrapper > input {
+  max-width: 100%;
+}
+
 /* The wrapper already carries the 70%/50% breakpoint sizing that matches
    Street address 2. The input inside it should just fill the wrapper —
    without this, .form-field input's own max-width would apply a *second*
@@ -641,7 +645,7 @@ p.signup-form-required-note {
   }
 
   .address-autocomplete-wrapper {
-    max-width: 100%;
+    max-width: 70%;
   }
 
   #dob,
@@ -682,7 +686,7 @@ p.signup-form-required-note {
   }
 
   .address-autocomplete-wrapper {
-    max-width: 100%;
+    max-width: 50%;
   }
 
   #dob,
