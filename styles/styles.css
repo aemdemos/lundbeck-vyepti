@@ -225,6 +225,10 @@ body.appear { /* @libs */
   --link-color: var(--brand-secondary);
 }
 
+.grey {
+  color: #333;
+}
+
 /* single-purpose text utility; !important so it reliably wins over
    block-level paragraph rules (e.g. columns' 22px line-height) wherever
    an author or block explicitly opts in. */
