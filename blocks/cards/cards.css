@@ -375,7 +375,7 @@ main .cards.feature > ul > li .cards-card-body > p:last-child:has(a) {
   padding: 0 22px 7px 22px;
   color: var(--brand-primary);
   line-height: 1.2;
-  font-size: var(--heading-font-size-xl);
+  font-size: 24px;
   font-weight: 900;
 }
 
@@ -386,7 +386,6 @@ main .cards.feature > ul > li .cards-card-body > p:last-child:has(a) {
 
 @media (width >= 575px) {
   .cards.statistics li {
-    align-items: normal;
     flex-direction: row;
   }
 
@@ -437,6 +436,10 @@ main .cards.feature > ul > li .cards-card-body > p:last-child:has(a) {
     width: 223px;
   }
 
+  .cards.statistics .cards-card-body h3 {
+    font-size: 20px;
+  }
+
   .section:has(.cards.statistics) h2 {
     text-align: left;
   }
@@ -465,5 +468,8 @@ main .cards.feature > ul > li .cards-card-body > p:last-child:has(a) {
 @media (width >= 1200px) {
   .cards.statistics .cards-card-image img {
     width: 223px;
+  }
+  .cards.statistics .cards-card-body h3 {
+    font-size: 22px;
   }
 }
