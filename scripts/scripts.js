@@ -171,7 +171,7 @@ function autolinkModals(doc) {
     if (gated && origin.protocol.startsWith('http')) {
       e.preventDefault();
       const { openModal } = await import(`${window.hlx.codeBasePath}/blocks/modal/modal.js`);
-      openModal('/modals/exit', origin.href);
+      openModal('/modals/exit', { targetUrl: origin.href });
     }
   });
 }
@@ -1404,7 +1404,7 @@ async function loadLazy(doc) {
   const entranceModal = getMetadata('entrance-modal');
   if (entranceModal) {
     import(`${window.hlx.codeBasePath}/blocks/modal/modal.js`)
-      .then(({ openModal }) => openModal(entranceModal));
+      .then(({ openModal }) => openModal(entranceModal, { gate: true }));
   }
 }
 
@@ -1442,11 +1442,42 @@ export async function loadPage() {
   loadSidekick();
 }
 
+/**
+ * If this page gates on an entrance modal and the visitor already made a
+ * Yep/Nope choice this session, redirect straight to their page (before the
+ * body is revealed in loadEager) instead of showing the modal again.
+ *
+ * Deliberately not top-level-awaited: modal.js pulls in fragment.js, which
+ * statically imports this module (see its `import/no-cycle` disable), so
+ * awaiting this chain at the top level of this module would deadlock —
+ * this module's own evaluation would block on a dependency that can't
+ * finish until this module finishes. Chaining with .then() instead lets
+ * this module finish evaluating immediately, matching how the entrance
+ * modal itself is already loaded (import(...).then(...), never awaited
+ * at the top level) elsewhere in this file.
+ * @returns {Promise<boolean>} true if a redirect was started
+ */
+function redirectIfGateChoiceStored() {
+  if (!getMetadata('entrance-modal')) return Promise.resolve(false);
+  return import(`${window.hlx.codeBasePath}/blocks/modal/modal.js`).then(({ getGateRedirectTarget }) => {
+    const target = getGateRedirectTarget();
+    if (target && target !== window.location.pathname) {
+      window.location.replace(target);
+      return true;
+    }
+    return false;
+  });
+}
+
 // DA UE Editor support before page load
 if (window.location.hostname.includes('ue.da.live')) {
   await import(`${window.hlx.codeBasePath}/ue/scripts/ue.js`).then(({ default: ue }) => ue());
+  loadPage();
+} else {
+  redirectIfGateChoiceStored().then((redirected) => {
+    if (!redirected) loadPage();
+  });
 }
-loadPage();
 
 /* new DA NX stuff */
 const { searchParams, origin } = new URL(window.location.href);
