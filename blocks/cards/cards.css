@@ -381,7 +381,7 @@ main .cards.feature > ul > li .cards-card-body > p:last-child:has(a) {
 }
 
 @media (width >= 575px) {
-  .cards.statstics li {
+  .cards.statistics li {
     align-items: normal;
     flex-direction: row;
   }
