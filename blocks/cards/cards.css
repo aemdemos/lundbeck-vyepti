@@ -372,6 +372,11 @@ main .cards.feature > ul > li .cards-card-body > p:last-child:has(a) {
   font-weight: 900;
 }
 
+.section:has(cards.statistics) h2 {
+  text-align: center;
+  padding: 20px 0;
+}
+
 @media (width >= 768px) {
   .cards.resources .cards-card-body .button-wrapper .button .icon[class*="mail"] {
     width: 20px;
@@ -408,6 +413,10 @@ main .cards.feature > ul > li .cards-card-body > p:last-child:has(a) {
 
   .cards.resources .cards-card-body .button-wrapper:last-of-type {
     margin-bottom: 0;
+  }
+  
+  .section:has(cards.statistics) h2 {
+    text-align: left;
   }
 }
 
