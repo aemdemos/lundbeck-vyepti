@@ -9,79 +9,10 @@
  */
 
 /*
- * "Search Results" banner: a normal section with the banner authored as a
- * regular image (delivered as an optimized media_* <picture>, like every other
- * image on the site) plus a heading. The image is positioned to fill the
- * section as a background, with the heading centred over it.
+ * NOTE: the "Search Results" banner is authored as a separate hero block on
+ * the page, so it is styled by blocks/hero — not here. This block owns only
+ * the results list, count, pagination, and the no-results empty state.
  */
-main .section.search-results-banner {
-  box-sizing: border-box;
-  position: relative;
-  display: flex;
-  align-items: center;
-  min-height: 174px;
-  margin: 0;
-  padding: 32px 0;
-  overflow: hidden;
-}
-
-/* the source banner has no fixed height: its image is stretched to fill and
-   the band height follows the image's aspect ratio, so it scales with the
-   viewport width (e.g. 1440px → 240px, 2056px → 257px). The source swaps a
-   6:1 image (>=1200px) for an 8:1 wide image (>=1600px). */
-@media (width >= 1200px) {
-  main .section.search-results-banner {
-    height: auto;
-    min-height: 0;
-    padding: 0;
-    aspect-ratio: 6 / 1;
-  }
-}
-
-@media (width >= 1600px) {
-  main .section.search-results-banner {
-    aspect-ratio: 8 / 1;
-  }
-}
-
-/* the authored banner image fills the section behind the content; its <p>
-   wrapper is collapsed so it doesn't take layout space */
-main .section.search-results-banner .default-content-wrapper > p:has(picture) {
-  margin: 0;
-}
-
-/* the banner image is full-bleed: it lives inside the (max-width) content
-   wrapper but breaks out to span the full section width edge-to-edge */
-main .section.search-results-banner picture {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 50%;
-  width: 100vw;
-  transform: translateX(-50%);
-  z-index: 0;
-}
-
-main .section.search-results-banner picture img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-main .section.search-results-banner .default-content-wrapper {
-  z-index: 1;
-  width: 100%;
-  margin: 0 auto;
-}
-
-main .section.search-results-banner h1 {
-  position: relative;
-  z-index: 1;
-  margin: 0;
-  color: var(--brand-primary);
-  font-family: var(--heading-font-family);
-  line-height: 60px; /* matches source */
-}
 
 .search-results {
   /* 48px top gap below the banner matches the source (.results-wrapper) */
