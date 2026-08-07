@@ -349,6 +349,26 @@ main .cards.feature > ul > li .cards-card-body > p:last-child:has(a) {
   height: 11px;
 }
 
+.cards.statistics ul {
+  display: flex;
+  flex-direction: column;
+}
+
+.cards.statistics li {
+  display: flex;
+}
+
+.cards.statistics .cards-card-image img {
+  width: 169px;
+  height: 169px;
+}
+
+.cards.statistics .cards-card-body h3 {
+  padding: 0 22px 7px 22px;
+  color: var(--brand-primary);
+  line-height: 1.2;
+}
+
 @media (width >= 768px) {
   .cards.resources .cards-card-body .button-wrapper .button .icon[class*="mail"] {
     width: 20px;
