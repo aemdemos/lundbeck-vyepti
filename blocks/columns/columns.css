@@ -159,9 +159,12 @@ main .columns.intro .columns-img-col img {
   height: auto;
 }
 
-/* text cell: centered on mobile, flush rhythm between heading and copy */
+/* text cell: centered on mobile, flush rhythm between heading and copy. Cap the
+   copy to the source's ~795px measure so lines wrap at the same point on wide
+   screens (below that width the cap is inert, so mobile is unaffected). */
 main .columns.intro > div > div:not(.columns-img-col) {
   text-align: center;
+  max-width: var(--columns-intro-text-max-width);
 }
 
 /* body copy: the source renders all intro copy at 24px on a relaxed 1.5 rhythm

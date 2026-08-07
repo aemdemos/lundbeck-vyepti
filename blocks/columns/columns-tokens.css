@@ -75,6 +75,12 @@
   --columns-intro-gap-mobile: 12px;
   --columns-intro-gap: 60px;
 
+  /* text column measure: the source caps the whole intro at a 1140px Bootstrap
+     container, so its copy column tops out at ~795px and wraps sooner than our
+     full-width section would. Cap the text cell to that measure so line breaks
+     match the source on wide screens. */
+  --columns-intro-text-max-width: 795px;
+
   /* vertical rhythm around the section (source: 48px above, 32px below). */
   --columns-intro-margin-top: 48px;
   --columns-intro-margin-bottom: 32px;
