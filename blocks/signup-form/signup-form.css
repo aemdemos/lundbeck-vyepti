@@ -648,6 +648,10 @@ p.signup-form-required-note {
     max-width: 70%;
   }
 
+  .address-autocomplete-wrapper > input {
+  max-width: 100%;
+}
+
   #dob,
   #phone {
     max-width: 200px;
@@ -689,6 +693,10 @@ p.signup-form-required-note {
     max-width: 50%;
   }
 
+  .address-autocomplete-wrapper > input {
+  max-width: 100%;
+}
+
   #dob,
   #phone {
     max-width: 240px;
@@ -716,4 +724,6 @@ p.signup-form-required-note {
   .form-field-popover-text {
     padding: 0;
   }
+
+
 }
