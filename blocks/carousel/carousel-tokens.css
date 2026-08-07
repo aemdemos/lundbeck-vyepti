@@ -191,16 +191,20 @@ main .carousel.testimonial .carousel-slide .carousel-slide-image img {
     height: auto;
   }
 
-  /* cover crops the art-directed photo's transparent margins so the composition fills
-     the column edge-to-edge (the assets carry uneven transparent padding). The slightly
-     left-of-centre horizontal position crops past the heavy right margin on the landscape
-     side-effects crop; portrait crops have no horizontal overflow, so it doesn't move them. */
+  /* cover crops the art-directed photo to fill the column edge-to-edge; centered by default */
   main .carousel.testimonial .carousel-slide .carousel-slide-image img {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: 50% 50%;
+  }
+
+  /* side-effects (default single-slide) is the one photo with a heavy transparent right
+     margin baked in; shift its crop left of centre so the composition still reaches the
+     card's right edge. Other crops have no such margin and stay centred. */
+  main .carousel.testimonial:not(.dark):has(.carousel-slides > li:only-child) .carousel-slide .carousel-slide-image img {
     object-position: 35% 50%;
   }
 
