@@ -356,12 +356,15 @@ main .cards.feature > ul > li .cards-card-body > p:last-child:has(a) {
 
 .cards.statistics li {
   display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .cards.statistics .cards-card-image img {
   width: 169px;
   height: 169px;
   max-width: none;
+  aspect-ratio: 1 / 1;
 }
 
 .cards.statistics .cards-card-body h3 {
@@ -375,6 +378,13 @@ main .cards.feature > ul > li .cards-card-body > p:last-child:has(a) {
 .section:has(cards.statistics) h2 {
   text-align: center;
   padding: 20px 0;
+}
+
+@media (width >= 575px) {
+  .cards.statstics li {
+    align-items: normal;
+    flex-direction: row;
+  }
 }
 
 @media (width >= 768px) {
@@ -414,7 +424,7 @@ main .cards.feature > ul > li .cards-card-body > p:last-child:has(a) {
   .cards.resources .cards-card-body .button-wrapper:last-of-type {
     margin-bottom: 0;
   }
-  
+
   .section:has(cards.statistics) h2 {
     text-align: left;
   }
