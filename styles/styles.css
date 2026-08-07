@@ -865,6 +865,26 @@ main .section.accent img { /* @libs */
   height: 54px; /* @libs */
 }
 
+/* section metadata - video-accent (powder-blue video + transcript band) */
+main .section.video-accent {
+  background-color: var(--accent-bg);
+  padding: 16px 0 32px;
+  color: #484848;
+}
+
+main .section.video-accent .default-content-wrapper {
+  text-align: center;
+}
+
+main .section.video-accent h2 {
+  color: #484848;
+  line-height: 1;
+}
+
+main .section.video-accent .default-content-wrapper p {
+  color: #484848;
+}
+
 /* section metadata - light */
 main .section.light,
 main .section.highlight { /* @libs */
@@ -1143,6 +1163,10 @@ main > .section > div {
 
 main .section.stats-callout > div:not(.bg-image) {
   max-width: 960px;
+}
+
+main .section.video-accent {
+  padding: 54px 0 58px;
 }
 
 /* narrow-copy flex-group (what-to-expect "Choosing a location" + "Prepare for

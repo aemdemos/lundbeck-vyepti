@@ -1,5 +1,10 @@
 import { moveInstrumentation } from '../../scripts/scripts.js';
 
+// transcript variant expand/collapse icons
+const ASSET_BASE = 'https://www.assets.lundbeck-tools.com/content/dam/lundbeck/vyepti';
+const TRANSCRIPT_EXPAND_ICON = `${ASSET_BASE}/overhaul/images/expand-22-desktop.svg`;
+const TRANSCRIPT_COLLAPSE_ICON = `${ASSET_BASE}/overhaul/images/collapse-22-desktop.svg`;
+
 function getScrollOffset() {
   const value = getComputedStyle(document.documentElement)
     .getPropertyValue('--accordion-scroll-offset')
@@ -50,7 +55,30 @@ function scrollAccordionItemIntoView(item) {
   window.requestAnimationFrame(step);
 }
 
+// transcript variant: icon + "Open/Close transcript" label that swap on toggle
+function decorateTranscriptLabel(label) {
+  const textEl = label.querySelector('p') || label;
+  const openText = textEl.textContent.trim() || 'Open transcript';
+  const closeText = openText.replace(/^open\b/i, (m) => (m === 'OPEN' ? 'CLOSE' : 'Close'));
+
+  const icon = document.createElement('img');
+  icon.className = 'accordion-transcript-icon';
+  icon.src = TRANSCRIPT_EXPAND_ICON;
+  icon.alt = '';
+  icon.setAttribute('aria-hidden', 'true');
+  icon.loading = 'lazy';
+  label.prepend(icon);
+
+  return (isActive) => {
+    icon.src = isActive ? TRANSCRIPT_COLLAPSE_ICON : TRANSCRIPT_EXPAND_ICON;
+    textEl.textContent = isActive ? closeText : openText;
+  };
+}
+
 export default function decorate(block) {
+  const isTranscript = !!block.closest('.section.video-accent');
+  if (isTranscript) block.classList.add('transcript');
+
   const ul = document.createElement('ul');
   [...block.children].forEach((row) => {
     const li = document.createElement('li');
@@ -59,23 +87,27 @@ export default function decorate(block) {
     while (row.firstElementChild) li.append(row.firstElementChild);
 
     const [label, body] = [...li.children];
+    let updateTranscriptLabel;
     if (label !== null && label !== undefined) {
       label.className = 'accordion-item-label';
 
-      // Convention: author bolds the lead phrase; the remaining inline content
-      // becomes the "detail", which is collapsed on mobile and revealed on tablet up.
-      const labelText = label.querySelector('p') || label;
-      const lead = labelText.querySelector(':scope > strong, :scope > b');
-      if (lead && lead.nextSibling) {
-        const detail = document.createElement('span');
-        detail.className = 'accordion-item-label-detail';
-        let node = lead.nextSibling;
-        while (node) {
-          const next = node.nextSibling;
-          detail.append(node);
-          node = next;
+      if (isTranscript) {
+        updateTranscriptLabel = decorateTranscriptLabel(label);
+      } else {
+        // author bolds the lead phrase; the rest becomes the collapsible "detail"
+        const labelText = label.querySelector('p') || label;
+        const lead = labelText.querySelector(':scope > strong, :scope > b');
+        if (lead && lead.nextSibling) {
+          const detail = document.createElement('span');
+          detail.className = 'accordion-item-label-detail';
+          let node = lead.nextSibling;
+          while (node) {
+            const next = node.nextSibling;
+            detail.append(node);
+            node = next;
+          }
+          if (detail.textContent.trim()) labelText.append(detail);
         }
-        if (detail.textContent.trim()) labelText.append(detail);
       }
     }
     if (body !== null && body !== undefined) body.className = 'accordion-item-body';
@@ -90,7 +122,11 @@ export default function decorate(block) {
         item.classList.remove('active');
       });
       if (!wasActive) li.classList.add('active');
-      window.requestAnimationFrame(() => scrollAccordionItemIntoView(li));
+      if (updateTranscriptLabel) updateTranscriptLabel(!wasActive);
+      // transcript grows in place; only the FAQ scrolls into view
+      if (!isTranscript) {
+        window.requestAnimationFrame(() => scrollAccordionItemIntoView(li));
+      }
     });
 
     ul.append(li);

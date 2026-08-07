@@ -14,17 +14,6 @@
   --video-placeholder-title-text-shadow: 0 1px 3px rgb(0 0 0 / 60%);
 }
 
-.video-wrapper + .accordion-wrapper {
-  .accordion .accordion-item-label {
-    font-size: 20px;
-  }
-
-  .accordion .accordion-item-body > p {
-    font-size: 16px;
-  }
-}
-
-
 .video video-js {
   display: block;
   width: 100%;
@@ -51,21 +40,5 @@
 
   .video {
     max-width: var(--video-max-width); /* @boilerplate */
-  }
-
-  .video-wrapper + .accordion-wrapper {
-    .accordion {
-      width: unset;
-      margin-left: 8%;
-      margin-right: 8%;
-    }
-
-    .accordion .accordion-item-body > p {
-      font-size: 18px;
-  }
-
-    .accordion .accordion-item-label {
-      font-size: 25px;
-    }
   }
 }
