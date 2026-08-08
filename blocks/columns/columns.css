@@ -293,7 +293,6 @@ main .columns.stats-callout:has(img) > div > div:not(.columns-img-col) > p:first
   }
 
   main .section.statistic-accent .columns-img-col {
-    flex: 0 0 var(--columns-statistic-accent-icon-size);
     max-width: none;
     margin: 0;
   }
@@ -323,9 +322,20 @@ main .columns.stats-callout:has(img) > div > div:not(.columns-img-col) > p:first
   main .section.statistic-accent .columns h2 {
     font-size: 32px;
     line-height: 36px;
+    max-width: 80%;
   }
+
+  main .section.statistic-accent .columns p {
+  max-width: 80%
+}
 
   main .columns.locations > div > div {
     flex: 0 0 auto;
+  }
+}
+
+@media (width >= 1200px) {
+  main .section.statistic-accent .columns p {
+    max-width: unset;
   }
 }

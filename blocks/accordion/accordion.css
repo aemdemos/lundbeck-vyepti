@@ -197,7 +197,6 @@
 
 .accordion.transcript .accordion-item-body p {
   display: flex;
-  margin: 0 0 12px;
   padding-left: 0;
   color: var(--text-color);
   font-family: var(--body-font-family);

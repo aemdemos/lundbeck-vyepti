@@ -78,9 +78,10 @@ function decorateTranscriptLabel(label) {
 // split each transcript line's leading "M:SS" timestamp into its own column
 function splitTranscriptTimestamps(body) {
   body.querySelectorAll(':scope > p').forEach((p) => {
-    const match = p.textContent.match(/^\s*(\d+:\d{2})\s*(.*)$/s);
+    const match = p.textContent.match(/^\s*(\d+:\d{2})(.*)$/s);
     if (!match) return;
-    const [, time, rest] = match;
+    const [, time] = match;
+    const rest = match[2].replace(/^\s+/, '');
     p.textContent = '';
     const num = document.createElement('span');
     num.className = 'accordion-transcript-number';
@@ -92,90 +93,79 @@ function splitTranscriptTimestamps(body) {
   });
 }
 
+// Author marks the lead/detail split by bolding the lead phrase or a line
+// break between the two. Detail is collapsed on mobile, revealed from tablet up.
+function decorateFaqLabel(label) {
+  const labelText = label.querySelector('p, h1, h2, h3, h4, h5, h6') || label;
+  const lead = labelText.querySelector(':scope > strong, :scope > b');
+  const lineBreak = labelText.querySelector(':scope > br');
+  const detailStart = (lead && lead.nextSibling) ? lead.nextSibling : lineBreak;
+  if (!detailStart) return;
+
+  const detail = document.createElement('span');
+  detail.className = 'accordion-item-label-detail';
+  let node = detailStart;
+  while (node) {
+    const next = node.nextSibling;
+    detail.append(node);
+    node = next;
+  }
+  if (detail.textContent.trim()) labelText.append(detail);
+}
+
+function buildLabel(label, isTranscript) {
+  if (label === null || label === undefined) return undefined;
+  label.className = 'accordion-item-label';
+  if (isTranscript) return decorateTranscriptLabel(label);
+  decorateFaqLabel(label);
+  return undefined;
+}
+
+function buildBody(body, isTranscript) {
+  if (body === null || body === undefined) return;
+  body.className = 'accordion-item-body';
+  if (isTranscript) splitTranscriptTimestamps(body);
+}
+
+// The whole card toggles the item; clicks inside the open body are ignored
+// so links stay clickable and body text stays selectable.
+// Single expansion: opening one item closes the others (matches vyepti.com/vyepti-faq).
+function attachToggleHandler(li, ul, body, isTranscript, updateTranscriptLabel) {
+  li.addEventListener('click', (e) => {
+    if (body && body.contains(e.target)) return;
+    const wasActive = li.classList.contains('active');
+    ul.querySelectorAll('.accordion-item.active').forEach((item) => {
+      item.classList.remove('active');
+    });
+    if (!wasActive) li.classList.add('active');
+    if (updateTranscriptLabel) updateTranscriptLabel(!wasActive);
+    // transcript grows in place; only the FAQ scrolls into view
+    if (!isTranscript) {
+      window.requestAnimationFrame(() => scrollAccordionItemIntoView(li));
+    }
+  });
+}
+
+function buildAccordionItem(row, ul, isTranscript) {
+  const li = document.createElement('li');
+  li.className = 'accordion-item';
+  moveInstrumentation(row, li);
+  while (row.firstElementChild) li.append(row.firstElementChild);
+
+  const [label, body] = [...li.children];
+  const updateTranscriptLabel = buildLabel(label, isTranscript);
+  buildBody(body, isTranscript);
+  attachToggleHandler(li, ul, body, isTranscript, updateTranscriptLabel);
+
+  ul.append(li);
+}
+
 export default function decorate(block) {
   const isTranscript = !!block.closest('.section.video-accent');
   if (isTranscript) block.classList.add('transcript');
 
   const ul = document.createElement('ul');
-  [...block.children].forEach((row) => {
-    const li = document.createElement('li');
-    li.className = 'accordion-item';
-    moveInstrumentation(row, li);
-    while (row.firstElementChild) li.append(row.firstElementChild);
-
-    const [label, body] = [...li.children];
-    let updateTranscriptLabel;
-    if (label !== null && label !== undefined) {
-      label.className = 'accordion-item-label';
-
-      if (isTranscript) {
-        updateTranscriptLabel = decorateTranscriptLabel(label);
-      } else {
-        // Author marks the lead/detail split by bolding the lead phrase or a line
-        // break between the two. Detail is collapsed on mobile, revealed from tablet up.
-        const labelText = label.querySelector('p, h1, h2, h3, h4, h5, h6') || label;
-        const lead = labelText.querySelector(':scope > strong, :scope > b');
-        const lineBreak = labelText.querySelector(':scope > br');
-        const detailStart = (lead && lead.nextSibling) ? lead.nextSibling : lineBreak;
-        if (detailStart) {
-          const detail = document.createElement('span');
-          detail.className = 'accordion-item-label-detail';
-          let node = detailStart;
-          while (node) {
-            const next = node.nextSibling;
-            detail.append(node);
-            node = next;
-          }
-          if (detail.textContent.trim()) labelText.append(detail);
-    if (label) {
-      label.className = 'accordion-item-label';
-
-      // The label splits into a lead phrase and a trailing "detail". Authors mark
-      // the split one of two ways: bolding the lead phrase, or a line break between
-      // the two phrases. The detail is collapsed on mobile and revealed from tablet up.
-      const labelText = label.querySelector('p, h1, h2, h3, h4, h5, h6') || label;
-      const lead = labelText.querySelector(':scope > strong, :scope > b');
-      const lineBreak = labelText.querySelector(':scope > br');
-      // Detail begins after the bold lead, or at the line break itself (the <br> is
-      // kept inside the detail so CSS controls the wrap: hidden on mobile, its own
-      // line on tablet, folded onto one line on desktop).
-      const detailStart = (lead && lead.nextSibling) ? lead.nextSibling : lineBreak;
-      if (detailStart) {
-        const detail = document.createElement('span');
-        detail.className = 'accordion-item-label-detail';
-        let node = detailStart;
-        while (node) {
-          const next = node.nextSibling;
-          detail.append(node);
-          node = next;
-        }
-      }
-    }
-    if (body !== null && body !== undefined) {
-      body.className = 'accordion-item-body';
-      if (isTranscript) splitTranscriptTimestamps(body);
-    }
-    if (body) body.className = 'accordion-item-body';
-
-    // The whole card toggles the item; clicks inside the open body are ignored
-    // so links stay clickable and body text stays selectable.
-    // Single expansion: opening one item closes the others (matches vyepti.com/vyepti-faq).
-    li.addEventListener('click', (e) => {
-      if (body && body.contains(e.target)) return;
-      const wasActive = li.classList.contains('active');
-      ul.querySelectorAll('.accordion-item.active').forEach((item) => {
-        item.classList.remove('active');
-      });
-      if (!wasActive) li.classList.add('active');
-      if (updateTranscriptLabel) updateTranscriptLabel(!wasActive);
-      // transcript grows in place; only the FAQ scrolls into view
-      if (!isTranscript) {
-        window.requestAnimationFrame(() => scrollAccordionItemIntoView(li));
-      }
-    });
-
-    ul.append(li);
-  });
+  [...block.children].forEach((row) => buildAccordionItem(row, ul, isTranscript));
 
   block.textContent = '';
   block.append(ul);
