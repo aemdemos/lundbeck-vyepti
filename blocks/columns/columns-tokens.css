@@ -4,11 +4,6 @@
   --columns-divider-width: 1px;
   --columns-divider-spacing: var(--spacing-l, 32px);
   --columns-divider-color: #7ebcc6;
-
-  /* narrow-copy variant — single-column readable measure matching the source's
-     left content column on vyepti.com/what-to-expect (~540px; the source's
-     two-column split is not an even 50/50 — the copy column is the narrower
-     side). Left-aligned, flush to the section's leading edge; full width mobile. */
   --columns-narrow-copy-max-width: 540px;
   --columns-narrow-copy-heading-gap: 16px;
   --columns-narrow-copy-para-gap: 16px;
@@ -17,17 +12,8 @@
   /* mobile: the emphasized lead-in line ("Depending on your insurance…") is
      capped to a narrower measure and centered so it wraps sooner, as the source. */
   --columns-narrow-copy-lead-max-width-mobile: 70%;
-
-  /* locations variant — row of icon-above-label option cards (vyepti.com
-     /what-to-expect "choose from" group). Icon 108px, small centred label.
-     Constrained to the same readable measure as narrow-copy so the cards sit
-     within the text column rather than spreading the full section width. */
   --columns-locations-icon-size: 108px;
   --columns-locations-icon-size-mobile: 80px;
-
-  /* the hospital/outpatient icon artwork is more tightly cropped than the
-     others, so the source renders it at a smaller box to keep the optical
-     sizing even across the row (81px desktop, 65px mobile). */
   --columns-locations-icon-size-dense: 81px;
   --columns-locations-icon-size-dense-mobile: 65px;
 
@@ -48,12 +34,129 @@
   /* desktop (992px+) cards pack at their natural content width, left-aligned,
      with this gap between them — matching the ~20px spacing on the source. */
   --columns-locations-gap: 20px;
-
-  /* statistic-accent section style (why-iv-treatment, what-to-expect survey-result
-     callouts) — icon centered above the stat headline on mobile; icon fixed to a
-     column at 768px+ beside the left-aligned headline. */
   --columns-statistic-accent-icon-size-mobile: 150px;
   --columns-statistic-accent-icon-size: 230px;
   --columns-statistic-accent-gap-mobile: 24px;
   --columns-statistic-accent-gap: 40px;
+  --columns-intro-icon-size: 98px;
+  --columns-intro-gap-mobile: 12px;
+  --columns-intro-gap: 60px;
+  --columns-intro-text-max-width: 795px;
+
+  /* vertical rhythm around the section (source: 48px above, 32px below). */
+  --columns-intro-margin: 36px auto;
+  --columns-intro-body-font-size: 20px;
+  --columns-intro-body-line-height: 1.5;
+  --columns-intro-lead-color: var(--brand-primary);
+  --columns-intro-lead-line-height: 1.2;
+  --columns-intro-lead-font-weight: var(--heading-font-weight, 800);
+  --columns-intro-lead-gap: 6px;
+  --columns-intro-heading-lead-gap: 24px;
+  --columns-intro-subhead-font-weight: 600;
+}
+
+.columns.intro {
+   text-align: center;
+   margin: var(--columns-intro-margin);
+
+   p {
+   font-size: var(--columns-intro-body-font-size);
+   line-height: 1.5;
+   margin-bottom: 16px;
+   }
+
+   p > picture {
+      vertical-align: text-top;
+   }
+
+   .columns-img-col {
+      display: inline-block;
+      margin: auto;
+   }
+}
+
+/* statistic-accent section style (why-iv-treatment, what-to-expect survey-result
+   callouts) — icon centered above a two-tone stat headline on mobile; icon fixed
+   beside a left-aligned headline at 768px+. The class lives on the section
+   wrapper (authored via Section Style), not the columns block itself, so it's
+   reached from there rather than as a columns block variant. */
+.section.statistic-accent .columns > div {
+  gap: var(--columns-statistic-accent-gap-mobile);
+  padding-top: 27px;
+  padding-bottom: 27px;
+}
+
+.section.statistic-accent .columns-img-col {
+  flex: 0 0 auto;
+  max-width: var(--columns-statistic-accent-icon-size-mobile);
+  margin: 0 auto;
+}
+
+.section.statistic-accent .columns-img-col img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: contain;
+}
+
+.section.statistic-accent .columns > div > div:not(.columns-img-col) {
+  text-align: center;
+}
+
+@media (width >= 768px) {
+   .columns.intro > div {
+      flex-direction: column;
+   }
+
+   .section.statistic-accent .columns > div {
+      gap: var(--columns-statistic-accent-gap);
+      padding-top: 22px;
+      padding-bottom: 22px;
+    }
+  
+    .section.statistic-accent .columns-img-col {
+      flex: 0 0 var(--columns-statistic-accent-icon-size);
+      max-width: none;
+      margin: 0;
+    }
+  
+    .section.statistic-accent .columns > div > div:not(.columns-img-col) {
+      text-align: left;
+    }
+}
+
+
+@media (width >= 992px) {
+   :root {
+   --columns-intro-body-font-size: 24px;
+   }
+
+   .columns.intro > div {
+      gap: var(--columns-intro-gap);
+      flex-direction: row;
+    }
+  
+    .columns.intro .columns-img-col {
+      flex: 0 0 auto;
+      order: unset;
+      text-align: left;
+      margin: unset;
+    }
+  
+    .columns.intro > div > div:not(.columns-img-col) {
+      text-align: left;
+    }
+
+    .columns.intro > div > div:nth-child(2) {
+      max-width: 850px;
+    }
+
+    .section.statistic-accent .columns > div {
+      padding-top: 45px;
+      padding-bottom: 45px;
+    }
+  
+    .section.statistic-accent .columns h2 {
+      font-size: 32px;
+      line-height: 36px;
+    }
 }

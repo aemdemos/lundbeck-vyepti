@@ -61,6 +61,12 @@
   margin-bottom: var(--accordion-margin-bottom); /* @libs */
 }
 
+.accordion h3 {
+  font-size: var(--accordion-label-font-size);
+  font-weight: var(--accordion-label-font-weight);
+  line-height: var(--accordion-label-line-height);
+}
+
 /* split lead/detail accordions (e.g. financial-assistance) use a tighter 16px
    row gap on mobile; FAQ-style accordions keep the default 24px */
 .accordion:has(.accordion-item-label-detail) { /* @libs */
