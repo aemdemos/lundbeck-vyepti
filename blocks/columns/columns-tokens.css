@@ -40,7 +40,7 @@
   --columns-statistic-accent-gap: 40px;
   --columns-intro-icon-size: 98px;
   --columns-intro-gap-mobile: 12px;
-  --columns-intro-gap: 30px;
+  --columns-intro-gap: 60px;
   --columns-intro-text-max-width: 795px;
 
   /* vertical rhythm around the section (source: 48px above, 32px below). */
@@ -63,6 +63,10 @@
    font-size: var(--columns-intro-body-font-size);
    line-height: 1.5;
    margin-bottom: 16px;
+   }
+
+   p > picture {
+      vertical-align: text-top;
    }
 
    .columns-img-col {
