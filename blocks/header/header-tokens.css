@@ -8,6 +8,10 @@
   --header-white-text-color: #fff;
   --header-text-color: #484848;
 
+  /* mobile teal utility strip height — fixed overlays (mobile menu, utility
+     dropdown) open flush with its bottom edge so no gap appears below it */
+  --nav-utility-height: 30px;
+
   /* font */
   --header-font-weight-xs: 500;
   --header-font-weight-s: 600;
