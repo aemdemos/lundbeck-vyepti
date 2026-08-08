@@ -106,116 +106,6 @@ main .columns.locations p {
   font-weight: var(--columns-locations-label-font-weight);
 }
 
-/* statistic-accent section style (why-iv-treatment, what-to-expect survey-result
-   callouts) — icon centered above a two-tone stat headline on mobile; icon fixed
-   beside a left-aligned headline at 768px+. The class lives on the section
-   wrapper (authored via Section Style), not the columns block itself, so it's
-   reached from there rather than as a columns block variant. */
-main .section.statistic-accent .columns > div {
-  gap: var(--columns-statistic-accent-gap-mobile);
-  padding-top: 27px;
-  padding-bottom: 27px;
-}
-
-main .section.statistic-accent .columns-img-col {
-  flex: 0 0 auto;
-  max-width: var(--columns-statistic-accent-icon-size-mobile);
-  margin: 0 auto;
-}
-
-main .section.statistic-accent .columns-img-col img {
-  width: 100%;
-  aspect-ratio: 1;
-  object-fit: contain;
-}
-
-main .section.statistic-accent .columns > div > div:not(.columns-img-col) {
-  text-align: center;
-}
-
-/* intro variant — small leading icon + rich-text block, matching the "image +
-   text" intro sections under the banner on vyepti.com (stay-connected,
-   vyepti-faq). Mobile-first: icon centered above the text, both centered. The
-   icon sizes to a fixed box (it is a decorative glyph, not a responsive photo).
-   Section rhythm matches the source (48px above / 32px below). */
-main .columns.intro {
-  margin-top: var(--columns-intro-margin-top);
-  margin-bottom: var(--columns-intro-margin-bottom);
-}
-
-main .columns.intro > div {
-  gap: var(--columns-intro-gap-mobile);
-  align-items: center;
-}
-
-main .columns.intro .columns-img-col {
-  order: 0;
-  flex: 0 0 auto;
-  text-align: center;
-}
-
-main .columns.intro .columns-img-col img {
-  width: var(--columns-intro-icon-size);
-  height: auto;
-}
-
-/* text cell: centered on mobile, flush rhythm between heading and copy. Cap the
-   copy to the source's ~795px measure so lines wrap at the same point on wide
-   screens (below that width the cap is inert, so mobile is unaffected). */
-main .columns.intro > div > div:not(.columns-img-col) {
-  text-align: center;
-  max-width: var(--columns-intro-text-max-width);
-}
-
-/* body copy: the source renders all intro copy at 24px on a relaxed 1.5 rhythm
-   (larger than the site's default 16px). Color (#333) and weight (400) already
-   match the global paragraph defaults, so only size/line-height are set here. */
-main .columns.intro > div > div:not(.columns-img-col) p {
-  font-size: var(--columns-intro-body-font-size);
-  line-height: var(--columns-intro-body-line-height);
-}
-
-/* teal emphasis lead (stay-connected "Being informed starts here") — authored
-   as a bold-only paragraph, rendered as a teal 24px/800 heading with a tight
-   gap to the copy below. Size is inherited from the body rule above. */
-main .columns.intro > div > div:not(.columns-img-col) > p:first-child:has(> strong:only-child) {
-  margin: 0 0 var(--columns-intro-lead-gap);
-  color: var(--columns-intro-lead-color);
-  font-weight: var(--columns-intro-lead-font-weight);
-  line-height: var(--columns-intro-lead-line-height);
-}
-
-/* the emphasis lead uses <strong> for its bold weight; neutralize it so the
-   token above controls weight and it inherits the teal color. */
-main .columns.intro > div > div:not(.columns-img-col) > p:first-child > strong:only-child {
-  font-weight: inherit;
-  color: inherit;
-}
-
-/* grey bold headline lead (real-patient-stories "Everyone has a story to
-   tell") — authored as a Heading 2 or 3, rendered dark grey 24px/800 with a
-   24px gap before the body copy. The grey overrides the global teal h2 color. */
-main .columns.intro > div > div:not(.columns-img-col) h2,
-main .columns.intro > div > div:not(.columns-img-col) h3 {
-  margin: 0 0 var(--columns-intro-heading-lead-gap);
-  color: var(--text-color);
-  font-size: var(--columns-intro-body-font-size);
-  font-weight: var(--heading-font-weight);
-  line-height: var(--columns-intro-lead-line-height);
-}
-
-/* grey semibold line (downloadable-resources "Managing migraine can be
-   overwhelming…") — authored as a Heading 4 or 5, rendered dark grey 24px at a
-   lighter 600 weight on the relaxed 1.5 rhythm. */
-main .columns.intro > div > div:not(.columns-img-col) h4,
-main .columns.intro > div > div:not(.columns-img-col) h5 {
-  margin: 0;
-  color: var(--text-color);
-  font-size: var(--columns-intro-body-font-size);
-  font-weight: var(--columns-intro-subhead-font-weight);
-  line-height: var(--columns-intro-body-line-height);
-}
-
 /* stats-callout variant — vyepti study/survey results callouts.
    Teal headings, large red italic "X fewer" numbers, centered copy. */
 main .columns.stats-callout > div > div {
@@ -280,10 +170,6 @@ main .columns.stats-callout:has(img) > div > div:not(.columns-img-col) > p:first
   line-height: 1.3;
 }
 
-/* Source (Bootstrap) breakpoint: the survey rows and intro/comparison columns
-   switch from stacked to side-by-side at 768px (col-md/col-lg on the source).
-   The base columns block only flips to a row at 900px, so the variant flips
-   its own flex-direction here to match the source. */
 @media (width >= 768px) {
   .columns > div { /* @boilerplate */
     align-items: center; /* @boilerplate */
@@ -303,9 +189,6 @@ main .columns.stats-callout:has(img) > div > div:not(.columns-img-col) > p:first
     margin-right: 0;
   }
 
-  /* locations stays a 2-up wrapped grid through the tablet range (matches the
-     source, which only goes 4-up at 992px); keep it top-aligned, left-packed,
-     with full-size icons, and override the base row flatten below. */
   main .columns.locations > div {
     align-items: flex-start;
     justify-content: flex-start;
@@ -328,25 +211,6 @@ main .columns.stats-callout:has(img) > div > div:not(.columns-img-col) > p:first
   .columns > div > div { /* @boilerplate */
     flex: 1; /* @boilerplate */
     order: unset; /* @boilerplate */
-  }
-
-  /* intro: icon left of the copy on desktop, both left-aligned. The icon column
-     stays sized to its glyph (overrides the boilerplate flex:1 above) so the
-     text takes the remaining width, matching the source's narrow-icon layout.
-     Widen the icon-to-copy gap to the source's ~60px (the mobile stack uses a
-     tighter gap). */
-  main .columns.intro > div {
-    gap: var(--columns-intro-gap);
-  }
-
-  main .columns.intro .columns-img-col {
-    flex: 0 0 auto;
-    order: unset;
-    text-align: left;
-  }
-
-  main .columns.intro > div > div:not(.columns-img-col) {
-    text-align: left;
   }
 
   .columns.divider.columns-2-cols > div {
@@ -387,22 +251,6 @@ main .columns.stats-callout:has(img) > div > div:not(.columns-img-col) > p:first
   main .columns.stats-callout:has(img) > div > div:not(.columns-img-col) {
     text-align: left;
   }
-
-  main .section.statistic-accent .columns > div {
-    gap: var(--columns-statistic-accent-gap);
-    padding-top: 22px;
-    padding-bottom: 22px;
-  }
-
-  main .section.statistic-accent .columns-img-col {
-    flex: 0 0 var(--columns-statistic-accent-icon-size);
-    max-width: none;
-    margin: 0;
-  }
-
-  main .section.statistic-accent .columns > div > div:not(.columns-img-col) {
-    text-align: left;
-  }
 }
 
 /* locations: all four option cards in a single row at 992px+ (the source's
@@ -415,16 +263,6 @@ main .columns.stats-callout:has(img) > div > div:not(.columns-img-col) > p:first
     flex-wrap: nowrap;
     justify-content: flex-start;
     gap: var(--columns-locations-gap);
-  }
-
-  main .section.statistic-accent .columns > div {
-    padding-top: 45px;
-    padding-bottom: 45px;
-  }
-
-  main .section.statistic-accent .columns h2 {
-    font-size: 32px;
-    line-height: 36px;
   }
 
   main .columns.locations > div > div {
