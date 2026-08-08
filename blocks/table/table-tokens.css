@@ -12,3 +12,37 @@
   --table-cell-padding-inline: 16px; /* @libs */
   --table-cell-padding-block-desktop: 21px; /* @libs */
 }
+
+.table-wrapper:has(.dosing) {
+  padding: 0 !important;
+}
+
+.table.block.dosing table {
+  h3 {
+    margin: 0;
+    color: var(--brand-primary);
+    font-size: var(--table-header-font-size);
+  }
+
+  p {
+    font-size: 14px;
+
+    strong {
+      font-size: 16px;
+    }
+  }
+
+  th:has(h3) {
+    padding: 4px 16px;
+  }
+
+  tr:has(h3) {
+    border-bottom: 0;
+  }
+
+td:has(h3) {
+  width: 100%;
+  background-image: linear-gradient(90deg, #e1f0f6 0% 0%, #e1f0f6 60%, #aed6de 100%);
+  padding: 4px 16px;
+}
+}
