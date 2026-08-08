@@ -60,7 +60,9 @@
    margin: var(--columns-intro-margin);
 
    p {
-   font-size: var(--columns-intro-body-font-size)
+   font-size: var(--columns-intro-body-font-size);
+   line-height: 1.5;
+   margin-bottom: 16px;
    }
 
    .columns-img-col {
