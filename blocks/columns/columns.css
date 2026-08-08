@@ -269,3 +269,9 @@ main .columns.stats-callout:has(img) > div > div:not(.columns-img-col) > p:first
     flex: 0 0 auto;
   }
 }
+
+@media (width >= 1200px) {
+  main .section.statistic-accent .columns p {
+    max-width: unset;
+  }
+}

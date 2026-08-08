@@ -349,6 +349,50 @@ main .cards.feature > ul > li .cards-card-body > p:last-child:has(a) {
   height: 11px;
 }
 
+.cards.statistics ul {
+  display: flex;
+  flex-direction: column;
+}
+
+.cards.statistics li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cards.statistics li h3 {
+  text-align: center;
+}
+
+.cards.statistics .cards-card-image img {
+  height: 169px;
+  max-width: none;
+  aspect-ratio: 1 / 1;
+}
+
+.cards.statistics .cards-card-body h3 {
+  padding: 0 22px 7px;
+  color: var(--brand-primary);
+  line-height: 1.2;
+  font-size: 24px;
+  font-weight: 900;
+}
+
+.section:has(.cards.statistics) h2 {
+  text-align: center;
+  padding: 20px 0;
+}
+
+@media (width >= 575px) {
+  .cards.statistics li {
+    flex-direction: row;
+  }
+
+  .cards.statistics li h3 {
+    text-align: left;
+  }
+}
+
 @media (width >= 768px) {
   .cards.resources .cards-card-body .button-wrapper .button .icon[class*="mail"] {
     width: 20px;
@@ -386,6 +430,18 @@ main .cards.feature > ul > li .cards-card-body > p:last-child:has(a) {
   .cards.resources .cards-card-body .button-wrapper:last-of-type {
     margin-bottom: 0;
   }
+
+  .cards.statistics .cards-card-image img {
+    height: 223px;
+  }
+
+  .cards.statistics .cards-card-body h3 {
+    font-size: 20px;
+  }
+
+  .section:has(.cards.statistics) h2 {
+    text-align: left;
+  }
 }
 
 @media (width >= 992px) {
@@ -397,5 +453,23 @@ main .cards.feature > ul > li .cards-card-body > p:last-child:has(a) {
 
   .cards.resources .cards-card-body .button-wrapper:not(.button-wrapper + .button-wrapper) {
     margin-left: 0;
+  }
+
+  .cards.statistics ul {
+    flex-direction: row;
+  }
+
+  .cards.statistics .cards-card-image img {
+    height: 156px;
+  }
+}
+
+@media (width >= 1200px) {
+  .cards.statistics .cards-card-image img {
+    height: 223px;
+  }
+
+  .cards.statistics .cards-card-body h3 {
+    font-size: 22px;
   }
 }

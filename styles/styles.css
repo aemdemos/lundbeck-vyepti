@@ -868,6 +868,35 @@ main .section.accent img { /* @libs */
   height: 54px; /* @libs */
 }
 
+main .section.statistic-accent {
+  margin-bottom: 0;
+}
+
+/* section metadata - video-accent (powder-blue video + transcript band) */
+main .section.video-accent {
+  background-color: var(--accent-bg);
+  padding: 16px 0;
+
+  .video {
+    margin-top: 20px;
+  }
+
+.default-content-wrapper {
+  text-align: center;
+}
+
+h2 {
+  line-height: 1;
+  color: var(--text-color);
+  font-weight: 700;
+  margin-top: 8px;
+}
+
+.accordion {
+  margin-top:8px;
+}
+}
+
 /* section metadata - light */
 main .section.light,
 main .section.highlight { /* @libs */
@@ -1128,6 +1157,19 @@ main .section.stats-callout h4 {
       flex: 1 1 0;
       min-width: 0;
     }
+
+    main .section.video-accent {
+      background-color: var(--accent-bg);
+      padding: 32px 0;
+
+     .default-content-wrapper {
+      text-align: left;
+     }
+
+     .video {
+      max-width: 100%;
+     }
+   }
   }
 
 @media (width >= 992px) { /* @libs */
@@ -1150,6 +1192,12 @@ main > .section > div {
 
 main .section.stats-callout > div:not(.bg-image) {
   max-width: 960px;
+}
+
+main .section.video-accent {
+  > div {
+  max-width: 610px;
+}
 }
 
 /* narrow-copy flex-group (what-to-expect "Choosing a location" + "Prepare for
@@ -1207,5 +1255,11 @@ main .section.tips .columns p:has(picture) {
 
   main .section.stats-callout > div:not(.bg-image) {
     max-width: 1140px;
+  }
+
+  main .section.video-accent {
+    > div {
+    max-width: 730px;
+  }
   }
 }
