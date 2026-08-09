@@ -14,7 +14,7 @@
     }
 }
 
-@media (width >= 1200px) {
+@media (width >= 1033px) {
     .coverage-finder coverage-finder {
         min-height: 100px;
     }
