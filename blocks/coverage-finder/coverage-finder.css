@@ -1,0 +1,21 @@
+.coverage-finder coverage-finder {
+  display: block;
+  width: 100%;
+  min-height: 230px;
+}
+
+.finder-form {
+    padding: 48px 24px 24px;
+}
+
+@media (width >= 768px) {
+    .finder-form {
+        padding: 24px 24px 0;
+    }
+}
+
+@media (width >= 1200px) {
+    .coverage-finder coverage-finder {
+        min-height: 100px;
+    }
+}
