@@ -361,7 +361,6 @@ button { /* @libs */
 a { /* @libs */
   color: var(--link-color); /* @libs */
   text-decoration: none; /* @libs */
-  font-weight: var(--font-weight-bold); /* @libs */
   overflow-wrap: break-word; /* @libs */
 }
 
