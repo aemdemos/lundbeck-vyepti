@@ -198,7 +198,7 @@
        --footer-legal-font-size: 14px;
        --footer-legal-line-height: 18px;
      }
-     :root { --footer-divider: 1px solid #a4a4a4; }   (token consumed below)
+     :root { --footer-divider: 1px solid var(--divider-color); }   (token consumed below)
      footer .footer .section:first-child {
        border-top: var(--footer-divider, none);
        padding-top: 16px;
