@@ -34,10 +34,8 @@
   /* desktop (992px+) cards pack at their natural content width, left-aligned,
      with this gap between them — matching the ~20px spacing on the source. */
   --columns-locations-gap: 20px;
-  --columns-statistic-accent-icon-size-mobile: 150px;
-  --columns-statistic-accent-icon-size: 230px;
-  --columns-statistic-accent-gap-mobile: 24px;
-  --columns-statistic-accent-gap: 40px;
+  --columns-statistic-accent-icon-size: 150px;
+  --columns-statistic-accent-gap: 24px;
   --columns-intro-icon-size: 98px;
   --columns-intro-gap-mobile: 12px;
   --columns-intro-gap: 60px;
@@ -81,14 +79,13 @@
    wrapper (authored via Section Style), not the columns block itself, so it's
    reached from there rather than as a columns block variant. */
 .section.statistic-accent .columns > div {
-  gap: var(--columns-statistic-accent-gap-mobile);
   padding-top: 27px;
   padding-bottom: 27px;
 }
 
 .section.statistic-accent .columns-img-col {
   flex: 0 0 auto;
-  max-width: var(--columns-statistic-accent-icon-size-mobile);
+  max-width: var(--columns-statistic-accent-icon-size);
   margin: 0 auto;
 }
 
@@ -133,6 +130,24 @@
 
 
 @media (width >= 768px) {
+   :root {
+      --columns-statistic-accent-icon-size: 178px;
+   }
+
+   main .columns blockquote {
+      margin-left: 0;
+      margin-right: 0;
+      
+      p {
+   font-size: 24px;
+   line-height: 1.1;
+     }
+     
+     sup {
+      vertical-align:top;
+     }
+   }
+
    .columns.intro > div {
       flex-direction: column;
    }
@@ -151,6 +166,7 @@
   
     .section.statistic-accent .columns > div > div:not(.columns-img-col) {
       text-align: left;
+      max-width: 610px;
     }
 
     .section.animation {
@@ -194,7 +210,6 @@
     }
 
     .section.statistic-accent .columns > div {
-      padding-top: 45px;
       padding-bottom: 45px;
     }
   
@@ -205,6 +220,10 @@
 }
 
 @media (width >= 1200px) {
+   :root {
+      --columns-statistic-accent-icon-size: 260px;
+   }
+
    .section.animation {
       display: flex;
       padding: 0 calc((100% - var(--max-width-site)) / 2);
@@ -234,4 +253,13 @@
     display: block;
     }
    }
+
+   .section.statistic-accent .columns > div {
+      padding-top: 45px;
+   }
+
+   .section.statistic-accent .columns > div > div:not(.columns-img-col) {
+      text-align: left;
+      max-width: 740px;
+    }
 }

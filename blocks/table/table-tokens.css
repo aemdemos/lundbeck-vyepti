@@ -46,3 +46,9 @@ td:has(h3) {
   padding: 4px 16px;
 }
 }
+
+@media (width >= 768px) {
+  .table.block.dosing tr > td:nth-child(3) p {
+    font-size: 16px;
+  }
+}
