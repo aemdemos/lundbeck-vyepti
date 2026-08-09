@@ -33,7 +33,7 @@
   --columns-cta-corner-width: 100px;
 
   /* larger left padding clears the corner shard so text starts to its right */
-  --columns-cta-single-padding: 44px 60px 44px 100px;
+  --columns-cta-single-padding: 36px 16px 44px 100px;
   --columns-cta-single-row-gap-desktop: 28px;
 
   /* breathing room below the eyebrow (its <strong> can't carry the spacing) */

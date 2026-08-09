@@ -152,13 +152,7 @@ main > .section > .columns-cta-wrapper {
   /* heading loses the centered side-padding used by the stacked layout */
   main .columns-cta-1-cols h2 {
     padding-left: 0;
-    padding-right: 0;
-  }
-
-  /* larger, airier description copy to match the source text block (18px/1.5) */
-  main .columns-cta-1-cols .columns-cta-text p {
-    font-size: var(--columns-cta-single-text-font-size);
-    line-height: var(--columns-cta-single-text-line-height);
+    padding-top: 0;
   }
 
   /* space the eyebrow off the heading (the eyebrow's inline <strong> can't
