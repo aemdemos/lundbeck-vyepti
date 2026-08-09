@@ -63,7 +63,7 @@
   --columns-cta-heading-font-size: var(--heading-font-size-xl);
   --columns-cta-heading-font-weight: var(--font-weight-bold);
   --columns-cta-heading-line-height: 1;
-  --columns-cta-heading-padding: 0 42px 16px;
+  --columns-cta-heading-padding: 10px 16px 16px;
 
   /* description */
   --columns-cta-text-color: var(--text-color);

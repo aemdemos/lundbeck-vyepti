@@ -142,7 +142,7 @@ main .carousel.testimonial .carousel-slide .carousel-slide-image {
 }
 
 .carousel.testimonial {
-  margin-top: var(--carousel-testimonial-gap-section-mobile);
+  margin-top: var(--carousel-testimonial-gap-section);
   margin-bottom: var(--carousel-testimonial-gap-below);
 }
 

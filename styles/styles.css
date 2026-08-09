@@ -229,8 +229,9 @@ body.appear { /* @libs */
    block-level paragraph rules (e.g. columns' 22px line-height) wherever
    an author or block explicitly opts in. */
 .small-text {
+  display: block !important;
   font-size: var(--body-font-size-xs) !important;
-  line-height: 1.3 !important;
+  line-height: 1.2 !important;
 }
 
 header { /* @libs */
@@ -361,7 +362,6 @@ button { /* @libs */
 a { /* @libs */
   color: var(--link-color); /* @libs */
   text-decoration: none; /* @libs */
-  font-weight: var(--font-weight-bold); /* @libs */
   overflow-wrap: break-word; /* @libs */
 }
 
@@ -666,6 +666,11 @@ main .icon.icon-bullet { /* @libs */
 /* ==== END alignment + display for mobile ==== */
 
 /* sections */
+
+.section.margin-top {
+  margin-top: 48px;
+}
+
 main > .section { /* @libs */
   margin: 0; /* @libs */
   margin-bottom: var(--section-padding);
@@ -1011,6 +1016,10 @@ main .section.stats-callout h4 {
     --heading-font-size-s: 18px; /* @libs */
     --heading-font-size-xs: 16px; /* @libs */
     --section-padding: 36px;
+  }
+
+  .section.margin-top {
+    margin-top: 36px;
   }
 
   /* ==== START alignment + display for desktop ==== */
