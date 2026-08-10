@@ -205,6 +205,16 @@ main .columns.callout .columns-img-col img {
 
 main .columns.callout ul {
   color: var(--columns-callout-list-color);
+main .columns.border h2 {
+  font-size: 24px;
+  border: 1px solid var(--brand-teal);
+  border-radius: 12px;
+  padding: 20px 40px;
+  margin-top: 48px;
+}
+
+main .section.columns-container:has(.columns.border) {
+  margin-bottom: 0;
 }
 
 @media (width >= 768px) {
@@ -329,6 +339,10 @@ main .columns.callout ul {
 
   main .columns.stats-callout:has(img) > div > div:not(.columns-img-col) {
     text-align: left;
+  }
+
+  main .columns.border h2 {
+    font-size: 32px;
   }
 }
 

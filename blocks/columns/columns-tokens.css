@@ -2,12 +2,15 @@
 :root { /* @boilerplate */
   --columns-gap: var(--spacing-m, 24px); /* @boilerplate */
   --columns-divider-width: 1px;
-  --columns-divider-spacing: var(--spacing-l, 32px);
+  --columns-divider-spacing: var(--spacing-xl, 32px);
+  --columns-divider-spacing-tablet: var(--spacing-s, 16px);
   --columns-divider-color: #7ebcc6;
   --columns-narrow-copy-max-width: var( --max-width-site);
   --columns-narrow-copy-heading-gap: 16px;
   --columns-narrow-copy-para-gap: 16px;
   --columns-narrow-copy-para-line-height: 22px;
+  --columns-divider-image-col: 33%;
+  --columns-divider-copy-col: 63%;
 
   /* mobile: the emphasized lead-in line ("Depending on your insurance…") is
      capped to a narrower measure and centered so it wraps sooner, as the source. */
@@ -113,14 +116,9 @@
       height: 26px;
       width: auto;
    }
-}
+ }
 }
 
-/* statistic-accent section style (why-iv-treatment, what-to-expect survey-result
-   callouts) — icon centered above a two-tone stat headline on mobile; icon fixed
-   beside a left-aligned headline at 768px+. The class lives on the section
-   wrapper (authored via Section Style), not the columns block itself, so it's
-   reached from there rather than as a columns block variant. */
 .section.statistic-accent .columns > div {
   padding-top: 27px;
   padding-bottom: 27px;
@@ -170,7 +168,10 @@
    border-bottom: var(--divider-width) solid var(--divider-color);
 }
 
-
+ main .section.dark.find-out p.button-wrapper {
+   text-align: center;
+   margin: 24px 0;
+ }
 
 @media (width >= 768px) {
    :root {
@@ -243,12 +244,57 @@
               padding-inline-start: 0;
           }
       }
+
+      main .section.find-out {
+         h2 {
+            font-size: 32px;
+         }
+      
+      .columns.divider {
+         margin: 24px 0 48px;
+
+         h2:has(.hide-desktop), p:has(.hide-desktop) {
+            display: none;
+         }
+      }
    }
+
+      main .section.find-out .columns.divider.columns-2-cols > div > :first-child {
+         flex: 0 0 var(--columns-divider-image-col);
+         max-width: var(--columns-divider-image-col);
+         padding-right: 30px;
+         margin-top: 60px;
+       }
+     
+       main .section.find-out .columns.divider.columns-2-cols > div > :nth-child(2) {
+         flex: 0 0 var(--columns-divider-copy-col);
+         max-width: var(--columns-divider-copy-col);
+         padding-left: 30px;
+       }
+
+       main .section.dark.find-out p.button-wrapper {
+         float: left;
+         margin-right: 10px;
+         margin-bottom: 60px;
+       }
+
+       main .section.dark.find-out a.button.primary {
+         clear: both;
+       padding: 19px 16px;
+       }
+     
+       /* the callback paragraph clears the floats so it sits below both buttons. */
+       main .section.find-out .columns.divider > div > div:nth-child(2) > p:has(> a.button:only-child) ~ p:not(:has(> a.button:only-child)) {
+         clear: both;
+       }
+     }
 
 
 @media (width >= 992px) {
    :root {
    --columns-intro-body-font-size: 24px;
+   --columns-divider-image-col: 40%;
+   --columns-divider-copy-col: 50%;
    }
 
    .columns.intro > div {
@@ -297,11 +343,21 @@
             padding-inline-start: var(--columns-divider-spacing);
         }
     }
+
+    main .section.find-out .columns.divider.columns-2-cols > div > :first-child {
+      margin-top: 1em;
+    }
+
+    main .section.dark.find-out a.button.primary {
+    padding: 19px 32px;
    }
+}
 
 @media (width >= 1200px) {
    :root {
       --columns-statistic-accent-icon-size: 260px;
+      --columns-divider-image-col: 42%;
+      --columns-divider-copy-col: 44%;
    }
 
    .section.animation {
@@ -341,5 +397,15 @@
    .section.statistic-accent .columns > div > div:not(.columns-img-col) {
       text-align: left;
       max-width: 740px;
+    }
+
+    main .columns.divider > div > div:first-child > p:has(> picture) + p {
+      padding-inline-end: 0;
+      margin-inline-end: calc(-1 * var(--columns-divider-spacing));
+      white-space: nowrap;
+    }
+  
+    main .columns.divider > div > div:first-child > p:has(> picture) + p br {
+      display: none;
     }
 }
