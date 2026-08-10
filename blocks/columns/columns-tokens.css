@@ -65,10 +65,24 @@
    margin-bottom: 16px;
    }
 
-   /* drop the global heading top margin on the lead line so it starts flush with
-      the top of the icon when the row is top-aligned (see the 992px rule). */
+   /* lead heading: normalize size/weight/leading across heading levels so the
+      lead always renders at the intro's 24px/800 regardless of the authored
+      level. COLOR is intentionally left to the global heading cascade, which is
+      how the source distinguishes leads: a Heading 2 lead is teal
+      (stay-connected), a Heading 3 lead is grey (real-patient-stories). Drop the
+      global top margin so the lead starts flush with the icon when top-aligned. */
    > div > div:not(.columns-img-col) > :is(h1, h2, h3, h4, h5):first-child {
       margin-top: 0;
+      margin-bottom: var(--columns-intro-lead-gap);
+      font-size: var(--columns-intro-body-font-size);
+      font-weight: var(--columns-intro-lead-font-weight);
+      line-height: var(--columns-intro-lead-line-height);
+   }
+
+   /* a Heading 3 lead (grey headline, e.g. real-patient-stories) sits further
+      from the body copy than the tight teal Heading 2 lead (stay-connected). */
+   > div > div:not(.columns-img-col) > h3:first-child {
+      margin-bottom: var(--columns-intro-heading-lead-gap);
    }
 
    p > picture {
