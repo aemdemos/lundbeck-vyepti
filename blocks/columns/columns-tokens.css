@@ -65,6 +65,12 @@
    margin-bottom: 16px;
    }
 
+   /* drop the global heading top margin on the lead line so it starts flush with
+      the top of the icon when the row is top-aligned (see the 992px rule). */
+   > div > div:not(.columns-img-col) > :is(h1, h2, h3, h4, h5):first-child {
+      margin-top: 0;
+   }
+
    p > picture {
       vertical-align: text-top;
    }
@@ -134,7 +140,16 @@
       gap: var(--columns-intro-gap);
       flex-direction: row;
     }
-  
+
+    /* alignment matches the source per lead type: when the copy leads with a
+       heading or an emphasized (bold-only) line — stay-connected, real-patient-
+       stories — the icon top-aligns with the first line; a plain single-paragraph
+       intro (vyepti-faq) stays vertically centered. */
+    .columns.intro > div:has(> div:not(.columns-img-col) > :is(h1, h2, h3, h4, h5):first-child),
+    .columns.intro > div:has(> div:not(.columns-img-col) > p:first-child > strong:only-child) {
+      align-items: flex-start;
+    }
+
     .columns.intro .columns-img-col {
       flex: 0 0 auto;
       order: unset;
