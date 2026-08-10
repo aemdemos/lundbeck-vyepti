@@ -170,11 +170,71 @@ main .columns.stats-callout:has(img) > div > div:not(.columns-img-col) > p:first
   line-height: 1.3;
 }
 
+/* callout variant — logo + copy in a rounded card with a tri-color accent bar
+   (vyepti-insurance-coverage). Mobile: stacked, card padding 25px, 60px logo. */
+main .columns.callout {
+  position: relative;
+  background-color: var(--columns-callout-bg);
+  border-radius: var(--columns-callout-radius);
+  padding: var(--columns-callout-padding);
+  overflow: hidden;
+}
+
+main .columns.callout::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0;
+  height: var(--columns-callout-bar-height);
+  background: var(--columns-callout-bar);
+}
+
+/* mobile: logo centered above the copy (copy stays left-aligned) */
+main .columns.callout .columns-img-col img {
+  display: block;
+  width: var(--columns-callout-logo-size);
+  height: auto;
+  margin: 0 auto;
+}
+
+main .columns.callout ul {
+  color: var(--columns-callout-list-color);
+}
+
 @media (width >= 768px) {
   .columns > div { /* @boilerplate */
     align-items: center; /* @boilerplate */
     flex-direction: unset; /* @boilerplate */
     gap: var(--columns-gap); /* @boilerplate */
+  }
+
+  /* callout desktop: roomier padding, smaller logo, top-aligned uneven columns
+     (logo ~1 / heading ~5 / text ~6, matching the source) */
+  main .columns.callout {
+    padding: var(--columns-callout-padding-desktop);
+  }
+
+  main .columns.callout > div {
+    align-items: flex-start;
+  }
+
+  main .columns.callout > div > .columns-img-col {
+    flex: 0 0 8%;
+  }
+
+  main .columns.callout .columns-img-col img {
+    margin: 0;
+  }
+
+  main .columns.callout > div > div:nth-child(2) {
+    flex: 0 0 42%;
+  }
+
+  main .columns.callout > div > div:nth-child(3) {
+    flex: 0 0 50%;
+  }
+
+  main .columns.callout .columns-img-col img {
+    width: var(--columns-callout-logo-size-desktop);
   }
 
   /* narrow-copy switches from mobile-centered to left-aligned at tablet+ */
