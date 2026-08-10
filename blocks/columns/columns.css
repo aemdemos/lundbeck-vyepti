@@ -175,6 +175,11 @@ main .columns.border h2 {
   border: 1px solid var(--brand-teal);
   border-radius: 12px;
   padding: 20px 40px;
+  margin-top: 48px;
+}
+
+main section.columns-contaner:has(columns.border) {
+  margin-bottom: 8px;
 }
 
 @media (width >= 768px) {
