@@ -6,3 +6,11 @@ export default function getBrightcoveScriptTag(accountId, playerId) {
   script.async = true;
   document.body.append(script);
 }
+
+// Doctor Discussion Guide API Configuration
+export const DOCTOR_DISCUSSION_CONFIGS = {
+  // Real API endpoint used to generate and download the guide as a PDF.
+  PDF_DOWNLOAD_API_URL: 'https://vyepti-stage.d.lundbeckus.com/api/doctordiscussionguide',
+  // Real API endpoint used to email the guide to the patient.
+  EMAIL_SUBMIT_API_URL: 'https://vyepti-stage.d.lundbeckus.com/api/doctordiscussionguide',
+};

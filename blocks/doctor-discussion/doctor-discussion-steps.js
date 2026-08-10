@@ -1,0 +1,340 @@
+import { TOTAL_STEPS_DEFAULT } from './doctor-discussion-utils.js';
+
+// ---------------------------------------------------------------------------
+// Default step data
+// ---------------------------------------------------------------------------
+
+// Fallback content used when the block is placed on a page with no authored table rows.
+export const DEFAULT_STEPS = [
+
+  // Step 1
+  {
+    title: 'Start your Doctor Discussion Guide',
+    fields: [
+      { type: 'text', name: 'dg-name', label: 'My name is', helper: 'Optional', required: false },
+      {
+        type: 'checkbox',
+        name: 'dg-activities',
+        label: 'What types of activities or events are impacted by migraine?',
+        helper: 'Select all that apply',
+        description: "This might include events or activities you miss because of migraine or times that you participate but don't feel like yourself because of migraine.",
+        options: [
+          { text: 'Social events with friends/family' },
+          { text: 'Work/school' },
+          { text: 'Daily life/household activities' },
+          { text: 'Exercise or being active' },
+          { text: "I can't make plans" },
+          { text: 'None of the above' },
+        ],
+        required: true,
+      },
+    ],
+    didYouKnow: {
+      heading: 'DID YOU KNOW?',
+      text: 'For more than 90% of those affected, migraine interferes with education, career, or social activities.',
+    },
+  },
+
+  // Step 2
+  {
+    title: 'How does living with migraine make you feel?',
+    fields: [
+      {
+        type: 'checkbox',
+        name: 'dg-feelings',
+        label: '',
+        helper: 'Select all that apply',
+        description: '',
+        options: [
+          { text: 'Defeated' },
+          { text: 'Frustrated' },
+          { text: 'On edge' },
+          { text: 'Stuck' },
+          { text: 'Desperate' },
+          { text: 'Isolated' },
+          { text: 'Not my best' },
+          { text: 'None of the above' },
+        ],
+        required: true,
+      },
+    ],
+    didYouKnow: {
+      heading: 'DID YOU KNOW?',
+      text: 'Patients with migraine are at least 3 times more likely to suffer from insomnia, depression, or anxiety than those without migraine. Migraine sufferers also may have increased feelings of isolation.',
+    },
+  },
+
+  // Step 3
+  {
+    title: 'How many days a month are "crystal clear" and not impacted by migraine in any way?',
+    fields: [
+      {
+        type: 'radio',
+        name: 'dg-clear-days',
+        label: '',
+        helper: 'Select one',
+        description: '',
+        options: [
+          { text: '0–5 days a month' },
+          { text: '6–10 days a month' },
+          { text: '11–15 days a month' },
+          { text: '16–20 days a month' },
+          { text: '21+ days a month' },
+        ],
+        required: true,
+      },
+    ],
+    didYouKnow: {
+      heading: 'DID YOU KNOW?',
+      text: '77% of people in a survey of 1,100 people with migraine (who also had a mental health condition) worried about the stigma of migraine and mental health. '
+        + 'In fact, many were hesitant to discuss the issue with their doctor.',
+    },
+  },
+
+  // Step 4
+  {
+    title: 'In the last 3 months, have you been having more migraine attacks?',
+    fields: [
+      {
+        type: 'radio',
+        name: 'dg-more-attacks',
+        label: '',
+        helper: 'Select one',
+        description: '',
+        options: [
+          { text: 'Yes' },
+          { text: 'No' },
+          { text: 'Not sure' },
+        ],
+        required: true,
+      },
+    ],
+  },
+
+  // Step 5
+  {
+    title: 'In the last 3 months, have you been taking more medication to stop migraine attacks?',
+    fields: [
+      {
+        type: 'radio',
+        name: 'dg-more-medication',
+        label: '',
+        helper: 'Select one',
+        description: '',
+        options: [
+          { text: 'Yes' },
+          { text: 'No' },
+          { text: 'Not sure' },
+        ],
+        required: true,
+      },
+    ],
+    didYouKnow: {
+      heading: 'DID YOU KNOW?',
+      text: 'In one study, over 70% of patients reported that using a migraine diary helped communication with their doctor and increased their level of satisfaction with migraine treatment.',
+    },
+  },
+
+  // Step 6
+  {
+    title: 'In the last 3 months, how have you tried to address migraine?',
+    fields: [
+      {
+        type: 'checkbox',
+        name: 'dg-treatments-tried',
+        label: '',
+        helper: 'Select all that apply',
+        description: '',
+        options: [
+          { text: 'Over-the-counter relief medication' },
+          { text: 'Prescription relief medication' },
+          { text: 'Preventive treatment medication' },
+          { text: 'Medical devices' },
+          { text: 'Changes in lifestyle, diet, or exercise' },
+          { text: 'None of the above' },
+        ],
+        required: true,
+      },
+    ],
+    didYouKnow: {
+      heading: 'DID YOU KNOW?',
+      text: 'Migraine impacts 39 million people in the US, and one study showed that 97% take medication for relief.',
+    },
+  },
+
+  // Step 7
+  {
+    title: 'Are you satisfied with your current preventive treatment?',
+    fields: [
+      {
+        type: 'radio',
+        name: 'dg-preventive-satisfaction',
+        label: '',
+        helper: 'Select one',
+        description: '',
+        options: [
+          { text: 'Yes' },
+          { text: 'No' },
+          { text: 'Not sure' },
+          { text: 'Not currently on a preventive treatment' },
+        ],
+        required: true,
+      },
+    ],
+  },
+
+  // Step 8
+  {
+    title: 'What are you hoping to find in a preventive migraine treatment?',
+    fields: [
+      {
+        type: 'checkbox',
+        name: 'dg-preventive-goals',
+        label: '',
+        helper: 'Select all that apply',
+        description: '',
+        options: [
+          { text: 'Gives me more migraine-free days' },
+          { text: 'Works fast and lasts between scheduled doses' },
+          { text: 'Reduces the use of rescue medications' },
+          { text: 'Provides results with fewer doses' },
+          { text: 'None of the above' },
+        ],
+        required: true,
+      },
+    ],
+  },
+
+  // Step 9
+  {
+    title: 'Are you open to trying an IV infusion treatment given 4x/year to help prevent migraine attacks?',
+    fields: [
+      {
+        type: 'radio',
+        name: 'dg-iv-infusion',
+        label: '',
+        helper: 'Select one',
+        description: '',
+        options: [
+          { text: 'Yes' },
+          { text: 'No' },
+          { text: 'Not sure' },
+        ],
+        required: true,
+      },
+    ],
+    didYouKnow: {
+      heading: 'DID YOU KNOW?',
+      text: 'An IV infusion delivers 100% of the medication into your bloodstream, which means it is available to start working right away.',
+    },
+  },
+
+];
+
+
+// ---------------------------------------------------------------------------
+// Authored-table parser
+// ---------------------------------------------------------------------------
+
+
+// Splits an authored comma-separated options cell into individual option objects.
+export function parseOptions(raw) {
+  return raw
+    .split(',')
+    .map((entry) => entry.trim())
+    .filter(Boolean)
+    .map((entry) => ({ text: entry }));
+}
+
+// Reads the authored EDS table rows and converts them into the steps/fields data structure the UI renders from.
+export function parseSteps(block) {
+  const rows = [...block.children];
+  let totalSteps = TOTAL_STEPS_DEFAULT;
+  const steps = [];
+  let current = null;
+  let fieldIndex = 0;
+
+  rows.forEach((row) => {
+    const cells = [...row.children];
+    const key = cells[0]?.textContent?.trim().toLowerCase();
+    const rest = cells.slice(1).map((c) => c.textContent.trim());
+
+    // Each row's first cell is a type key that determines how the rest of the row is parsed.
+    switch (key) {
+      case 'step-title':
+        current = { title: rest[0] || '', fields: [] };
+        steps.push(current);
+        fieldIndex = 0;
+        break;
+      case 'step-number':
+        // Explicit step-number rows are no longer required (steps are
+        // numbered by their position), but keep parsing harmless if authored.
+        break;
+      case 'total-steps':
+        totalSteps = Number(rest[0]) || totalSteps;
+        break;
+      case 'did-you-know':
+        if (!current) {
+          current = { title: '', fields: [] };
+          steps.push(current);
+        }
+        // rest[0] (icon column) is intentionally ignored — the callout
+        // icon is supplied entirely by CSS against `.dg-callout-icon` now.
+        current.didYouKnow = {
+          heading: rest[1] || 'DID YOU KNOW?',
+          text: rest[2] || '',
+        };
+        break;
+      case 'text-question':
+        if (!current) {
+          current = { title: '', fields: [] };
+          steps.push(current);
+        }
+        current.fields.push({
+          type: 'text',
+          name: `dg-text-${steps.length}-${fieldIndex}`,
+          label: rest[0] || '',
+          helper: rest[1] ?? '',
+          required: false,
+        });
+        fieldIndex += 1;
+        break;
+      case 'checkbox-question':
+        if (!current) {
+          current = { title: '', fields: [] };
+          steps.push(current);
+        }
+        current.fields.push({
+          type: 'checkbox',
+          name: `dg-checkbox-${steps.length}-${fieldIndex}`,
+          label: rest[0] || '',
+          helper: rest[1] ?? '',
+          description: rest[2] ?? '',
+          options: rest[3] ? parseOptions(rest[3]) : [],
+          required: true,
+        });
+        fieldIndex += 1;
+        break;
+      case 'radio-question':
+        if (!current) {
+          current = { title: '', fields: [] };
+          steps.push(current);
+        }
+        current.fields.push({
+          type: 'radio',
+          name: `dg-radio-${steps.length}-${fieldIndex}`,
+          label: rest[0] || '',
+          helper: rest[1] ?? 'Select one',
+          description: rest[2] ?? '',
+          options: rest[3] ? parseOptions(rest[3]) : [],
+          required: true,
+        });
+        fieldIndex += 1;
+        break;
+      default:
+        break;
+    }
+  });
+
+  return { steps, totalSteps: totalSteps || steps.length };
+}
