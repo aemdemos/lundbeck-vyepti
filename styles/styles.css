@@ -44,7 +44,7 @@
   --brand-secondary: var(--brand-rose);
   --brand-secondary-dark: var(--brand-rose-dark);
   --accent-bg: #eff6f9; /* @libs */
-  --card-bg-light: #eff6f9; /* @libs */
+  --card-bg-light: var(--accent-bg); /* @libs */
 
   /* semantic colors */
   --background-color: #fff; /* @libs */

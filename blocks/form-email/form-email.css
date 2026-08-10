@@ -145,7 +145,7 @@ main .form-email .form-email-success-text {
   overflow-y: auto;
   border: 0;
   border-radius: 10px;
-  background: var(--card-bg-light, #eff6f9);
+  background: var(--card-bg-light, var(--card-bg-light));
   color: var(--text-color);
 }
 

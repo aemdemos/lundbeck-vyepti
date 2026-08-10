@@ -73,6 +73,38 @@
    }
 }
 
+.section.nurse {
+   --columns-divider-color: #e0e0e0;
+
+   margin: 16px auto;
+
+   .columns.divider > div {
+      > div:first-child {
+         padding-bottom: 16px;
+         border-bottom: 1px solid var(--columns-divider-color);
+      }
+   }
+
+.columns.accent {
+   background-color: var(--card-bg-light);
+   margin: 22px 0 0;
+   padding: 16px 30px 20px 22px;
+   border-radius: 12px;
+
+   > div {
+      flex-direction: row;
+      gap: 24px;
+      align-items: flex-start;
+   }
+
+   .columns-img-col img{
+      padding: 16px 4px;
+      height: 26px;
+      width: auto;
+   }
+}
+}
+
 /* statistic-accent section style (why-iv-treatment, what-to-expect survey-result
    callouts) — icon centered above a two-tone stat headline on mobile; icon fixed
    beside a left-aligned headline at 768px+. The class lives on the section
@@ -181,7 +213,26 @@
       display: block;
     }
    }
-}
+
+   .section.nurse {
+      margin: 32px auto 0;
+   
+      .columns.divider > div {
+         flex-direction: column;
+         align-items: flex-start;
+
+         .columns-img-col {
+            flex: 0 1 auto;
+         }
+      }
+
+      .columns.divider.columns-2-cols > div > :nth-child(2)
+       {
+              border-inline-start: 0;
+              padding-inline-start: 0;
+          }
+      }
+   }
 
 
 @media (width >= 992px) {
@@ -217,7 +268,25 @@
       font-size: 32px;
       line-height: 36px;
     }
-}
+
+    .section.nurse {
+      --columns-divider-spacing: 48px;
+
+      .columns.divider > div {
+         flex-direction: row;
+         align-items: flex-start;
+
+         > div:first-child {
+            border-bottom: 0;
+      }
+   }
+
+   .columns.divider.columns-2-cols > div > :nth-child(2) {
+            border-inline-start: var(--columns-divider-width) solid var(--columns-divider-color);
+            padding-inline-start: var(--columns-divider-spacing);
+        }
+    }
+   }
 
 @media (width >= 1200px) {
    :root {
