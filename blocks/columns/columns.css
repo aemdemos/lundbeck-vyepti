@@ -207,11 +207,6 @@ main .columns.callout ul {
   color: var(--columns-callout-list-color);
 }
 
-/* top-align content across columns */
-main .columns.callout > div > div > :first-child {
-  margin-top: 0;
-}
-
 @media (width >= 768px) {
   .columns > div { /* @boilerplate */
     align-items: center; /* @boilerplate */
@@ -229,6 +224,11 @@ main .columns.callout > div > div > :first-child {
     align-items: flex-start;
     gap: 0;
     margin-inline: -15px;
+  }
+
+  /* top-align content across columns */
+  main .columns.callout > div > div > :first-child {
+    margin-top: 0;
   }
 
   main .columns.callout > div > div {
