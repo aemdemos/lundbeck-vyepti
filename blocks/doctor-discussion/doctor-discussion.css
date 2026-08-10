@@ -127,10 +127,6 @@ main .section div.doctor-discussion-wrapper {
 .dg-field-helper {
   color: var(--text-color-light);
   font: italic 400 12px/14px var(--body-font-family);
-  font-size: 12px;
-  font-style: italic;
-  font-weight: 400;
-  line-height: 14px;
   margin: 4px 0 0; 
 }
 
@@ -316,26 +312,25 @@ main .section div.doctor-discussion-wrapper {
   padding-top: 16px;
 }
 
-.dg-next-btn,
-.dg-back-btn {
+
+.dg-actions .dg-next-btn,
+.dg-actions  .dg-back-btn {
   align-items: center;
-  border-radius: 999px;
+  border-radius: 30px;
   cursor: pointer;
   display: inline-flex;
   font: 800 1.05rem var(--body-font-family);
   gap: 15px;
-  padding: 14px 28px;
-}
-
-.dg-next-btn,
-.dg-next-btn:focus {
-  background: var(--brand-teal);
-  border: 2px solid var(--brand-teal);
-  border-radius: 30px;
-  color: var(--brand-color-white);
   padding: 17px 24px;
   position: relative;
   margin-top: 0;
+}
+
+.dg-actions  .dg-next-btn,
+.dg-actions  .dg-next-btn:focus {
+  background: var(--brand-teal);
+  border: 2px solid var(--brand-teal);
+  color: var(--brand-color-white);
   margin-left: auto;
   max-width: max-content;
   width: max-content;
@@ -351,6 +346,7 @@ main .section div.doctor-discussion-wrapper {
 .dg-next-btn.is-disabled:hover, 
 .dg-next-btn:disabled:hover{
   background: var(--brand-teal);
+  border-color: var(--brand-teal);
   color: var(--brand-color-white);
   opacity: 0.5;
 }
@@ -366,11 +362,7 @@ main .section div.doctor-discussion-wrapper {
 .dg-back-btn:focus {
   background: var(--background-color);
   border: 2px solid var(--brand-teal);
-  border-radius: 30px;
   color: var(--brand-teal);
-  padding: 17px 24px;
-  position: relative;
-  margin-top: 0;
   max-width: 126px;
   width: 126px;
 }
@@ -737,7 +729,7 @@ body.modal-open {
   padding: 0;
 }
 
-.dg-modal-close-btn {
+.modal-content .dg-modal-close-btn {
   position: absolute;
   top: 23px;
   right: 16px;
@@ -756,10 +748,6 @@ body.modal-open {
   color: var(--text-color);
 }
 
-.dg-modal-close-btn:hover,
-.dg-modal-close-btn:focus {
-  background: transparent;
-}
 
 .dg-modal-title {
   margin: 0 0 16px;
@@ -857,14 +845,11 @@ body.modal-open {
   color: var(--text-color);
 }
 
-.dg-modal-legal-link {
+.dg-modal-consent-text .dg-modal-legal-link {
   text-decoration: underline;
   font-weight: 600;
 }
 
-.dg-modal-legal-link:hover {
-  text-decoration: underline;
-}
 
 .dg-modal-send-btn,
 .dg-modal-send-btn:focus {
@@ -959,7 +944,7 @@ body.modal-open {
     right: 24px;
 }
 
-.dg-thankyou-close-btn {
+.dg-thankyou-close  .dg-thankyou-close-btn {
   position: absolute;
   top: 11px;
   right: 11px;
@@ -972,9 +957,6 @@ body.modal-open {
   padding: 0;
 }
 
-.dg-thankyou-close-btn:hover {
-  background: transparent;
-}
 
 .dg-thankyou-close-btn::before {
   content: "\2715";
@@ -1075,7 +1057,7 @@ body.modal-open {
 
   .dg-header-title {
     margin: 3px 0 0;
-    font: 20px/24px var(--body-font-family);
+    font: 600 20px/24px var(--body-font-family);
   }
 
   .dg-header {

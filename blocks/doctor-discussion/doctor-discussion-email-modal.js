@@ -1,10 +1,8 @@
 import { lockBodyScroll, unlockBodyScroll } from './doctor-discussion-modal-utils.js';
 
 /**
- * Picks the right error message for a field based on *why* it's invalid:
- * empty (valueMissing) vs. filled with a bad value (pattern/type mismatch).
- * Relies on data-empty-message / data-invalid-message attributes set on the
- * error element in doctor-discussion.js's buildEmailModalMarkup().
+ * Returns the right error message (empty vs. invalid) using the
+ * data-empty-message/data-invalid-message attrs set in buildEmailModalMarkup().
  *
  * @param {HTMLInputElement} input
  * @param {HTMLElement} errorEl
@@ -125,11 +123,8 @@ export default function createEmailModalController({ modalId = "mq-modal", formI
   }
 
   /**
-   * Applies validity state to a single text/email field: toggles the
-   * is-invalid class, and (if the field is invalid) sets the error
-   * element's text via getFieldErrorMessage() and reveals it.
-   * Extracted out of validateFormFields() so that function stays a flat
-   * sequence of calls instead of repeating this branching per field.
+   * Validates a single field: toggles is-invalid and shows/hides its
+   * error message. Extracted so validateFormFields() stays a flat list of calls.
    *
    * @param {HTMLInputElement|null} input
    * @param {HTMLElement|null} errorEl
@@ -146,9 +141,8 @@ export default function createEmailModalController({ modalId = "mq-modal", formI
   }
 
   /**
-   * Same as applyFieldValidation() but for the consent checkbox, which is
-   * validated by "checked" rather than native input validity and has no
-   * empty-vs-invalid distinction (just a single message).
+   * Same as applyFieldValidation() but for the consent checkbox — validated
+   * by "checked", with just one error message.
    *
    * @param {HTMLInputElement|null} consentInput
    * @param {HTMLElement|null} consentErr
@@ -162,12 +156,8 @@ export default function createEmailModalController({ modalId = "mq-modal", formI
   }
 
   /**
-   * Validates form fields and toggles invalid styling/error messages.
-   * Extracted from handleSubmit to keep its complexity low.
-   *
-   * Distinguishes between an empty required field ("Please enter your...")
-   * and a field with a value that fails format validation
-   * ("Please enter a valid...") using getFieldErrorMessage() above.
+   * Validates all form fields and toggles their error states.
+   * Extracted from handleSubmit to keep it simple.
    *
    * @returns {{ isValid: boolean, firstNameInput: Element, lastNameInput: Element,
    *             emailInput: Element, consentInput: Element }}
