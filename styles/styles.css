@@ -712,8 +712,53 @@ main > .section > .bg-image img { /* @boilerplate */
   height: 100%; /* @boilerplate */
 }
 
-main > .section > .bg-image img { /* @boilerplate */
-  object-fit: cover; /* @boilerplate */
+main > .section > .bg-image img {
+  object-fit: cover;
+}
+
+/* style: bg-wide — pins the bg-image graphic to the bottom-right corner,
+   sized relative to the viewport instead of the default full-bleed cover. */
+main > .section.bg-wide {
+  --bg-wide-width: min(377px, 30vw);
+
+  margin-bottom: 0;
+  min-height: calc(var(--bg-wide-width) * 277 / 377);
+}
+
+/* source uses a distinct, fixed-size smaller asset below 768px (123x91)
+   rather than scaling the desktop graphic down further by viewport width */
+@media (width < 768px) {
+  main > .section.bg-wide {
+    --bg-wide-width: 123px;
+  }
+
+  /* matches source's ~120px card-to-footer gap at this breakpoint now that
+     the graphic above is fixed-size instead of scaling with the section */
+  main > .section.bg-wide:has(.columns-cta) {
+    min-height: 476px;
+  }
+}
+
+/* fixed height requested by customer; overlaps the columns-cta card below.
+   Bounded to 768-991px — see the 768px block above and the 992px block below
+   for the other tiers, so changing one doesn't affect the others. */
+@media (width >= 768px) and (width < 992px) {
+  main > .section.bg-wide:has(.columns-cta) {
+    min-height: 427px;
+  }
+}
+
+main > .section.bg-wide > .bg-image {
+  inset: auto 0 0 auto;
+  margin: 0;
+  padding: 0;
+  max-width: none;
+}
+
+main > .section.bg-wide > .bg-image picture,
+main > .section.bg-wide > .bg-image img {
+  width: var(--bg-wide-width);
+  height: auto;
 }
 
 main > .section:first-of-type { /* @boilerplate */
@@ -1027,6 +1072,10 @@ main .section.stats-callout h4 {
     --section-padding: 36px;
   }
 
+  main > .section.bg-wide {
+    --bg-wide-width: 377px;
+  }
+
   .section.margin-top {
     margin-top: 36px;
   }
@@ -1190,6 +1239,10 @@ main .section.stats-callout h4 {
 @media (width >= 992px) { /* @libs */
   :root {
     --max-width-site: 960px;
+  }
+
+  main > .section.bg-wide:has(.columns-cta) {
+    min-height: 370px;
   }
 
   body[data-breadcrumbs] { /* @libs */

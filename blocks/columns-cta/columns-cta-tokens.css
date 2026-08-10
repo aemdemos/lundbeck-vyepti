@@ -32,9 +32,12 @@
   --columns-cta-corner-image: url("/icons/cta-corner-shape.svg");
   --columns-cta-corner-width: 100px;
 
-  /* larger left padding clears the corner shard so text starts to its right */
-  --columns-cta-single-padding: 36px 16px 44px 100px;
+  /* larger left padding clears the corner shard; vertical values tuned to
+     match the source card's 186px height */
+  --columns-cta-single-padding: 36px 16px 39px 100px;
   --columns-cta-single-row-gap-desktop: 28px;
+  --columns-cta-single-padding-mobile: 52px 32px 88px;
+  --columns-cta-single-button-margin-top-mobile: 32px;
 
   /* breathing room below the eyebrow (its <strong> can't carry the spacing) */
   --columns-cta-single-eyebrow-gap: 8px;
