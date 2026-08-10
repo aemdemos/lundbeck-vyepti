@@ -47,12 +47,18 @@
   --columns-intro-margin: 36px auto;
   --columns-intro-body-font-size: 20px;
   --columns-intro-body-line-height: 1.5;
+
+  /* headline lead (stay-connected h2, real-patient-stories h3): teal, 800. */
   --columns-intro-lead-color: var(--brand-primary);
   --columns-intro-lead-line-height: 1.2;
   --columns-intro-lead-font-weight: var(--heading-font-weight, 800);
   --columns-intro-lead-gap: 6px;
   --columns-intro-heading-lead-gap: 24px;
-  --columns-intro-subhead-font-weight: 600;
+
+  /* subhead lead (downloadable-resources h4/h5): grey, normal weight — the
+     source wraps it in a span with font-weight:normal, so it is not bold. */
+  --columns-intro-subhead-color: var(--text-color);
+  --columns-intro-subhead-font-weight: 400;
 }
 
 .columns.intro {
@@ -65,29 +71,29 @@
    margin-bottom: 16px;
    }
 
-   /* lead heading: normalize size/weight/leading across heading levels so the
-      lead always renders at the intro's 24px/800 regardless of the authored
-      level. COLOR is intentionally left to the global heading cascade, which is
-      how the source distinguishes leads: a Heading 2 lead is teal
-      (stay-connected), a Heading 3 lead is grey (real-patient-stories). Drop the
-      global top margin so the lead starts flush with the icon when top-aligned. */
+   /* lead heading: the source renders the headline lead as teal 24px/800
+      regardless of the authored level (stay-connected Heading 2, real-patient-
+      stories Heading 3). Normalize size/weight/color here and drop the global
+      top margin so the lead starts flush with the icon when top-aligned. */
    > div > div:not(.columns-img-col) > :is(h1, h2, h3, h4, h5):first-child {
       margin-top: 0;
       margin-bottom: var(--columns-intro-lead-gap);
+      color: var(--columns-intro-lead-color);
       font-size: var(--columns-intro-body-font-size);
       font-weight: var(--columns-intro-lead-font-weight);
       line-height: var(--columns-intro-lead-line-height);
    }
 
-   /* a Heading 3 lead (grey headline, e.g. real-patient-stories) sits further
-      from the body copy than the tight teal Heading 2 lead (stay-connected). */
+   /* a Heading 3 headline lead (real-patient-stories) sits further from the body
+      copy than the tight Heading 2 lead (stay-connected). */
    > div > div:not(.columns-img-col) > h3:first-child {
       margin-bottom: var(--columns-intro-heading-lead-gap);
    }
 
-   /* a Heading 4/5 lead is a lighter grey "subhead" line (downloadable-resources)
-      — semibold rather than the 800 weight of the headline leads. */
+   /* a Heading 4/5 lead is the grey "subhead" line (downloadable-resources):
+      normal weight and dark grey, not the teal 800 of the headline leads. */
    > div > div:not(.columns-img-col) > :is(h4, h5):first-child {
+      color: var(--columns-intro-subhead-color);
       font-weight: var(--columns-intro-subhead-font-weight);
    }
 
