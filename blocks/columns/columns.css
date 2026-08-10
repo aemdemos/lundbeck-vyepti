@@ -193,16 +193,24 @@ main .section.columns-wide .columns > div > div:not(.columns-img-col) {
   text-align: left;
 }
 
-/* When the ISI safety section follows this full-bleed blue section, suppress the
-   ISI's top divider (gap + border). That divider assumes a plain white section
-   above it; here the blue field should run straight into the ISI — as on the
-   source — with no white gap or line between them. The negative margin cancels
-   the preceding section's own margin-bottom (both use --section-padding, so it
-   collapses to zero at every breakpoint). Scoped to this adjacency so the
-   divider is untouched on every other page. */
+/* Cap the copy to the source's measure so the heading and paragraphs all wrap at
+   the same narrower width (the source insets the text a further ~48px on the
+   right). Applies to the text — the button keeps its own intrinsic size. Only
+   bites where the text half is wider than the measure (desktop). */
+main .section.columns-wide .columns > div > div:not(.columns-img-col) > h2,
+main .section.columns-wide .columns > div > div:not(.columns-img-col) > p:not(.button-wrapper) {
+  max-width: var(--columns-wide-text-measure);
+}
+
+/* When the ISI safety section follows this full-bleed blue section, close the
+   white gap above the ISI so the divider line sits flush against the blue
+   field's bottom edge — as on the source (the 1px divider touches the blue with
+   no gap). The ISI keeps its border-top; only the gap is removed. The negative
+   margin cancels the preceding section's own margin-bottom (both use
+   --section-padding, so it collapses to zero at every breakpoint). Scoped to
+   this adjacency so the divider spacing is untouched on every other page. */
 main > .section.columns-wide + .section:has(.isi-container) {
   margin-top: calc(-1 * var(--section-padding));
-  border-top: 0;
 }
 
 @media (width >= 768px) {
