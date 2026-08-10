@@ -727,7 +727,7 @@ main > .section.divider > div:last-child { /* @libs */
 
 main > .section > div {
   box-sizing: border-box;
-  max-width: 540px;
+  max-width: var( --max-width-site);
   margin: auto;
   padding: 0 15px;
 }
@@ -950,35 +950,44 @@ main .section.dark a.button.secondary:focus { /* @libs */
   color: var(--button-on-dark-secondary-hover-color); /* @libs */
 }
 
-/* section metadata - stats-callout (light-blue→white gradient, rounded top corners).
-   Source: vyepti.com clinical-study-results and real-life-impact callouts.
-   The light-blue background-color is authored on the section metadata and applied
-   inline via applySectionBackgroundDecorations(); this rule layers the white fade
-   + rounded corners on top.
-   Box model measured from the live source:
-   - The gradient box (section) is ALWAYS full width (max-width 100%, no side
-     margin). It carries 15px side padding below 768px; at 768+ the inner
-     container owns the gutters so the section padding drops to 0.
-   - The inner content (.container equivalent) carries the responsive caps,
-     centered with margin auto: <576 fluid, 576+ = 540, 768+ = 720,
-     992+ = 960, 1200+ = 1140 (Bootstrap container widths), each with 15px gutters. */
 main .section.stats-callout {
   max-width: var(--max-width-site); /* @boilerplate */
-  margin: auto;
-  background-image: linear-gradient(180deg, #e8f3f5 20%, #fff 53%, #fff 100%);
+  margin: 16px 16px 48px;
   border-radius: 23px 23px 0 0;
-  padding: var(--section-padding-vertical) 15px;
-  text-align: center;
-}
-
-/* Inner content carries the responsive container caps, centered. box-sizing keeps
-   the 15px gutters inside the width instead of adding to it. */
-main .section.stats-callout > div:not(.bg-image) {
-  box-sizing: border-box;
-  width: 100%;
-  max-width: 100%;
-  margin: 0 auto;
   padding: 0 15px;
+  text-align: center;
+
+  .columns-wrapper {
+    margin:16px 0;
+  }
+
+  .small-text {
+    margin-bottom: 16px;
+  }
+
+  h2 + p {
+    margin: 5px;
+  }
+
+  h4, .size-h4 {
+    font-size: 20px;
+    margin: 8px;
+  }
+
+  h2, .size-h2 {
+    font-size: 38px;
+    line-height: 38px;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  h1, .size-h1 {
+    font-size: 60px;
+    line-height: 36px;
+    font-weight: 700;
+    margin-top: 32px;
+    margin-bottom: 8px;
+  }
 }
 
 main .section.stats-callout h2,
@@ -996,7 +1005,7 @@ main .section.stats-callout h4 {
   }
 
   main .section.stats-callout > div:not(.bg-image) {
-    max-width: 540px;
+    max-width: var( --max-width-site);
   }
 }
 
@@ -1123,16 +1132,31 @@ main .section.stats-callout h4 {
     
     /* ==== End widths ==== */
 
+    .large-desktop {
+      font-size: 32px;
+      display: inline-block;
+      margin-top: 16px;
+    }
+
     main .section.stats-callout {
-      padding: var(--section-padding-vertical) 0;
+      margin: auto;
+
+      .columns-wrapper {
+        padding-top: 8px;
+      }
+
+      .columns > div {
+        align-items:flex-start;
+        justify-content: space-around;
+      }
+
+      .columns > div > div {
+        max-width: 330px;
+      }
     }
 
     main > .section > div { /* @libs */
       max-width: 720px; /* @libs */
-    }
-  
-    main .section.stats-callout > div:not(.bg-image) {
-      max-width: 720px;
     }
 
     /* flex sections — equal-width columns side-by-side; section-level only.
@@ -1181,14 +1205,14 @@ main > .section > div {
   max-width: var(--max-width-site);
 }
 
-main .section.stats-callout > div:not(.bg-image) {
-  max-width: 960px;
-}
-
 main .section.video-accent {
   > div {
   max-width: 610px;
 }
+}
+
+main .section.stats-callout .columns-wrapper {
+  padding-top: 16px;
 }
 
 /* narrow-copy flex-group (what-to-expect "Choosing a location" + "Prepare for
