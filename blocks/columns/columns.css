@@ -178,7 +178,7 @@ main .columns.border h2 {
   margin-top: 48px;
 }
 
-main section.columns-contaner:has(columns.border) {
+main .section.columns-contaner:has(.columns.border) {
   margin-bottom: 0px;
 }
 
