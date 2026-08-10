@@ -214,17 +214,18 @@ main .columns.callout ul {
     gap: var(--columns-gap); /* @boilerplate */
   }
 
-  /* desktop: uneven columns (logo / heading / text) */
+  /* desktop: uneven columns (logo 1 / heading 5 / text 6), top-aligned */
   main .columns.callout {
     padding: var(--columns-callout-padding-desktop);
   }
 
   main .columns.callout > div {
     align-items: flex-start;
+    gap: 0;
   }
 
   main .columns.callout > div > .columns-img-col {
-    flex: 0 0 auto;
+    flex: 0 0 8.33%;
   }
 
   main .columns.callout .columns-img-col img {
@@ -232,7 +233,7 @@ main .columns.callout ul {
   }
 
   main .columns.callout > div > div:nth-child(2) {
-    flex: 0 0 42%;
+    flex: 0 0 41.67%;
   }
 
   main .columns.callout > div > div:nth-child(3) {
