@@ -78,9 +78,10 @@
   --columns-wide-body-font-size: 16px;
   --columns-wide-body-line-height: 20px;
 
-  /* Vertical rhythm. The source zeroes all heading/paragraph margins (spacing
-     comes only from line-height leading) and puts a single gap before the button:
-     24px on mobile, 32px at 768px+. */
+  /* Vertical rhythm. The source runs the heading flush against the first
+     paragraph (0 gap), separates consecutive paragraphs by 16px, and puts a
+     single larger gap before the button: 24px on mobile, 32px at 768px+. */
+  --columns-wide-para-gap: 16px;
   --columns-wide-button-gap: 24px;
 }
 

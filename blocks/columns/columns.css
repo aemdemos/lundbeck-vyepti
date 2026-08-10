@@ -195,13 +195,27 @@ main .section.columns-wide .columns > div > div:not(.columns-img-col) {
 
 /* Cap the copy to the source's measure so the heading and paragraphs all wrap at
    the same narrower width (the source insets the text a further ~48px on the
-   right). Vertical rhythm also matches the source: heading and paragraphs carry
-   no margins (spacing is line-height leading only), with a single gap before the
-   button. Only the measure bites where the text half is wider than it (desktop). */
+   right). Only the measure bites where the text half is wider than it (desktop).
+   Vertical rhythm matches the source: the heading runs flush against the first
+   paragraph (no margin), consecutive paragraphs are separated by a 16px gap, and
+   a larger gap sits before the button. */
 main .section.columns-wide .columns > div > div:not(.columns-img-col) > h2,
 main .section.columns-wide .columns > div > div:not(.columns-img-col) > p:not(.button-wrapper) {
   max-width: var(--columns-wide-text-measure);
   margin-top: 0;
+  margin-bottom: var(--columns-wide-para-gap);
+}
+
+/* Heading sits flush on its first paragraph (source has no gap here). */
+main .section.columns-wide .columns > div > div:not(.columns-img-col) > h2 {
+  margin-bottom: 0;
+}
+
+/* The last text paragraph drops its gap — either the button gap below supplies
+   the spacing (paragraph immediately before the button) or it's the final element
+   in the cell. */
+main .section.columns-wide .columns > div > div:not(.columns-img-col) > p:not(.button-wrapper):has(+ .button-wrapper),
+main .section.columns-wide .columns > div > div:not(.columns-img-col) > p:not(.button-wrapper):last-child {
   margin-bottom: 0;
 }
 
