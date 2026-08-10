@@ -983,7 +983,7 @@ main .section.stats-callout {
 
   h1, .size-h1 {
     font-size: 60px;
-    line-height: 36px;
+    line-height: 1;
     font-weight: 700;
     margin-top: 32px;
     margin-bottom: 8px;
@@ -1141,6 +1141,10 @@ main .section.stats-callout h4 {
     main .section.stats-callout {
       margin: auto;
 
+      h1 {
+        max-width: unset;
+      }
+
       .columns-wrapper {
         padding-top: 8px;
       }
@@ -1224,9 +1228,11 @@ main .flex-group:has(> .section.flex .columns.narrow-copy) {
   gap: var(--flex-group-narrow-copy-gap);
 }
 
+/* this is breaking
 main .flex-group > .section.flex:has(.columns.narrow-copy) {
   flex: 0 0 var(--columns-narrow-copy-max-width);
 }
+  */
 
 /* tips layout mirrors the source's 6/6 grid: the form fills the left half and
    the tips card (fixed to its shape-banner width) is right-aligned in the right
