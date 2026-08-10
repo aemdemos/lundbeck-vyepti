@@ -215,6 +215,20 @@ main .section.columns-wide .columns > div > div:not(.columns-img-col) > p:not(.b
   line-height: var(--columns-wide-body-line-height);
 }
 
+/* Pull the LEFT text block's copy toward the centre image (matching the source),
+   so it doesn't hug the far-left edge as the viewport widens. The left block is
+   the text cell that precedes the image cell. Each line is fixed to the copy
+   measure and pushed right with margin-left:auto — this keeps the shared left
+   edge (text stays left-aligned) while anchoring the group's right edge a
+   consistent gutter from the centre. On narrow widths the measure clamps to
+   100%, leaving no slack, so nothing shifts (copy stays full within its column). */
+main .section.columns-wide .columns > div > div:not(.columns-img-col):has(+ .columns-img-col) > h2,
+main .section.columns-wide .columns > div > div:not(.columns-img-col):has(+ .columns-img-col) > p {
+  width: var(--columns-wide-text-measure);
+  max-width: 100%;
+  margin-left: auto;
+}
+
 /* When the ISI safety section follows this full-bleed blue section, close the
    white gap above the ISI so the divider line sits flush against the blue
    field's bottom edge — as on the source (the 1px divider touches the blue with
