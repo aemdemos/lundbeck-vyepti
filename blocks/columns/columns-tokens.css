@@ -85,6 +85,12 @@
       margin-bottom: var(--columns-intro-heading-lead-gap);
    }
 
+   /* a Heading 4/5 lead is a lighter grey "subhead" line (downloadable-resources)
+      — semibold rather than the 800 weight of the headline leads. */
+   > div > div:not(.columns-img-col) > :is(h4, h5):first-child {
+      font-weight: var(--columns-intro-subhead-font-weight);
+   }
+
    p > picture {
       vertical-align: text-top;
    }
