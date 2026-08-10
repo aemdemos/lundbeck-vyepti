@@ -193,6 +193,18 @@ main .section.columns-wide .columns > div > div:not(.columns-img-col) {
   text-align: left;
 }
 
+/* When the ISI safety section follows this full-bleed blue section, suppress the
+   ISI's top divider (gap + border). That divider assumes a plain white section
+   above it; here the blue field should run straight into the ISI — as on the
+   source — with no white gap or line between them. The negative margin cancels
+   the preceding section's own margin-bottom (both use --section-padding, so it
+   collapses to zero at every breakpoint). Scoped to this adjacency so the
+   divider is untouched on every other page. */
+main > .section.columns-wide + .section:has(.isi-container) {
+  margin-top: calc(-1 * var(--section-padding));
+  border-top: 0;
+}
+
 @media (width >= 768px) {
   .columns > div { /* @boilerplate */
     align-items: center; /* @boilerplate */
