@@ -123,7 +123,6 @@
    styling wins instead of being overridden to teal-on-teal */
 .accordion .accordion-item-body a:not(.button) { /* @libs */
   color: var(--link-color); /* @libs */
-  font-weight: var(--font-weight-bold); /* @libs */
 }
 
 .accordion .accordion-item-body a:not(.button):hover { /* @libs */
