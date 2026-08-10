@@ -4,7 +4,7 @@
   --columns-divider-width: 1px;
   --columns-divider-spacing: var(--spacing-l, 32px);
   --columns-divider-color: #7ebcc6;
-  --columns-narrow-copy-max-width: 540px;
+  --columns-narrow-copy-max-width: var( --max-width-site);
   --columns-narrow-copy-heading-gap: 16px;
   --columns-narrow-copy-para-gap: 16px;
   --columns-narrow-copy-para-line-height: 22px;

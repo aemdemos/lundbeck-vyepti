@@ -13,7 +13,7 @@
      the bottom, matching www.vyepti.com/how-vyepti-works) */
   --columns-cta-card-shadow: rgb(46 50 51 / 20%) 0 2px 8px 0;
   --columns-cta-card-radius: 8px 8px 0 0;
-  --columns-cta-card-padding: 24px 32px 34px;
+  --columns-cta-card-padding: 20px 32px 34px;
   --columns-cta-card-padding-tablet: 24px 32px 50px;
   --columns-cta-card-padding-desktop: 42px 66px 64px;
 
@@ -63,7 +63,7 @@
   --columns-cta-heading-font-size: var(--heading-font-size-xl);
   --columns-cta-heading-font-weight: var(--font-weight-bold);
   --columns-cta-heading-line-height: 1;
-  --columns-cta-heading-padding: 10px 16px 16px;
+  --columns-cta-heading-padding: 6px 16px 16px;
 
   /* description */
   --columns-cta-text-color: var(--text-color);
@@ -79,7 +79,7 @@
   --columns-cta-button-padding: 19px;
   --columns-cta-button-border-width: var(--button-border-width);
   --columns-cta-button-border-radius: 30px;
-  --columns-cta-button-margin-top: 32px;
+  --columns-cta-button-margin-top: 24px;
 
   /* horizontal right-arrow icon (matches the source cta buttons) */
   --columns-cta-chevron-size: 10px;
