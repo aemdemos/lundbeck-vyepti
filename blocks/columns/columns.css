@@ -196,8 +196,15 @@ main .columns.callout .columns-img-col img {
   margin: 0 auto;
 }
 
+/* align the list with the heading — source keeps the bullet in a 24px hanging
+   indent (li padding), not the global ul indent */
 main .columns.callout ul {
+  padding-left: 0;
   color: var(--columns-callout-list-color);
+}
+
+main .columns.callout li {
+  padding-left: 24px;
 }
 
 @media (width >= 768px) {
