@@ -195,11 +195,14 @@ main .section.columns-wide .columns > div > div:not(.columns-img-col) {
 
 /* Cap the copy to the source's measure so the heading and paragraphs all wrap at
    the same narrower width (the source insets the text a further ~48px on the
-   right). Applies to the text — the button keeps its own intrinsic size. Only
-   bites where the text half is wider than the measure (desktop). */
+   right). Vertical rhythm also matches the source: heading and paragraphs carry
+   no margins (spacing is line-height leading only), with a single gap before the
+   button. Only the measure bites where the text half is wider than it (desktop). */
 main .section.columns-wide .columns > div > div:not(.columns-img-col) > h2,
 main .section.columns-wide .columns > div > div:not(.columns-img-col) > p:not(.button-wrapper) {
   max-width: var(--columns-wide-text-measure);
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 /* Heading + body type match the source (heavy 32px teal heading, 16px/20px copy),
@@ -213,6 +216,11 @@ main .section.columns-wide .columns h2 {
 main .section.columns-wide .columns > div > div:not(.columns-img-col) > p:not(.button-wrapper) {
   font-size: var(--columns-wide-body-font-size);
   line-height: var(--columns-wide-body-line-height);
+}
+
+main .section.columns-wide .columns > div > div:not(.columns-img-col) > .button-wrapper {
+  margin-top: var(--columns-wide-button-gap);
+  margin-bottom: 0;
 }
 
 /* Pull the LEFT text block's copy toward the centre image (matching the source),

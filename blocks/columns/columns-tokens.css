@@ -77,6 +77,11 @@
   --columns-wide-heading-font-weight: 900;
   --columns-wide-body-font-size: 16px;
   --columns-wide-body-line-height: 20px;
+
+  /* Vertical rhythm. The source zeroes all heading/paragraph margins (spacing
+     comes only from line-height leading) and puts a single gap before the button:
+     24px on mobile, 32px at 768px+. */
+  --columns-wide-button-gap: 24px;
 }
 
 .columns.intro {
@@ -194,6 +199,9 @@
       /* source drops the columns-wide heading to 28px/34px between 768–1399px */
       --columns-wide-heading-font-size: 28px;
       --columns-wide-heading-line-height: 34px;
+
+      /* source widens the pre-button gap to 32px at desktop */
+      --columns-wide-button-gap: 32px;
    }
 
    main .columns blockquote {
