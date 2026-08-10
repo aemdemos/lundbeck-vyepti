@@ -2,8 +2,72 @@
 :root { /* @boilerplate */
   --columns-gap: var(--spacing-m, 24px); /* @boilerplate */
   --columns-divider-width: 1px;
-  --columns-divider-spacing: var(--spacing-l, 32px);
+
+  /* gutter each side of the divider line — widened for more breathing room
+     around the rule (matches the roomier spacing on the financial-assistance
+     "pay as little as $0" band). */
+  --columns-divider-spacing: var(--spacing-xl, 40px);
+
+  /* tighter divider gutter in the tablet range (768–1199px) so the narrower copy
+     column has room to keep the two CTA pills on one row; full gutter returns at
+     desktop (>=1200px). */
+  --columns-divider-spacing-tablet: var(--spacing-s, 16px);
   --columns-divider-color: #7ebcc6;
+
+  /* uneven column split for the find-out band: the source gives the copay-card
+     (image) column ~38% and the copy/CTA column ~62% (image ~266px vs copy
+     ~409px at 798px). Matching that both sizes the card correctly AND widens the
+     copy column enough to hold the two CTA pills side by side on one row. */
+  --columns-divider-image-col: 36%;
+  --columns-divider-copy-col: 64%;
+
+  /* CTA gap: 20px at desktop; a touch tighter in the tablet range so both
+     content-width pills fit on one row in the narrower copy column. */
+  --columns-divider-button-gap-tablet: 12px;
+
+  /* space above the divider block in the find-out band: separates the two-column
+     card/CTA row from the desktop heading + intro block that precedes it. The
+     two are authored as separate columns blocks and render flush by default;
+     the source leaves ~60px of breathing room here. */
+  --columns-divider-top-gap: 60px;
+
+  /* space below the divider block, before the trailing legal disclaimer. The
+     disclaimer's own top margin collapses against this, so set the full target
+     gap here (~33px, matching the source). */
+  --columns-divider-bottom-gap: 33px;
+
+  /* left (image) column of the find-out divider band: the copay-card picture
+     sits flush at the top of the column, with this gap before its caption —
+     matching www.vyepti.com/financial-assistance (~25px). Overrides the default
+     asymmetric paragraph rhythm (0.8em top / 0.25em bottom) that otherwise
+     pushes the card down and squeezes the caption. */
+  --columns-divider-image-caption-gap: 24px;
+
+  /* right (copy) column vertical rhythm — matches the source's steps:
+     tight gap between the body copy and the eligibility link, a clear step down
+     to the CTA button row, then a larger step to the callback line. Replaces the
+     default asymmetric paragraph rhythm so the column reads like the source. */
+  --columns-divider-copy-gap: 8px;
+
+  /* CTA top gap nets to ~25px: the eligibility paragraph above contributes its
+     own 8px bottom margin, so the button row's top margin is 25 − 8 = 17px. */
+  --columns-divider-cta-gap-top: 17px;
+  --columns-divider-cta-gap-bottom: 50px;
+
+  /* divider CTA buttons (financial-assistance "Find out…$0" dark band).
+     Matches www.vyepti.com/financial-assistance: the two CTAs sit side by side
+     with distinct fills (NOT the boilerplate white-on-dark pills), and change
+     shade on hover.
+       - Enroll (accent): rose fill + white label; darker rose on hover.
+       - Download (primary): pale-blue fill + teal label; teal-light on hover.
+     Values reference existing Tier-1 tokens (all exact matches to the source). */
+  --columns-divider-button-gap: 20px;
+  --columns-divider-accent-background: var(--brand-secondary, #c02c57);
+  --columns-divider-accent-color: var(--background-color, #fff);
+  --columns-divider-accent-hover-background: var(--brand-secondary-dark, #9a2346);
+  --columns-divider-primary-background: var(--light-color, #e1f0f6);
+  --columns-divider-primary-color: var(--brand-primary, #046183);
+  --columns-divider-primary-hover-background: var(--brand-primary-light, #7ebcc6);
 
   /* narrow-copy variant — single-column readable measure matching the source's
      left content column on vyepti.com/what-to-expect (~540px; the source's
@@ -48,4 +112,210 @@
   /* desktop (992px+) cards pack at their natural content width, left-aligned,
      with this gap between them — matching the ~20px spacing on the source. */
   --columns-locations-gap: 20px;
+}
+
+/* BLOCK SEPARATION: in the find-out dark band the desktop heading + intro is a
+   separate `columns` block that renders flush against the divider card/CTA block
+   below it. Add the source's ~60px of breathing room between them by spacing the
+   divider block down. Scoped to the find-out section so other divider blocks are
+   unaffected. */
+main .find-out .columns.divider {
+  margin-top: var(--columns-divider-top-gap);
+  margin-bottom: var(--columns-divider-bottom-gap);
+}
+
+/* divider variant CTA buttons — source-matching overrides kept here (imported
+   into columns.css) so the financial-assistance "Find out if you could pay as
+   little as $0" dark band matches www.vyepti.com/financial-assistance without
+   editing columns.css.
+
+   ALIGNMENT: each CTA ("Enroll today", "Download brochure") is authored in its
+   own paragraph. On mobile (<768px, stacked columns) they stack vertically in
+   reading order; from 768px the copy column is wide enough (see the uneven
+   column split below) to float them side by side. */
+main .columns.divider p:has(> a.button:only-child) {
+  margin: 0 0 var(--columns-divider-button-gap);
+}
+
+/* Two-column range (>=768px): the base columns block splits the row 50/50, which
+   leaves the copy/CTA column too narrow for the two pills side by side and makes
+   the image column oversized vs the source. Re-weight to the source's ~40/60
+   split (image ~40%, copy ~60%) so the card sizes correctly AND the copy column
+   is wide enough to hold both CTAs on one row. Also trim the divider gutter in
+   the tablet range; the full gutter returns at desktop. */
+@media (width >= 768px) {
+  main .columns.divider.columns-2-cols > div > :first-child {
+    flex: 0 0 var(--columns-divider-image-col);
+    max-width: var(--columns-divider-image-col);
+    padding-inline-end: var(--columns-divider-spacing-tablet);
+  }
+
+  main .columns.divider.columns-2-cols > div > :nth-child(2) {
+    flex: 0 0 var(--columns-divider-copy-col);
+    max-width: var(--columns-divider-copy-col);
+    padding-inline-start: var(--columns-divider-spacing-tablet);
+  }
+
+  /* CTAs side by side once the copy column is wide enough. Float (not
+     inline-block) so the inter-tag whitespace doesn't push the pair past the
+     column and wrap the second pill. A slightly smaller gap in the tablet range
+     (like the source) keeps both content-width pills comfortably on one row;
+     the full 20px gap returns at desktop where the column is wider.
+
+     The bottom margin carries the step down to the callback line: once the
+     buttons float, the callback's `clear: both` would absorb its own top margin
+     into the float clearance and collapse the gap to 0, so the ~50px source gap
+     must live on the float's bottom edge (what `clear` actually clears). */
+  main .columns.divider > div > div:nth-child(2) > p:has(> a.button:only-child) {
+    float: left;
+    margin: 0 var(--columns-divider-button-gap-tablet) var(--columns-divider-cta-gap-bottom) 0;
+  }
+
+  /* trailing CTA (button paragraph after another) drops its right gap — not
+     :last-of-type since the callback paragraph is the real last <p>. */
+  main .columns.divider > div > div:nth-child(2) > p:has(> a.button:only-child) + p:has(> a.button:only-child) {
+    margin-right: 0;
+  }
+
+  /* the callback paragraph clears the floats so it sits below both buttons. */
+  main .columns.divider > div > div:nth-child(2) > p:has(> a.button:only-child) ~ p:not(:has(> a.button:only-child)) {
+    clear: both;
+  }
+}
+
+/* Desktop (>=1200px): restore the full divider gutter and CTA gap (wide column). */
+@media (width >= 1200px) {
+  main .columns.divider > div > div:nth-child(2) > p:has(> a.button:only-child) {
+    margin-right: var(--columns-divider-button-gap);
+  }
+
+  main .columns.divider > div > div:nth-child(2) > p:has(> a.button:only-child) + p:has(> a.button:only-child) {
+    margin-right: 0;
+  }
+
+  main .columns.divider.columns-2-cols > div > :first-child {
+    padding-inline-end: var(--columns-divider-spacing);
+  }
+
+  main .columns.divider.columns-2-cols > div > :nth-child(2) {
+    padding-inline-start: var(--columns-divider-spacing);
+  }
+}
+
+/* COLOR: the boilerplate `main .section.dark a.button` rule forces every button
+   to the white-on-dark pill and only dims opacity on hover. Restore the source's
+   distinct fills for the two divider CTAs (scoped with `.divider` so specificity
+   beats the generic `.section.dark` rules), and give each a real shade change on
+   hover/focus instead of an opacity fade. */
+
+/* Enroll (accent): rose fill, white label → darker rose on hover. */
+main .section.dark .columns.divider a.button.accent {
+  background-color: var(--columns-divider-accent-background);
+  border-color: var(--columns-divider-accent-background);
+  color: var(--columns-divider-accent-color);
+}
+
+main .section.dark .columns.divider a.button.accent:hover,
+main .section.dark .columns.divider a.button.accent:focus {
+  background-color: var(--columns-divider-accent-hover-background);
+  border-color: var(--columns-divider-accent-hover-background);
+  color: var(--columns-divider-accent-color);
+  opacity: 1;
+}
+
+/* Download (primary): pale-blue fill, teal label → teal-light on hover. */
+main .section.dark .columns.divider a.button.primary {
+  background-color: var(--columns-divider-primary-background);
+  border-color: var(--columns-divider-primary-background);
+  color: var(--columns-divider-primary-color);
+}
+
+main .section.dark .columns.divider a.button.primary:hover,
+main .section.dark .columns.divider a.button.primary:focus {
+  background-color: var(--columns-divider-primary-hover-background);
+  border-color: var(--columns-divider-primary-hover-background);
+  color: var(--columns-divider-primary-color);
+  opacity: 1;
+}
+
+/* IMAGE PADDING: the copay-card picture in the left column is wrapped in a <p>
+   that carries the default asymmetric block rhythm (0.8em top / 0.25em bottom),
+   which drops the card away from the column top and leaves an uneven gap before
+   the caption. Flush the picture to the top and give it a single, even gap to
+   the caption below; zero the caption's own top margin so the spacing is driven
+   only by the token (matches the source's flush-top card + ~24px caption gap). */
+main .columns.divider > div > div:first-child > p:has(> picture) {
+  margin-top: 0;
+  margin-bottom: var(--columns-divider-image-caption-gap);
+}
+
+main .columns.divider > div > div:first-child > p:has(> picture) + p {
+  margin-top: 0;
+}
+
+/* CAPTION LINE BREAK: the copay-card caption is authored with a hard <br>
+   ("Card is for illustrative purposes only.<br> No copay card is provided.").
+   The source keeps that break only on narrower widths; at desktop (>=1200px) it
+   hides the <br> so both sentences flow onto one line. Mirror that — hide the
+   <br> from 1200px up, and let the caption use the full image-column width
+   (the divider gutter's right padding would otherwise leave the line ~5px short
+   and wrap "provided." on its own). white-space: nowrap guarantees one line. */
+@media (width >= 1200px) {
+  main .columns.divider > div > div:first-child > p:has(> picture) + p {
+    padding-inline-end: 0;
+    margin-inline-end: calc(-1 * var(--columns-divider-spacing));
+    white-space: nowrap;
+  }
+
+  main .columns.divider > div > div:first-child > p:has(> picture) + p br {
+    display: none;
+  }
+}
+
+/* RIGHT-COLUMN vertical rhythm (find-out divider band) — match the source's
+   spacing between the body copy, eligibility link, CTA button row, and the
+   callback line. The default asymmetric paragraph rhythm makes these steps too
+   even/tight; retune only within the divider's right (text) cell.
+
+   The right cell is the 2nd child of the block row. Its children in order:
+   [0] mobile-dup heading (h2), [1] mobile-dup intro (p) — both authored
+   [[hide-desktop]] on the source, [2] body copy (p), [3] eligibility link (p),
+   [4] Enroll button (p.button-wrapper), [5] Download button (p.button-wrapper),
+   [6] callback line (p). */
+
+/* body copy → eligibility link: tight (source ~0–8px). Excludes the button
+   paragraphs (they own their inline-block side-by-side margins). */
+main .columns.divider > div > div:nth-child(2) > p:not(:has(> a.button:only-child)) {
+  margin-top: 0;
+  margin-bottom: var(--columns-divider-copy-gap);
+}
+
+/* clear step down from the eligibility link to the CTA button row. Both button
+   paragraphs are inline-block on the same row, so an equal top margin on both
+   moves the row down together while preserving their side-by-side 20px gap. */
+main .columns.divider > div > div:nth-child(2) > p:has(> a.button:only-child) {
+  margin-top: var(--columns-divider-cta-gap-top);
+}
+
+/* larger step from the CTA button row down to the trailing callback line. */
+main .columns.divider > div > div:nth-child(2) > p:has(> a.button:only-child) ~ p:not(:has(> a.button:only-child)) {
+  margin-top: var(--columns-divider-cta-gap-bottom);
+}
+
+/* MOBILE-DUP HEADING: the source authors the right column's leading heading and
+   intro as [[hide-desktop]] (they repeat the section heading for the mobile
+   layout where the left/right columns stack). The re-import dropped the
+   hide-desktop wrapper, so on desktop they render as a redundant duplicate that
+   pushes the real copy down. Hide the first h2 and its following intro paragraph
+   within the divider's right cell from 768px up, mirroring the project's
+   `.hide-desktop` breakpoint AND the divider's own two-column breakpoint
+   (both 768px) so the standalone `hide-mobile` heading block and this in-column
+   duplicate never show together. Below 768px the columns stack and the in-column
+   heading is the visible one (the separate hide-mobile block is hidden), as on
+   the source's mobile layout. */
+@media (width >= 768px) {
+  main .columns.divider > div > div:nth-child(2) > h2:first-child,
+  main .columns.divider > div > div:nth-child(2) > h2:first-child + p {
+    display: none;
+  }
 }
