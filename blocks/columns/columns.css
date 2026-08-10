@@ -241,7 +241,7 @@ main .columns.callout > div > div > :first-child {
   }
 
   main .columns.callout .columns-img-col img {
-    margin: 0;
+    margin: 0 auto;
   }
 
   main .columns.callout > div > div:nth-child(2) {
