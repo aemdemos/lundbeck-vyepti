@@ -207,6 +207,11 @@ main .columns.callout ul {
   color: var(--columns-callout-list-color);
 }
 
+/* top-align content across columns */
+main .columns.callout > div > div > :first-child {
+  margin-top: 0;
+}
+
 @media (width >= 768px) {
   .columns > div { /* @boilerplate */
     align-items: center; /* @boilerplate */
@@ -219,9 +224,16 @@ main .columns.callout ul {
     padding: var(--columns-callout-padding-desktop);
   }
 
+  /* 15px inner gutter per column, row pulled out 15px (Bootstrap-style) */
   main .columns.callout > div {
     align-items: flex-start;
     gap: 0;
+    margin-inline: -15px;
+  }
+
+  main .columns.callout > div > div {
+    box-sizing: border-box;
+    padding-inline: 15px;
   }
 
   main .columns.callout > div > .columns-img-col {
