@@ -160,6 +160,7 @@ main > .section.bg-wide > .columns-cta-wrapper {
     padding: var(--columns-cta-single-padding);
     border-radius: var(--columns-cta-single-card-radius);
     text-align: left;
+    background-color: white;
   }
 
   /* grouped text block (eyebrow, heading, description) fills the row, button
