@@ -202,6 +202,19 @@ main .section.columns-wide .columns > div > div:not(.columns-img-col) > p:not(.b
   max-width: var(--columns-wide-text-measure);
 }
 
+/* Heading + body type match the source (heavy 32px teal heading, 16px/20px copy),
+   overriding the global columns heading size for this section only. */
+main .section.columns-wide .columns h2 {
+  font-size: var(--columns-wide-heading-font-size);
+  line-height: var(--columns-wide-heading-line-height);
+  font-weight: var(--columns-wide-heading-font-weight);
+}
+
+main .section.columns-wide .columns > div > div:not(.columns-img-col) > p:not(.button-wrapper) {
+  font-size: var(--columns-wide-body-font-size);
+  line-height: var(--columns-wide-body-line-height);
+}
+
 /* When the ISI safety section follows this full-bleed blue section, close the
    white gap above the ISI so the divider line sits flush against the blue
    field's bottom edge — as on the source (the 1px divider touches the blue with

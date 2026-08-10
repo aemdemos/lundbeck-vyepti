@@ -68,6 +68,15 @@
      480px half. Only bites once the text half is wide enough (desktop); narrower
      breakpoints keep the copy full within its padded column. */
   --columns-wide-text-measure: 432px;
+
+  /* Heading + body type. The source heading is a heavy 32px (mobile) / 28px
+     (768–1399) / 32px (1400+) at weight 900; the copy is 16px/20px. These
+     override the global columns heading (24px/800) for this section only. */
+  --columns-wide-heading-font-size: 32px;
+  --columns-wide-heading-line-height: 38px;
+  --columns-wide-heading-font-weight: 900;
+  --columns-wide-body-font-size: 16px;
+  --columns-wide-body-line-height: 20px;
 }
 
 .columns.intro {
@@ -181,6 +190,10 @@
 @media (width >= 768px) {
    :root {
       --columns-statistic-accent-icon-size: 178px;
+
+      /* source drops the columns-wide heading to 28px/34px between 768–1399px */
+      --columns-wide-heading-font-size: 28px;
+      --columns-wide-heading-line-height: 34px;
    }
 
    main .columns blockquote {
@@ -348,4 +361,12 @@
       text-align: left;
       max-width: 740px;
     }
+}
+
+/* source bumps the columns-wide heading back up to 32px/38px at 1400px+ */
+@media (width >= 1400px) {
+   :root {
+      --columns-wide-heading-font-size: 32px;
+      --columns-wide-heading-line-height: 38px;
+   }
 }
