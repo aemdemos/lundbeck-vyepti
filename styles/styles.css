@@ -333,6 +333,24 @@ blockquote,
     color: var(--list-bullet-color);
   }
 
+  /* site-map section has 60px top/bottom margin, not the sitewide 40px.
+     margin-top needs the extra :first-of-type specificity to beat the
+     boilerplate rule that zeroes the first section's top margin. */
+  main .section.site-map {
+    margin-bottom: 60px;
+  }
+
+  main > .section.site-map:first-of-type {
+    margin-top: 60px;
+  }
+
+  /* site-map heading is larger and plain dark text, not the usual teal h2 */
+  main .section.site-map h1 .size-h2 {
+    font-size: 36px;
+    line-height: 42px;
+    color: var(--text-color);
+  }
+
   /* site-map (section style: site-map) has no gap between items, so reset
      margins on the li, nested ul, and heading text alike */
   main .section.site-map ul li {
@@ -375,6 +393,10 @@ blockquote,
   /* pin at 700 — <strong>'s default "bolder" escalates the h5's 700 to 900 */
   main .section.site-map ul strong {
     font-weight: var(--font-weight-bold);
+  }
+
+  main .section.site-map ul h5 {
+    line-height: 26px;
   }
 
 code,
