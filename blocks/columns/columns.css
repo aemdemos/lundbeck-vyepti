@@ -179,7 +179,7 @@ main .columns.border h2 {
 }
 
 main section.columns-contaner:has(columns.border) {
-  margin-bottom: 8px;
+  margin-bottom: 0px;
 }
 
 @media (width >= 768px) {
