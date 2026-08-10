@@ -177,14 +177,12 @@ main .columns.error-page .columns-img-col {
   max-width: var(--columns-error-page-icon-size);
 }
 
-/* statistic-accent also caps this column at 740px, wrapping the heading;
-   .columns-2-cols is always present here, used only to win specificity */
+/* .columns-2-cols only present to win specificity over statistic-accent */
 main .columns.error-page.columns-2-cols > div > div:not(.columns-img-col) {
   max-width: none;
 }
 
-/* gap before the section-divider-hr block below; nudged tighter than
-   source's 46/73px per customer request */
+/* gap before section-divider-hr; tighter than source's 46/73px per request */
 main .columns.error-page {
   margin-bottom: 26px;
 }
@@ -199,18 +197,13 @@ main .columns.error-page {
     max-width: var(--columns-error-page-icon-size-mobile);
   }
 
-  /* narrow enough that "Thank you for" / "letting us know!" wraps onto two
-     lines, matching source's manual <br> at this size; global h1 rule's own
-     max-width (14em) would otherwise center the text within a box that's
-     already left-anchored (same bug fixed for 768px+ above), so center the
-     box itself too */
+  /* forces the same 2-line wrap as source's manual <br> at this size */
   main .columns.error-page h1 {
     max-width: 260px;
     margin-inline: auto;
   }
 
-  /* narrow enough that "...Yep, you'll" / "be hearing..." wraps onto two
-     lines, matching source's manual <br> at this size */
+  /* forces the same 2-line wrap as source's manual <br> at this size */
   main .columns.error-page h3 {
     max-width: 280px;
     margin-inline: auto;
@@ -223,8 +216,7 @@ main .columns.stats-callout:has(img) > div > div:not(.columns-img-col) > p:first
   line-height: 1.3;
 }
 
-/* filled bar (no border), matching the source divider; resets the authoring
-   doc's paragraph wrapper so the hr's own margin is the only spacing */
+/* resets the authoring doc's paragraph wrapper around the hr */
 main .columns.section-divider-hr p {
   margin: 0;
 }
@@ -236,16 +228,13 @@ main .columns.section-divider-hr hr {
   background-color: var(--columns-section-divider-hr-color);
 }
 
-/* neutralize statistic-accent's row padding, which would stack with the
-   hr's own margin below; .columns-1-cols is always present, used to win
-   specificity */
+/* neutralizes statistic-accent's row padding, which stacks with hr's margin */
 main .columns.section-divider-hr.columns-1-cols > div {
   padding-top: 0;
   padding-bottom: 0;
 }
 
-/* statistic-accent also caps this column at 740px, narrower than the row;
-   .block + .columns-1-cols always present, used only to win specificity */
+/* .block + .columns-1-cols only present to win specificity */
 main .columns.section-divider-hr.columns-1-cols.block > div > div {
   max-width: none;
 }
@@ -281,11 +270,7 @@ main .section.columns-container:has(.columns.border) {
     margin-right: 0;
   }
 
-  /* match source's heading line-height/margins at this breakpoint (global
-     defaults give 63px/38.4px line-height and larger margins). Source also
-     keeps the smaller mobile font-size here, only jumping to 56px/24px at
-     992px (see the 992px override below), unlike the global heading tokens
-     which jump a breakpoint earlier. */
+  /* matches source's heading size/line-height/margins at this breakpoint */
   main .columns.error-page h1 {
     max-width: none;
     font-size: 32px;
@@ -299,14 +284,12 @@ main .section.columns-container:has(.columns.border) {
     line-height: 32px;
   }
 
-  /* source stays stacked (icon above text) through this breakpoint, only
-     switching to a side-by-side row at 992px (restored below) */
+  /* source stays stacked here; row layout resumes at 992px below */
   main .columns.error-page > div {
     flex-direction: column;
   }
 
-  /* .columns-2-cols always present, used only to win specificity over
-     statistic-accent's text-align:left rule */
+  /* .columns-2-cols only present to win specificity */
   main .columns.error-page.columns-2-cols > div > div:not(.columns-img-col) {
     text-align: center;
   }
@@ -411,9 +394,7 @@ main .section.columns-container:has(.columns.border) {
     text-align: left;
   }
 
-  /* tighter gap frees up the ~12px the heading needs to stay on one line at
-     this narrower (960px) container width; .columns-2-cols always present,
-     used only to win specificity over statistic-accent's own gap rule */
+  /* tighter gap keeps the heading on one line at this width */
   main .columns.error-page.columns-2-cols > div {
     gap: 10px;
   }
@@ -428,8 +409,7 @@ main .section.columns-container:has(.columns.border) {
   }
 }
 
-/* icon is smaller only in this band; bounded so it doesn't affect the base
-   159px size used below 768px */
+/* icon size bounded to this tier only */
 @media (width >= 768px) and (width < 992px) {
   main .columns.error-page .columns-img-col img {
     width: var(--columns-error-page-icon-size-768);
@@ -441,8 +421,7 @@ main .section.columns-container:has(.columns.border) {
   }
 }
 
-/* icon is smaller only in this narrow desktop band; bounded so it doesn't
-   also shrink the icon at 1200px+, which uses the base 159px size */
+/* icon size bounded to this tier only */
 @media (width >= 992px) and (width < 1200px) {
   main .columns.error-page .columns-img-col img {
     width: var(--columns-error-page-icon-size-992);

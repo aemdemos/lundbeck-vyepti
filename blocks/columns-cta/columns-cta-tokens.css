@@ -32,8 +32,7 @@
   --columns-cta-corner-image: url("/icons/cta-corner-shape.svg");
   --columns-cta-corner-width: 100px;
 
-  /* larger left padding clears the corner shard; vertical values tuned to
-     match the source card's 186px height */
+  /* sized to match source's 186px card height */
   --columns-cta-single-padding: 36px 16px 39px 100px;
   --columns-cta-single-row-gap-desktop: 28px;
   --columns-cta-single-padding-mobile: 52px 32px 88px;

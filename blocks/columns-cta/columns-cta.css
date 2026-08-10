@@ -13,8 +13,7 @@ main > .section.bg-wide > .columns-cta-wrapper {
   padding-top: 10px;
 }
 
-/* source's single-card padding at this size is taller than the generic
-   grid-card padding it otherwise falls back to below 768px */
+/* source's single-card padding is taller than the generic fallback here */
 @media (width < 768px) {
   main .columns-cta-1-cols > div > div {
     padding: var(--columns-cta-single-padding-mobile);
