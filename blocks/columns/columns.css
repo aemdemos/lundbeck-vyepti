@@ -170,10 +170,17 @@ main .columns.stats-callout:has(img) > div > div:not(.columns-img-col) > p:first
   line-height: 1.3;
 }
 
-/* callout variant — logo + copy in a rounded card with a tri-color accent bar
-   (vyepti-insurance-coverage). Mobile: stacked, card padding 25px, 60px logo. */
+/* callout variant — logo + copy card with a tri-color accent bar */
+/* move the width cap off the wrapper onto the card so it fills the column */
+main .columns-wrapper:has(> .columns.callout) {
+  max-width: none;
+}
+
 main .columns.callout {
   position: relative;
+  box-sizing: border-box;
+  max-width: var(--max-width-site);
+  margin-inline: auto;
   background-color: var(--columns-callout-bg);
   border-radius: var(--columns-callout-radius);
   padding: var(--columns-callout-padding);
@@ -188,7 +195,7 @@ main .columns.callout::after {
   background: var(--columns-callout-bar);
 }
 
-/* mobile: logo centered above the copy (copy stays left-aligned) */
+/* mobile: logo centered */
 main .columns.callout .columns-img-col img {
   display: block;
   width: var(--columns-callout-logo-size);
@@ -196,15 +203,8 @@ main .columns.callout .columns-img-col img {
   margin: 0 auto;
 }
 
-/* align the list with the heading — source keeps the bullet in a 24px hanging
-   indent (li padding), not the global ul indent */
 main .columns.callout ul {
-  padding-left: 0;
   color: var(--columns-callout-list-color);
-}
-
-main .columns.callout li {
-  padding-left: 24px;
 }
 
 @media (width >= 768px) {
@@ -214,8 +214,7 @@ main .columns.callout li {
     gap: var(--columns-gap); /* @boilerplate */
   }
 
-  /* callout desktop: roomier padding, smaller logo, top-aligned uneven columns
-     (logo ~1 / heading ~5 / text ~6, matching the source) */
+  /* desktop: uneven columns (logo / heading / text) */
   main .columns.callout {
     padding: var(--columns-callout-padding-desktop);
   }
@@ -225,7 +224,7 @@ main .columns.callout li {
   }
 
   main .columns.callout > div > .columns-img-col {
-    flex: 0 0 8%;
+    flex: 0 0 auto;
   }
 
   main .columns.callout .columns-img-col img {

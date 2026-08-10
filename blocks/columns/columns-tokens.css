@@ -52,8 +52,7 @@
   --columns-intro-heading-lead-gap: 24px;
   --columns-intro-subhead-font-weight: 600;
 
-  /* callout variant (vyepti-insurance-coverage) — logo + copy card with a
-     tri-color accent bar; source colors/spacing */
+  /* callout variant */
   --columns-callout-bg: var(--card-bg-light);
   --columns-callout-radius: 12px;
   --columns-callout-padding: 25px;
