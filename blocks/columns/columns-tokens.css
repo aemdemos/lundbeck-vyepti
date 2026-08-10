@@ -14,16 +14,31 @@
   --columns-divider-spacing-tablet: var(--spacing-s, 16px);
   --columns-divider-color: #7ebcc6;
 
-  /* uneven column split for the find-out band: the source gives the copay-card
-     (image) column ~38% and the copy/CTA column ~62% (image ~266px vs copy
-     ~409px at 798px). Matching that both sizes the card correctly AND widens the
-     copy column enough to hold the two CTA pills side by side on one row. */
-  --columns-divider-image-col: 36%;
-  --columns-divider-copy-col: 64%;
+  /* column split for the find-out band. TWO regimes:
+     - Tablet (768–1199px): uneven ~34/66. The columns are narrow here, so the
+       copy/CTA column needs the larger share to keep the two CTA pills on one
+       row while the card stays a sensible size. (border-box counts the gutter
+       padding inside the basis, so the copy column needs a hair more than a
+       naive 36/64 to fit both pills at 768px.)
+     - Desktop (>=1200px): near-even ~50/50, matching the source (image col
+       ~524px, copy col ~531px at 1206px). At this width an even split gives the
+       copy column plenty of room for the pills AND widens the image column so
+       the caption fits on one line naturally (no nowrap hack, no overflow), and
+       it matches the source's text placement/line length. */
+  --columns-divider-image-col: 34%;
+  --columns-divider-copy-col: 66%;
+  --columns-divider-image-col-desktop: 50%;
+  --columns-divider-copy-col-desktop: 50%;
 
   /* CTA gap: 20px at desktop; a touch tighter in the tablet range so both
      content-width pills fit on one row in the narrower copy column. */
   --columns-divider-button-gap-tablet: 12px;
+
+  /* the standalone "Find out if you could pay…" heading + intro (a hide-mobile
+     center columns block) that precedes the card is held to a centered ~800px
+     measure on the source, so the intro wraps sooner instead of running the full
+     band width. */
+  --columns-divider-heading-max-width: 800px;
 
   /* space above the divider block in the find-out band: separates the two-column
      card/CTA row from the desktop heading + intro block that precedes it. The
@@ -124,6 +139,16 @@ main .find-out .columns.divider {
   margin-bottom: var(--columns-divider-bottom-gap);
 }
 
+/* HEADING MEASURE: the standalone centered "Find out if you could pay…" heading
+   + intro block that precedes the card is constrained to a centered ~800px
+   measure on the source, so the intro wraps sooner rather than running the full
+   band width. Center the single-column cell and cap its width. Scoped to the
+   find-out band's center heading block so other center columns are unaffected. */
+main .find-out .columns.center.columns-1-cols > div > div {
+  max-width: var(--columns-divider-heading-max-width);
+  margin-inline: auto;
+}
+
 /* divider variant CTA buttons — source-matching overrides kept here (imported
    into columns.css) so the financial-assistance "Find out if you could pay as
    little as $0" dark band matches www.vyepti.com/financial-assistance without
@@ -144,13 +169,19 @@ main .columns.divider p:has(> a.button:only-child) {
    is wide enough to hold both CTAs on one row. Also trim the divider gutter in
    the tablet range; the full gutter returns at desktop. */
 @media (width >= 768px) {
+  /* border-box so the divider gutter padding is counted INSIDE each cell's
+     percentage basis. With the default content-box the inline padding would add
+     on top of the 50%/64% basis, making the two cells sum to >100% and pushing
+     the row (and a horizontal scrollbar) past the viewport. */
   main .columns.divider.columns-2-cols > div > :first-child {
+    box-sizing: border-box;
     flex: 0 0 var(--columns-divider-image-col);
     max-width: var(--columns-divider-image-col);
     padding-inline-end: var(--columns-divider-spacing-tablet);
   }
 
   main .columns.divider.columns-2-cols > div > :nth-child(2) {
+    box-sizing: border-box;
     flex: 0 0 var(--columns-divider-copy-col);
     max-width: var(--columns-divider-copy-col);
     padding-inline-start: var(--columns-divider-spacing-tablet);
@@ -171,6 +202,13 @@ main .columns.divider p:has(> a.button:only-child) {
     margin: 0 var(--columns-divider-button-gap-tablet) var(--columns-divider-cta-gap-bottom) 0;
   }
 
+  /* keep each pill on one line — the two floats fit the copy column with only a
+     few px of slack in the tablet range, so without nowrap the longer
+     "Download brochure" label wraps to two lines inside its pill. */
+  main .columns.divider > div > div:nth-child(2) > p:has(> a.button:only-child) > a.button {
+    white-space: nowrap;
+  }
+
   /* trailing CTA (button paragraph after another) drops its right gap — not
      :last-of-type since the callback paragraph is the real last <p>. */
   main .columns.divider > div > div:nth-child(2) > p:has(> a.button:only-child) + p:has(> a.button:only-child) {
@@ -183,7 +221,9 @@ main .columns.divider p:has(> a.button:only-child) {
   }
 }
 
-/* Desktop (>=1200px): restore the full divider gutter and CTA gap (wide column). */
+/* Desktop (>=1200px): even ~50/50 split, full divider gutter and CTA gap. The
+   wider image column here lets the caption sit on one line naturally, and the
+   even split matches the source's copy-column width / text line length. */
 @media (width >= 1200px) {
   main .columns.divider > div > div:nth-child(2) > p:has(> a.button:only-child) {
     margin-right: var(--columns-divider-button-gap);
@@ -194,10 +234,14 @@ main .columns.divider p:has(> a.button:only-child) {
   }
 
   main .columns.divider.columns-2-cols > div > :first-child {
+    flex: 0 0 var(--columns-divider-image-col-desktop);
+    max-width: var(--columns-divider-image-col-desktop);
     padding-inline-end: var(--columns-divider-spacing);
   }
 
   main .columns.divider.columns-2-cols > div > :nth-child(2) {
+    flex: 0 0 var(--columns-divider-copy-col-desktop);
+    max-width: var(--columns-divider-copy-col-desktop);
     padding-inline-start: var(--columns-divider-spacing);
   }
 }
@@ -256,17 +300,10 @@ main .columns.divider > div > div:first-child > p:has(> picture) + p {
 /* CAPTION LINE BREAK: the copay-card caption is authored with a hard <br>
    ("Card is for illustrative purposes only.<br> No copay card is provided.").
    The source keeps that break only on narrower widths; at desktop (>=1200px) it
-   hides the <br> so both sentences flow onto one line. Mirror that — hide the
-   <br> from 1200px up, and let the caption use the full image-column width
-   (the divider gutter's right padding would otherwise leave the line ~5px short
-   and wrap "provided." on its own). white-space: nowrap guarantees one line. */
+   hides the <br> so both sentences flow onto one line. Mirror that by hiding the
+   <br> from 1200px up — the even 50/50 desktop split gives the image column
+   enough width for both sentences to sit on one line without any nowrap hack. */
 @media (width >= 1200px) {
-  main .columns.divider > div > div:first-child > p:has(> picture) + p {
-    padding-inline-end: 0;
-    margin-inline-end: calc(-1 * var(--columns-divider-spacing));
-    white-space: nowrap;
-  }
-
   main .columns.divider > div > div:first-child > p:has(> picture) + p br {
     display: none;
   }
