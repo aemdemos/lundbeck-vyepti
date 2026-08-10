@@ -205,6 +205,8 @@ main .columns.callout .columns-img-col img {
 
 main .columns.callout ul {
   color: var(--columns-callout-list-color);
+}
+
 main .columns.border h2 {
   font-size: 24px;
   border: 1px solid var(--brand-teal);
