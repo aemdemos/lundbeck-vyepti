@@ -51,6 +51,17 @@
   --columns-intro-lead-gap: 6px;
   --columns-intro-heading-lead-gap: 24px;
   --columns-intro-subhead-font-weight: 600;
+
+  /* columns-wide variant (tv-concert-commercial "Understanding VYEPTI side effects" +
+     "Wondering if VYEPTI…" rows). The source renders these edge-to-edge on a powder-blue
+     field: each row is a 50/50 split where the image fills its half flush to the viewport
+     edge (its natural per-breakpoint crop sets the height) and the copy is vertically
+     centered in the other half. These tokens carry the copy inset, which widens with the
+     viewport to track the source's Bootstrap-container gutters. */
+  --columns-wide-text-padding-mobile: 24px 34px;
+  --columns-wide-text-padding: 24px 40px;
+  --columns-wide-text-padding-l: 32px 96px;
+  --columns-wide-text-padding-xl: 40px 120px;
 }
 
 .columns.intro {

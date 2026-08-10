@@ -170,6 +170,29 @@ main .columns.stats-callout:has(img) > div > div:not(.columns-img-col) > p:first
   line-height: 1.3;
 }
 
+/* columns-wide section style — full-bleed alternating image/copy rows
+   (tv-concert-commercial "Understanding VYEPTI side effects" + "Wondering if
+   VYEPTI…"). The powder-blue section field already spans the viewport; here we
+   drop the inner container cap so the columns block runs edge-to-edge, then (at
+   768px+) lay each row out as a 50/50 split with the image flush to the viewport
+   edge and the copy vertically centered in the other half — matching the source.
+   Mobile: image on top at full width, copy below. */
+main .section.columns-wide > div {
+  max-width: none;
+  padding: 0;
+  margin: 0;
+}
+
+main .section.columns-wide .columns > div > .columns-img-col img {
+  display: block;
+  width: 100%;
+}
+
+main .section.columns-wide .columns > div > div:not(.columns-img-col) {
+  padding: var(--columns-wide-text-padding-mobile);
+  text-align: left;
+}
+
 @media (width >= 768px) {
   .columns > div { /* @boilerplate */
     align-items: center; /* @boilerplate */
@@ -251,6 +274,24 @@ main .columns.stats-callout:has(img) > div > div:not(.columns-img-col) > p:first
   main .columns.stats-callout:has(img) > div > div:not(.columns-img-col) {
     text-align: left;
   }
+
+  /* columns-wide desktop: 50/50 row, image flush to viewport edge (no gap).
+     The image (width:100%) sets the row height from its natural per-breakpoint
+     crop; the copy is vertically centered in its half with a widening inset. */
+  main .section.columns-wide .columns > div {
+    gap: 0;
+    align-items: center;
+  }
+
+  main .section.columns-wide .columns > div > div {
+    box-sizing: border-box;
+    flex: 1 1 50%;
+    min-width: 0;
+  }
+
+  main .section.columns-wide .columns > div > div:not(.columns-img-col) {
+    padding: var(--columns-wide-text-padding);
+  }
 }
 
 /* locations: all four option cards in a single row at 992px+ (the source's
@@ -268,10 +309,20 @@ main .columns.stats-callout:has(img) > div > div:not(.columns-img-col) > p:first
   main .columns.locations > div > div {
     flex: 0 0 auto;
   }
+
+  /* columns-wide copy inset widens with the container (source ~96px at lg) */
+  main .section.columns-wide .columns > div > div:not(.columns-img-col) {
+    padding: var(--columns-wide-text-padding-l);
+  }
 }
 
 @media (width >= 1200px) {
   main .section.statistic-accent .columns p {
     max-width: unset;
+  }
+
+  /* columns-wide copy inset widens further at xl (source ~120px) */
+  main .section.columns-wide .columns > div > div:not(.columns-img-col) {
+    padding: var(--columns-wide-text-padding-xl);
   }
 }
