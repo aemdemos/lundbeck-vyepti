@@ -206,10 +206,10 @@ main .section.columns-wide .columns > div > div:not(.columns-img-col) > p:not(.b
   margin-bottom: var(--columns-wide-para-gap);
 }
 
-/* Heading sits flush on its first paragraph (source has no gap here). */
-main .section.columns-wide .columns > div > div:not(.columns-img-col) > h2 {
-  margin-bottom: 0;
-}
+/* Heading keeps a gap above the first paragraph. The source opens this with a
+   16px padding-bottom on the heading (its box-to-box margin is 0, but the
+   heading's own padding creates the space); we match that measure via the shared
+   --columns-wide-para-gap margin already applied above, so no override is needed. */
 
 /* The last text paragraph drops its gap — either the button gap below supplies
    the spacing (paragraph immediately before the button) or it's the final element
