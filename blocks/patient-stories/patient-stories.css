@@ -78,7 +78,7 @@
 .patient-stories-intro p:has(picture) {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 16px;
   margin: 0;
   font-size: var(--patient-stories-intro-legend-size);
   font-weight: var(--patient-stories-intro-legend-weight);
