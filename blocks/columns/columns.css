@@ -225,9 +225,10 @@ main .columns.error-page[class~="404-page"] a.button {
   padding: 19px 32px 19px 27px;
 }
 
-/* space above the block, matching source; overridden per tier below */
+/* space above and below the block, matching source; overridden per tier below */
 main .columns.error-page[class~="404-page"] {
   margin-top: 18px;
+  margin-bottom: 107px;
 }
 
 /* stacked and centered here; row layout + left-aligned text resume at 768px below */
@@ -543,6 +544,7 @@ main .section.columns-container:has(.columns.border) {
   /* more space above at this tier; overridden again at 992px below */
   main .columns.error-page[class~="404-page"] {
     margin-top: 34px;
+    margin-bottom: 64px;
   }
 
   /* source jumps straight to the desktop heading size here, unlike other error-page pages;
