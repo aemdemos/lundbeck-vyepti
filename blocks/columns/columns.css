@@ -230,6 +230,15 @@ main .columns.error-page[class~="404-page"] {
   margin-top: 18px;
 }
 
+/* stacked and centered here; row layout + left-aligned text resume at 768px below */
+main .columns.error-page[class~="404-page"] > div {
+  align-items: center;
+}
+
+main .columns.error-page[class~="404-page"] > div > div:not(.columns-img-col) {
+  text-align: center;
+}
+
 /* enlarged teal-accented lead line (first paragraph) of each survey row */
 main .columns.stats-callout:has(img) > div > div:not(.columns-img-col) > p:first-child {
   font-size: var(--heading-font-size-l);
