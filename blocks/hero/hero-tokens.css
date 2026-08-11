@@ -168,15 +168,19 @@
   height: auto;
 }
 
-/* Mobile: text overlay vertically centred over the image, matching the source
-   (which centres the copy in the image-driven banner at every mobile width — h1
-   sits mid-panel, e.g. 77/45 top/bottom at 390px, 168/138 at 700px — not
-   top-anchored). Fill the panel (inset:0) and centre; horizontal centring +
-   centred text stay as before. */
+/* Mobile: text overlay TOP-anchored over the image, matching the source — the
+   copy sits in the upper band (over the sky) with the subject visible below, NOT
+   vertically centred. The source positions the overlay from the top proportionally
+   (~11% down the banner at phone widths), so we anchor the content block at
+   var(--hero-teaser-content-top-mobile) from the top with bottom:auto. A `top`
+   percentage is resolved against the panel HEIGHT (unlike padding, which is
+   width-relative), so the offset scales with the image-driven banner height and the
+   text stays in the same proportional position across mobile widths. Horizontal
+   centring + centred text stay as before. */
 .hero.teaser .hero-panel-content {
-  inset: 0;
+  inset: var(--hero-teaser-content-top-mobile) 0 auto;
   padding: 0 30px;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   text-align: center;
 }
