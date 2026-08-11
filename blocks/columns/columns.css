@@ -228,6 +228,25 @@ main .columns.section-divider-hr.columns-1-cols.block > div > div {
   max-width: none;
 }
 
+/* space above the block, matching source; larger value restored at 768px below */
+main .columns.center-enroll {
+  margin-top: 27px;
+}
+
+/* image sits between the two text blocks while stacked, not above both;
+   row layout at 992px below restores the image to the left edge instead */
+main .columns.center-enroll > div > div:nth-child(2) {
+  order: 0;
+}
+
+main .columns.center-enroll .columns-img-col {
+  order: 1;
+}
+
+main .columns.center-enroll > div > div:nth-child(3) {
+  order: 2;
+}
+
 main .columns.border h2 {
   font-size: 24px;
   border: 1px solid var(--brand-teal);
@@ -257,6 +276,15 @@ main .section.columns-container:has(.columns.border) {
     max-width: none;
     margin-left: 0;
     margin-right: 0;
+  }
+
+  main .columns.center-enroll {
+    margin-top: 58px;
+  }
+
+  /* source stays stacked here; row layout resumes at 992px below */
+  main .columns.center-enroll > div {
+    flex-direction: column;
   }
 
   /* matches source's heading size/line-height/margins at this breakpoint */
@@ -368,6 +396,25 @@ main .section.columns-container:has(.columns.border) {
    icon sits flush with the copy column's leading edge rather than centered
    inside a stretched cell. */
 @media (width >= 992px) {
+  /* source switches from stacked to a row here */
+  main .columns.center-enroll > div {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  /* content-sized image column instead of an equal flex share */
+  main .columns.center-enroll .columns-img-col {
+    flex: 0 0 auto;
+    order: 0;
+  }
+
+  /* image returns to the left edge in the row layout, undoing the 768px
+     tier's stacked order (image between the two text blocks) */
+  main .columns.center-enroll > div > div:nth-child(2),
+  main .columns.center-enroll > div > div:nth-child(3) {
+    order: 1;
+  }
+
   main .columns.locations > div {
     flex-wrap: nowrap;
     justify-content: flex-start;

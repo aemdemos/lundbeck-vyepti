@@ -809,6 +809,26 @@ main > .section.bg-wide > .bg-image img {
   height: auto;
 }
 
+/* style: enroll-banner — pins bg-image to a corner instead of full-bleed cover */
+main > .section.enroll-banner > .bg-image {
+  inset: auto 0 0 auto;
+  margin: 0;
+  padding: 0;
+  max-width: none;
+}
+
+main > .section.enroll-banner > .bg-image picture,
+main > .section.enroll-banner > .bg-image img {
+  width: auto;
+  height: auto;
+}
+
+/* global h1 max-width (14em) leaves it narrower than the centered wrapper;
+   margin:0 there sits it flush-left despite center-mobile's text-align:center */
+main .section.enroll-banner h1 {
+  margin-inline: auto;
+}
+
 main > .section:first-of-type { /* @boilerplate */
   margin-top: 0; /* @boilerplate */
 }
@@ -1160,6 +1180,49 @@ main .section.stats-callout h4 {
     min-height: 427px;
   }
 
+  /* source switches from a small corner asset to a full-height right band here */
+  main > .section.enroll-banner > .bg-image {
+    inset: 0 0 0 auto;
+  }
+
+  /* transparent to layout so img (a true replaced element) drives the auto
+     width below — picture itself doesn't reliably compute an intrinsic-ratio
+     auto width */
+  main > .section.enroll-banner > .bg-image picture {
+    display: contents;
+  }
+
+  /* fit to the section's height, no scale-up — this asset otherwise renders
+     wider than the viewport at this tier and swamps the heading. max-width:
+     none overrides the global img reset, which would otherwise cap this at
+     the section's width. object-position shifts the visible content right,
+     same technique as the source uses on its own (different) narrow-tier
+     asset, so the shapes clear the heading text instead of overlapping it */
+  main > .section.enroll-banner > .bg-image img {
+    max-width: none;
+    width: auto;
+    height: 100%;
+    object-position: 400px 50%;
+  }
+
+  main .section.enroll-banner .default-content-wrapper > p:first-child {
+    font-size: var(--heading-font-size-xl);
+  }
+
+  /* source keeps this h1 at the mobile size here rather than the global 56px jump;
+     source is left-aligned from here up, undoing the mobile-only centering above */
+  main .section.enroll-banner h1 {
+    font-size: 32px;
+    margin-inline: 0;
+  }
+
+  /* dark's shared 40px padding makes this banner ~279px tall vs. source's 240px;
+     the smaller h1 pinned at this tier shrinks content further, so padding is
+     larger here — overridden again at 992px below, where the h1 is bigger */
+  main > .section.enroll-banner {
+    padding: 50px 0;
+  }
+
   .section.margin-top {
     margin-top: 36px;
   }
@@ -1331,6 +1394,33 @@ main .section.stats-callout h4 {
 
   main > .section.bg-wide:has(.columns-cta) {
     min-height: 370px;
+  }
+
+  /* this tier's asset is natively section-height — undo the 768px tier's scale-up */
+  main > .section.enroll-banner > .bg-image {
+    inset: 0 0 0 auto;
+    display: block;
+  }
+
+  main > .section.enroll-banner > .bg-image picture {
+    display: block;
+  }
+
+  /* source shifts this asset's visible content 268px right within its box
+     (its canvas has extra transparent space on the left) */
+  main > .section.enroll-banner > .bg-image img {
+    height: 100%;
+    object-position: 268px 50%;
+  }
+
+  /* source resumes the global heading size here; only the 768px tier is pinned smaller */
+  main .section.enroll-banner h1 {
+    font-size: var(--heading-font-size-xxl);
+  }
+
+  /* bigger h1 restores the content height here, so less padding is needed */
+  main > .section.enroll-banner {
+    padding: 20px 0;
   }
 
   body[data-breadcrumbs] { /* @libs */
