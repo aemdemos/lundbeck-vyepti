@@ -239,12 +239,13 @@ body.appear { /* @libs */
 }
 
 header { /* @libs */
-  /* One uniform mobile reservation for all widths < 768px. 138px matches the
-     rendered header (30px teal strip + ~108px brand row) measured across pages and
-     phone widths; reserving the exact height stops `main` dropping ~10px when the nav
-     decorates (the residual mobile CLS). The header still grows to fit when the
-     tagline wraps to 3 lines on very narrow phones. Grows to --nav-height at 992px+. */
-  min-height: 138px;
+  /* One uniform mobile reservation for all widths < 768px. 128px matches the rendered
+     header (30px teal utility strip + ~98px brand row) — the same height as the source
+     vyepti.com header. Reserving the exact height stops `main` dropping when the nav
+     decorates (the mobile CLS) with no leftover gap above the hero. The utility strip
+     stays 30px because its links are nowrap (see header.css). Grows to --nav-height
+     at 992px+. */
+  min-height: 128px;
   height: auto; /* fit nav content so it never overflows onto main */
 }
 
@@ -1038,17 +1039,6 @@ main .section.stats-callout h4 {
 @media (width >= 576px) {
   :root {
     --max-width-site: 540px;
-  }
-
-  /* The brand-row tagline wraps to 3 lines only on narrow phones, making the header
-     ~138px there (reserved by the base rule to avoid CLS). From ~480px up the tagline
-     fits in 2 lines and the header content is 128px, so the 138px base reservation
-     would leave a ~10px empty gap above the hero. Drop the reservation back to 128px
-     here (576px is the first defined breakpoint safely past the wrap point) so the
-     header hugs its content with no gap — and no CLS, since 128px matches the
-     rendered height at these widths. */
-  header {
-    min-height: 128px;
   }
 
   main .section.stats-callout > div:not(.bg-image) {
