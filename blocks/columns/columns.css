@@ -193,9 +193,9 @@ main .columns.error-page h1 {
   margin-inline: auto;
 }
 
-/* this page's own text needs a wider cap than the shared 260px to match source's mobile wrap */
+/* source doesn't cap this heading at mobile sizes; the shared 260px cap wraps it wrong */
 main .columns.error-page[class~="404-page"] h1 {
-  max-width: 275px;
+  max-width: none;
 }
 
 /* forces the same 2-line wrap as source's manual <br> at mobile sizes */
