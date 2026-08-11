@@ -23,7 +23,7 @@ export function buildTextQuestion(fieldDef, countLabel, savedValue, stepNumber) 
   const { name, label, helper } = fieldDef;
   const field = createEl('div', { className: `dg-field dg-field-step${stepNumber} dg-field-text` });
 
-  const labelRowChildren = [createEl('h3', { className: 'dg-field-label' }, label)];
+  const labelRowChildren = [createEl('label', { className: 'dg-field-label' }, label)];
   if (countLabel) {
     labelRowChildren.push(createEl('span', { className: 'dg-field-count' }, countLabel));
   }
