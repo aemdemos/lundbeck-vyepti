@@ -252,17 +252,21 @@
 }
 
 @media (width >= 768px) {
-  /* Banner height steps per breakpoint to match the source's measured heights
-     (220px@768 → 232px@992 → 240px@1200+). The source is a full-bleed strip whose
-     height is near-fixed within each breakpoint (not intrinsic-ratio scaling), so a
-     fixed height per step matches it exactly. On desktop the background image is
-     absolute (below), so a fixed panel height reserves space without CLS. The mobile
-     750/700 ratio and homepage panel ratios (834/840, 1024/800, …) are cleared here. */
+  /* Banner height is FLUID, matching the source exactly: the source displays its
+     full-bleed banner crop at the crop's natural aspect ratio, so its height =
+     viewport-width ÷ crop-ratio (e.g. 220px@768 but ~200px@1200, ~240px@1440 for the
+     6:1 crop). A fixed height per breakpoint only matches at isolated widths and is
+     up to ~40px too tall across the 1200–1439 range. Instead we set aspect-ratio to
+     the served crop at each breakpoint (art-direction swaps crops at the same 768/992/
+     1200 points the source does): 1672×480 (3.48:1) → 2048×480 (4.27:1) → 2880×480
+     (6:1). aspect-ratio is pure CSS so it reserves space deterministically (no CLS)
+     and scales fluidly like the source. The mobile 750/700 ratio and homepage panel
+     ratios (834/840, 1024/800, …) are cleared here. */
   .hero.teaser .hero-panel,
   .hero.teaser .hero-panel-dark,
   .hero.teaser .hero-panel-light {
-    aspect-ratio: auto;
-    height: 220px;
+    aspect-ratio: 1672 / 480;
+    height: auto;
     min-height: 0;
   }
 
@@ -322,11 +326,11 @@
 }
 
 @media (width >= 992px) {
-  /* Source banner grows to 232px at 992px. */
+  /* Source serves the 2048×480 (4.27:1) crop from 992px; banner tracks that ratio. */
   .hero.teaser .hero-panel,
   .hero.teaser .hero-panel-dark,
   .hero.teaser .hero-panel-light {
-    height: 232px;
+    aspect-ratio: 2048 / 480;
   }
 
   .hero.teaser .hero-panel-content {
@@ -350,11 +354,13 @@
 }
 
 @media (width >= 1200px) {
-  /* Source banner settles at 240px from 1200px up. */
+  /* Source serves the 2880×480 (6:1) crop from 1200px; banner tracks that ratio, so it
+     scales from ~200px@1200 to 240px@1440 exactly as the source does (was previously a
+     fixed 240px, which was up to ~40px too tall below 1440). */
   .hero.teaser .hero-panel,
   .hero.teaser .hero-panel-dark,
   .hero.teaser .hero-panel-light {
-    height: var(--hero-teaser-min-height-desktop);
+    aspect-ratio: 2880 / 480;
   }
 
   .hero.teaser .hero-panel-content {
