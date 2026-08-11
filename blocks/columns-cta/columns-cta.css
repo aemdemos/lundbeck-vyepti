@@ -13,16 +13,14 @@ main > .section.bg-wide > .columns-cta-wrapper {
   padding-top: 10px;
 }
 
-/* source's single-card padding is taller than the generic fallback here */
-@media (width < 768px) {
-  main .columns-cta-1-cols > div > div {
-    padding: var(--columns-cta-single-padding-mobile);
-  }
+/* source's single-card padding is taller than the generic fallback below */
+main .columns-cta-1-cols > div > div {
+  padding: var(--columns-cta-single-padding-mobile);
+}
 
-  main .columns-cta-1-cols a,
-  main .columns-cta-1-cols a.button {
-    margin-top: var(--columns-cta-single-button-margin-top-mobile);
-  }
+main .columns-cta-1-cols a,
+main .columns-cta-1-cols a.button {
+  margin-top: var(--columns-cta-single-button-margin-top-mobile);
 }
 
 .columns-cta > div {

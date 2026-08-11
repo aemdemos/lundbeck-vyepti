@@ -134,6 +134,16 @@
   main .columns-cta > div > div {
     padding: var(--columns-cta-card-padding-tablet);
   }
+
+  /* restore the generic tablet values over the mobile single-col defaults */
+  main .columns-cta-1-cols > div > div {
+    padding: var(--columns-cta-card-padding-tablet);
+  }
+
+  main .columns-cta-1-cols a,
+  main .columns-cta-1-cols a.button {
+    margin-top: var(--columns-cta-button-margin-top);
+  }
 }
 
 @media (width >= 992px) {

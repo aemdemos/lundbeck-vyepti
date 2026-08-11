@@ -164,17 +164,17 @@ main .columns.stats-callout:has(img) .columns-img-col img {
   object-fit: contain;
 }
 
-/* shrink icon to match source (~160x161); migrated asset's canvas is 260x260 */
+/* shrink icon to match source (~100x100 mobile); migrated asset's canvas is 260x260 */
 main .columns.error-page .columns-img-col img {
-  width: var(--columns-error-page-icon-size);
+  width: var(--columns-error-page-icon-size-mobile);
   aspect-ratio: 1;
   object-fit: contain;
 }
 
 /* statistic-accent reserves a 260px icon-column slot; match it to the icon */
 main .columns.error-page .columns-img-col {
-  flex: 0 0 var(--columns-error-page-icon-size);
-  max-width: var(--columns-error-page-icon-size);
+  flex: 0 0 var(--columns-error-page-icon-size-mobile);
+  max-width: var(--columns-error-page-icon-size-mobile);
 }
 
 /* .columns-2-cols only present to win specificity over statistic-accent */
@@ -187,27 +187,16 @@ main .columns.error-page {
   margin-bottom: 26px;
 }
 
-@media (width < 768px) {
-  main .columns.error-page .columns-img-col img {
-    width: var(--columns-error-page-icon-size-mobile);
-  }
+/* forces the same 2-line wrap as source's manual <br> at mobile sizes */
+main .columns.error-page h1 {
+  max-width: 260px;
+  margin-inline: auto;
+}
 
-  main .columns.error-page .columns-img-col {
-    flex: 0 0 var(--columns-error-page-icon-size-mobile);
-    max-width: var(--columns-error-page-icon-size-mobile);
-  }
-
-  /* forces the same 2-line wrap as source's manual <br> at this size */
-  main .columns.error-page h1 {
-    max-width: 260px;
-    margin-inline: auto;
-  }
-
-  /* forces the same 2-line wrap as source's manual <br> at this size */
-  main .columns.error-page h3 {
-    max-width: 280px;
-    margin-inline: auto;
-  }
+/* forces the same 2-line wrap as source's manual <br> at mobile sizes */
+main .columns.error-page h3 {
+  max-width: 280px;
+  margin-inline: auto;
 }
 
 /* enlarged teal-accented lead line (first paragraph) of each survey row */
@@ -279,9 +268,20 @@ main .section.columns-container:has(.columns.border) {
   }
 
   main .columns.error-page h3 {
+    max-width: none;
     font-size: 20px;
     margin-top: 0;
     line-height: 32px;
+  }
+
+  /* icon shrinks here; overridden again at 992px and 1200px below */
+  main .columns.error-page .columns-img-col img {
+    width: var(--columns-error-page-icon-size-768);
+  }
+
+  main .columns.error-page .columns-img-col {
+    flex: 0 0 var(--columns-error-page-icon-size-768);
+    max-width: var(--columns-error-page-icon-size-768);
   }
 
   /* source stays stacked here; row layout resumes at 992px below */
@@ -407,22 +407,8 @@ main .section.columns-container:has(.columns.border) {
     margin-top: 20px;
     margin-bottom: 38px;
   }
-}
 
-/* icon size bounded to this tier only */
-@media (width >= 768px) and (width < 992px) {
-  main .columns.error-page .columns-img-col img {
-    width: var(--columns-error-page-icon-size-768);
-  }
-
-  main .columns.error-page .columns-img-col {
-    flex: 0 0 var(--columns-error-page-icon-size-768);
-    max-width: var(--columns-error-page-icon-size-768);
-  }
-}
-
-/* icon size bounded to this tier only */
-@media (width >= 992px) and (width < 1200px) {
+  /* icon shrinks further here; restored to full size at 1200px below */
   main .columns.error-page .columns-img-col img {
     width: var(--columns-error-page-icon-size-992);
   }
@@ -436,5 +422,15 @@ main .section.columns-container:has(.columns.border) {
 @media (width >= 1200px) {
   main .section.statistic-accent .columns p {
     max-width: unset;
+  }
+
+  /* icon returns to full size at this width and up */
+  main .columns.error-page .columns-img-col img {
+    width: var(--columns-error-page-icon-size);
+  }
+
+  main .columns.error-page .columns-img-col {
+    flex: 0 0 var(--columns-error-page-icon-size);
+    max-width: var(--columns-error-page-icon-size);
   }
 }

@@ -718,29 +718,16 @@ main > .section > .bg-image img {
 
 /* style: bg-wide — pins bg-image to the bottom-right, sized to viewport */
 main > .section.bg-wide {
-  --bg-wide-width: min(377px, 30vw);
+  /* source uses a fixed 123x91 mobile asset here instead of scaling down */
+  --bg-wide-width: 123px;
 
   margin-bottom: 0;
   min-height: calc(var(--bg-wide-width) * 277 / 377);
 }
 
-/* source uses a fixed 123x91 mobile asset here instead of scaling down */
-@media (width < 768px) {
-  main > .section.bg-wide {
-    --bg-wide-width: 123px;
-  }
-
-  /* matches source's ~120px card-to-footer gap */
-  main > .section.bg-wide:has(.columns-cta) {
-    min-height: 476px;
-  }
-}
-
-/* height bounded to this tier only */
-@media (width >= 768px) and (width < 992px) {
-  main > .section.bg-wide:has(.columns-cta) {
-    min-height: 427px;
-  }
+/* matches source's ~120px card-to-footer gap */
+main > .section.bg-wide:has(.columns-cta) {
+  min-height: 476px;
 }
 
 main > .section.bg-wide > .bg-image {
@@ -1100,6 +1087,11 @@ main .section.stats-callout h4 {
 
   main > .section.bg-wide {
     --bg-wide-width: 377px;
+  }
+
+  /* overridden again at 992px below */
+  main > .section.bg-wide:has(.columns-cta) {
+    min-height: 427px;
   }
 
   .section.margin-top {
