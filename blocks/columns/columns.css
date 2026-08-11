@@ -547,9 +547,7 @@ main .section.columns-container:has(.columns.border) {
     margin-bottom: 64px;
   }
 
-  /* source jumps straight to the desktop heading size here, unlike other error-page pages;
-     max-width/margin reset the mobile-tier wrap cap and centering above, which otherwise
-     win on specificity */
+  /* jumps to the desktop size here (unlike other error-page pages); resets the mobile cap/margin above */
   main .columns.error-page[class~="404-page"] h1 {
     max-width: none;
     margin-inline: 0;
@@ -561,8 +559,7 @@ main .section.columns-container:has(.columns.border) {
     font-size: 24px;
   }
 
-  /* fixed icon size for this page; wins over the tiered sizes below via specificity.
-     source's icon is 177x169, not square like the shared error-page default */
+  /* fixed, non-square icon size; wins over the tiered sizes below via specificity */
   main .columns.error-page[class~="404-page"] .columns-img-col img {
     width: var(--columns-404-page-icon-size);
     aspect-ratio: 177 / 169;
