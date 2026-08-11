@@ -219,6 +219,12 @@ main .columns.error-page[class~="404-page"] p {
   font-size: 20px;
 }
 
+/* source's button has no border and slightly asymmetric padding (room for the arrow) */
+main .columns.error-page[class~="404-page"] a.button {
+  border-width: 0;
+  padding: 19px 32px 19px 27px;
+}
+
 /* enlarged teal-accented lead line (first paragraph) of each survey row */
 main .columns.stats-callout:has(img) > div > div:not(.columns-img-col) > p:first-child {
   font-size: var(--heading-font-size-l);
@@ -520,9 +526,11 @@ main .section.columns-container:has(.columns.border) {
   }
 
   /* source jumps straight to the desktop heading size here, unlike other error-page pages;
-     max-width resets the mobile-tier wrap cap above, which otherwise wins on specificity */
+     max-width/margin reset the mobile-tier wrap cap and centering above, which otherwise
+     win on specificity */
   main .columns.error-page[class~="404-page"] h1 {
     max-width: none;
+    margin-inline: 0;
     font-size: 56px;
   }
 
@@ -531,9 +539,11 @@ main .section.columns-container:has(.columns.border) {
     font-size: 24px;
   }
 
-  /* fixed icon size for this page; wins over the tiered sizes below via specificity */
+  /* fixed icon size for this page; wins over the tiered sizes below via specificity.
+     source's icon is 177x169, not square like the shared error-page default */
   main .columns.error-page[class~="404-page"] .columns-img-col img {
     width: var(--columns-404-page-icon-size);
+    aspect-ratio: 177 / 169;
   }
 
   main .columns.error-page[class~="404-page"] .columns-img-col {
