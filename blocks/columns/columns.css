@@ -242,6 +242,98 @@ main .columns.callout ul {
   color: var(--columns-callout-list-color);
 }
 
+/* columns-wide section style — full-bleed alternating image/copy rows
+   (tv-concert-commercial "Understanding VYEPTI side effects" + "Wondering if
+   VYEPTI…"). The powder-blue section field already spans the viewport; here we
+   drop the inner container cap so the columns block runs edge-to-edge, then (at
+   768px+) lay each row out as a 50/50 split with the image flush to the viewport
+   edge and the copy vertically centered in the other half — matching the source.
+   Mobile: image on top at full width, copy below. */
+main .section.columns-wide > div {
+  max-width: none;
+  padding: 0;
+  margin: 0;
+}
+
+main .section.columns-wide .columns > div > .columns-img-col img {
+  display: block;
+  width: 100%;
+}
+
+main .section.columns-wide .columns > div > div:not(.columns-img-col) {
+  padding: var(--columns-wide-text-padding-mobile);
+  text-align: left;
+}
+
+/* Cap the copy to the source's measure so the heading and paragraphs all wrap at
+   the same narrower width (the source insets the text a further ~48px on the
+   right). Only the measure bites where the text half is wider than it (desktop).
+   Vertical rhythm matches the source: the heading runs flush against the first
+   paragraph (no margin), consecutive paragraphs are separated by a 16px gap, and
+   a larger gap sits before the button. */
+main .section.columns-wide .columns > div > div:not(.columns-img-col) > h2,
+main .section.columns-wide .columns > div > div:not(.columns-img-col) > p:not(.button-wrapper) {
+  max-width: var(--columns-wide-text-measure);
+  margin-top: 0;
+  margin-bottom: var(--columns-wide-para-gap);
+}
+
+/* Heading keeps a gap above the first paragraph. The source opens this with a
+   16px padding-bottom on the heading (its box-to-box margin is 0, but the
+   heading's own padding creates the space); we match that measure via the shared
+   --columns-wide-para-gap margin already applied above, so no override is needed. */
+
+/* The last text paragraph drops its gap — either the button gap below supplies
+   the spacing (paragraph immediately before the button) or it's the final element
+   in the cell. */
+main .section.columns-wide .columns > div > div:not(.columns-img-col) > p:not(.button-wrapper):has(+ .button-wrapper),
+main .section.columns-wide .columns > div > div:not(.columns-img-col) > p:not(.button-wrapper):last-child {
+  margin-bottom: 0;
+}
+
+/* Heading + body type match the source (heavy 32px teal heading, 16px/20px copy),
+   overriding the global columns heading size for this section only. */
+main .section.columns-wide .columns h2 {
+  font-size: var(--columns-wide-heading-font-size);
+  line-height: var(--columns-wide-heading-line-height);
+  font-weight: var(--columns-wide-heading-font-weight);
+}
+
+main .section.columns-wide .columns > div > div:not(.columns-img-col) > p:not(.button-wrapper) {
+  font-size: var(--columns-wide-body-font-size);
+  line-height: var(--columns-wide-body-line-height);
+}
+
+main .section.columns-wide .columns > div > div:not(.columns-img-col) > .button-wrapper {
+  margin-top: var(--columns-wide-button-gap);
+  margin-bottom: 0;
+}
+
+/* Pull the LEFT text block's copy toward the centre image (matching the source),
+   so it doesn't hug the far-left edge as the viewport widens. The left block is
+   the text cell that precedes the image cell. Each line is fixed to the copy
+   measure and pushed right with margin-left:auto — this keeps the shared left
+   edge (text stays left-aligned) while anchoring the group's right edge a
+   consistent gutter from the centre. On narrow widths the measure clamps to
+   100%, leaving no slack, so nothing shifts (copy stays full within its column). */
+main .section.columns-wide .columns > div > div:not(.columns-img-col):has(+ .columns-img-col) > h2,
+main .section.columns-wide .columns > div > div:not(.columns-img-col):has(+ .columns-img-col) > p {
+  width: var(--columns-wide-text-measure);
+  max-width: 100%;
+  margin-left: auto;
+}
+
+/* When the ISI safety section follows this full-bleed blue section, close the
+   white gap above the ISI so the divider line sits flush against the blue
+   field's bottom edge — as on the source (the 1px divider touches the blue with
+   no gap). The ISI keeps its border-top; only the gap is removed. The negative
+   margin cancels the preceding section's own margin-bottom (both use
+   --section-padding, so it collapses to zero at every breakpoint). Scoped to
+   this adjacency so the divider spacing is untouched on every other page. */
+main > .section.columns-wide + .section:has(.isi-container) {
+  margin-top: calc(-1 * var(--section-padding));
+}
+
 /* resets the authoring doc's paragraph wrapper around the hr */
 main .columns.section-divider-hr p {
   margin: 0;
@@ -433,6 +525,24 @@ main .section.columns-container:has(.columns.border) {
     text-align: left;
   }
 
+  /* columns-wide desktop: 50/50 row, image flush to viewport edge (no gap).
+     The image (width:100%) sets the row height from its natural per-breakpoint
+     crop; the copy is vertically centered in its half with a widening inset. */
+  main .section.columns-wide .columns > div {
+    gap: 0;
+    align-items: center;
+  }
+
+  main .section.columns-wide .columns > div > div {
+    box-sizing: border-box;
+    flex: 1 1 50%;
+    min-width: 0;
+  }
+
+  main .section.columns-wide .columns > div > div:not(.columns-img-col) {
+    padding: var(--columns-wide-text-padding);
+  }
+
   main .columns.border h2 {
     font-size: 32px;
   }
@@ -498,6 +608,11 @@ main .section.columns-container:has(.columns.border) {
 @media (width >= 1200px) {
   main .section.statistic-accent .columns p {
     max-width: unset;
+  }
+
+  /* columns-wide copy inset widens further at xl (source ~120px) */
+  main .section.columns-wide .columns > div > div:not(.columns-img-col) {
+    padding: var(--columns-wide-text-padding-xl);
   }
 
   /* icon returns to full size at this width and up */
