@@ -61,6 +61,17 @@
   --columns-intro-lead-gap: 6px;
   --columns-intro-heading-lead-gap: 24px;
   --columns-intro-subhead-font-weight: 600;
+
+  /* callout variant */
+  --columns-callout-bg: var(--card-bg-light);
+  --columns-callout-radius: 12px;
+  --columns-callout-padding: 25px;
+  --columns-callout-padding-desktop: 48px 15px;
+  --columns-callout-bar-height: 10px;
+  --columns-callout-bar: linear-gradient(to right, #a3d3dd 33.33%, #f06161 33.33% 66.66%, #b72c57 66.66%);
+  --columns-callout-logo-size: 60px;
+  --columns-callout-logo-size-desktop: 48px;
+  --columns-callout-list-color: var(--text-color-light);
 }
 
 .columns.intro {
