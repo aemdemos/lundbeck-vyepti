@@ -225,6 +225,11 @@ main .columns.error-page[class~="404-page"] a.button {
   padding: 19px 32px 19px 27px;
 }
 
+/* space above the block, matching source; overridden per tier below */
+main .columns.error-page[class~="404-page"] {
+  margin-top: 18px;
+}
+
 /* enlarged teal-accented lead line (first paragraph) of each survey row */
 main .columns.stats-callout:has(img) > div > div:not(.columns-img-col) > p:first-child {
   font-size: var(--heading-font-size-l);
@@ -523,6 +528,12 @@ main .section.columns-container:has(.columns.border) {
 
   main .columns.error-page[class~="404-page"].columns-2-cols > div > div:not(.columns-img-col) {
     text-align: left;
+    padding-left: 5px;
+  }
+
+  /* more space above at this tier; overridden again at 992px below */
+  main .columns.error-page[class~="404-page"] {
+    margin-top: 34px;
   }
 
   /* source jumps straight to the desktop heading size here, unlike other error-page pages;
@@ -686,6 +697,11 @@ main .section.columns-container:has(.columns.border) {
   /* caps the heading to match source's wrap at this width and up */
   main .columns.error-page[class~="404-page"] h1 {
     max-width: 634px;
+  }
+
+  /* more space above at this tier and up */
+  main .columns.error-page[class~="404-page"] {
+    margin-top: 74px;
   }
 
   main .columns.error-page.columns-2-cols > div > div:not(.columns-img-col) {
