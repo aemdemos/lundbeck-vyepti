@@ -89,7 +89,11 @@
   --hero-teaser-heading-line-height: 36px;
   --hero-teaser-heading-line-height-md: 40px;
   --hero-teaser-heading-color: var(--brand-primary);
-  --hero-teaser-caption-color: #333;
+  /* Caption default matches the source disclaimer (.actor-portrayl-text-shadow):
+     white with a drop-shadow so it reads on the image. Authors override the colour
+     per page with a span-class ([[grey]] / [[brand-primary]]); see the caption rules. */
+  --hero-teaser-caption-color: var(--hero-text-color-light);
+  --hero-teaser-caption-shadow: 0 2px 7px rgb(0 0 0);
   --hero-teaser-caption-font-size: 12px;
 
   /* mobile overlay top offset (% of image-driven banner height) — text sits over
@@ -199,8 +203,8 @@
   text-align: center;
 }
 
-/* Caption — grey #333, bottom-right (emphasis is author-driven). Font-size, bottom
-   offset match the source (12px; 11px mobile / 16px at 768px+). */
+/* Caption — bottom-right; colour is author-driven (see the colour rules below).
+   Font-size, bottom offset match the source (12px; 11px mobile / 16px at 768px+). */
 .hero.teaser .hero-caption,
 .hero.teaser .hero-caption em,
 .hero.teaser .hero-caption sup {
@@ -214,23 +218,23 @@
   z-index: var(--hero-z-caption);
   margin: 0;
   color: var(--hero-teaser-caption-color);
-  text-shadow: none;
+  text-shadow: var(--hero-teaser-caption-shadow);
   font-weight: 400;
 }
 
-/* The caption copy is author-driven and pages tag it with different colour
-   span-classes ([[brand-primary]] teal, [[grey]] grey, plain white). Those
-   inline colours (from styles.css .brand-primary/.grey/.teal etc.) would win
-   over the caption's inherited colour, so the teaser caption looked teal on
-   some pages and grey on others. Normalise every teaser caption to the same
-   grey #333 regardless of the authored class, and drop the drop-shadow so the
-   grey reads cleanly on the light banner. */
-.hero.teaser .hero-caption,
-.hero.teaser .hero-caption span,
-.hero.teaser .hero-caption em,
-.hero.teaser .hero-caption strong,
-.hero.teaser .hero-caption sup {
-  color: var(--hero-teaser-caption-color);
+/* The caption copy is author-driven and pages tag it with a colour span-class,
+   matching the source per page rather than a single site-wide colour:
+     • untagged  → white + drop-shadow (source default .actor-portrayl-text-shadow),
+       e.g. what-to-expect / why-iv-treatment / nurse-support / vyepti-study-results
+     • [[grey]]  → grey #333, no shadow (e.g. stay-connected)
+     • [[brand-primary]] / [[teal]] → teal, no shadow (e.g. share-your-migraine-story)
+   The span-class colours (from styles.css .grey / .brand-primary / .teal) already
+   win via their own selector; here we only drop the drop-shadow for the coloured
+   variants so it reads cleanly on the light banner, and let the untagged default
+   keep the white-on-image shadow. */
+.hero.teaser .hero-caption .grey,
+.hero.teaser .hero-caption .brand-primary,
+.hero.teaser .hero-caption .teal {
   text-shadow: none;
 }
 
