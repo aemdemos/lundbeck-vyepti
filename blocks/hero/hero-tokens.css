@@ -310,9 +310,15 @@
 
   .hero.teaser .hero-panel-description > h1,
   .hero.teaser h1 {
-    /* font-size unchanged from mobile (32px); line-height/width/alignment shift here */
+    /* font-size unchanged from mobile (32px); line-height/width/alignment shift here.
+       Width hugs the content (fit-content) with a max-width cap so the headline wraps
+       at the same point as the source: short one-line titles (e.g. "Working hard to
+       support you", ~422px) stay on one line, while longer titles wrap. The cap sits
+       between the widest one-line title that must NOT wrap and the narrowest that must
+       (430px @768–991: financial ~422 < cap < faq ~439). */
     line-height: var(--hero-teaser-heading-line-height-md);
-    width: 60%;
+    width: fit-content;
+    max-width: 430px;
     text-align: left;
   }
 
@@ -343,13 +349,13 @@
     padding-bottom: 0;
   }
 
-  /* Source caps the headline column at ~52% of the 960px content width across
-     the 992-1199 range, so it wraps at the same point as vyepti.com. */
+  /* Cap sits between financial (~553px one-line, must NOT wrap) and faq (~576px,
+     must wrap) across the 992-1199 range, so each title wraps at the source's point. */
   .hero.teaser .hero-panel-description > h1,
   .hero.teaser h1 {
     font-size: 42px;
     line-height: 48px;
-    width: 52%;
+    max-width: 564px;
   }
 }
 
@@ -372,10 +378,12 @@
     font-size: var(--hero-teaser-eyebrow-font-size-desktop);
   }
 
+  /* Cap sits between financial (~738px one-line, must NOT wrap) and faq (~768px,
+     must wrap) from 1200px up, matching the source's wrap point. */
   .hero.teaser .hero-panel-description > h1,
   .hero.teaser h1 {
     font-size: var(--hero-single-heading-font-size-desktop);
     line-height: 60px;
-    width: 60%;
+    max-width: 753px;
   }
 }
