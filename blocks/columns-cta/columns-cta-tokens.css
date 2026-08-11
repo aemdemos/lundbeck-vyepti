@@ -32,9 +32,11 @@
   --columns-cta-corner-image: url("/icons/cta-corner-shape.svg");
   --columns-cta-corner-width: 100px;
 
-  /* larger left padding clears the corner shard so text starts to its right */
-  --columns-cta-single-padding: 36px 16px 44px 100px;
+  /* sized to match source's 186px card height */
+  --columns-cta-single-padding: 36px 16px 39px 100px;
   --columns-cta-single-row-gap-desktop: 28px;
+  --columns-cta-single-padding-mobile: 52px 32px 88px;
+  --columns-cta-single-button-margin-top-mobile: 32px;
 
   /* breathing room below the eyebrow (its <strong> can't carry the spacing) */
   --columns-cta-single-eyebrow-gap: 8px;
@@ -131,6 +133,16 @@
 @media (width >= 768px) {
   main .columns-cta > div > div {
     padding: var(--columns-cta-card-padding-tablet);
+  }
+
+  /* restore the generic tablet values over the mobile single-col defaults */
+  main .columns-cta-1-cols > div > div {
+    padding: var(--columns-cta-card-padding-tablet);
+  }
+
+  main .columns-cta-1-cols a,
+  main .columns-cta-1-cols a.button {
+    margin-top: var(--columns-cta-button-margin-top);
   }
 }
 
