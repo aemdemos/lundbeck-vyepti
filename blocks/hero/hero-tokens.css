@@ -168,26 +168,17 @@
   height: auto;
 }
 
-/* Mobile: text overlay top-anchored + centred over the image (top % is relative
-   to the panel height, so the text sits ~10.5% down regardless of image size). */
+/* Mobile: text overlay vertically centred over the image, matching the source
+   (which centres the copy in the image-driven banner at every mobile width — h1
+   sits mid-panel, e.g. 77/45 top/bottom at 390px, 168/138 at 700px — not
+   top-anchored). Fill the panel (inset:0) and centre; horizontal centring +
+   centred text stay as before. */
 .hero.teaser .hero-panel-content {
-  inset: var(--hero-teaser-content-top-mobile) 0 auto;
+  inset: 0;
   padding: 0 30px;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
   text-align: center;
-}
-
-/* Large phones / portrait tablets (600–767px): the wide default crop makes the
-   image-driven banner tall, and on that taller strip the source vertically
-   centres the text rather than top-anchoring it. Match that here — fill the panel
-   and centre — so the copy isn't stranded near the top with empty space below.
-   Below 600px the base top-anchored placement (text over the sky) still applies. */
-@media (width >= 600px) and (width < 768px) {
-  .hero.teaser .hero-panel-content {
-    inset: 0;
-    justify-content: center;
-  }
 }
 
 /* Eyebrow — the accessible bold <p> (first child of the description). Higher
