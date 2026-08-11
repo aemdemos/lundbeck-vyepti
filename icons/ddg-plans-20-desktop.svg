@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="21px" height="24px" viewBox="0 0 21 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>ddg-plans-20-desktop</title>
+    <g id="Doctor-Discussion-Guide" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linejoin="round">
+        <g id="Layouts-/-Desktop-/-3.1.02_GettingTreatment_TalkToYourDoctorDDG_Q2" transform="translate(-506.000000, -990.000000)" stroke="#7EBCC6" stroke-width="1.25">
+            <g id="Group-18" transform="translate(439.000000, 618.000000)">
+                <g id="Group-18" transform="translate(51.000000, 154.000000)">
+                    <g id="16+-years" transform="translate(0.000000, 208.000000)">
+                        <g id="ddg-plans-20-desktop" transform="translate(17.000000, 11.000000)">
+                            <g id="Group-6">
+                                <polygon id="Stroke-1" points="0 21.473 19.198 21.473 19.198 5.462 0 5.462"></polygon>
+                                <polygon id="Stroke-3" points="0 5.462 19.198 5.462 19.198 2.731 0 2.731"></polygon>
+                                <polygon id="Stroke-4" points="2.785 2.731 5.408 2.731 5.408 0 2.785 0"></polygon>
+                                <polygon id="Stroke-5" points="13.79 2.731 16.413 2.731 16.413 0 13.79 0"></polygon>
+                            </g>
+                            <line x1="13.0661" y1="9.3308" x2="6.1321" y2="16.2648" id="Stroke-7" stroke-linecap="round"></line>
+                            <line x1="13.0661" y1="16.2647" x2="6.1321" y2="9.3307" id="Stroke-8" stroke-linecap="round"></line>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
