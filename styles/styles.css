@@ -1040,6 +1040,17 @@ main .section.stats-callout h4 {
     --max-width-site: 540px;
   }
 
+  /* The brand-row tagline wraps to 3 lines only on narrow phones, making the header
+     ~138px there (reserved by the base rule to avoid CLS). From ~480px up the tagline
+     fits in 2 lines and the header content is 128px, so the 138px base reservation
+     would leave a ~10px empty gap above the hero. Drop the reservation back to 128px
+     here (576px is the first defined breakpoint safely past the wrap point) so the
+     header hugs its content with no gap — and no CLS, since 128px matches the
+     rendered height at these widths. */
+  header {
+    min-height: 128px;
+  }
+
   main .section.stats-callout > div:not(.bg-image) {
     max-width: var( --max-width-site);
   }
