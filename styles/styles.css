@@ -809,6 +809,25 @@ main > .section.bg-wide > .bg-image img {
   height: auto;
 }
 
+/* style: enroll-banner — pins bg-image to a corner instead of full-bleed cover */
+main > .section.enroll-banner > .bg-image {
+  inset: auto 0 0 auto;
+  margin: 0;
+  padding: 0;
+  max-width: none;
+}
+
+main > .section.enroll-banner > .bg-image picture,
+main > .section.enroll-banner > .bg-image img {
+  width: auto;
+  height: auto;
+}
+
+/* centers the h1 box itself; text-align:center alone doesn't, given its own max-width */
+main .section.enroll-banner h1 {
+  margin-inline: auto;
+}
+
 main > .section:first-of-type { /* @boilerplate */
   margin-top: 0; /* @boilerplate */
 }
@@ -1160,6 +1179,39 @@ main .section.stats-callout h4 {
     min-height: 427px;
   }
 
+  /* source switches from a small corner asset to a full-height right band here */
+  main > .section.enroll-banner > .bg-image {
+    inset: 0 0 0 auto;
+  }
+
+  /* picture doesn't compute an intrinsic-ratio auto width; img (below) does */
+  main > .section.enroll-banner > .bg-image picture {
+    display: contents;
+  }
+
+  /* fits to section height and shifts right so the shapes clear the heading text */
+  main > .section.enroll-banner > .bg-image img {
+    max-width: none;
+    width: auto;
+    height: 100%;
+    object-position: 400px 50%;
+  }
+
+  main .section.enroll-banner .default-content-wrapper > p:first-child {
+    font-size: var(--heading-font-size-xl);
+  }
+
+  /* source pins this h1 at the mobile size here and is left-aligned, not centered */
+  main .section.enroll-banner h1 {
+    font-size: 32px;
+    margin-inline: 0;
+  }
+
+  /* smaller h1 here shrinks content height, so more padding is needed to compensate */
+  main > .section.enroll-banner {
+    padding: 50px 0;
+  }
+
   .section.margin-top {
     margin-top: 36px;
   }
@@ -1331,6 +1383,32 @@ main .section.stats-callout h4 {
 
   main > .section.bg-wide:has(.columns-cta) {
     min-height: 370px;
+  }
+
+  /* this tier's asset is natively section-height — undo the 768px tier's scale-up */
+  main > .section.enroll-banner > .bg-image {
+    inset: 0 0 0 auto;
+    display: block;
+  }
+
+  main > .section.enroll-banner > .bg-image picture {
+    display: block;
+  }
+
+  /* source shifts this asset's content right — its canvas has extra space on the left */
+  main > .section.enroll-banner > .bg-image img {
+    height: 100%;
+    object-position: 268px 50%;
+  }
+
+  /* source resumes the global heading size here; only the 768px tier is pinned smaller */
+  main .section.enroll-banner h1 {
+    font-size: var(--heading-font-size-xxl);
+  }
+
+  /* bigger h1 restores the content height here, so less padding is needed */
+  main > .section.enroll-banner {
+    padding: 20px 0;
   }
 
   body[data-breadcrumbs] { /* @libs */
