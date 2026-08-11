@@ -778,8 +778,35 @@ main > .section > .bg-image img { /* @boilerplate */
   height: 100%; /* @boilerplate */
 }
 
-main > .section > .bg-image img { /* @boilerplate */
-  object-fit: cover; /* @boilerplate */
+main > .section > .bg-image img {
+  object-fit: cover;
+}
+
+/* style: bg-wide — pins bg-image to the bottom-right, sized to viewport */
+main > .section.bg-wide {
+  /* source uses a fixed 123x91 mobile asset here instead of scaling down */
+  --bg-wide-width: 123px;
+
+  margin-bottom: 0;
+  min-height: calc(var(--bg-wide-width) * 277 / 377);
+}
+
+/* matches source's ~120px card-to-footer gap */
+main > .section.bg-wide:has(.columns-cta) {
+  min-height: 476px;
+}
+
+main > .section.bg-wide > .bg-image {
+  inset: auto 0 0 auto;
+  margin: 0;
+  padding: 0;
+  max-width: none;
+}
+
+main > .section.bg-wide > .bg-image picture,
+main > .section.bg-wide > .bg-image img {
+  width: var(--bg-wide-width);
+  height: auto;
 }
 
 main > .section:first-of-type { /* @boilerplate */
@@ -1124,6 +1151,15 @@ main .section.stats-callout h4 {
     --section-padding: 36px;
   }
 
+  main > .section.bg-wide {
+    --bg-wide-width: 377px;
+  }
+
+  /* overridden again at 992px below */
+  main > .section.bg-wide:has(.columns-cta) {
+    min-height: 427px;
+  }
+
   .section.margin-top {
     margin-top: 36px;
   }
@@ -1291,6 +1327,10 @@ main .section.stats-callout h4 {
 @media (width >= 992px) { /* @libs */
   :root {
     --max-width-site: 960px;
+  }
+
+  main > .section.bg-wide:has(.columns-cta) {
+    min-height: 370px;
   }
 
   body[data-breadcrumbs] { /* @libs */

@@ -164,10 +164,68 @@ main .columns.stats-callout:has(img) .columns-img-col img {
   object-fit: contain;
 }
 
+/* shrink icon to match source (~100x100 mobile); migrated asset's canvas is 260x260 */
+main .columns.error-page .columns-img-col img {
+  width: var(--columns-error-page-icon-size-mobile);
+  aspect-ratio: 1;
+  object-fit: contain;
+}
+
+/* statistic-accent reserves a 260px icon-column slot; match it to the icon */
+main .columns.error-page .columns-img-col {
+  flex: 0 0 var(--columns-error-page-icon-size-mobile);
+  max-width: var(--columns-error-page-icon-size-mobile);
+}
+
+/* .columns-2-cols only present to win specificity over statistic-accent */
+main .columns.error-page.columns-2-cols > div > div:not(.columns-img-col) {
+  max-width: none;
+}
+
+/* gap before section-divider-hr; tighter than source's 46/73px per request */
+main .columns.error-page {
+  margin-bottom: 26px;
+}
+
+/* forces the same 2-line wrap as source's manual <br> at mobile sizes */
+main .columns.error-page h1 {
+  max-width: 260px;
+  margin-inline: auto;
+}
+
+/* forces the same 2-line wrap as source's manual <br> at mobile sizes */
+main .columns.error-page h3 {
+  max-width: 280px;
+  margin-inline: auto;
+}
+
 /* enlarged teal-accented lead line (first paragraph) of each survey row */
 main .columns.stats-callout:has(img) > div > div:not(.columns-img-col) > p:first-child {
   font-size: var(--heading-font-size-l);
   line-height: 1.3;
+}
+
+/* resets the authoring doc's paragraph wrapper around the hr */
+main .columns.section-divider-hr p {
+  margin: 0;
+}
+
+main .columns.section-divider-hr hr {
+  height: 2px;
+  margin: 0 -15px var(--columns-section-divider-hr-margin);
+  border: 0;
+  background-color: var(--columns-section-divider-hr-color);
+}
+
+/* neutralizes statistic-accent's row padding, which stacks with hr's margin */
+main .columns.section-divider-hr.columns-1-cols > div {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+/* .block + .columns-1-cols only present to win specificity */
+main .columns.section-divider-hr.columns-1-cols.block > div > div {
+  max-width: none;
 }
 
 main .columns.border h2 {
@@ -199,6 +257,41 @@ main .section.columns-container:has(.columns.border) {
     max-width: none;
     margin-left: 0;
     margin-right: 0;
+  }
+
+  /* matches source's heading size/line-height/margins at this breakpoint */
+  main .columns.error-page h1 {
+    max-width: none;
+    font-size: 32px;
+    line-height: 60px;
+    margin-bottom: 10px;
+  }
+
+  main .columns.error-page h3 {
+    max-width: none;
+    font-size: 20px;
+    margin-top: 0;
+    line-height: 32px;
+  }
+
+  /* icon shrinks here; overridden again at 992px and 1200px below */
+  main .columns.error-page .columns-img-col img {
+    width: var(--columns-error-page-icon-size-768);
+  }
+
+  main .columns.error-page .columns-img-col {
+    flex: 0 0 var(--columns-error-page-icon-size-768);
+    max-width: var(--columns-error-page-icon-size-768);
+  }
+
+  /* source stays stacked here; row layout resumes at 992px below */
+  main .columns.error-page > div {
+    flex-direction: column;
+  }
+
+  /* .columns-2-cols only present to win specificity */
+  main .columns.error-page.columns-2-cols > div > div:not(.columns-img-col) {
+    text-align: center;
   }
 
   main .columns.locations > div {
@@ -284,10 +377,60 @@ main .section.columns-container:has(.columns.border) {
   main .columns.locations > div > div {
     flex: 0 0 auto;
   }
+
+  main .columns.error-page h1 {
+    font-size: 56px;
+  }
+
+  main .columns.error-page h3 {
+    font-size: 24px;
+  }
+
+  main .columns.error-page > div {
+    flex-direction: row;
+  }
+
+  main .columns.error-page.columns-2-cols > div > div:not(.columns-img-col) {
+    text-align: left;
+  }
+
+  /* tighter gap keeps the heading on one line at this width */
+  main .columns.error-page.columns-2-cols > div {
+    gap: 10px;
+  }
+
+  main .columns.section-divider-hr hr {
+    margin-bottom: var(--columns-section-divider-hr-margin-desktop);
+  }
+
+  main .columns.error-page {
+    margin-top: 20px;
+    margin-bottom: 38px;
+  }
+
+  /* icon shrinks further here; restored to full size at 1200px below */
+  main .columns.error-page .columns-img-col img {
+    width: var(--columns-error-page-icon-size-992);
+  }
+
+  main .columns.error-page .columns-img-col {
+    flex: 0 0 var(--columns-error-page-icon-size-992);
+    max-width: var(--columns-error-page-icon-size-992);
+  }
 }
 
 @media (width >= 1200px) {
   main .section.statistic-accent .columns p {
     max-width: unset;
+  }
+
+  /* icon returns to full size at this width and up */
+  main .columns.error-page .columns-img-col img {
+    width: var(--columns-error-page-icon-size);
+  }
+
+  main .columns.error-page .columns-img-col {
+    flex: 0 0 var(--columns-error-page-icon-size);
+    max-width: var(--columns-error-page-icon-size);
   }
 }

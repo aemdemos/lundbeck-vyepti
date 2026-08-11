@@ -8,6 +8,21 @@ main > .section > .columns-cta-wrapper {
   padding-bottom: var(--columns-cta-wrapper-padding-bottom);
 }
 
+/* clearance so bg-wide's overflow:hidden doesn't clip the card's box-shadow */
+main > .section.bg-wide > .columns-cta-wrapper {
+  padding-top: 10px;
+}
+
+/* source's single-card padding is taller than the generic fallback below */
+main .columns-cta-1-cols > div > div {
+  padding: var(--columns-cta-single-padding-mobile);
+}
+
+main .columns-cta-1-cols a,
+main .columns-cta-1-cols a.button {
+  margin-top: var(--columns-cta-single-button-margin-top-mobile);
+}
+
 .columns-cta > div {
   display: flex;
   flex-direction: column;
@@ -17,6 +32,7 @@ main > .section > .columns-cta-wrapper {
 /* Each column - styled as a shadow card */
 .columns-cta > div > div {
   order: 1;
+  background-color: var(--background-color);
   box-shadow: var(--columns-cta-card-shadow);
   border-radius: var(--columns-cta-card-radius);
   padding: var(--columns-cta-card-padding);
@@ -160,6 +176,11 @@ main > .section > .columns-cta-wrapper {
      carry margin, so apply it to the first paragraph directly) */
   main .columns-cta-1-cols .columns-cta-text > p:first-child {
     margin-bottom: var(--columns-cta-single-eyebrow-gap);
+  }
+
+  /* source caps eyebrow/description (not the h2) to 80% of the column */
+  main .columns-cta-1-cols .columns-cta-text p {
+    width: 80%;
   }
 
   /* the CTA paragraph (button) sits on the right, vertically centered */
