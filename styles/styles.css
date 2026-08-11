@@ -333,6 +333,72 @@ blockquote,
     color: var(--list-bullet-color);
   }
 
+  /* site-map section has 60px top/bottom margin, not the sitewide 40px.
+     margin-top needs the extra :first-of-type specificity to beat the
+     boilerplate rule that zeroes the first section's top margin. */
+  main .section.site-map {
+    margin-bottom: 50px;
+  }
+
+  main > .section.site-map:first-of-type {
+    margin-top: 50px;
+  }
+
+  /* site-map heading is larger and plain dark text, not the usual teal h2 */
+  main .section.site-map h1 .size-h2 {
+    font-size: 36px;
+    line-height: 42px;
+    color: var(--text-color);
+  }
+
+  /* site-map (section style: site-map) has no gap between items, so reset
+     margins on the li, nested ul, and heading text alike */
+  main .section.site-map ul li {
+    margin-bottom: 0;
+  }
+
+  main .section.site-map ul li > ul {
+    margin: 0;
+  }
+
+  main .section.site-map ul li :is(h1, h2, h3, h4, h5, h6) {
+    margin: 0;
+  }
+
+  /* top-level (solid disc) bullets only, not the nested sub-items */
+  main .section.site-map .default-content-wrapper > ul > li::marker {
+    font-size: 13px;
+    font-weight: var(--font-weight-bold);
+  }
+
+  /* sub-item bullets are a hyphen with a gap before the text; ::marker
+     can't take margin, so this uses a positioned ::before instead */
+  main .section.site-map .default-content-wrapper > ul > li > ul {
+    list-style: none;
+  }
+
+  main .section.site-map .default-content-wrapper > ul > li > ul > li {
+    position: relative;
+  }
+
+  main .section.site-map .default-content-wrapper > ul > li > ul > li::before {
+    content: "-";
+    position: absolute;
+    left: -12px;
+    color: var(--list-bullet-color);
+    font-weight: var(--font-weight-bold);
+    font-size: 13px;
+  }
+
+  /* pin at 700 — <strong>'s default "bolder" escalates the h5's 700 to 900 */
+  main .section.site-map ul strong {
+    font-weight: var(--font-weight-bold);
+  }
+
+  main .section.site-map ul h5 {
+    line-height: 26px;
+  }
+
 code,
 pre { /* @libs */
   font-family: var(--fixed-font-family); /* @libs */
