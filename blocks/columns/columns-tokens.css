@@ -39,6 +39,13 @@
   --columns-locations-gap: 20px;
   --columns-statistic-accent-icon-size: 150px;
   --columns-statistic-accent-gap: 24px;
+  --columns-error-page-icon-size: 159px;
+  --columns-error-page-icon-size-mobile: 100px;
+  --columns-error-page-icon-size-768: 149px;
+  --columns-error-page-icon-size-992: 135px;
+  --columns-section-divider-hr-color: #e0e0e0;
+  --columns-section-divider-hr-margin: 56px;
+  --columns-section-divider-hr-margin-desktop: 53px;
   --columns-intro-icon-size: 98px;
   --columns-intro-gap-mobile: 12px;
   --columns-intro-gap: 60px;
