@@ -152,9 +152,19 @@
 
 .hero.teaser .hero-panel-bg {
   position: relative;
+  /* Fill the panel width. In-flow (relative) the wrapper would otherwise shrink to
+     the image's intrinsic 750px and leave a gap on the right when the viewport is
+     wider than the crop (e.g. 762px); 100% stretches it to the full panel. */
+  width: 100%;
 }
 
 .hero.teaser .hero-panel-bg img {
+  /* Fill the panel width and let height follow the intrinsic ratio (the width/height
+     attrs reserve space → no CLS). width:100% is required because the base
+     .hero-panel-bg img rule's `height:100%` is overridden to `auto` here; without an
+     explicit width the img falls back to its attribute width (750px) and leaves a gap
+     on the right when the viewport is wider than 750px (e.g. 762px). */
+  width: 100%;
   height: auto;
 }
 
