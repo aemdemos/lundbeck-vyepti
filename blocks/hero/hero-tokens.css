@@ -168,6 +168,18 @@
   text-align: center;
 }
 
+/* Large phones / portrait tablets (600–767px): the wide default crop makes the
+   image-driven banner tall, and on that taller strip the source vertically
+   centres the text rather than top-anchoring it. Match that here — fill the panel
+   and centre — so the copy isn't stranded near the top with empty space below.
+   Below 600px the base top-anchored placement (text over the sky) still applies. */
+@media (width >= 600px) and (width < 768px) {
+  .hero.teaser .hero-panel-content {
+    inset: 0;
+    justify-content: center;
+  }
+}
+
 /* Eyebrow — the accessible bold <p> (first child of the description). Higher
    specificity than the homepage split-banner p rules so the teaser look wins.
    Also cover the legacy <h3> in case a page has not been re-authored yet. */
