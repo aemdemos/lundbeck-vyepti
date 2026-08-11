@@ -544,11 +544,15 @@ main .section div.doctor-discussion-wrapper {
 }
 
 .dg-results-download-btn:hover,
-.dg-results-email-btn:hover,
-.dg-results-download-btn:focus,
-.dg-results-email-btn:focus  {
+.dg-results-email-btn:hover {
   background: var(--brand-teal-light);
   border-color: var(--brand-teal-light);
+}
+
+.dg-results-download-btn:focus,
+.dg-results-email-btn:focus  {
+  background: var(--brand-teal);
+  border-color: var(--brand-teal);
 }
 
 .dg-download-icon,
@@ -612,7 +616,7 @@ main .section div.doctor-discussion-wrapper {
 .dg-results-retake-btn:focus {
   background: none;
   border: none;
-  color: var(--brand-teal);
+  color: var(--brand-teal-light);
   text-decoration: none;
 }
 
@@ -624,6 +628,11 @@ main .section div.doctor-discussion-wrapper {
   flex-shrink: 0;
   height: 16px;
   width: 21px;
+}
+
+.dg-results-retake-btn:hover .dg-retake-icon,
+.dg-results-retake-btn:focus .dg-retake-icon {
+  opacity: .5;
 }
 
 /* ---------- Closing tips callout ---------- */
