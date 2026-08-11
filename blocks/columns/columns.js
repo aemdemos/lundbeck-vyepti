@@ -20,19 +20,10 @@ export default function decorate(block) {
       const pictureCells = [...col.children].filter(
         (child) => child.matches('picture') || child.querySelector('picture'),
       );
-      // Count the actual picture variants, not just the cells holding them: the
-      // backend delivers art-direction variants either as sibling cells OR all nested
-      // in a single <p> wrapper. In the wrapped case pictureCells.length is 1, so a
-      // cell-count check would skip the merge and leave all N pictures stacked — they
-      // render full-height then collapse as they load, causing a large CLS.
-      const pictureCount = col.querySelectorAll('picture').length;
 
-      if (pictureCount >= 2 && pictureCount <= 5) {
-        // 2-5 picture variants (bare <picture>, p:has(picture), or several pictures in
-        // one <p>) for art-direction per breakpoint; merge only the picture-bearing
-        // cells so any other content (e.g. a caption) stays put. buildPictureContent…
-        // walks the merged wrapper recursively, so a single multi-picture <p> collapses
-        // to one consolidated <picture> too.
+      if (pictureCells.length >= 2 && pictureCells.length <= 5) {
+        // 2-5 picture variants (bare <picture> or p:has(picture)) for art-direction per
+        // breakpoint; merge only those cells so any other content (e.g. a caption) stays put
         const placeholder = document.createComment('');
         pictureCells[0].before(placeholder);
         const temp = document.createElement('div');

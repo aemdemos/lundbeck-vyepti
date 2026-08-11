@@ -655,11 +655,6 @@ header .nav-dropdown-menu a {
     cursor: pointer;
     font-family: var(--body-font-family);
     line-height: var(--header-line-height-xs);
-    /* Keep each label on one line. "Prescribing Information" otherwise wrapped to 2
-       lines on narrow phones, making the teal utility strip 40px (2-line) instead of
-       the source's 30px — which pushed the whole header to 138px and left extra space
-       above the hero. nowrap keeps the strip at 30px and the header at 128px. */
-    white-space: nowrap;
   }
 
   header .nav-utility-dropdown-trigger::after {

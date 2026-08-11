@@ -17,19 +17,6 @@
   display: block; /* @boilerplate */
 }
 
-/* CLS guard (pre-decoration). The backend delivers a columns image column's
-   art-direction variants as several <picture> in one <p>. columns.js consolidates
-   them into a single <picture>, but the raw HTML paints ALL of them stacked at
-   full height before that JS runs (columns is below the fold, so it decorates in
-   the lazy phase) and then collapses — a large layout shift (measured CLS ~0.15 on
-   could-vyepti-be-right-for-you). Hiding every variant after the first makes the
-   pre-decoration height already match the final single (mobile) image, so the
-   consolidation no longer reflows the page. After columns.js replaces the multi-
-   picture <p> with one bare <picture>, this selector matches nothing → no-op. */
-.columns p > picture:not(:first-of-type) {
-  display: none;
-}
-
 /* narrow-copy variant — single authored column constrained to a readable copy
    measure, flush to the section's leading edge (matching the ~540px content
    column on vyepti.com/what-to-expect). Full width on mobile; the cap only
