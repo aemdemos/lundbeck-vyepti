@@ -181,11 +181,29 @@ function findWrappingLink(el, root) {
 }
 
 /**
- * Walks a block image cell in document order; collects up to five `{ src, alt, link }` entries.
- * `link` (the wrapping `<a>`, if any) is only captured for the first entry — links wrapping
- * any other picture/img are ignored.
+ * Reads the intrinsic `width`/`height` the backend stamped on a delivered `<img>`.
+ * EDS adds these to reserve layout space (no CLS); preserving them through a picture
+ * rebuild keeps that guarantee. Returns `null` for a dimension the backend omitted
+ * (e.g. the local dev server does not stamp them on `/content` media).
+ * @param {HTMLImageElement} img
+ * @returns {{ width: string|null, height: string|null }}
+ */
+function readImageDimensions(img) {
+  return {
+    width: img.getAttribute('width'),
+    height: img.getAttribute('height'),
+  };
+}
+
+/**
+ * Walks a block image cell in document order; collects up to five
+ * `{ src, alt, link, width, height }` entries. `link` (the wrapping `<a>`, if any) is
+ * only captured for the first entry — links wrapping any other picture/img are ignored.
+ * `width`/`height` are the backend-stamped intrinsic dimensions (or `null`), carried so
+ * the rebuilt picture can reserve the same space and avoid CLS.
  * @param {HTMLElement} cell
- * @returns {{ src: string, alt: string, link: HTMLAnchorElement|null }[]}
+ * @returns {{ src: string, alt: string, link: HTMLAnchorElement|null,
+ *   width: string|null, height: string|null }[]}
  */
 export function collectBlockCellImageSources(cell) {
   const out = [];
@@ -197,12 +215,16 @@ export function collectBlockCellImageSources(cell) {
         const img = el.querySelector('img[src]');
         if (img) {
           const link = out.length === 0 ? findWrappingLink(el, cell) : null;
-          out.push({ src: img.src, alt: img.getAttribute('alt') ?? '', link });
+          out.push({
+            src: img.src, alt: img.getAttribute('alt') ?? '', link, ...readImageDimensions(img),
+          });
         }
       } else if (el.matches('img[src]')) {
         if (!el.closest('picture')) {
           const link = out.length === 0 ? findWrappingLink(el, cell) : null;
-          out.push({ src: el.src, alt: el.getAttribute('alt') ?? '', link });
+          out.push({
+            src: el.src, alt: el.getAttribute('alt') ?? '', link, ...readImageDimensions(el),
+          });
         }
       } else {
         walk(el);
@@ -257,6 +279,14 @@ export function createArtDirectionPicture(sources, eager) {
     'src',
     `${origin}${pathname}?width=${ART_DIRECTION_DEFAULT_IMG_WIDTH}&format=${ext}&optimize=medium`,
   );
+  // Preserve the backend-stamped intrinsic dimensions of the default (mobile) crop so
+  // the browser reserves the correct height before load. Without this the rebuilt img
+  // has no dimensions and an in-flow, height:auto banner (e.g. the mobile hero teaser)
+  // reserves 0 height → CLS. width:100% + height:auto in CSS keeps it fluid; the attrs
+  // only supply the aspect ratio, so each page keeps its own crop ratio.
+  const { width, height } = capped[0];
+  if (width) img.setAttribute('width', width);
+  if (height) img.setAttribute('height', height);
   picture.append(img);
 
   return picture;
