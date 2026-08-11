@@ -233,8 +233,7 @@ main .columns.center-enroll {
   margin-top: 27px;
 }
 
-/* image sits between the two text blocks while stacked, not above both;
-   row layout at 992px below restores the image to the left edge instead */
+/* image sits between the two text blocks while stacked (order reset at 992px below) */
 main .columns.center-enroll > div > div:nth-child(2) {
   order: 0;
 }
@@ -408,8 +407,7 @@ main .section.columns-container:has(.columns.border) {
     order: 0;
   }
 
-  /* image returns to the left edge in the row layout, undoing the 768px
-     tier's stacked order (image between the two text blocks) */
+  /* image returns to the left edge, undoing the stacked-tier order above */
   main .columns.center-enroll > div > div:nth-child(2),
   main .columns.center-enroll > div > div:nth-child(3) {
     order: 1;
