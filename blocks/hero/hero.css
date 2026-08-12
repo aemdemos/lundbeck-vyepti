@@ -282,6 +282,15 @@ main > .section.hero-container > .hero-wrapper {
   font-size: var(--hero-caption-sub-font-size);
 }
 
+/* Coloured caption text (author opts in with a span-tag colour class) sits on the
+   image and would inherit the white-on-dark drop shadow from .hero-caption, which
+   looks muddy against a light/teal caption. Reset the shadow for those colours so
+   the caption reads cleanly (e.g. stay-connected's grey "Actor portrayal"). */
+.hero .hero-caption .brand-primary,
+.hero .hero-caption .grey {
+  text-shadow: none;
+}
+
 .hero .hero-panel-light .hero-panel-description > p:nth-child(3) {
   color: var(--text-color) !important;
   font-size: var(--hero-light-body-font-size);
