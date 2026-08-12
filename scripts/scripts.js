@@ -1330,22 +1330,6 @@ async function loadThemeSpreadSheetConfig() {
 */
 
 /**
- * Replaces a 404 page's section content with the /fragments/404 fragment.
- * @param {Element} main The container element
- */
-function loadErrorPage(main) {
-  if (window.errorCode === '404') {
-    const fragmentPath = '/fragments/404';
-    const fragmentLink = document.createElement('a');
-    fragmentLink.href = fragmentPath;
-    fragmentLink.textContent = fragmentPath;
-    const fragment = buildBlock('fragment', [[fragmentLink]]);
-    const section = main.querySelector('.section');
-    if (section) section.replaceChildren(fragment);
-  }
-}
-
-/**
  * Loads everything needed to get to LCP.
  * @param {Element} doc The container element
  */
@@ -1358,7 +1342,6 @@ async function loadEager(doc) {
   }
   const main = doc.querySelector('main');
   if (main) {
-    if (window.isErrorPage) loadErrorPage(main);
     decorateMain(main);
     document.body.classList.add('appear');
     await loadSection(main.querySelector('.section'), waitForFirstImage);
