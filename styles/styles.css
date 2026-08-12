@@ -233,7 +233,7 @@ body.appear { /* @libs */
    block-level paragraph rules (e.g. columns' 22px line-height) wherever
    an author or block explicitly opts in. */
 .small-text {
-  display: block !important;
+  display: block;
   font-size: var(--body-font-size-xs) !important;
   line-height: 1.2 !important;
 }
