@@ -85,7 +85,7 @@ When facing trade-offs, follow this order: *Intuitive* (author-friendly) > *Simp
 ├── icons/                # SVG files; reference in code with <span class="icon icon-{name}"></span>
 ├── fonts/                # Web fonts
 ├── head.html             # Global <head> content
-└── 404.html              # Custom error page
+└── old404.html           # Deprecated custom error page (superseded by the /404 content page)
 ```
 
 **Organization**:
