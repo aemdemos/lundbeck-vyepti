@@ -135,7 +135,14 @@
 .hero.teaser .hero-panel,
 .hero.teaser .hero-panel-dark,
 .hero.teaser .hero-panel-light {
-  aspect-ratio: 750 / 700;
+ aspect-ratio: 750 / 700;
+}
+
+.hero.teaser.short .hero-panel,
+.hero.teaser.short .hero-panel-dark,
+.hero.teaser.short .hero-panel-light {
+ aspect-ratio: 750 / 400;
+
 }
 
 /* Mobile: text overlay top-anchored + centred over the image (top % is relative
@@ -146,6 +153,10 @@
   justify-content: flex-start;
   align-items: center;
   text-align: center;
+}
+
+.hero.teaser.short .hero-panel-content {
+  padding-top: 10%;
 }
 
 /* Eyebrow — the accessible bold <p> (first child of the description). Higher
@@ -213,6 +224,16 @@
     aspect-ratio: auto;
     min-height: var(--hero-teaser-min-height-desktop);
   }
+
+  .hero.teaser.short .hero-panel,
+.hero.teaser.short .hero-panel-dark,
+.hero.teaser.short .hero-panel-light {
+ aspect-ratio: auto;
+}
+
+.hero.teaser.short .hero-panel-content {
+  padding-top: unset;
+}
 
   /* Overlay: container-centred, vertically centred, left-aligned. Uses the
      site's Bootstrap container caps (720 / 960 / 1140 at 768 / 992 / 1200) so
