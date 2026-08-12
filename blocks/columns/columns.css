@@ -193,10 +193,51 @@ main .columns.error-page h1 {
   margin-inline: auto;
 }
 
+/* source doesn't cap this heading at mobile sizes; the shared 260px cap wraps it wrong */
+main .columns.error-page.notfound h1 {
+  max-width: none;
+}
+
 /* forces the same 2-line wrap as source's manual <br> at mobile sizes */
 main .columns.error-page h3 {
   max-width: 280px;
   margin-inline: auto;
+}
+
+/* fixed icon size for this page (source doesn't scale it per breakpoint like other pages) */
+main .columns.error-page.notfound .columns-img-col img {
+  width: var(--columns-notfound-icon-size-mobile);
+}
+
+main .columns.error-page.notfound .columns-img-col {
+  flex: 0 0 var(--columns-notfound-icon-size-mobile);
+  max-width: var(--columns-notfound-icon-size-mobile);
+}
+
+/* source's mobile copy is 20px, tablet+ is 24px (overridden below) */
+main .columns.error-page.notfound p {
+  font-size: 20px;
+}
+
+/* source's button has no border and slightly asymmetric padding (room for the arrow) */
+main .columns.error-page.notfound a.button {
+  border-width: 0;
+  padding: 19px 32px 19px 27px;
+}
+
+/* space above and below the block, matching source; overridden per tier below */
+main .columns.error-page.notfound {
+  margin-top: 18px;
+  margin-bottom: 107px;
+}
+
+/* stacked and centered here; row layout + left-aligned text resume at 768px below */
+main .columns.error-page.notfound > div {
+  align-items: center;
+}
+
+main .columns.error-page.notfound > div > div:not(.columns-img-col) {
+  text-align: center;
 }
 
 /* enlarged teal-accented lead line (first paragraph) of each survey row */
@@ -489,6 +530,46 @@ main .section.columns-container:has(.columns.border) {
     text-align: center;
   }
 
+  /* source switches to a row here already, unlike other error-page pages (992px) */
+  main .columns.error-page.notfound > div {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  main .columns.error-page.notfound.columns-2-cols > div > div:not(.columns-img-col) {
+    text-align: left;
+    padding-left: 5px;
+  }
+
+  /* more space above at this tier; overridden again at 992px below */
+  main .columns.error-page.notfound {
+    margin-top: 34px;
+    margin-bottom: 64px;
+  }
+
+  /* jumps to the desktop size here (unlike other error-page pages); resets the mobile cap/margin above */
+  main .columns.error-page.notfound h1 {
+    max-width: none;
+    margin-inline: 0;
+    font-size: 56px;
+  }
+
+  /* source's copy is 24px from here up (20px below) */
+  main .columns.error-page.notfound p {
+    font-size: 24px;
+  }
+
+  /* fixed, non-square icon size; wins over the tiered sizes below via specificity */
+  main .columns.error-page.notfound .columns-img-col img {
+    width: var(--columns-notfound-icon-size);
+    aspect-ratio: 177 / 169;
+  }
+
+  main .columns.error-page.notfound .columns-img-col {
+    flex: 0 0 var(--columns-notfound-icon-size);
+    max-width: var(--columns-notfound-icon-size);
+  }
+
   main .columns.locations > div {
     align-items: flex-start;
     justify-content: flex-start;
@@ -619,6 +700,16 @@ main .section.columns-container:has(.columns.border) {
 
   main .columns.error-page > div {
     flex-direction: row;
+  }
+
+  /* caps the heading to match source's wrap at this width and up */
+  main .columns.error-page.notfound h1 {
+    max-width: 634px;
+  }
+
+  /* more space above at this tier and up */
+  main .columns.error-page.notfound {
+    margin-top: 74px;
   }
 
   main .columns.error-page.columns-2-cols > div > div:not(.columns-img-col) {

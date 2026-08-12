@@ -43,6 +43,8 @@
   --columns-error-page-icon-size-mobile: 100px;
   --columns-error-page-icon-size-768: 149px;
   --columns-error-page-icon-size-992: 135px;
+  --columns-notfound-icon-size: 177px;
+  --columns-notfound-icon-size-mobile: 72px;
   --columns-section-divider-hr-color: #e0e0e0;
   --columns-section-divider-hr-margin: 56px;
   --columns-section-divider-hr-margin-desktop: 53px;
