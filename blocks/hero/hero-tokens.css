@@ -89,11 +89,7 @@
   --hero-teaser-heading-line-height: 36px;
   --hero-teaser-heading-line-height-md: 40px;
   --hero-teaser-heading-color: var(--brand-primary);
-  /* Caption default matches the source disclaimer (.actor-portrayl-text-shadow):
-     white with a drop-shadow so it reads on the image. Authors override the colour
-     per page with a span-class ([[grey]] / [[brand-primary]]); see the caption rules. */
   --hero-teaser-caption-color: var(--hero-text-color-light);
-  --hero-teaser-caption-shadow: 0 2px 7px rgb(0 0 0);
   --hero-teaser-caption-font-size: 12px;
 
   /* mobile overlay top offset (% of image-driven banner height) — text sits over
@@ -132,51 +128,18 @@
 /* Panel proportions: the teaser is a single wide sub-banner, NOT the homepage
    split hero, so it must NOT inherit the homepage's art-directed panel crops
    (1024/800, 834/840, 1440/1116, …) applied to .hero-panel* by the dual-panel
-   rules.
-
-   Mobile CLS fix: a fixed 750/700 aspect-ratio forces every teaser image into
-   the same box, but the mobile crops don't all share that ratio (e.g.
-   vyepti-side-effects), so object-fit:cover clipped them oddly. Instead the
-   background image flows in normal document flow and drives the panel height:
-   EDS stamps width/height on the <img>, so the browser reserves the correct
-   space before the image loads (no CLS) while the image keeps its natural
-   ratio (no crop). The text overlay stays absolutely positioned on top. At
-   768px+ the media-query rule below restores the full-bleed fixed-height strip
-   (background absolute, explicit min-height). Scoped to .hero.teaser so the
-   homepage hero is untouched. */
+   rules. The background is absolutely positioned, so the panel needs its own
+   height source: on mobile use the source teaser crop (750×700); at 768px+ the
+   media-query rule below supplies an explicit min-height, so the ratio is
+   cleared there. Scoped to .hero.teaser so the homepage hero is untouched. */
 .hero.teaser .hero-panel,
 .hero.teaser .hero-panel-dark,
 .hero.teaser .hero-panel-light {
-  aspect-ratio: auto;
+  aspect-ratio: 750 / 700;
 }
 
-.hero.teaser .hero-panel-bg {
-  position: relative;
-  /* Fill the panel width. In-flow (relative) the wrapper would otherwise shrink to
-     the image's intrinsic 750px and leave a gap on the right when the viewport is
-     wider than the crop (e.g. 762px); 100% stretches it to the full panel. */
-  width: 100%;
-}
-
-.hero.teaser .hero-panel-bg img {
-  /* Fill the panel width and let height follow the intrinsic ratio (the width/height
-     attrs reserve space → no CLS). width:100% is required because the base
-     .hero-panel-bg img rule's `height:100%` is overridden to `auto` here; without an
-     explicit width the img falls back to its attribute width (750px) and leaves a gap
-     on the right when the viewport is wider than 750px (e.g. 762px). */
-  width: 100%;
-  height: auto;
-}
-
-/* Mobile: text overlay TOP-anchored over the image, matching the source — the
-   copy sits in the upper band (over the sky) with the subject visible below, NOT
-   vertically centred. The source positions the overlay from the top proportionally
-   (~11% down the banner at phone widths), so we anchor the content block at
-   var(--hero-teaser-content-top-mobile) from the top with bottom:auto. A `top`
-   percentage is resolved against the panel HEIGHT (unlike padding, which is
-   width-relative), so the offset scales with the image-driven banner height and the
-   text stays in the same proportional position across mobile widths. Horizontal
-   centring + centred text stay as before. */
+/* Mobile: text overlay top-anchored + centred over the image (top % is relative
+   to the panel height, so the text sits ~10.5% down regardless of image size). */
 .hero.teaser .hero-panel-content {
   inset: var(--hero-teaser-content-top-mobile) 0 auto;
   padding: 0 30px;
@@ -220,8 +183,8 @@
   text-align: center;
 }
 
-/* Caption — bottom-right; colour is author-driven (see the colour rules below).
-   Font-size, bottom offset match the source (12px; 11px mobile / 16px at 768px+). */
+/* Caption — white, bottom-right (emphasis is author-driven). Font-size, bottom
+   offset match the source (12px; 11px mobile / 16px at 768px+). */
 .hero.teaser .hero-caption,
 .hero.teaser .hero-caption em,
 .hero.teaser .hero-caption sup {
@@ -235,54 +198,20 @@
   z-index: var(--hero-z-caption);
   margin: 0;
   color: var(--hero-teaser-caption-color);
-  text-shadow: var(--hero-teaser-caption-shadow);
+  text-shadow: var(--hero-text-shadow);
   font-weight: 400;
 }
 
-/* The caption copy is author-driven and pages tag it with a colour span-class,
-   matching the source per page rather than a single site-wide colour:
-     • untagged  → white + drop-shadow (source default .actor-portrayl-text-shadow),
-       e.g. what-to-expect / why-iv-treatment / nurse-support / vyepti-study-results
-     • [[grey]]  → grey #333, no shadow (e.g. stay-connected)
-     • [[brand-primary]] / [[teal]] → teal, no shadow (e.g. share-your-migraine-story)
-   The span-class colours (from styles.css .grey / .brand-primary / .teal) already
-   win via their own selector; here we only drop the drop-shadow for the coloured
-   variants so it reads cleanly on the light banner, and let the untagged default
-   keep the white-on-image shadow. */
-.hero.teaser .hero-caption .grey,
-.hero.teaser .hero-caption .brand-primary,
-.hero.teaser .hero-caption .teal {
-  text-shadow: none;
-}
-
 @media (width >= 768px) {
-  /* Banner height is FLUID, matching the source exactly: the source displays its
-     full-bleed banner crop at the crop's natural aspect ratio, so its height =
-     viewport-width ÷ crop-ratio (e.g. 220px@768 but ~200px@1200, ~240px@1440 for the
-     6:1 crop). A fixed height per breakpoint only matches at isolated widths and is
-     up to ~40px too tall across the 1200–1439 range. Instead we set aspect-ratio to
-     the served crop at each breakpoint (art-direction swaps crops at the same 768/992/
-     1200 points the source does): 1672×480 (3.48:1) → 2048×480 (4.27:1) → 2880×480
-     (6:1). aspect-ratio is pure CSS so it reserves space deterministically (no CLS)
-     and scales fluidly like the source. The mobile 750/700 ratio and homepage panel
-     ratios (834/840, 1024/800, …) are cleared here. */
+  /* Explicit banner height (the shared dual-panel rule sets min-height:0). The
+     mobile teaser crop ratio is cleared here so the wide sub-banner is governed
+     by this height, not the near-square 750/700 mobile ratio, and the homepage
+     panel ratios (834/840, 1024/800, …) never leak back in. */
   .hero.teaser .hero-panel,
   .hero.teaser .hero-panel-dark,
   .hero.teaser .hero-panel-light {
-    aspect-ratio: 1672 / 480;
-    height: auto;
-    min-height: 0;
-  }
-
-  /* Desktop restores the full-bleed strip: the explicit min-height above governs
-     the panel height, so the background goes back to absolute fill (undoing the
-     mobile in-flow, natural-height treatment). */
-  .hero.teaser .hero-panel-bg {
-    position: absolute;
-  }
-
-  .hero.teaser .hero-panel-bg img {
-    height: 100%;
+    aspect-ratio: auto;
+    min-height: var(--hero-teaser-min-height-desktop);
   }
 
   /* Overlay: container-centred, vertically centred, left-aligned. Uses the
@@ -305,7 +234,7 @@
      at 992px+. */
   .hero.teaser .hero-panel-dark .hero-panel-description > p:first-child,
   .hero.teaser h3 {
-    /* font-size unchanged from mobile (18px); only spacing/alignment shift here */
+    font-size: var(--hero-teaser-eyebrow-font-size);
     line-height: var(--hero-teaser-eyebrow-line-height-desktop);
     margin-bottom: 0;
     padding-bottom: var(--hero-teaser-eyebrow-gap-md);
@@ -314,15 +243,9 @@
 
   .hero.teaser .hero-panel-description > h1,
   .hero.teaser h1 {
-    /* font-size unchanged from mobile (32px); line-height/width/alignment shift here.
-       Width hugs the content (fit-content) with a max-width cap so the headline wraps
-       at the same point as the source: short one-line titles (e.g. "Working hard to
-       support you", ~422px) stay on one line, while longer titles wrap. The cap sits
-       between the widest one-line title that must NOT wrap and the narrowest that must
-       (430px @768–991: financial ~422 < cap < faq ~439). */
+    font-size: var(--hero-single-heading-font-size-m);
     line-height: var(--hero-teaser-heading-line-height-md);
-    width: fit-content;
-    max-width: 430px;
+    width: 60%;
     text-align: left;
   }
 
@@ -336,13 +259,6 @@
 }
 
 @media (width >= 992px) {
-  /* Source serves the 2048×480 (4.27:1) crop from 992px; banner tracks that ratio. */
-  .hero.teaser .hero-panel,
-  .hero.teaser .hero-panel-dark,
-  .hero.teaser .hero-panel-light {
-    aspect-ratio: 2048 / 480;
-  }
-
   .hero.teaser .hero-panel-content {
     max-width: 960px;
   }
@@ -353,26 +269,17 @@
     padding-bottom: 0;
   }
 
-  /* Cap sits between financial (~553px one-line, must NOT wrap) and faq (~576px,
-     must wrap) across the 992-1199 range, so each title wraps at the source's point. */
+  /* Source caps the headline column at ~52% of the 960px content width across
+     the 992-1199 range, so it wraps at the same point as vyepti.com. */
   .hero.teaser .hero-panel-description > h1,
   .hero.teaser h1 {
     font-size: 42px;
     line-height: 48px;
-    max-width: 564px;
+    width: 52%;
   }
 }
 
 @media (width >= 1200px) {
-  /* Source serves the 2880×480 (6:1) crop from 1200px; banner tracks that ratio, so it
-     scales from ~200px@1200 to 240px@1440 exactly as the source does (was previously a
-     fixed 240px, which was up to ~40px too tall below 1440). */
-  .hero.teaser .hero-panel,
-  .hero.teaser .hero-panel-dark,
-  .hero.teaser .hero-panel-light {
-    aspect-ratio: 2880 / 480;
-  }
-
   .hero.teaser .hero-panel-content {
     max-width: var(--max-width-site);
   }
@@ -382,12 +289,10 @@
     font-size: var(--hero-teaser-eyebrow-font-size-desktop);
   }
 
-  /* Cap sits between financial (~738px one-line, must NOT wrap) and faq (~768px,
-     must wrap) from 1200px up, matching the source's wrap point. */
   .hero.teaser .hero-panel-description > h1,
   .hero.teaser h1 {
     font-size: var(--hero-single-heading-font-size-desktop);
     line-height: 60px;
-    max-width: 753px;
+    width: 60%;
   }
 }
