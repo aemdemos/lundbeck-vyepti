@@ -1,6 +1,7 @@
 import createPdfDownloadController from './doctor-discussion-download-pdf.js';
 import {
   createEl, getAnswer, TOTAL_STEPS_DEFAULT, PDF_DOWNLOAD_API_URL,
+  PDF_DOWNLOAD_API_USERNAME, PDF_DOWNLOAD_API_PASSWORD,
   PDF_ERROR_ELEMENT_ID, PDF_POPUP_BLOCKED_ELEMENT_ID,
 } from './doctor-discussion-utils.js';
 import {
@@ -160,12 +161,17 @@ export default function decorate(block) {
 
     const pdfController = createPdfDownloadController({
       apiUrl: PDF_DOWNLOAD_API_URL,
+      username: PDF_DOWNLOAD_API_USERNAME,
+      password: PDF_DOWNLOAD_API_PASSWORD,
       button: downloadBtn,
       errorElementId: PDF_ERROR_ELEMENT_ID,
       popupBlockedElementId: PDF_POPUP_BLOCKED_ELEMENT_ID,
     });
 
-    downloadBtn.addEventListener('click', () => pdfController.download(answers));
+    // steps + nameFieldName are passed through so the controller can derive
+    // the legacy qNaM field names/indices the PDF API expects — see
+    // buildLegacyFormPayload() in doctor-discussion-download-pdf.js.
+    downloadBtn.addEventListener('click', () => pdfController.download(answers, steps, nameFieldName));
     emailBtn.addEventListener('click', () => {
       const emailModal = getOrCreateEmailModal(answers);
       emailModal.open();
@@ -198,7 +204,9 @@ export default function decorate(block) {
     card.append(body);
   };
 
-  // Kick off the guide at step 1, then wire up the (separately authored) Thank You modal.
+  // Kick off the guide at step 1, then wire up the Thank You modal from
+  // the authored "thank-you" row's content (parsed above, before the
+  // block's original markup was cleared).
   renderStep(currentIndex);
-  buildThankYouModal();
+  buildThankYouModal(parsed.thankYouContent);
 }

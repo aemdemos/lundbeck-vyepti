@@ -1,5 +1,5 @@
 import {
-  createEl, setAnswer, EMAIL_SUBMIT_API_URL, THANKYOU_MODAL_ID, THANKYOU_BLOCK_SELECTOR,
+  createEl, setAnswer, EMAIL_SUBMIT_API_URL, THANKYOU_MODAL_ID,
   setModalController, getModalController,
 } from './doctor-discussion-utils.js';
 import createEmailModalController from './doctor-discussion-email-modal.js';
@@ -287,20 +287,104 @@ export function getOrCreateEmailModal(answers) {
 // ---------------------------------------------------------------------------
 
 
-// Moves the authored "doctor-thankyou" block's content into a modal on <body>,
-// then removes the original placeholder so it doesn't render inline.
-export function buildThankYouModal() {
-  const thankYouBlock = document.querySelector(THANKYOU_BLOCK_SELECTOR);
-  if (!thankYouBlock || document.getElementById(THANKYOU_MODAL_ID)) return;
+/**
+ * @param {Element[]} nodes
+ * @returns {Element[]}
+ */
+function splitParagraphsAtBreaks(nodes) {
+  const result = [];
 
-  const authoredContent = [...thankYouBlock.children];
+  nodes.forEach((node) => {
+    const isSplittableParagraph = node instanceof HTMLElement
+      && node.tagName.toLowerCase() === 'p'
+      && node.querySelector('br');
+
+    if (!isSplittableParagraph) {
+      result.push(node);
+      return;
+    }
+
+    const before = document.createElement('p');
+    const after = document.createElement('p');
+    let target = before;
+    let brSeen = false;
+
+    [...node.childNodes].forEach((child) => {
+      if (!brSeen && child.nodeName.toLowerCase() === 'br') {
+        brSeen = true;
+        target = after;
+        return;
+      }
+      target.append(child.cloneNode(true));
+    });
+
+    // Trim stray whitespace left over from formatting around the <br>.
+    before.textContent = before.textContent.trim();
+    after.textContent = after.textContent.trim();
+
+    if (before.textContent) result.push(before);
+    if (after.textContent) result.push(after);
+  });
+
+  return result;
+}
+
+/**
+ * Auto-classifies thank-you.
+ *
+ * @param {Element[]} nodes
+ */
+function classifyThankYouContent(nodes) {
+  let headingAssigned = false;
+
+  nodes.forEach((node) => {
+    if (!(node instanceof HTMLElement)) return;
+    const tag = node.tagName.toLowerCase();
+
+    if (tag === 'picture') {
+      node.querySelector('img')?.classList.add('dg-thankyou-icon');
+      return;
+    }
+    if (tag === 'img') {
+      node.classList.add('dg-thankyou-icon');
+      return;
+    }
+    if (/^h[1-6]$/.test(tag)) {
+      node.classList.add('dg-thankyou-heading');
+      headingAssigned = true;
+      return;
+    }
+    if (tag === 'p') {
+      if (!headingAssigned) {
+        node.classList.add('dg-thankyou-heading');
+        headingAssigned = true;
+      } else {
+        node.classList.add('dg-thankyou-message');
+      }
+    }
+  });
+}
+
+/**
+ * Builds the Thank You modal from the authored thank-you row content
+ * 
+ * @param {Element[]} thankYouContent - Nodes from the thank-you row's content cell.
+ */
+export function buildThankYouModal(thankYouContent = []) {
+  if (!thankYouContent.length || document.getElementById(THANKYOU_MODAL_ID)) return;
+
+  // Normalize "one paragraph with a <br>" authoring into two paragraphs
+  // first, so classifyThankYouContent() can assign heading/message
+  // classes to distinct elements (see splitParagraphsAtBreaks() docblock).
+  const content = splitParagraphsAtBreaks(thankYouContent);
+  classifyThankYouContent(content);
 
   const closeBtn = createEl('button', {
     type: 'button', className: 'dg-thankyou-close-btn close', 'aria-label': 'Close',
   });
   const modalContent = createEl('div', { className: 'modal-content dg-thankyou-content' },
     closeBtn,
-    ...authoredContent,
+    ...content,
   );
   const modalDialog = createEl('div', { className: 'modal-dialog' }, modalContent);
   const modal = createEl('div', { id: THANKYOU_MODAL_ID, className: 'modal', tabindex: '-1' }, modalDialog);
@@ -308,9 +392,6 @@ export function buildThankYouModal() {
   modal.style.display = 'none';
 
   document.body.append(modal);
-  // The authored placeholder's job is done once its content has been
-  // moved into the modal; remove it so nothing renders in its original spot.
-  thankYouBlock.remove();
 
   const controller = createThankYouModalController({ modalId: THANKYOU_MODAL_ID });
   closeBtn.addEventListener('click', () => controller.close());

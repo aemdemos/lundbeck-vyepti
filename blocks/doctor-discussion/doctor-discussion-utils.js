@@ -7,20 +7,17 @@ import { DOCTOR_DISCUSSION_CONFIGS } from '../../scripts/config.js';
 // Default number of progress-dot segments shown when no total-steps row is authored.
 export const TOTAL_STEPS_DEFAULT = 9;
 
-// API endpoints now live in scripts/config.js (DOCTOR_DISCUSSION_CONFIGS) so
-// they're configured in one place instead of being hardcoded in this block.
+
 export const {
   PDF_DOWNLOAD_API_URL,
   EMAIL_SUBMIT_API_URL,
+  PDF_DOWNLOAD_API_USERNAME,
+  PDF_DOWNLOAD_API_PASSWORD,
 } = DOCTOR_DISCUSSION_CONFIGS;
 
 export const PDF_ERROR_ELEMENT_ID = 'dg-pdf-error-msg';
 export const PDF_POPUP_BLOCKED_ELEMENT_ID = 'dg-pdf-popup-blocked';
 export const THANKYOU_MODAL_ID = 'dg-thankyou-modal';
-
-// Matches the wrapper EDS gives any block authored as "doctor-thankyou",
-// regardless of where it sits on the page.
-export const THANKYOU_BLOCK_SELECTOR = '[data-block-name="doctor-thankyou"]';
 
 // ---------------------------------------------------------------------------
 // DOM helpers
@@ -72,9 +69,6 @@ export function createEl(tag, attrs = {}, ...children) {
 // Modal-controller registry
 // ---------------------------------------------------------------------------
 
-// Maps a modal element to its controller, avoiding a custom DOM property.
-// Shared by the email and thank-you modals so each modal is only ever
-// built once and can be looked up again on subsequent opens.
 const modalControllers = new WeakMap();
 
 export function setModalController(modalEl, controller) {

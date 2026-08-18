@@ -246,18 +246,47 @@ export function parseOptions(raw) {
     .map((entry) => ({ text: entry }));
 }
 
-// Reads the authored EDS table rows and converts them into the steps/fields data structure the UI renders from.
+// Row-type keys with dedicated parsing below. Any row whose key isn't in
+// this set is treated as Thank You content (see below) — regardless of
+// what the author typed as its label, and regardless of where in the
+// table it sits.
+const KNOWN_ROW_KEYS = new Set([
+  'step-title', 'step-number', 'total-steps',
+  'did-you-know', 'text-question', 'checkbox-question', 'radio-question',
+]);
+
+// Reads the authored EDS table rows and converts them into the steps/fields
+// data structure the UI renders from, plus the authored Thank You content
+// (see buildThankYouModal() in doctor-discussion-interactions.js for how
+// it's consumed).
 export function parseSteps(block) {
   const rows = [...block.children];
   let totalSteps = TOTAL_STEPS_DEFAULT;
   const steps = [];
   let current = null;
   let fieldIndex = 0;
+  // Live DOM nodes making up the Thank You content, accumulated (in table
+  // order) from every row that isn't one of the known step/question types
+  // — see below. Moved into the Thank You modal later (see decorate.js /
+  // buildThankYouModal()).
+  const thankYouContent = [];
 
   rows.forEach((row) => {
     const cells = [...row.children];
     const key = cells[0]?.textContent?.trim().toLowerCase();
     const rest = cells.slice(1).map((c) => c.textContent.trim());
+
+    // Thank You rows are identified by exclusion — any row whose key isn't a
+    // recognized step/question type is treated as Thank You content. cells[0]
+    // is free-form author notes (unread by the parser); cells[1] from each
+    // such row is appended in order to build the combined message.
+    if (!KNOWN_ROW_KEYS.has(key)) {
+      // cells[1] is the authored rich-content cell (image, heading, copy),
+      // captured as live DOM nodes rather than as text so it can be
+      // moved as-is into the Thank You modal by buildThankYouModal().
+      if (cells[1]) thankYouContent.push(...cells[1].children);
+      return;
+    }
 
     // Each row's first cell is a type key that determines how the rest of the row is parsed.
     switch (key) {
@@ -336,5 +365,5 @@ export function parseSteps(block) {
     }
   });
 
-  return { steps, totalSteps: totalSteps || steps.length };
+  return { steps, totalSteps: totalSteps || steps.length, thankYouContent };
 }

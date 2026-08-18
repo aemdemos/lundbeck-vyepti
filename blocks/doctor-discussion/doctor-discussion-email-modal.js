@@ -217,6 +217,14 @@ export default function createEmailModalController({ modalId = "mq-modal", formI
 
     const submitUrl = form.getAttribute("data-submit");
 
+    // ================= TEMP-BYPASS (remove before shipping) =================
+    const TEMP_BYPASS_EMAIL_API = true;
+    if (TEMP_BYPASS_EMAIL_API) {
+      handleSuccess();
+      return;
+    }
+    // ================= END TEMP-BYPASS =================
+
     try {
       const response = await fetch(submitUrl, {
         method: "POST",
