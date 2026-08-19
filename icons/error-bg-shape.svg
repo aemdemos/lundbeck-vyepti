@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="377px" height="277px" viewBox="0 0 377 277" version="1.1">
+    <title>Group 2</title>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="377" height="277"/>
+        <polygon id="path-3" points="0 0 780.623946 0 780.623946 377 0 377"/>
+        <polygon id="path-5" points="0 0 280.376054 0 280.376054 227.896387 0 227.896387"/>
+    </defs>
+    <g id="Layout" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Layouts-/-Desktop-/-7.1_OrphanPages_404PageNotFound_DSK" transform="translate(-1063.000000, -311.000000)">
+            <g id="Group-2" transform="translate(1063.000000, 311.000000)">
+                <mask id="mask-2" fill="white">
+                    <use xlink:href="#path-1"/>
+                </mask>
+                <g id="Rectangle"/>
+                <g id="Components-/-Graphics-/-HeaderShape-Full" mask="url(#mask-2)">
+                    <g transform="translate(-41.000000, 21.000000)" id="hero-shape-1061-desktop">
+                        <g id="Group-3" transform="translate(280.376054, 0.000000)">
+                            <mask id="mask-4" fill="white">
+                                <use xlink:href="#path-3"/>
+                            </mask>
+                            <g id="Clip-2"/>
+                            <path d="M139.229109,8.69000867 C102.91034,-12.1653839 56.6506744,6.14677859 44.3958891,46.2292623 L0,191.422109 L619.37558,377.000906 L780.623946,377.000906 L139.229109,8.69000867 Z" id="Fill-1" fill="#F16464" mask="url(#mask-4)"/>
+                        </g>
+                        <g id="Group-6" transform="translate(0.000000, 149.102481)">
+                            <mask id="mask-6" fill="white">
+                                <use xlink:href="#path-5"/>
+                            </mask>
+                            <g id="Clip-5"/>
+                            <path d="M148.457293,2.79448111 C114.931927,-7.25161741 79.3912404,10.587228 67.3694272,43.4929564 L-0.000226186514,227.896387 L223.630381,227.896387 L280.376054,42.3198547 L148.457293,2.79448111 Z" id="Fill-4" fill="#7EBCC6" mask="url(#mask-6)"/>
+                        </g>
+                        <polygon id="Fill-7" fill="#C02C57" points="223.631512 377 899.750503 377 280.374923 191.423468"/>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

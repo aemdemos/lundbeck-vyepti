@@ -1,4 +1,4 @@
-import { createOptimizedPicture } from './aem.js';
+import { createOptimizedPicture, loadScript } from './aem.js';
 
 /**
  * Reads single-bracket syntax from the first child of each block cell div.
@@ -104,6 +104,33 @@ export function getVimeoEmbedHtml(url, autoplay = false, background = false) {
 </div>`;
 }
 
+/**
+ * Parses account/player/video ids from a Brightcove player link, e.g. the URL produced by
+ * Brightcove Studio's "Link" sharing option:
+ * https://players.brightcove.net/{accountId}/{playerId}_default/index.html?videoId={videoId}
+ * @param {URL} url - Brightcove player link
+ * @returns {{accountId: string, playerId: string, videoId: string}|null}
+ */
+export function getBrightcoveIds(url) {
+  const match = url.pathname.match(/^\/(\d+)\/(.+)_default\/index\.html$/);
+  const videoId = url.searchParams.get('videoId');
+  if (!match || !videoId) return null;
+  const [, accountId, playerId] = match;
+  return { accountId, playerId, videoId };
+}
+
+/**
+ * Loads the Brightcove player script for the given account and player.
+ * The script is only injected once per account/player combination.
+ * @param {string} accountId The Brightcove account id
+ * @param {string} playerId The Brightcove player id
+ * @returns {Promise} Resolves when the player script has loaded
+ */
+export function getBrightcoveScriptTag(accountId, playerId) {
+  const src = `https://players.brightcove.net/${accountId}/${playerId}_default/index.min.js`;
+  return loadScript(src, { async: '' });
+}
+
 /* -------------------------------------------------------------------------- */
 /* Responsive picture: up to 5 images per cell (art-direction <picture>) */
 /* -------------------------------------------------------------------------- */
@@ -112,7 +139,7 @@ const MAX_BLOCK_CELL_IMAGES = 5;
 
 /** Default breakpoints for single-image cells (same defaults as `createOptimizedPicture` in aem.js). */
 export const DEFAULT_BLOCK_SINGLE_PICTURE_BREAKPOINTS = [
-  { media: '(min-width: 600px)', width: '2000' },
+  { media: '(min-width: 600px)', width: '2000' }, 
   { width: '750' },
 ];
 
@@ -238,7 +265,7 @@ export function createArtDirectionPicture(sources, eager) {
 /**
  * @typedef {Object} BuildPictureCellOptions
  * @property {boolean} [eagerSingle=true] - `loading` for single-image `createOptimizedPicture` path
- * @property {boolean} [eagerArtDirection=true] - `loading` on fallback &lt;img&gt; in multi-image art-direction path
+ * @property {boolean} [eagerArtDirection=false] - `loading` on fallback &lt;img&gt; in multi-image art-direction path
  * @property {Array<{ media?: string, width: string }>} [singlePictureBreakpoints] - overrides for single-image optimization
  */
 
@@ -251,7 +278,7 @@ export function createArtDirectionPicture(sources, eager) {
 export function buildPictureContentFromImageCell(cell, options = {}) {
   const {
     eagerSingle = true,
-    eagerArtDirection = true,
+    eagerArtDirection = false,
     singlePictureBreakpoints = DEFAULT_BLOCK_SINGLE_PICTURE_BREAKPOINTS,
   } = options;
 

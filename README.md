@@ -5,7 +5,7 @@ Your project's description...
 - Preview: https://main--ise-boilerplate--aemdemos.aem.page/
 - Live: https://main--ise-boilerplate--aemdemos.aem.live/
 
-## Documentation
+## Edge Delivery Svc General Documentation
 
 Before using the aem-block-collection, we recommand you to go through the documentation on https://www.aem.live/docs/ and more specifically:
 1. [Developer Tutorial](https://www.aem.live/developer/ue-tutorial)
@@ -55,4 +55,3 @@ See [CHANGELOG.md](CHANGELOG.md) for release history.
 
 - Adobe security automatically added .cursor/rules/security-global and security-lang, and seems to scan to check they are in place.
 - Much of this ruleset (SQL, XXE, SSRF, server-side sessions, API versioning) targets backend/server code, while this repo is explicitly client-side-only with no runtime deps or backend.
-- Since other agents (Claude, Codex) can't use Cursor rules, 

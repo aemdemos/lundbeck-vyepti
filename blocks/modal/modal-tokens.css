@@ -4,10 +4,263 @@
   --modal-width-mobile: calc(100vw - 48px); /* @boilerplate */
   --modal-width-desktop: calc(100vw - 64px); /* @boilerplate */
   --modal-max-width: 900px; /* @boilerplate */
-  --modal-content-padding: var(--spacing-m); /* @boilerplate */
-  --modal-content-padding-desktop: var(--spacing-l); /* @boilerplate */
+  --modal-content-padding: var(--spacing-m, 24px);
+  --modal-content-padding-desktop: var(--spacing-l, 32px);
   --modal-content-margin-top: 44px; /* @boilerplate */
   --modal-close-button-size: 44px; /* @boilerplate */
   --modal-close-icon-size: var(--icon-size); /* @boilerplate */
   --modal-close-icon-thickness: 2px; /* @boilerplate */
+
+  /* entrance modal — top-aligned prompt shell (source: vyepti.com) */
+  --modal-entrance-background: var(--card-bg-light);
+  --modal-entrance-backdrop-background: rgb(72 72 72 / 50%);
+  --modal-entrance-max-width: 1080px;
+  --modal-entrance-border-radius: 12px;
+  --modal-entrance-shadow: 0 4px 20px rgb(0 0 0 / 15%);
+  --modal-entrance-offset-top: var(--spacing-m, 24px);
+  --modal-entrance-close-icon-size: 16px;
+  --modal-entrance-close-icon-thickness: 1.5px;
+  --modal-entrance-close-inset: var(--spacing-xs, 8px);
+  --modal-entrance-button-border-width: 1.5px;
+  --modal-entrance-button-padding: 19px 45px;
+  --modal-entrance-privacy-font-size: 14px;
+  --modal-entrance-privacy-font-weight: 400;
+  --modal-entrance-privacy-line-height: 17px;
+  --modal-entrance-privacy-letter-spacing: -0.6px;
+
+  /* tablet+ content padding (768px up) — measured directly from vyepti.com's entrance modal */
+  --modal-entrance-content-padding-top: 52px;
+  --modal-entrance-content-padding-bottom: 85px;
+
+  /* 768-991px only: keeps the heading/paragraph text column wrapping to a
+     stable 2 lines each across the whole tablet band (see modal.css) —
+     narrower than 230px collapses the paragraph to 3 lines, wider than
+     380px collapses the heading to 1 line. The tighter gap is what lets the
+     text column reach 230px without the row overflowing at the 768px floor. */
+  --modal-entrance-tablet-gap: 14px;
+  --modal-entrance-text-col-min-width: 230px;
+  --modal-entrance-text-col-max-width: 380px;
+
+  /* fixes the dialog itself to its width at the 768px floor so nothing in
+     it shifts across the tablet band — only the surrounding backdrop
+     margin grows as the viewport widens toward 992px */
+  --modal-entrance-width-tablet: 720px;
+
+  /* 992px+: the text column needs ~460px to hold both the heading and
+     paragraph on one line each (matching the source). The shared desktop
+     dialog margin/gap don't leave enough room for that right at the 992px
+     floor, so the entrance variant gets its own tighter values here,
+     freeing enough width that the row already fits on one line from 992px
+     up instead of only past ~1080px. */
+  --modal-entrance-width-desktop: calc(100vw - 32px);
+  --modal-entrance-desktop-gap: var(--spacing-s, 16px);
+
+  /* gap grows from ~22px@375px to ~131px@770px, matching two points measured
+     directly on vyepti.com's mobile entrance modal; capped before the row
+     layout takes over at 900px, where it resets to a flat --spacing-s */
+  --modal-entrance-button-gap-mobile: clamp(var(--spacing-s, 16px), calc(27.6vw - 82px), 140px);
+
+
+
+  /* exit interstitial ("You are about to leave VYEPTI.com") — mobile-first.
+     8px side gutters by default (Bootstrap .modal-dialog margin 0.5rem), capped
+     at a fixed 535px from 768px up. */
+  --modal-exit-width: calc(100vw - 16px);
+  --modal-exit-max-width: 535px;
+  --modal-exit-radius: 12px;
+  --modal-exit-shadow: none;
+  --modal-exit-background: var(--card-bg-light);
+
+  /* source vyepti.com dims the page with grey/50%, not the near-black/75%
+     boilerplate default — that's why the default looked too dark */
+  --modal-exit-backdrop-background: rgb(72 72 72 / 50%);
+  --modal-exit-heading-color: #484848;
+  --modal-exit-heading-size: 16px;
+  --modal-exit-heading-weight: 400;
+  --modal-exit-heading-line-height: 24px;
+  --modal-exit-content-padding: 16px 15px 34px; /* source: body padding 0 15px 34px + 16px top for close row */
+  --modal-exit-logo-max-width: 174px;
+  --modal-exit-logo-margin-bottom: 20px;
+  --modal-exit-heading-margin-bottom: 24px;
+  --modal-exit-button-gap: 12px;
+  --modal-exit-button-radius: 100px;
+  --modal-exit-button-padding: 19px;
+  --modal-exit-button-font-size: 18px;
+
+  /* source vyepti.com pins each action to a fixed width across all breakpoints
+     (.button-primary → 132px, .button-ghost-cta → 112px) — not shrink-to-text */
+  --modal-exit-button-ok-width: 132px;
+  --modal-exit-button-cancel-width: 112px;
+  --modal-exit-button-ok-background: var(--brand-primary);
+  --modal-exit-button-cancel-color: var(--brand-primary);
+
+  /* close X inset from the card's top-right corner (source insets, not flush) */
+  --modal-exit-close-inset-top: 7px;
+  --modal-exit-close-inset-right: 10px;
+
+  /* heading side padding — source constrains the text so it wraps with more
+     side spacing, narrower than the full content width */
+  --modal-exit-heading-inline-padding: 36px;
+
+  /* source vyepti.com hover: both actions transition to steel-blue over 0.2s
+     ease-in-out — Continue fills steel-blue, Cancel's border+text turn steel-blue */
+  --modal-exit-button-hover-color: var(--brand-primary-light);
+  --modal-exit-button-transition: 0.2s ease-in-out;
+}
+
+/* exit interstitial — tablet/desktop.
+   Source vyepti.com holds a fixed 535px dialog with 24px side padding across
+   the whole tablet-and-up band (measured at 768px and 1440px). */
+@media (width >= 768px) {
+  :root {
+    --modal-exit-width: 535px;
+    --modal-exit-max-width: calc(100vw - 30px);
+    --modal-exit-content-padding: 15px 24px 48px;
+    --modal-exit-logo-margin-bottom: 24px;
+    --modal-exit-heading-margin-bottom: 28px;
+  }
+}
+
+/* exit interstitial variant. Source vyepti.com sets no explicit height — the
+   dialog is content-sized with no vh clamp (we keep only a safety cap so
+   exceptionally tall content can scroll rather than overflow the viewport).
+   The dialog is a transparent 535px frame; the 7px side gutter lives here so the
+   grey card inside is narrower than the frame — matching source vyepti.com where
+   .modal-dialog (535px, transparent) wraps a 521px grey .modal-content card. */
+.modal.exit dialog {
+  width: var(--modal-exit-width);
+  max-width: var(--modal-exit-max-width);
+  max-height: calc(100dvh - 30px);
+  margin: auto;
+  padding: 0 7px;
+  border: none;
+  box-sizing: border-box;
+  border-radius: var(--modal-exit-radius);
+  box-shadow: var(--modal-exit-shadow);
+  background-color: transparent;
+  overflow: visible;
+
+  /* nudge down 20px from the vertical center to match the source's resting position */
+  transform: translateY(20px);
+}
+
+/* lighter page dimming than the near-black boilerplate default */
+.modal.exit dialog::backdrop {
+  background-color: var(--modal-exit-backdrop-background);
+}
+
+/* the grey card — narrower than the dialog frame by the 7px gutter each side */
+.modal.exit dialog .modal-content {
+  max-height: none;
+  padding: var(--modal-exit-content-padding);
+  margin-top: 0;
+  border-radius: var(--modal-exit-radius);
+  background-color: var(--modal-exit-background);
+  text-align: center;
+}
+
+.modal.exit dialog .section > .default-content-wrapper {
+  padding: 0;
+}
+
+.modal.exit dialog picture {
+  display: inline-block;
+  max-width: var(--modal-exit-logo-max-width);
+  margin: 0 auto var(--modal-exit-logo-margin-bottom);
+}
+
+.modal.exit dialog picture img {
+  width: 100%;
+  height: auto;
+}
+
+.modal.exit dialog h2 {
+  margin: 0 0 var(--modal-exit-heading-margin-bottom);
+  padding: 0 var(--modal-exit-heading-inline-padding);
+  color: var(--modal-exit-heading-color);
+  font-size: var(--modal-exit-heading-size);
+  font-weight: var(--modal-exit-heading-weight);
+  line-height: var(--modal-exit-heading-line-height);
+}
+
+.modal.exit dialog p {
+  font-size: var(--modal-exit-heading-size);
+  line-height: var(--modal-exit-heading-line-height);
+}
+
+.modal.exit .close-button {
+  top: var(--modal-exit-close-inset-top);
+  right: var(--modal-exit-close-inset-right);
+  color: var(--text-color);
+  background-color: transparent;
+}
+
+.modal.exit dialog .modal-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--modal-exit-button-gap);
+  margin-top: 0;
+}
+
+.modal.exit dialog .button-wrapper {
+  margin: 0;
+  padding: 0;
+}
+
+.modal.exit dialog a.button {
+  display: inline-block;
+  margin: 0;
+  border: 1px solid var(--brand-primary);
+  border-radius: var(--modal-exit-button-radius);
+  padding: var(--modal-exit-button-padding);
+  font-size: var(--modal-exit-button-font-size);
+  font-weight: var(--font-weight-bold);
+  text-align: center;
+  transition: var(--modal-exit-button-transition);
+}
+
+/* no trailing arrow icon on the interstitial actions */
+.modal.exit dialog a.button::after {
+  content: none;
+}
+
+/* original order: Cancel on the left, Continue on the right */
+.modal.exit dialog .button-wrapper:has(a.button.cancel) {
+  order: 1;
+}
+
+.modal.exit dialog .button-wrapper:has(a.button.ok) {
+  order: 2;
+}
+
+.modal.exit dialog a.button.ok {
+  width: var(--modal-exit-button-ok-width);
+  background-color: var(--modal-exit-button-ok-background);
+  color: var(--background-color);
+}
+
+.modal.exit dialog a.button.cancel {
+  width: var(--modal-exit-button-cancel-width);
+  background-color: var(--background-color);
+  color: var(--modal-exit-button-cancel-color);
+}
+
+/* hover — Continue fills steel-blue (text stays white), Cancel's border + text
+   turn steel-blue (background stays white); matches source vyepti.com */
+.modal.exit dialog a.button.ok:hover {
+  background-color: var(--modal-exit-button-hover-color);
+  border-color: var(--modal-exit-button-hover-color);
+  color: var(--background-color);
+}
+
+.modal.exit dialog a.button.cancel:hover {
+  border-color: var(--modal-exit-button-hover-color);
+  color: var(--modal-exit-button-hover-color);
+}
+
+@media (width >= 992px) {
+  .modal.exit dialog {
+    width: var(--modal-exit-width);
+  }
 }

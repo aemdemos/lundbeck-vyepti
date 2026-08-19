@@ -339,6 +339,27 @@
           }
         },
         {
+          "title": "Search Results",
+          "id": "search-results",
+          "model": "search-results",
+          "plugins": {
+            "da": {
+              "rows": 1,
+              "columns": 1,
+              "fields": [
+                {
+                  "name": "searchUrl",
+                  "selector": "div>div>p>a[href]"
+                },
+                {
+                  "name": "searchUrlText",
+                  "selector": "div>div>p>a"
+                }
+              ]
+            }
+          }
+        },
+        {
           "title": "Search",
           "id": "search",
           "model": "search",

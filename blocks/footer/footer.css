@@ -224,6 +224,7 @@ footer .footer .columns-container .columns > div > :nth-child(2) > p:has(img):la
   }
 
   footer .footer .columns p {
+    font-size: var(--footer-legal-font-size-desktop, var(--footer-legal-font-size));
     line-height: var(--footer-legal-line-height-desktop, var(--footer-legal-line-height));
   }
 

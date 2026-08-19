@@ -1363,15 +1363,6 @@ main .section.stats-callout h4 {
       max-width: 720px; /* @libs */
     }
 
-    /* flex sections — equal-width columns side-by-side; section-level only.
-       At tablet the container is too narrow for the desktop fixed-width
-       narrow-copy split, so both columns share the width evenly here; the
-       fixed 540px copy column is applied at 992px+ where it fits. */
-    main .flex-group {
-      flex-direction: row;
-      align-items: stretch;
-    }
-
     main .flex-group > .section.flex {
       flex: 1 1 0;
       min-width: 0;
@@ -1402,6 +1393,19 @@ main .section.stats-callout h4 {
       flex: 1 1 0;
       min-width: 0;
     }
+
+    main .section.video-accent {
+      background-color: var(--accent-bg);
+      padding: 32px 0;
+
+     .default-content-wrapper {
+      text-align: left;
+     }
+
+     .video {
+      max-width: 100%;
+     }
+   }
   }
 
 @media (width >= 992px) { /* @libs */
@@ -1460,8 +1464,6 @@ main .section.video-accent {
 
 main .section.stats-callout .columns-wrapper {
   padding-top: 16px;
-main .section.stats-callout > div:not(.bg-image) {
-  max-width: 960px;
 }
 
 /* narrow-copy flex-group (what-to-expect "Choosing a location" + "Prepare for

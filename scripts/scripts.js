@@ -27,6 +27,17 @@ import {
 const MAX_SECTIONS = 100;
 const MAX_SECTION_CHILDREN = 200;
 
+/**
+ * Hosts exempt from the "leaving site" interstitial: the site's own domains
+ * (incl. links authored as absolute URLs) plus approved external domains.
+ */
+const INTERSTITIAL_EXEMPT_HOSTS = [
+  'vyepti.com',
+  'aem.page',
+  'aem.live',
+  'lundbeck.com',
+];
+
 /** Keys that must not be used for object/dataset assignment (CWE-915). */
 const UNSAFE_OBJECT_KEYS = new Set(['__proto__', 'constructor', 'prototype']);
 
@@ -138,10 +149,29 @@ async function loadFonts() {
 function autolinkModals(doc) {
   doc.addEventListener('click', async (e) => {
     const origin = e.target.closest('a');
-    if (origin && origin.href && origin.href.includes('/modals/')) {
+    if (!origin || !origin.href) return;
+
+    if (origin.href.includes('/modals/')) {
       e.preventDefault();
       const { openModal } = await import(`${window.hlx.codeBasePath}/blocks/modal/modal.js`);
       openModal(origin.href);
+      return;
+    }
+
+    // external links show a "leaving site" interstitial before navigating away,
+    // except same-site links, exempt hosts, and links inside the interstitial itself
+    if (origin.closest('.modal')) return;
+    let gated;
+    try {
+      const { hostname } = new URL(origin.href, window.location);
+      const isSameSite = hostname === window.location.hostname;
+      const isExempt = INTERSTITIAL_EXEMPT_HOSTS.some((h) => hostname === h || hostname.endsWith(`.${h}`));
+      gated = !isSameSite && !isExempt;
+    } catch { gated = false; }
+    if (gated && origin.protocol.startsWith('http')) {
+      e.preventDefault();
+      const { openModal } = await import(`${window.hlx.codeBasePath}/blocks/modal/modal.js`);
+      openModal('/modals/exit', { targetUrl: origin.href });
     }
   });
 }
@@ -687,7 +717,7 @@ export function decorateIconsAndBullets(element, prefix = '') {
   iconsToBullets(element);
 }
 
-/* === BRACKET TAGS ===
+/* === BRACKET TAGS v3 ===
  * Bracket syntax: [[class1,class2]text] → <span class="class1 class2">text</span>
  * Nested section syntax: [#section-id] → cloned content from section-metadata ID.
  * Only alphanumeric, hyphen, and underscore are allowed in class names.
@@ -706,9 +736,10 @@ function parseSplitClasses(raw) {
   return parseClasses(raw, /^[a-z0-9-]+$/);
 }
 
-const SPLIT_INLINE_TAGS = new Set(['STRONG', 'EM', 'A', 'BR']);
+const SPLIT_INLINE_TAGS = new Set(['STRONG', 'EM', 'A', 'BR', 'U', 'SUP', 'SUB', 'DEL']);
 
-const ALIGNMENT_CLASSES = new Set(['center', 'left', 'right']);
+const ALIGNMENT_CLASSES = new Set(['center', 'center-mobile', 'center-desktop',
+  'left', 'left-mobile', 'left-desktop', 'right', 'right-mobile', 'right-desktop']);
 
 const SPAN_TAG_SELECTOR = 'h1, h2, h3, h4, h5, h6, p, li';
 
@@ -749,7 +780,21 @@ function splitAlignmentClasses(classes) {
   }, { alignClasses: [], regularClasses: [] });
 }
 
-function applySplitBoundaryPass(el) {
+// Descends through single-child wrappers (e.g. a heading whose entire content is one
+// <strong>) to find the element whose direct children actually hold the split text/inline
+// nodes. Bracket content can be nested one or more levels inside such a wrapper.
+function getSplitContainer(el) {
+  let container = el;
+  while (container.childNodes.length === 1) {
+    const [only] = container.childNodes;
+    if (only.nodeType !== Node.ELEMENT_NODE || !SPLIT_INLINE_TAGS.has(only.nodeName)) break;
+    container = only;
+  }
+  return container;
+}
+
+function applySplitBoundaryPass(container, alignTarget = container) {
+  const el = container;
   const children = [...el.childNodes];
 
   for (let i = 0; i < children.length - 2; i += 1) {
@@ -785,7 +830,7 @@ function applySplitBoundaryPass(el) {
         const closeMatch = openMatch && classes.length ? next.nodeValue.match(/^\s*\]/) : null;
         if (closeMatch) {
           const { alignClasses, regularClasses } = splitAlignmentClasses(classes);
-          if (alignClasses.length) el.classList.add(...alignClasses);
+          if (alignClasses.length) alignTarget.classList.add(...alignClasses);
           prev.nodeValue = prev.nodeValue.slice(0, -openMatch[0].length);
           next.nodeValue = next.nodeValue.slice(closeMatch[0].length);
           if (regularClasses.length) {
@@ -806,7 +851,7 @@ function applySplitBoundaryPass(el) {
       if (isPrevInline && isNextInline && openerText.endsWith('[[') && classes.length
         && closerText.startsWith(']') && closerText.endsWith(']')) {
         const { alignClasses, regularClasses } = splitAlignmentClasses(classes);
-        if (alignClasses.length) el.classList.add(...alignClasses);
+        if (alignClasses.length) alignTarget.classList.add(...alignClasses);
         next.textContent = closerText.slice(1, -1);
         if (regularClasses.length) {
           const insertRef = next.nextSibling;
@@ -945,13 +990,87 @@ function hoistAlignmentAcrossInlines(el) {
   }
 }
 
+const MULTI_NODE_OPEN_RE = /\[\[([a-z0-9,-]+)\]/;
+
+// Finds a "[[classes]" opener whose closing "]" is not in the same text node, and locates
+// that closing "]" across any run of plain text and SPLIT_INLINE_TAGS elements that follows
+// (e.g. content broken up by one or more <br>). Used to catch spans that the fixed 3-node
+// window in applySplitBoundaryPass can't reach.
+function findMultiNodeSpanBoundary(el) {
+  const children = [...el.childNodes];
+  for (let i = 0; i < children.length; i += 1) {
+    const openNode = children.at(i);
+    if (openNode.nodeType !== Node.TEXT_NODE) continue; // eslint-disable-line no-continue
+
+    const openMatch = openNode.nodeValue.match(MULTI_NODE_OPEN_RE);
+    if (!openMatch) continue; // eslint-disable-line no-continue
+
+    const afterOpen = openMatch.index + openMatch[0].length;
+    if (openNode.nodeValue.slice(afterOpen).includes(']')) continue; // eslint-disable-line no-continue
+
+    const classes = parseSplitClasses(openMatch[1]);
+    if (!classes.length) continue; // eslint-disable-line no-continue
+
+    for (let j = i + 1; j < children.length; j += 1) {
+      const node = children.at(j);
+      if (node.nodeType === Node.TEXT_NODE) {
+        const closeIdx = node.nodeValue.indexOf(']');
+        if (closeIdx !== -1) {
+          return {
+            openNode, afterOpen, openIndex: openMatch.index, classes, closeNode: node, closeIdx,
+          };
+        }
+      } else if (!SPLIT_INLINE_TAGS.has(node.nodeName)) {
+        break;
+      }
+    }
+  }
+  return null;
+}
+
+function applyMultiNodeSpanTag(container, alignTarget = container) {
+  const boundary = findMultiNodeSpanBoundary(container);
+  if (!boundary) return false;
+  const {
+    openNode, afterOpen, openIndex, classes, closeNode, closeIdx,
+  } = boundary;
+
+  const range = document.createRange();
+  range.setStart(openNode, afterOpen);
+  range.setEnd(closeNode, closeIdx);
+
+  const { alignClasses, regularClasses } = splitAlignmentClasses(classes);
+  const fragment = range.extractContents();
+  if (regularClasses.length) {
+    const span = document.createElement('span');
+    span.className = regularClasses.join(' ');
+    span.appendChild(fragment);
+    range.insertNode(span);
+  } else {
+    range.insertNode(fragment);
+  }
+  if (alignClasses.length) alignTarget.classList.add(...alignClasses);
+
+  openNode.nodeValue = openNode.nodeValue.slice(0, openIndex);
+  closeNode.nodeValue = closeNode.nodeValue.slice(1);
+  return true;
+}
+
 export function decorateSpanTags(element) {
   element.querySelectorAll(SPAN_TAG_SELECTOR).forEach((el) => {
-    if (el.textContent.includes('[[')) hoistAlignmentAcrossInlines(el);
+    if (!el.textContent.includes('[[')) return;
+
+    hoistAlignmentAcrossInlines(el);
 
     const nodes = collectTextNodes(el, '[[');
     nodes.forEach((n) => replaceTextNode(n, el));
-    applySplitBoundaryPass(el);
+
+    const container = getSplitContainer(el);
+    applySplitBoundaryPass(container, el);
+
+    while (el.textContent.includes('[[')) {
+      if (!applyMultiNodeSpanTag(container, el)) break;
+    }
   });
 
   cleanAttributes(element);
@@ -1285,7 +1404,7 @@ async function loadLazy(doc) {
   const entranceModal = getMetadata('entrance-modal');
   if (entranceModal) {
     import(`${window.hlx.codeBasePath}/blocks/modal/modal.js`)
-      .then(({ openModal }) => openModal(entranceModal));
+      .then(({ openModal }) => openModal(entranceModal, { gate: true }));
   }
 }
 
@@ -1323,11 +1442,42 @@ export async function loadPage() {
   loadSidekick();
 }
 
+/**
+ * If this page gates on an entrance modal and the visitor already made a
+ * Yep/Nope choice this session, redirect straight to their page (before the
+ * body is revealed in loadEager) instead of showing the modal again.
+ *
+ * Deliberately not top-level-awaited: modal.js pulls in fragment.js, which
+ * statically imports this module (see its `import/no-cycle` disable), so
+ * awaiting this chain at the top level of this module would deadlock —
+ * this module's own evaluation would block on a dependency that can't
+ * finish until this module finishes. Chaining with .then() instead lets
+ * this module finish evaluating immediately, matching how the entrance
+ * modal itself is already loaded (import(...).then(...), never awaited
+ * at the top level) elsewhere in this file.
+ * @returns {Promise<boolean>} true if a redirect was started
+ */
+function redirectIfGateChoiceStored() {
+  if (!getMetadata('entrance-modal')) return Promise.resolve(false);
+  return import(`${window.hlx.codeBasePath}/blocks/modal/modal.js`).then(({ getGateRedirectTarget }) => {
+    const target = getGateRedirectTarget();
+    if (target && target !== window.location.pathname) {
+      window.location.replace(target);
+      return true;
+    }
+    return false;
+  });
+}
+
 // DA UE Editor support before page load
 if (window.location.hostname.includes('ue.da.live')) {
   await import(`${window.hlx.codeBasePath}/ue/scripts/ue.js`).then(({ default: ue }) => ue());
+  loadPage();
+} else {
+  redirectIfGateChoiceStored().then((redirected) => {
+    if (!redirected) loadPage();
+  });
 }
-loadPage();
 
 /* new DA NX stuff */
 const { searchParams, origin } = new URL(window.location.href);

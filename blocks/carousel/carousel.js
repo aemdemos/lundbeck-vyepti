@@ -15,12 +15,11 @@ function createSlide(row, slideIndex, carouselId, isTestimonial) {
   row.querySelectorAll(':scope > div').forEach((column, colIdx) => {
     column.classList.add(`carousel-slide-${colIdx === 0 ? 'image' : 'content'}`);
     if (isTestimonial && colIdx === 0) {
-      const eager = slideIndex === 0;
       const firstImg = column.querySelector('picture > img');
       column.replaceChildren(
         buildPictureContentFromImageCell(column, {
-          eagerSingle: eager,
-          eagerArtDirection: eager,
+          eagerSingle: false,
+          eagerArtDirection: false,
         }),
       );
       const newImg = column.querySelector('picture > img');
@@ -63,6 +62,13 @@ export default async function decorate(block) {
     const { indicatorsNav, buttonsContainer } = createSliderControls(rows.length);
     block.append(indicatorsNav);
     container.append(buttonsContainer);
+
+    if (isTestimonial) {
+      const swipeHint = document.createElement('p');
+      swipeHint.classList.add('carousel-swipe-hint');
+      swipeHint.textContent = 'Swipe for more';
+      block.append(swipeHint);
+    }
   }
 
   rows.forEach((row, idx) => {

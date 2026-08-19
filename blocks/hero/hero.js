@@ -1,7 +1,86 @@
 import { buildPictureContentFromImageCell } from '../../scripts/utils.js';
 
+/**
+ * Collects the caption nodes inside a hero image column: the text and inline
+ * elements that carry the caption copy, skipping <picture>/<img> entirely. Descends
+ * into picture-bearing wrappers (the backend often nests the caption in the same
+ * <p> as the last <picture>), and returns the caption's own inline nodes in document
+ * order so their structure and any raw `[[class]text]` span-tag syntax are preserved.
+ * @param {Element} root the image cell/column
+ * @returns {ChildNode[]}
+ */
+function collectCaptionNodes(root) {
+  const out = [];
+  const visit = (parent) => {
+    parent.childNodes.forEach((node) => {
+      if (node.nodeType === Node.TEXT_NODE) {
+        if (node.nodeValue.trim()) out.push(node);
+      } else if (node.nodeType === Node.ELEMENT_NODE) {
+        if (node.matches('picture, img')) return; // the image itself — never the caption
+        if (node.querySelector('picture, img')) {
+          visit(node); // wrapper holding a picture (and maybe the caption) — descend
+        } else {
+          out.push(node); // inline caption element (<em>/<strong>/<span>/<a>/<sup>…)
+        }
+      }
+    });
+  };
+  visit(root);
+  return out;
+}
+
+/**
+ * Finds an author-entered caption inside a hero image column and returns it as a
+ * <p> (or null). Phrase-independent — any copy works. Two delivered shapes are
+ * handled: (1) a dedicated <p> with visible text and no image/link, and (2) caption
+ * content sitting beside (or nested in the same wrapper as) the <picture> stack —
+ * text and/or inline elements the backend did not give its own <p>. In case (2) the
+ * caption nodes are MOVED — preserving their inline structure
+ * (<em>/<strong>/<span>/<a>/<br>/<sup>) and any raw `[[class]text]` span-tag syntax —
+ * into a fresh <p> so author emphasis survives and the global decorateSpanTags pass
+ * (which runs after this block decorator) can resolve span tags on the caption.
+ * @param {Element} imageCol the image cell/column
+ * @returns {HTMLParagraphElement|null}
+ */
+function findCaptionParagraph(imageCol) {
+  if (!imageCol) return null;
+
+  // (1) An explicit caption paragraph — visible text, no image/link.
+  const paragraphs = [...imageCol.querySelectorAll('p')];
+  const para = paragraphs.find((p) => p.textContent.trim()
+    && !p.querySelector('picture, img, a'));
+  if (para) return para;
+
+  // (2) Caption content among the pictures (loose, or nested in a picture wrapper).
+  // Move the collected nodes as-is — flattening to textContent would drop author
+  // <em>/<strong> and split-boundary span-tag markup.
+  const captionNodes = collectCaptionNodes(imageCol);
+  if (!captionNodes.length) return null;
+  const p = document.createElement('p');
+  p.append(...captionNodes);
+  imageCol.append(p);
+  return p;
+}
+
+/**
+ * Applies the caption treatment: the shared .hero-caption positioning/shadow hook,
+ * then relocates it to the caption slot (`target`). Inline `[[class]text]` styling is
+ * left to the global decorateSpanTags pass, which runs after this block decorator, so
+ * the caption's raw bracket text must survive intact here.
+ * @param {HTMLParagraphElement} caption
+ * @param {Element} target element to append the caption into
+ */
+function placeCaption(caption, target) {
+  caption.classList.add('hero-caption');
+  target.appendChild(caption);
+}
+
 function applyAccentColor(block) {
   block.querySelectorAll('h1 strong, h2 strong, h3 strong, p strong').forEach((strong) => {
+    // Leave caption content alone: author-applied bold in the caption must not be
+    // rewritten into the heading accent-color span (caption styling is author-driven
+    // via span-tags / inline emphasis, resolved by the global decorateSpanTags pass).
+    if (strong.closest('.hero-caption')) return;
     const span = document.createElement('span');
     span.className = 'accent-color';
     span.textContent = strong.textContent;
@@ -11,14 +90,17 @@ function applyAccentColor(block) {
 
 function decorateSinglePanel(block) {
   block.classList.add('single');
-  applyAccentColor(block);
 
-  const contentDiv = block.querySelector(':scope > div:last-child');
-  const lastP = contentDiv?.querySelector(':scope > div > p:last-child');
-  if (lastP && lastP.textContent.trim().toLowerCase() === 'actor portrayal') {
-    lastP.classList.add('actor-portrayal');
-    block.appendChild(lastP);
-  }
+  // Caption is authored in the image column (first cell); relocate it to the
+  // block-level caption slot for absolute bottom-right positioning. Do this before
+  // applyAccentColor so the .hero-caption class exists and its guard fires — author
+  // bold in the caption must stay <strong>, not become the heading accent-color span.
+  const imageCol = block.querySelector(':scope > div:first-child > div')
+    || block.querySelector(':scope > div:first-child');
+  const caption = findCaptionParagraph(imageCol);
+  if (caption) placeCaption(caption, block);
+
+  applyAccentColor(block);
 }
 
 function decorateDualPanel(block, rows) {
@@ -29,15 +111,18 @@ function decorateDualPanel(block, rows) {
     const panel = document.createElement('div');
     panel.className = `hero-panel hero-panel-${index === 0 ? 'dark' : 'light'}`;
 
-    // First cell: image (background)
+    // First cell: image (background). Capture the author-entered caption before
+    // the image cell is consumed, then relocate it to panel level for positioning.
     const imgCell = cells[0];
     if (imgCell) {
+      const caption = findCaptionParagraph(imgCell);
       const bgDiv = document.createElement('div');
       bgDiv.className = 'hero-panel-bg';
       const bgContent = buildPictureContentFromImageCell(imgCell);
       imgCell.replaceChildren();
       bgDiv.append(bgContent);
       panel.appendChild(bgDiv);
+      if (caption) placeCaption(caption, panel);
     }
 
     // Second cell: text content overlay
@@ -46,15 +131,6 @@ function decorateDualPanel(block, rows) {
       const contentDiv = document.createElement('div');
       contentDiv.className = 'hero-panel-content';
       contentDiv.append(...textCell.childNodes);
-
-      // Move "Actor portrayal" to panel level for absolute positioning
-      const allP = contentDiv.querySelectorAll('p');
-      allP.forEach((p) => {
-        if (p.textContent.trim().toLowerCase() === 'actor portrayal') {
-          p.classList.add('actor-portrayal');
-          panel.appendChild(p);
-        }
-      });
 
       // CTA row: sole link in a paragraph — matches vyepti split-banner absolute CTA band
       contentDiv.querySelectorAll('p').forEach((p) => {
@@ -129,8 +205,13 @@ function consolidateSinglePanelImage(block) {
   const imageRow = block.querySelector(':scope > div:first-child');
   const imageCell = imageRow?.firstElementChild;
   if (!imageCell) return;
+  // Preserve the author-entered caption paragraph: replaceChildren() below would
+  // otherwise wipe it (buildPictureContentFromImageCell returns only the picture),
+  // leaving decorateSinglePanel nothing to relocate.
+  const caption = findCaptionParagraph(imageCell);
   const built = buildPictureContentFromImageCell(imageCell);
   imageCell.replaceChildren(built);
+  if (caption) imageCell.append(caption);
 }
 
 export default function decorate(block) {

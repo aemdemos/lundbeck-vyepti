@@ -1,11 +1,68 @@
 /* cards design tokens — Tier 2: reference global semantics; @boilerplate marks unresolved literals */
 :root { /* @boilerplate */
   --cards-grid-min-width: 257px; /* @boilerplate */
-  --cards-grid-gap: var(--spacing-m, 24px); /* @boilerplate */
+  --cards-grid-gap: 30px; /* @boilerplate */
   --cards-card-border-width: var(--border-width-s); /* @boilerplate */
   --cards-card-border-color: var(--border-color); /* @boilerplate */
   --cards-card-background: var(--color-surface); /* @boilerplate */
   --cards-card-body-margin: var(--spacing-s); /* @boilerplate */
-  --cards-image-aspect-ratio: 4 / 3; /* @boilerplate */
-  --cards-image-object-fit: cover; /* @boilerplate */
+  --cards-image-aspect-ratio: 3/2;
+  --cards-image-object-fit: contain;
+  --cards-3col-width: unset;
+  --cards-2col-width: calc((200% - 3 * var(--cards-grid-gap)) / 4);
+  --card-image-height: unset;
+
+  /* resources variant — resource-card look for standalone (non-accordion) cards */
+  --cards-resources-gap: 24px;
+  --cards-resources-card-margin-bottom: 24px;
+  --cards-resources-image-max-width: 164px;
+  --cards-resources-title-margin-bottom: 28px;
+  --cards-resources-body-margin-bottom: 40px;
+  --cards-resources-action-gap: 49px;
+  --cards-resources-action-stack-gap: 12px;
+  --cards-resources-title-color: #046183;
+  --cards-resources-title-font-size: 20px;
+  --cards-resources-title-line-height: 22px;
+  --cards-resources-body-color: #484848;
+  --cards-resources-body-font-size: 16px;
+  --cards-resources-body-line-height: 22px;
+  --cards-resources-link-color: #046183;
+  --cards-resources-link-hover-color: #7ebcc6;
+  --cards-resources-link-font-size: 16px;
+  --cards-resources-link-font-weight: 700;
+  --cards-resources-link-line-height: 20px;
+  --cards-feature-gap: 16px; /* image-to-text gap (mobile column) */
+  --cards-feature-icon-size: 112px; /* leading icon size in the tablet row */
+  --cards-feature-icon-size-desktop: 112px; /* centered icon size at desktop */
+  --cards-feature-cta-gap-desktop: 32px; /* min space above the bottom-pinned CTA */
+  --cards-feature-cta-gap-mobile: 24px; /* space above the CTA in the mobile column */
+  --cards-feature-icon-gap: 16px; /* gap between icon and text */
+  --cards-feature-cta-gap: 24px; /* gap around the flexible spacer before the CTA */
+  --cards-feature-text-max: 283px; /* caps the copy column so headings wrap like the source */
+  --cards-feature-cta-offset: 1.4em; /* CTA top offset: aligns button top to the heading's first-line bottom */
+  --cards-feature-row-gap: 48px; /* vertical space between stacked cards */
+  --cards-feature-badge-row-stack-gap: 24px; /* card-to-card gap for the no-CTA badge stack (tablet) */
+
+  /* no-CTA "badge" cards (how-vyepti-works): the icon is a wide 2:1 badge asset
+     rendered at its natural width (not squared like the home-page icons). The
+     source serves a 229px-wide asset up to ~1199px and a 286px-wide asset at
+     1200px+; matched here. Height follows the intrinsic ratio (auto). */
+  --cards-feature-badge-width: 229px; /* source badge width < 1200px */
+  --cards-feature-badge-width-wide: 286px; /* source badge width >= 1200px */
+  --cards-feature-badge-gap: 19px; /* badge-to-heading gap (source) */
+  --cards-feature-badge-row-gap: 22px; /* badge-to-text gap in the tablet row (source) */
+  --cards-feature-badge-section-pt: 48px; /* section padding above the badge row (source, desktop) */
+  --cards-feature-badge-section-pb: 64px; /* section padding below the badge row (source, desktop) */
+  --cards-feature-badge-section-pt-tablet: 17px; /* section padding above (source, tablet band) */
+  --cards-feature-badge-section-pb-tablet: 21px; /* section padding below (source, tablet band) */
+
 }
+
+@media (width >= 992px) {
+  :root {
+    --cards-resources-title-font-size: 22px;
+    --cards-resources-image-max-width: 140px;
+  }
+}
+
+ 

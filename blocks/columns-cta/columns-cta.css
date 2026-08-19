@@ -13,6 +13,21 @@ main > .section > .columns-cta-wrapper {
   margin: 40px 0 40px 0;
 }
 
+/* clearance so bg-wide's overflow:hidden doesn't clip the card's box-shadow */
+main > .section.bg-wide > .columns-cta-wrapper {
+  padding-top: 10px;
+}
+
+/* source's single-card padding is taller than the generic fallback below */
+main .columns-cta-1-cols > div > div {
+  padding: var(--columns-cta-single-padding-mobile);
+}
+
+main .columns-cta-1-cols a,
+main .columns-cta-1-cols a.button {
+  margin-top: var(--columns-cta-single-button-margin-top-mobile);
+}
+
 .columns-cta > div {
   display: flex;
   flex-direction: column;
@@ -23,6 +38,7 @@ main > .section > .columns-cta-wrapper {
 /* Each column - styled as a shadow card */
 .columns-cta > div > div {
   order: 1;
+  background-color: var(--background-color);
   box-shadow: var(--columns-cta-card-shadow);
   border-radius: var(--columns-cta-card-radius);
   padding: var(--columns-cta-card-padding);
@@ -133,5 +149,73 @@ main > .section > .columns-cta-wrapper {
     flex: 1;
     order: unset;
     padding: var(--columns-cta-card-padding-desktop);
+  }
+
+  /* Single-column variant: horizontal band with left-aligned text on the left
+     and the CTA button pushed to the far right, plus a corner shard graphic at
+     the top-left (replacing the full-width bottom stripe). `main` prefix raises
+     specificity above the tokens file's desktop overrides. */
+  main .columns-cta-1-cols > div > div {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    column-gap: var(--columns-cta-single-row-gap-desktop);
+    padding: var(--columns-cta-single-padding);
+    border-radius: var(--columns-cta-single-card-radius);
+    text-align: left;
+    background-color: white;
+  }
+
+  /* grouped text block (eyebrow, heading, description) fills the row, button
+     stays its natural width on the right */
+  main .columns-cta-1-cols .columns-cta-text {
+    flex: 1 1 auto;
+  }
+
+  /* heading loses the centered side-padding used by the stacked layout */
+  main .columns-cta-1-cols h2 {
+    padding-left: 0;
+    padding-top: 0;
+  }
+
+  /* space the eyebrow off the heading (the eyebrow's inline <strong> can't
+     carry margin, so apply it to the first paragraph directly) */
+  main .columns-cta-1-cols .columns-cta-text > p:first-child {
+    margin-bottom: var(--columns-cta-single-eyebrow-gap);
+  }
+
+  /* source caps eyebrow/description (not the h2) to 80% of the column */
+  main .columns-cta-1-cols .columns-cta-text p {
+    width: 80%;
+  }
+
+  /* the CTA paragraph (button) sits on the right, vertically centered */
+  main .columns-cta-1-cols > div > div > p:last-child {
+    flex: 0 0 auto;
+    margin: 0;
+  }
+
+  main .columns-cta-1-cols a,
+  main .columns-cta-1-cols a.button {
+    margin-top: 0;
+  }
+
+  /* wider, shorter button than the stacked variant (matches the source) */
+  main .columns-cta-1-cols > div > div > p:last-child a[href] {
+    padding: var(--columns-cta-single-button-padding);
+  }
+
+  /* swap the bottom callout stripe for a left-edge corner shard that fills the
+     full band height (coral reaches the top-left, teal the bottom-left),
+     matching the source */
+  main .columns-cta-1-cols > div > div:not(.columns-cta-img-col)::after {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: var(--columns-cta-corner-width);
+    height: auto;
+    background-image: var(--columns-cta-corner-image);
+    background-size: auto 100%;
+    background-position: left top;
   }
 }

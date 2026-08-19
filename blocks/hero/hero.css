@@ -27,7 +27,7 @@ main > .section > div:not(.bg-image) {
 
 .hero.single {
   position: relative;
-  min-height: var(--hero-single-min-height);
+  min-height: var(--hero-single-min-height, 350px);
   overflow: hidden;
 }
 
@@ -83,15 +83,29 @@ main > .section > div:not(.bg-image) {
   overflow: hidden;
   display: flex;
   align-items: stretch;
-  min-height: var(--hero-panel-min-height);
+
+  /* Mobile: the dark/light halves are DIFFERENT heights on vyepti.com — each
+     panel matches its source crop's aspect ratio (dark 1024×800, light 750×700).
+     object-fit: cover on the image crops to fit, so the imported asset's own
+     ratio doesn't dictate panel height. Desktop restores the equal-height row. */
+  min-height: 0;
 
   p {
     margin: 0;
   }
 }
 
+.hero-panel-dark {
+  aspect-ratio: 1024 / 800;
+}
+
+.hero-panel-light {
+  aspect-ratio: 750 / 700;
+}
+
 /* Panel background image */
 .hero-panel-bg {
+  position: absolute;
   inset: 0;
   z-index: var(--hero-z-bg);
 }
@@ -249,8 +263,8 @@ main > .section > div:not(.bg-image) {
   background-color: var(--brand-primary-light);
 }
 
-/* "Actor portrayal" caption */
-.hero .actor-portrayal {
+/* Author-driven caption (formerly the hardcoded "Actor portrayal") */
+.hero .hero-caption {
   position: absolute;
   right: 20px;
   bottom: 8px;
@@ -264,6 +278,23 @@ main > .section > div:not(.bg-image) {
   sub {
     font-size: var(--hero-caption-sub-font-size);
   }
+}
+
+/* Dual-panel caption is small regardless of authored emphasis. The source shrinks
+   it via a <sub> wrapper (12px); size the caption directly so it stays small even
+   when authored as plain text / <em> / <strong> without <sub>. Scoped to non-teaser
+   so the teaser variant keeps its own caption sizing. */
+.hero:not(.teaser) .hero-panel .hero-caption {
+  font-size: var(--hero-caption-sub-font-size);
+}
+
+/* Coloured caption text (author opts in with a span-tag colour class) sits on the
+   image and would inherit the white-on-dark drop shadow from .hero-caption, which
+   looks muddy against a light/teal caption. Reset the shadow for those colours so
+   the caption reads cleanly (e.g. stay-connected's grey "Actor portrayal"). */
+.hero .hero-caption .brand-primary,
+.hero .hero-caption .grey {
+  text-shadow: none;
 }
 
 .hero .hero-panel-light .hero-panel-description > p:nth-child(3) {
@@ -419,15 +450,14 @@ main > .section > div:not(.bg-image) {
   color: var(--hero-single-cta-color);
 }
 
-/* "Actor portrayal" caption — italic, bottom-right */
-.section.single-light .hero .actor-portrayal,
-.section.single-dark .hero .actor-portrayal {
+/* Caption — bottom-right (emphasis is author-driven) */
+.section.single-light .hero .hero-caption,
+.section.single-dark .hero .hero-caption {
   position: absolute;
   right: 20px;
   bottom: 20px;
   z-index: var(--hero-z-caption);
   margin: 0;
-  font-style: italic;
   font-weight: 400;
 }
 
@@ -439,7 +469,7 @@ main > .section > div:not(.bg-image) {
  margin: 0;
 }
 
-.section.single-dark .hero .actor-portrayal {
+.section.single-dark .hero .hero-caption {
   color: var(--hero-text-color-light);
   text-shadow: var(--hero-text-shadow);
 }
@@ -453,7 +483,7 @@ main > .section > div:not(.bg-image) {
   color: var(--hero-text-color-light);
 }
 
-.section.single-light .hero .actor-portrayal {
+.section.single-light .hero .hero-caption {
   color: var(--hero-text-color-light);
 }
 
@@ -526,7 +556,7 @@ main > .section > div:not(.bg-image) {
     line-height: 32px;
   }
 
-  .hero.single .actor-portrayal {
+  .hero.single .hero-caption {
     bottom: 34px;
     right: 67px;
   }
@@ -542,6 +572,23 @@ main > .section > div:not(.bg-image) {
     min-height: 0;
     height: 100%;
     align-self: stretch;
+
+    /* Panel proportions track the source's art-directed crop at each breakpoint
+       (vyepti.com swaps the image per viewport, so the panel ratio changes too).
+       Tablet (768–991) uses the near-square 834×840 crop. Wider breakpoints
+       override this below. Cancels the per-panel mobile ratios set earlier. */
+    aspect-ratio: 834 / 840;
+  }
+
+  .hero-panel-dark,
+  .hero-panel-light {
+    aspect-ratio: 834 / 840;
+  }
+
+  /* Desktop: images fill the equal-height row (cover), overriding the mobile
+     intrinsic-ratio sizing. */
+  .hero-panel-bg img {
+    height: 100%;
   }
 
   /* Cancel legacy .hero.single fixed aspect-ratio — section variant is image-driven */
@@ -580,8 +627,8 @@ main > .section > div:not(.bg-image) {
     text-align: left;
   }
 
-  .section.single-light .hero .actor-portrayal,
-  .section.single-dark .hero .actor-portrayal {
+  .section.single-light .hero .hero-caption,
+  .section.single-dark .hero .hero-caption {
     right: 40px;
     bottom: 20px;
   }
@@ -593,6 +640,13 @@ main > .section > div:not(.bg-image) {
 }
 
 @media (width >= 992px) {
+  /* Source swaps to the 1024×800 crop at this breakpoint. */
+  .hero-panel,
+  .hero-panel-dark,
+  .hero-panel-light {
+    aspect-ratio: 1024 / 800;
+  }
+
   .hero-panel-dark .hero-panel-description {
     max-width: 100%;
   }
@@ -601,7 +655,7 @@ main > .section > div:not(.bg-image) {
     padding-top: 30px;
   }
 
-  .hero .actor-portrayal {
+  .hero .hero-caption {
     bottom: 20px;
     right: 60px;
   }
@@ -634,6 +688,13 @@ main > .section > div:not(.bg-image) {
 }
 
 @media (width >= 1200px) {
+  /* Source swaps to the 1440×1116 crop at this breakpoint. */
+  .hero-panel,
+  .hero-panel-dark,
+  .hero-panel-light {
+    aspect-ratio: 1440 / 1116;
+  }
+
   .hero-panel-content {
     padding-top: 40px;
   }
@@ -703,12 +764,19 @@ main > .section > div:not(.bg-image) {
     font-size: 18px;
   }
 
-    .hero .hero-panel .actor-portrayal sub {
+    .hero:not(.teaser) .hero-panel .hero-caption {
     font-size: var(--hero-caption-sub-font-size-xl);
   }
 }
 
 @media (width >= 1600px) {
+  /* Source swaps to the wide 1920×1116 crop at this breakpoint (shorter panels). */
+  .hero-panel,
+  .hero-panel-dark,
+  .hero-panel-light {
+    aspect-ratio: 1920 / 1116;
+  }
+
   .hero-panel-light .hero-panel-description {
     width: 75%;
     margin-right: 25%;

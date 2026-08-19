@@ -6,7 +6,8 @@ header .nav-wrapper {
   z-index: 10;
   top: 0;
   background-color: var(--background-color);
-  border-bottom: 1px solid #999;
+  border-bottom: 1px solid #d1d1d1;
+  box-shadow: 0 1px 8px rgb(0 0 0 / 12%);
   transition: transform 0.3s ease;
 }
 
@@ -66,10 +67,10 @@ header .search.block {
   margin: 0;
 }
 
-/* pill: white rounded box, search icon on the right, input on the left */
+/* pill: white rounded box, search icon on the right, input on the left.
+   Flex (not grid) so the input and icon share one row and stay centred. */
 header .search .search-box {
-  display: grid;
-  grid-template-columns: 1fr auto;
+  display: flex;
   align-items: center;
   gap: 0;
   height: 42px;
@@ -81,11 +82,11 @@ header .search .search-box {
 }
 
 header .search .search-box .search-input {
-  grid-column: 1;
+  order: 1;
+  flex: 1 1 auto;
+  min-width: 0;
   box-sizing: border-box;
-  width: 100%;
   height: 100%;
-  margin-top: -20px;
   border: 0;
   outline: 0;
   background: transparent;
@@ -93,16 +94,20 @@ header .search .search-box .search-input {
   color: var(--header-text-color);
   font-family: var(--body-font-family);
   font-size: var(--header-font-size-s);
+  font-weight: var(--header-font-weight-s);
   line-height: var(--header-line-height-l);
 }
 
 header .search .search-box .search-input::placeholder {
-  color: var(--header-text-color);
+  color: var(--text-color-light);
+  font-weight: var(--header-font-weight-s);
+  opacity: 1;
 }
 
-/* search icon button (right half of the pill) */
+/* search icon button (right half of the pill), vertically centred */
 header .search .search-box .icon-search {
-  grid-column: 2;
+  order: 2;
+  flex: 0 0 auto;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -111,12 +116,13 @@ header .search .search-box .icon-search {
   padding: 0 12px;
   box-sizing: border-box;
   cursor: pointer;
-  margin-bottom:-20px;
 }
 
+/* mirror so the magnifier handle points lower-left, matching the source */
 header .search .search-box .icon-search img {
   width: 18px;
   height: 18px;
+  transform: scaleX(-1);
 }
 
 /* results overlay below the pill (don't disturb header layout) */
@@ -143,6 +149,7 @@ header .search .search-results:empty {
 header .nav-links-container {
   max-width: var(--header-nav-max-width-mobile);
   margin: 0 auto;
+  padding: 0 15px;
 }
 
 header .nav-links-list {
@@ -176,26 +183,10 @@ header .nav-links-list > li > a {
   display: inline-block;
 }
 
-header .nav-links-list > li > a:hover {
-  color: var(--brand-primary-light);
-}
-
 header .nav-links-list > li > p {
   margin: 0;
   color: var(--brand-primary);
   padding: 16px 0;
-}
-
-/* First item (Home) active indicator */
-header .nav-links-list > li:first-child::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  width: 130%;
-  left: -6px;
-  height: 6px;
-  background-color: var(--brand-secondary);
-  border-radius: 6px 6px 0 0;
 }
 
 /* Dropdown trigger chevron */
@@ -264,21 +255,16 @@ header .nav-dropdown-menu a {
   transition: background-color 0.15s, color 0.15s;
 }
 
-header nav.nav-mobile-open .nav-dropdown-menu a:hover {
-  background-color: white;
-  color: var(--brand-primary);
-}
-
 /* Desktop visibility resets are defined in desktop media queries. */
 
 /* ===== Mobile-first base layout ===== */
   header .nav-links-row {
     display: none;
     position: fixed;
-    top: 38px;
+    top: var(--nav-utility-height);
     left: 0;
     width: 100%;
-    height: calc(100vh - 38px);
+    height: calc(100vh - var(--nav-utility-height));
     background: #fff;
     z-index: 100;
     overflow-y: auto;
@@ -289,7 +275,9 @@ header nav.nav-mobile-open .nav-dropdown-menu a:hover {
   header nav.nav-mobile-open .nav-links-row {
     display: block;
     margin-right: auto;
-    margin-left: auto;  
+    margin-left: auto;
+    padding-right: var(--header-padding-container);
+    padding-left: var(--header-padding-container);
   }
 
   header nav.nav-mobile-open .nav-links-row .nav-links-list {
@@ -317,17 +305,9 @@ header nav.nav-mobile-open .nav-dropdown-menu a:hover {
     margin: 0;
     color: rgb(4 97 131);
     line-height: var(--header-line-height-m);
-
-    &:hover {
-      color: var(--brand-primary-light);
-    }
   }
 
-  header nav.nav-mobile-open .nav-links-row .nav-links-list > li:first-child::after {
-    display: none;
-  }
-
-  header nav.nav-mobile-open .nav-links-row .nav-links-list > li:first-child::before {
+  header nav.nav-mobile-open .nav-links-row .nav-links-list > li.nav-active::before {
     content: '';
     display: block;
     position: absolute;
@@ -337,6 +317,11 @@ header nav.nav-mobile-open .nav-dropdown-menu a:hover {
     height: 58px;
     background-color: rgb(192 44 87);
     border-radius: 0 7px 7px 0;
+  }
+
+  /* Active child link is bolded */
+  header .nav-dropdown-menu a.nav-active-link {
+    font-weight: var(--header-font-weight-bold);
   }
 
   header nav.nav-mobile-open .nav-links-row .nav-links-list > li.nav-drop::after {
@@ -392,6 +377,10 @@ header nav.nav-mobile-open .nav-dropdown-menu a:hover {
     line-height: var(--header-line-height-m);
     white-space: normal;
     display: block;
+  }
+
+  header nav.nav-mobile-open .nav-dropdown-menu a.nav-active-link {
+    font-weight: var(--header-font-weight-bold);
   }
 
   /* Mobile menu header (search + close) */
@@ -614,6 +603,11 @@ header nav.nav-mobile-open .nav-dropdown-menu a:hover {
     background: var(--brand-primary);
     padding: 2px 0;
     text-align: center;
+
+    /* Match the source teal strip height exactly (vyepti.com renders 30px).
+       box-sizing: border-box keeps the 2px padding inside the 30px. */
+    box-sizing: border-box;
+    min-height: 30px;
   }
 
   header .nav-utility-container {
@@ -624,6 +618,7 @@ header nav.nav-mobile-open .nav-dropdown-menu a:hover {
     padding-left: var(--header-padding-container);
     margin-right: auto;
     margin-left: auto;
+    max-width: var(--header-nav-max-width-mobile);
   }
 
   header .nav-utility-tagline {
@@ -710,7 +705,7 @@ header nav.nav-mobile-open .nav-dropdown-menu a:hover {
   header .nav-utility-dropdown-menu {
     display: none;
     position: fixed;
-    top: 38px;
+    top: var(--nav-utility-height);
     left: 0;
     right: 0;
     width: 100%;
@@ -743,21 +738,6 @@ header nav.nav-mobile-open .nav-dropdown-menu a:hover {
 
   header .nav-utility-dropdown-trigger[aria-expanded='true'] + .nav-utility-dropdown-menu {
     display: block;
-  }
-
-@media (width >= 576px) {
- header .nav-utility-container{
-  max-width: var(--header-nav-max-width-mobile);
- }
-
- header .nav-links-container {
-  padding: 0 15px;
- }
-
- header nav.nav-mobile-open .nav-links-row {
-  padding-right: var(--header-padding-container);
-  padding-left: var(--header-padding-container);
- }
   }
 
 @media (width >= 768px) {
@@ -846,12 +826,24 @@ header nav.nav-mobile-open .nav-dropdown-menu a:hover {
     line-height: var(--header-line-height-l);
   }
 
-  header .nav-links-list > li:first-child::after {
-    display: block;
+  header .nav-links-list > li.nav-active > a,
+  header .nav-links-list > li.nav-active > p {
+    position: relative;
   }
 
-  header .nav-links-list > li:first-child::before {
-    content: none;
+  /* Active underline extends a little beyond the label text on each side, matching
+     vyepti.com (wider than the text itself). */
+  header .nav-links-list > li.nav-active > a::after,
+  header .nav-links-list > li.nav-active > p::after {
+    content: '';
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: -12px;
+    right: -12px;
+    height: 6px;
+    background-color: var(--brand-secondary);
+    border-radius: 6px 6px 0 0;
   }
 
   header .nav-links-list > li.nav-drop::after {
@@ -883,7 +875,10 @@ header nav.nav-mobile-open .nav-dropdown-menu a:hover {
     border-bottom: 5px solid #c02c57;
     border-radius: 0 0 4px 4px;
     margin: 0;
-    left: -26px;
+
+    /* Pull the menu left by its item padding so the first item's text aligns with
+       the label's left edge (matching vyepti.com). */
+    left: -20px;
 
     /* Open just below the label text, matching vyepti.com (parity). */
     top: var(--header-dropdown-top);
@@ -912,7 +907,7 @@ header nav.nav-mobile-open .nav-dropdown-menu a:hover {
   }
 
   header .nav-dropdown-menu a:hover {
-    color: var(--brand-primary);
+    color: var(--brand-primary-light);
   }
 
   header .nav-mobile-header,
@@ -1112,12 +1107,6 @@ header .nav-utility-social-link img {
   width: 22px;
   height: 22px;
   filter: brightness(0) invert(1);
-}
-
-header .nav-utility-social-link:last-child img {
-  width: 22px;
-  height: 22px;
-  filter:unset;
 }
 
 header .nav-utility-social-link:hover img {

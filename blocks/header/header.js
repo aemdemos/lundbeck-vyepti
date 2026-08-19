@@ -1,5 +1,38 @@
-import { getMetadata, decorateBlock, loadBlock } from '../../scripts/aem.js';
+import { getMetadata, decorateIcons } from '../../scripts/aem.js';
 import { loadFragment } from '../fragment/fragment.js';
+
+/**
+ * Normalizes a pathname for comparison (strips trailing slash and .html).
+ * @param {string} path
+ * @returns {string}
+ */
+function normalizePath(path) {
+  let p = path.replace(/\.html$/, '').replace(/\/index$/, '/');
+  while (p.length > 1 && p.endsWith('/')) p = p.slice(0, -1);
+  return p || '/';
+}
+
+/**
+ * Marks the nav item matching the current page as active. Adds `nav-active` to
+ * the top-level <li> (drives the pink underline/left border) and `nav-active-link`
+ * to the matching dropdown link (drives the bold child styling).
+ * @param {Element} navList The decorated nav list (<ul>)
+ */
+function markActiveNavItem(navList) {
+  const currentPath = normalizePath(window.location.pathname);
+  const matches = (linkPath) => linkPath === currentPath
+    || (linkPath !== '/' && currentPath.endsWith(linkPath));
+  navList.querySelectorAll(':scope > li').forEach((li) => {
+    let isActive = false;
+    li.querySelectorAll('a').forEach((a) => {
+      if (matches(normalizePath(new URL(a.href, window.location).pathname))) {
+        isActive = true;
+        if (a.closest('.nav-dropdown-menu')) a.classList.add('nav-active-link');
+      }
+    });
+    if (isActive) li.classList.add('nav-active');
+  });
+}
 
 function toggleAllNavSections(sections, expanded = false) {
   if (!sections) return;
@@ -29,9 +62,22 @@ function closeOnClickOutside(e) {
 }
 
 /**
- * Builds a search block instance (uses the shared blocks/search block) and
- * loads its CSS + JS. Wrapped in a .nav-search container for header layout.
- * @returns {HTMLElement} wrapper containing the (async-decorated) search block
+ * Resolve the /search-results page path, mirroring any "/content" prefix used
+ * by the current page so it works in both authoring and published contexts.
+ * @returns {string}
+ */
+function searchResultsPath() {
+  const contentPrefix = window.location.pathname.startsWith('/content/') ? '/content' : '';
+  return `${contentPrefix}/search-results`;
+}
+
+/**
+ * Builds the header search control. Keeps the exact original DOM structure
+ * (.search-box > .icon-search span + .search-input) so the existing header CSS
+ * styles it unchanged; the only behavior change is that submitting (Enter or
+ * clicking the icon) navigates to the /search-results page with the query in
+ * ?searchText=, rather than searching inline.
+ * @returns {HTMLElement} wrapper containing the search control
  */
 function buildSearchBlock() {
   const searchWrapper = document.createElement('div');
@@ -39,11 +85,46 @@ function buildSearchBlock() {
 
   const searchBlock = document.createElement('div');
   searchBlock.className = 'search block';
-  searchBlock.dataset.blockName = 'search';
+
+  // A form wrapper enables submitting with Enter without altering the styled
+  // .search-box / .icon-search / .search-input elements the CSS targets.
+  const form = document.createElement('form');
+  form.className = 'search-box';
+  form.setAttribute('role', 'search');
+
+  const icon = document.createElement('span');
+  icon.classList.add('icon', 'icon-search');
+
+  const input = document.createElement('input');
+  input.type = 'search';
+  input.className = 'search-input';
+  input.name = 'searchText';
+  input.placeholder = 'Search';
+  input.setAttribute('aria-label', 'Search');
+
+  const goToResults = () => {
+    const query = input.value.trim();
+    if (!query) return;
+    const url = new URL(searchResultsPath(), window.location.origin);
+    url.searchParams.set('searchText', query);
+    url.searchParams.set('p', '1');
+    url.searchParams.set('rp', '10');
+    window.location.assign(url.toString());
+  };
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    goToResults();
+  });
+  icon.addEventListener('click', goToResults);
+
+  // Match the original append order (icon first, then input); CSS grid places
+  // the icon in column 2 (right) and the input in column 1 (left).
+  form.append(icon, input);
+  searchBlock.append(form);
   searchWrapper.append(searchBlock);
 
-  decorateBlock(searchBlock);
-  loadBlock(searchBlock);
+  decorateIcons(searchWrapper);
 
   return searchWrapper;
 }
@@ -377,6 +458,7 @@ function decorateNavLinks(sectionsEl) {
       }
     });
 
+    markActiveNavItem(navList);
     container.append(navList);
   }
 

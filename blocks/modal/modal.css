@@ -73,14 +73,154 @@ body.modal-open { /* @boilerplate */
   padding: 0; /* @boilerplate */
 }
 
+/* Entrance modal — top-aligned prompt shell instead of the generic centered dialog.
+   Scoped via :has(.modal-buttons), the class the entrance1 fragment's authored
+   [modal-buttons] cell decorates to — no JS changes needed to identify it. */
+.modal:has(.modal-buttons) dialog {
+  margin-top: calc(var(--header-height) + var(--modal-entrance-offset-top));
+  margin-bottom: auto;
+  border: none;
+  border-radius: var(--modal-entrance-border-radius);
+  background-color: var(--modal-entrance-background);
+  box-shadow: var(--modal-entrance-shadow);
+  max-width: var(--modal-entrance-max-width);
+}
+
+.modal:has(.modal-buttons) dialog::backdrop {
+  background-color: var(--modal-entrance-backdrop-background);
+}
+
+/* smaller close icon, inset from the dialog corner instead of flush against it;
+   tap target stays --modal-close-button-size — only the glyph shrinks */
+.modal:has(.modal-buttons) .close-button {
+  top: var(--modal-entrance-close-inset);
+  right: var(--modal-entrance-close-inset);
+}
+
+.modal:has(.modal-buttons) .close-button .icon.icon-close {
+  width: var(--modal-entrance-close-icon-size);
+  height: var(--modal-entrance-close-icon-size);
+}
+
+.modal:has(.modal-buttons) .close-button .icon.icon-close::before,
+.modal:has(.modal-buttons) .close-button .icon.icon-close::after {
+  width: var(--modal-entrance-close-icon-size);
+  height: var(--modal-entrance-close-icon-thickness);
+}
+
+/* logo / message / actions row authored as a columns block */
+.modal:has(.modal-buttons) .columns > div {
+  align-items: center;
+  text-align: center;
+  gap: var(--spacing-s, 16px);
+}
+
+.modal:has(.modal-buttons) .columns-img-col {
+  flex: 0 0 auto;
+  max-width: 140px;
+  margin: 0 auto;
+}
+
+.modal:has(.modal-buttons) h2 {
+  font-size: var(--heading-font-size-m);
+}
+
+.modal:has(.modal-buttons) h6 {
+  font-size: var(--modal-entrance-privacy-font-size);
+  font-weight: var(--modal-entrance-privacy-font-weight);
+  line-height: var(--modal-entrance-privacy-line-height);
+  letter-spacing: var(--modal-entrance-privacy-letter-spacing);
+}
+
+.modal .modal-buttons {
+  display: flex;
+  flex: 0 0 auto;
+  justify-content: center;
+  gap: var(--modal-entrance-button-gap-mobile);
+}
+
+.modal .modal-buttons .button-wrapper {
+  margin: 0;
+}
+
+.modal .modal-buttons .button {
+  border-width: var(--modal-entrance-button-border-width);
+  padding: var(--modal-entrance-button-padding);
+}
+
+/* suppress the global a.button default arrow — source Yep/Nope buttons have no icon */
+.modal .modal-buttons .button::after {
+  content: none;
+}
+
+/* the columns row itself flips from stacked to side-by-side at 768px
+   (see .columns.css's own note on this Bootstrap-matching breakpoint) */
+@media (width >= 768px) {
+  /* fixed (not fluid) width for the whole tablet band — see token comment */
+  .modal:has(.modal-buttons) dialog {
+    width: var(--modal-entrance-width-tablet);
+  }
+
+  .modal:has(.modal-buttons) .columns > div {
+    text-align: left;
+    gap: var(--modal-entrance-tablet-gap);
+  }
+
+  .modal:has(.modal-buttons) .columns-img-col {
+    margin: 0;
+  }
+
+  .modal:has(.modal-buttons) .columns > div > div:not(.columns-img-col, .modal-buttons) {
+    min-width: var(--modal-entrance-text-col-min-width);
+    max-width: var(--modal-entrance-text-col-max-width);
+  }
+
+  .modal:has(.modal-buttons) h2 {
+    font-size: var(--heading-font-size-xl);
+  }
+
+  /* buttons now share the row with the logo/heading columns instead of
+     being centered alone in their own row — flat gap, not the mobile formula */
+  .modal .modal-buttons {
+    gap: var(--spacing-s, 16px);
+  }
+
+  /* same top/bottom content padding from 768px up — tablet and desktop match */
+  .modal:has(.modal-buttons) dialog .modal-content {
+    padding-top: var(--modal-entrance-content-padding-top);
+    padding-bottom: var(--modal-entrance-content-padding-bottom);
+    margin-top: 0;
+  }
+}
+
 @media (width >= 992px) { /* @boilerplate */
   .modal dialog { /* @boilerplate */
     width: var(--modal-width-desktop); /* @boilerplate */
+  }
+
+  /* higher-specificity :has() selector from the tablet block above would
+     otherwise win over the rule above and keep the fixed tablet width —
+     entrance modal uses its own tighter formula so the row already has
+     room for one-line heading/paragraph right at the 992px floor */
+  .modal:has(.modal-buttons) dialog {
+    width: var(--modal-entrance-width-desktop);
   }
 
   .modal dialog .modal-content { /* @boilerplate */
     max-height: calc(100dvh - (2 * var(--header-height)) - 64px); /* @boilerplate */
     padding: var(--modal-content-padding-desktop); /* @boilerplate */
     padding-top: 0; /* @boilerplate */
+  }
+
+  /* text column no longer needs the tablet clamp once there's enough room,
+     but the gap stays tighter than the original 32px — that's what frees
+     the width the text column needs to hold one-line heading/paragraph */
+  .modal:has(.modal-buttons) .columns > div {
+    gap: var(--modal-entrance-desktop-gap);
+  }
+
+  .modal:has(.modal-buttons) .columns > div > div:not(.columns-img-col, .modal-buttons) {
+    min-width: 0;
+    max-width: none;
   }
 }
