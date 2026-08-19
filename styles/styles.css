@@ -46,8 +46,8 @@
   --brand-primary-dark: var(--brand-teal-muted);
   --brand-secondary: var(--brand-rose);
   --brand-secondary-dark: var(--brand-rose-dark);
-  --accent-bg: #e1f0f6; /* @libs */
-  --card-bg-light: #eff6f9; /* @libs */
+  --accent-bg: #eff6f9; /* @libs */
+  --card-bg-light: var(--accent-bg); /* @libs */
 
   /* semantic colors */
   --background-color: #fff; /* @libs */
@@ -61,13 +61,18 @@
   --link-hover-color: #7ebcc6; /* @libs */
   --overlay-background-color: #e1f0f6; /* @libs */
   --error-color: #c02c57; /* @boilerplate */
+  --divider-width: 1px; /* @libs */
+  --divider-color: #a4a4a4;
   --section-divider-width: 1px; /* @libs */
   --section-divider-color: var(--link-hover-color); /* @libs */
+  --border-color-dark: #484848;
+  --border-color-light-gray: #8c8c8c;
   --section-padding: 24px;
   --flex-group-gap: 24px;
   --border-color-dark: #484848;
   --border-color-light-gray: #8c8c8c;
   --flex-group-narrow-copy-gap: 60px;
+  --section-tips-width: 444px;
   --div-width-margin: auto;
   --div-width-align-items: flex-start;
 
@@ -75,8 +80,7 @@
      vyepti.com body lists). Applied globally to authored content lists;
      the Approved Use / ISI section is excluded and keeps plain bullets. */
   --list-bullet-color: var(--brand-secondary);
-  --list-bullet-size: 30px;
-  --list-bullet-indent: 1.6em;
+  --list-bullet-indent: 1.2em;
   
   /* fonts */
   --body-font-family: proxima-nova, proxima-nova-fallback, sans-serif; /* @libs */
@@ -113,8 +117,7 @@
   --h1-max-width: 14em; /* @libs */
 
   /* nav heights */
-  --nav-height: 200px; /* @libs */
-  --nav-height-mobile: 124px; /* fits the mobile nav content (no dead space) */
+  --nav-height: 204px; /* matches rendered nav height so main doesn't shift on load */
   --nav-brand-row-height-mobile: 97px; /* @libs */
   --breadcrumbs-height: 34px; /* @libs */
   --header-height: var(--nav-height); /* @libs */
@@ -233,16 +236,25 @@ body.appear { /* @libs */
   --link-color: var(--brand-secondary);
 }
 
+.grey {
+  color: #333;
+}
+
 /* single-purpose text utility; !important so it reliably wins over
    block-level paragraph rules (e.g. columns' 22px line-height) wherever
    an author or block explicitly opts in. */
 .small-text {
+  display: block;
   font-size: var(--body-font-size-xs) !important;
-  line-height: 1.3 !important;
+  line-height: 1.2 !important;
 }
 
 header { /* @libs */
-  min-height: var(--nav-height-mobile); /* fits mobile nav; grows to --nav-height at 992px+ */
+  /* One uniform mobile reservation for all widths < 768px. 128px matches the
+     header content (30px teal strip + ~98px brand row); the header grows to fit
+     when the tagline wraps to 3 lines on very narrow phones, so no gap appears
+     above the hero at any mobile width. Grows to --nav-height at 992px+. */
+  min-height: 128px;
   height: auto; /* fit nav content so it never overflows onto main */
 }
 
@@ -272,7 +284,7 @@ h6 { /* @libs */
   color: var(--text-color); /* @libs */
 }
 
-h1 { /* @libs */
+h1, .size-h1 { /* @libs */
   font-size: var(--heading-font-size-xxl); /* @libs */
   line-height: 1.125; /* @libs */
   color: var(--brand-primary); /* @libs */
@@ -280,13 +292,13 @@ h1 { /* @libs */
   max-width: var(--h1-max-width); /* @libs */
 }
 
-h2 { /* @libs */
+h2, .size-h2 { /* @libs */
   font-size: var(--heading-font-size-xl); /* @libs */
   line-height: var(--heading-line-height); /* @libs */
   color: var(--brand-primary); /* @libs */
 }
 
-h3 { /* @libs */
+h3, .size-h3 { /* @libs */
   font-size: var(--heading-font-size-l); /* @libs */
   font-weight: var(--font-weight-bold); /* @libs */
   line-height: 1.6; /* @libs */
@@ -294,20 +306,20 @@ h3 { /* @libs */
   margin-bottom: 0; /* @libs */
 }
 
-h4 { /* @libs */
+h4, .size-h4 { /* @libs */
   font-size: var(--heading-font-size-m); /* @libs */
   font-weight: var(--font-weight-bold); /* @libs */
   line-height: 1.5; /* @libs */
 }
 
-h5 { /* @libs */
+h5, .size-h5 { /* @libs */
   font-size: var(--heading-font-size-s); /* @libs */
   font-weight: var(--font-weight-bold); /* @libs */
   line-height: 1.22; /* @libs */
   color: var(--brand-primary-dark); /* @libs */
 }
 
-h6 { /* @libs */
+h6, .size-h6 { /* @libs */
   font-size: var(--heading-font-size-xs); /* @libs */
   font-weight: var(--font-weight-bold); /* @libs */
 }
@@ -317,10 +329,90 @@ dl,
 ol,
 ul,
 pre,
-blockquote { /* @libs */
+blockquote,
+.size-p { /* @libs */
   margin-top: var(--block-margin-top); /* @libs */
   margin-bottom: var(--block-margin-bottom); /* @libs */
+  font-size: var(--body-font-size-s); /* @libs */
 }
+
+  main ul {
+    padding-left: var(--list-bullet-indent);
+  }
+
+  main ul > li {
+    margin-bottom: 0.5em;
+  }
+
+  main ul > li::marker {
+    color: var(--list-bullet-color);
+  }
+
+  /* site-map section has 60px top/bottom margin, not the sitewide 40px.
+     margin-top needs the extra :first-of-type specificity to beat the
+     boilerplate rule that zeroes the first section's top margin. */
+  main .section.site-map {
+    margin-bottom: 50px;
+  }
+
+  main > .section.site-map:first-of-type {
+    margin-top: 50px;
+  }
+
+  /* site-map heading is larger and plain dark text, not the usual teal h2 */
+  main .section.site-map h1 .size-h2 {
+    font-size: 36px;
+    line-height: 42px;
+    color: var(--text-color);
+  }
+
+  /* site-map (section style: site-map) has no gap between items, so reset
+     margins on the li, nested ul, and heading text alike */
+  main .section.site-map ul li {
+    margin-bottom: 0;
+  }
+
+  main .section.site-map ul li > ul {
+    margin: 0;
+  }
+
+  main .section.site-map ul li :is(h1, h2, h3, h4, h5, h6) {
+    margin: 0;
+  }
+
+  /* top-level (solid disc) bullets only, not the nested sub-items */
+  main .section.site-map .default-content-wrapper > ul > li::marker {
+    font-size: 13px;
+    font-weight: var(--font-weight-bold);
+  }
+
+  /* sub-item bullets are a hyphen with a gap before the text; ::marker
+     can't take margin, so this uses a positioned ::before instead */
+  main .section.site-map .default-content-wrapper > ul > li > ul {
+    list-style: none;
+  }
+
+  main .section.site-map .default-content-wrapper > ul > li > ul > li {
+    position: relative;
+  }
+
+  main .section.site-map .default-content-wrapper > ul > li > ul > li::before {
+    content: "-";
+    position: absolute;
+    left: -12px;
+    color: var(--list-bullet-color);
+    font-weight: var(--font-weight-bold);
+    font-size: 13px;
+  }
+
+  /* pin at 700 — <strong>'s default "bolder" escalates the h5's 700 to 900 */
+  main .section.site-map ul strong {
+    font-weight: var(--font-weight-bold);
+  }
+
+  main .section.site-map ul h5 {
+    line-height: 26px;
+  }
 
 code,
 pre { /* @libs */
@@ -351,7 +443,6 @@ button { /* @libs */
 a { /* @libs */
   color: var(--link-color); /* @libs */
   text-decoration: none; /* @libs */
-  font-weight: var(--font-weight-bold); /* @libs */
   overflow-wrap: break-word; /* @libs */
 }
 
@@ -554,40 +645,12 @@ main img { /* @libs */
   object-fit: contain; /* @libs */
 }
 
-/* branded body bullets — a large rose dot in a hanging indent, matching
-   vyepti.com body lists. Scoped to authored content lists (classless <ul> in a
-   section); the exclusions live in :where() so they add no specificity, letting
-   the .isi reset below win with a plain class selector. Excludes: icon-bullet
-   lists (custom SVG bullets), class-bearing lists, and a block's own top-level
-   list (`.block > ul`, e.g. cards) — only nested authored copy lists get the
-   dot. The fixed .isi-bar lives in <body>, outside main, so it is unaffected. */
-main .section ul:where(:not([class], :has(> li .icon), .block > *)) {
-  list-style: none;
-  padding-left: 0;
-  margin-left: 0;
-}
-
-main .section ul:where(:not([class], :has(> li .icon), .block > *)) > li {
-  position: relative;
-  padding-left: var(--list-bullet-indent);
-}
-
-main .section ul:where(:not([class], :has(> li .icon), .block > *)) > li::before {
-  content: "•";
-  position: absolute;
-  left: 0;
-  top: 0;
-  color: var(--list-bullet-color);
-  font-size: var(--list-bullet-size);
-  line-height: var(--body-font-size-s);
-}
-
 /* Approved Use / ISI section keeps plain default bullets (no rose dot). The
    global rule above strips list-style/padding off classless <ul>s, so restore
    the native disc marker and indent here too, not just the <li> overrides. */
 main .isi ul {
   list-style: disc;
-  padding-left: 40px;
+  padding-left: 20px;
   margin-left: 0;
 }
 
@@ -602,8 +665,7 @@ main .isi ul > li::before {
 
 /* icon bullet lists — :has() prevents FOUC before JS adds .icon-bullets */
 main ul:has(> li > .icon, > li > :is(strong, em, a) > .icon) { /* @libs */
-  list-style: none; /* @libs */
-  margin: 0; /* @libs */
+  list-style: none; /* @libs *
   padding: 0; /* @libs */
 }
 
@@ -626,37 +688,79 @@ main .icon.icon-bullet { /* @libs */
 
 /* responsive visibility utilities (authorable via [hide-mobile] / [hide-desktop] bracket spans) */
 
+/* ==== START alignment + display for mobile ==== */
 .hide-mobile {
   display: none;
 }
 
-.center {
+.center, .center-mobile, .center-desktop,
+.left, .left-mobile, .left-desktop,
+.right, .right-mobile, .right-desktpo {
+  &:not(.cards) {
+    ol {
+      width: fit-content;
+    }
+
+    ul {
+      width: fit-content;
+    }
+
+    li {
+    text-align: left;
+  }
+ }
+}
+
+.center, .center-mobile {
   text-align: center;
 
-  &.columns > div > div {
-    justify-content: center;
+  &.columns .columns-img-col img {
+    display: inline-block;
+  }
+
+  ol, ul {
+    margin-left: auto;
+    margin-right: auto;
   }
 }
 
-.left {
+.left, .left-mobile {
   text-align: left;
 
-  &.columns > div > div {
-    justify-content: left;
+  &.columns .columns-img-col img {
+    display: inline-block;
   }
 }
 
-.right {
+.right, .right-mobile {
   text-align: right;
 
-  &.columns > div > div {
-    justify-content: right;
+  &.columns .columns-img-col img {
+    display: inline-block;
+  }
+
+  ol, ul {
+    margin-left: auto;
   }
 }
 
+/* ==== END alignment + display for mobile ==== */
+
 /* sections */
+
+.section.margin-top {
+  margin-top: 48px;
+}
+
 main > .section { /* @libs */
   margin: 0; /* @libs */
+  margin-bottom: var(--section-padding);
+}
+
+/* An empty section (no content authored) must not contribute spacing — otherwise
+   its margin-bottom leaves a stray gap (e.g. before the footer). */
+main > .section:empty {
+  margin: 0;
 }
 
 main > .section > div:not(.bg-image) {
@@ -689,8 +793,54 @@ main > .section > .bg-image img { /* @boilerplate */
   height: 100%; /* @boilerplate */
 }
 
-main > .section > .bg-image img { /* @boilerplate */
-  object-fit: cover; /* @boilerplate */
+main > .section > .bg-image img {
+  object-fit: cover;
+}
+
+/* style: bg-wide — pins bg-image to the bottom-right, sized to viewport */
+main > .section.bg-wide {
+  /* source uses a fixed 123x91 mobile asset here instead of scaling down */
+  --bg-wide-width: 123px;
+
+  margin-bottom: 0;
+  min-height: calc(var(--bg-wide-width) * 277 / 377);
+}
+
+/* matches source's ~120px card-to-footer gap */
+main > .section.bg-wide:has(.columns-cta) {
+  min-height: 476px;
+}
+
+main > .section.bg-wide > .bg-image {
+  inset: auto 0 0 auto;
+  margin: 0;
+  padding: 0;
+  max-width: none;
+}
+
+main > .section.bg-wide > .bg-image picture,
+main > .section.bg-wide > .bg-image img {
+  width: var(--bg-wide-width);
+  height: auto;
+}
+
+/* style: enroll-banner — pins bg-image to a corner instead of full-bleed cover */
+main > .section.enroll-banner > .bg-image {
+  inset: auto 0 0 auto;
+  margin: 0;
+  padding: 0;
+  max-width: none;
+}
+
+main > .section.enroll-banner > .bg-image picture,
+main > .section.enroll-banner > .bg-image img {
+  width: auto;
+  height: auto;
+}
+
+/* centers the h1 box itself; text-align:center alone doesn't, given its own max-width */
+main .section.enroll-banner h1 {
+  margin-inline: auto;
 }
 
 main > .section:first-of-type { /* @boilerplate */
@@ -704,7 +854,7 @@ main > .section.divider > div:last-child { /* @libs */
 
 main > .section > div {
   box-sizing: border-box;
-  max-width: 540px;
+  max-width: var( --max-width-site);
   margin: auto;
   padding: 0 15px;
 }
@@ -726,10 +876,91 @@ main .flex-group > .section.flex {
   margin: 0;
 }
 
+/* section metadata - tips (share-your-migraine-story "Tips for telling your
+   story" sidebar). Rounded light-blue card with a decorative shape banner
+   across the top (authored as the section background-image, delivered as a
+   static .bg-image block since the section is nested in a .flex-group and so
+   is not matched by the full-cover `main > .section > .bg-image` rule). Each
+   tip is one authored paragraph: leading icon + bold lead-in + copy, laid out
+   with a hanging indent so wrapped lines align under the text, not the icon. */
+main .section.tips {
+  background-color: var(--accent-bg);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+main .section.tips > .bg-image {
+  line-height: 0;
+}
+
+main .section.tips > .bg-image img {
+  width: 100%;
+  height: auto;
+}
+
+main .section.tips > .columns-wrapper {
+  padding: 20px 25px 41px 29px;
+}
+
+main .section.tips .columns > div > div {
+  display: block;
+}
+
+main .section.tips h3 {
+  margin: 0 0 12px;
+  font-size: 24px;
+  line-height: 1.2;
+  color: var(--brand-primary);
+  text-align: center;
+}
+
+main .section.tips .columns p {
+  margin: 0 0 18px;
+  font-size: var(--body-font-size-s);
+  line-height: 1.4;
+  color: var(--text-color);
+}
+
+main .section.tips .columns p:last-child {
+  margin-bottom: 0;
+}
+
+/* heading + intro line are centered above the left-aligned tip rows */
+main .section.tips .columns p:first-of-type {
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+/* tip rows: hanging indent so the icon floats top-left and copy wraps beneath
+   the lead-in text rather than under the icon. Base indent = icon (27px) + the
+   source's mobile 25px gap; widened at desktop where the card grows. */
+main .section.tips .columns p:has(picture) {
+  position: relative;
+  min-height: 27px;
+  padding-left: 52px;
+}
+
+main .section.tips .columns p picture {
+  position: absolute;
+  top: 0;
+  left: 0;
+  line-height: 0;
+}
+
+main .section.tips .columns p img {
+  width: 27px;
+  height: 27px;
+  object-fit: contain;
+}
+
+/* leftover empty heading from the section-metadata authoring */
+main .section.tips > .default-content-wrapper:has(> h4:empty) {
+  display: none;
+}
+
 /* section metadata - accent (light blue help strip) */
 main .section.accent { /* @libs */
   background-color: var(--accent-bg); /* @libs */
-  margin: 0; /* @libs */
   padding: 20px 0; /* @libs */
 }
 
@@ -749,6 +980,35 @@ main .section.accent img { /* @libs */
   max-width: unset; /* @libs */
   width: 54px; /* @libs */
   height: 54px; /* @libs */
+}
+
+main .section.statistic-accent {
+  margin-bottom: 0;
+}
+
+/* section metadata - video-accent (powder-blue video + transcript band) */
+main .section.video-accent {
+  background-color: var(--accent-bg);
+  padding: 16px 0;
+
+  .video {
+    margin-top: 20px;
+  }
+
+.default-content-wrapper {
+  text-align: center;
+}
+
+h2 {
+  line-height: 1;
+  color: var(--text-color);
+  font-weight: 700;
+  margin-top: 8px;
+}
+
+.accordion {
+  margin-top:8px;
+}
 }
 
 /* section metadata - light */
@@ -817,35 +1077,75 @@ main .section.dark a.button.secondary:focus { /* @libs */
   color: var(--button-on-dark-secondary-hover-color); /* @libs */
 }
 
-/* section metadata - stats-callout (light-blue→white gradient, rounded top corners).
-   Source: vyepti.com clinical-study-results and real-life-impact callouts.
-   The light-blue background-color is authored on the section metadata and applied
-   inline via applySectionBackgroundDecorations(); this rule layers the white fade
-   + rounded corners on top.
-   Box model measured from the live source:
-   - The gradient box (section) is ALWAYS full width (max-width 100%, no side
-     margin). It carries 15px side padding below 768px; at 768+ the inner
-     container owns the gutters so the section padding drops to 0.
-   - The inner content (.container equivalent) carries the responsive caps,
-     centered with margin auto: <576 fluid, 576+ = 540, 768+ = 720,
-     992+ = 960, 1200+ = 1140 (Bootstrap container widths), each with 15px gutters. */
-main .section.stats-callout {
-  max-width: var(--max-width-site); /* @boilerplate */
-  margin: auto;
-  background-image: linear-gradient(180deg, #e8f3f5 20%, #fff 53%, #fff 100%);
-  border-radius: 23px 23px 0 0;
-  padding: var(--section-padding-vertical) 15px;
-  text-align: center;
+
+main .section.dark a.button.accent {
+  background-color: var(--brand-secondary);
+  border-color: transparent;
+  color: var(--columns-divider-accent-color);
 }
 
-/* Inner content carries the responsive container caps, centered. box-sizing keeps
-   the 15px gutters inside the width instead of adding to it. */
-main .section.stats-callout > div:not(.bg-image) {
-  box-sizing: border-box;
-  width: 100%;
-  max-width: 100%;
-  margin: 0 auto;
+/* /financial-assistance page */
+main .section.dark a.button.accent:hover,
+main .section.dark a.button.accent:focus {
+  background-color: var(--brand-secondary-dark);
+  border-color: transparent;
+  color: var(--columns-divider-accent-color);
+  opacity: 1;
+}
+
+/* Download (primary): pale-blue fill, teal label → teal-light on hover. */
+main .section.dark .columns.divider a.button.primary {
+  background-color: var(--light-color);
+  border-color: transparent;
+  color: var(--brand-primary);
+}
+
+main .section.dark a.button.primary:hover,
+main .section.dark a.button.primary:focus {
+  background-color: var(--brand-primary-light);
+  border-color: transparent;
+  color: var(--brand-primary);
+  opacity: 1;
+}
+
+main .section.stats-callout {
+  max-width: var(--max-width-site); /* @boilerplate */
+  margin: 16px 16px 48px;
+  border-radius: 23px 23px 0 0;
   padding: 0 15px;
+  text-align: center;
+
+  .columns-wrapper {
+    margin:16px 0;
+  }
+
+  .small-text {
+    margin-bottom: 16px;
+  }
+
+  h2 + p {
+    margin: 5px;
+  }
+
+  h4, .size-h4 {
+    font-size: 20px;
+    margin: 8px;
+  }
+
+  h2, .size-h2 {
+    font-size: 38px;
+    line-height: 38px;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  h1, .size-h1 {
+    font-size: 60px;
+    line-height: 1;
+    font-weight: 700;
+    margin-top: 32px;
+    margin-bottom: 8px;
+  }
 }
 
 main .section.stats-callout h2,
@@ -853,13 +1153,17 @@ main .section.stats-callout h4 {
   color: var(--brand-primary);
 }
 
+/* First step of the Bootstrap-container-equivalent width ladder (540/720/960/
+   1140 at 576/768/992/1200px). Narrows the site content to 540px from this
+   width up so sections match vyepti.com's container instead of staying full
+   width until 768px. */
 @media (width >= 576px) {
   :root {
     --max-width-site: 540px;
   }
 
   main .section.stats-callout > div:not(.bg-image) {
-    max-width: 540px;
+    max-width: var( --max-width-site);
   }
 }
 
@@ -878,15 +1182,119 @@ main .section.stats-callout h4 {
     --heading-font-size-m: 18px; /* @libs */
     --heading-font-size-s: 18px; /* @libs */
     --heading-font-size-xs: 16px; /* @libs */
+    --section-padding: 36px;
   }
 
-    .hide-desktop {
-      display: none;
+  main > .section.bg-wide {
+    --bg-wide-width: 377px;
+  }
+
+  /* overridden again at 992px below */
+  main > .section.bg-wide:has(.columns-cta) {
+    min-height: 427px;
+  }
+
+  /* source switches from a small corner asset to a full-height right band here */
+  main > .section.enroll-banner > .bg-image {
+    inset: 0 0 0 auto;
+  }
+
+  /* picture doesn't compute an intrinsic-ratio auto width; img (below) does */
+  main > .section.enroll-banner > .bg-image picture {
+    display: contents;
+  }
+
+  /* fits to section height and shifts right so the shapes clear the heading text */
+  main > .section.enroll-banner > .bg-image img {
+    max-width: none;
+    width: auto;
+    height: 100%;
+    object-position: 400px 50%;
+  }
+
+  main .section.enroll-banner .default-content-wrapper > p:first-child {
+    font-size: var(--heading-font-size-xl);
+  }
+
+  /* source pins this h1 at the mobile size here and is left-aligned, not centered */
+  main .section.enroll-banner h1 {
+    font-size: 32px;
+    margin-inline: 0;
+  }
+
+  /* smaller h1 here shrinks content height, so more padding is needed to compensate */
+  main > .section.enroll-banner {
+    padding: 50px 0;
+  }
+
+  .section.margin-top {
+    margin-top: 36px;
+  }
+
+  /* ==== START alignment + display for desktop ==== */
+  .hide-desktop {
+    display: none;
+  }
+
+  .hide-mobile {
+    display: revert;
+  }
+
+  .center-mobile, .left-mobile, .right-mobile {
+    text-align: revert;
+
+    ol, ul {
+    margin-left: revert;
+    margin-right: revert;
+    }
+
+    &:not(.cards) li {
+      text-align: revert;
+    }
+  }
+
+  .center-desktop {
+    text-align: center;
+  
+    &.columns .columns-img-col img {
+      display: inline-block;
     }
   
-    .hide-mobile {
-      display: revert;
+    ol, ul {
+      margin-left: auto;
+      margin-right: auto;
     }
+  
+    &:not(.cards) li {
+      text-align: left;
+    }
+  }
+  
+  .left-desktop {
+    text-align: left;
+  
+    &.columns .columns-img-col img {
+      display: inline-block;
+    }
+  }
+  
+  .right-desktop {
+    text-align: right;
+  
+    &.columns .columns-img-col img {
+      display: inline-block;
+    }
+  
+    ol, ul {
+      margin-left: auto;
+    }
+  
+    &:not(.cards) li {
+      text-align: left;
+    }
+  }
+
+  /* ==== END alignment + display for desktop ==== */
 
     /* ==== Start widths ==== */
 
@@ -924,18 +1332,63 @@ main .section.stats-callout h4 {
     
     /* ==== End widths ==== */
 
+    .large-desktop {
+      font-size: 32px;
+      display: inline-block;
+      margin-top: 16px;
+    }
+
     main .section.stats-callout {
-      padding: var(--section-padding-vertical) 0;
+      margin: auto;
+
+      h1 {
+        max-width: unset;
+      }
+
+      .columns-wrapper {
+        padding-top: 8px;
+      }
+
+      .columns > div {
+        align-items:flex-start;
+        justify-content: space-around;
+      }
+
+      .columns > div > div {
+        max-width: 330px;
+      }
     }
 
     main > .section > div { /* @libs */
       max-width: 720px; /* @libs */
     }
-  
-    main .section.stats-callout > div:not(.bg-image) {
-      max-width: 720px;
+
+    /* flex sections — equal-width columns side-by-side; section-level only.
+       At tablet the container is too narrow for the desktop fixed-width
+       narrow-copy split, so both columns share the width evenly here; the
+       fixed 540px copy column is applied at 992px+ where it fits. */
+    main .flex-group {
+      flex-direction: row;
+      align-items: stretch;
     }
 
+    main .flex-group > .section.flex {
+      flex: 1 1 0;
+      min-width: 0;
+    }
+
+    main .section.video-accent {
+      background-color: var(--accent-bg);
+      padding: 32px 0;
+
+     .default-content-wrapper {
+      text-align: left;
+     }
+
+     .video {
+      max-width: 100%;
+     }
+   }
     /* flex sections — equal-width columns side-by-side; section-level only.
        At tablet the container is too narrow for the desktop fixed-width
        narrow-copy split, so both columns share the width evenly here; the
@@ -956,6 +1409,36 @@ main .section.stats-callout h4 {
     --max-width-site: 960px;
   }
 
+  main > .section.bg-wide:has(.columns-cta) {
+    min-height: 370px;
+  }
+
+  /* this tier's asset is natively section-height — undo the 768px tier's scale-up */
+  main > .section.enroll-banner > .bg-image {
+    inset: 0 0 0 auto;
+    display: block;
+  }
+
+  main > .section.enroll-banner > .bg-image picture {
+    display: block;
+  }
+
+  /* source shifts this asset's content right — its canvas has extra space on the left */
+  main > .section.enroll-banner > .bg-image img {
+    height: 100%;
+    object-position: 268px 50%;
+  }
+
+  /* source resumes the global heading size here; only the 768px tier is pinned smaller */
+  main .section.enroll-banner h1 {
+    font-size: var(--heading-font-size-xxl);
+  }
+
+  /* bigger h1 restores the content height here, so less padding is needed */
+  main > .section.enroll-banner {
+    padding: 20px 0;
+  }
+
   body[data-breadcrumbs] { /* @libs */
     --header-height: calc(var(--nav-height) + var(--breadcrumbs-height)); /* @libs */
   }
@@ -969,6 +1452,14 @@ main > .section > div {
   max-width: var(--max-width-site);
 }
 
+main .section.video-accent {
+  > div {
+  max-width: 610px;
+}
+}
+
+main .section.stats-callout .columns-wrapper {
+  padding-top: 16px;
 main .section.stats-callout > div:not(.bg-image) {
   max-width: 960px;
 }
@@ -982,8 +1473,35 @@ main .flex-group:has(> .section.flex .columns.narrow-copy) {
   gap: var(--flex-group-narrow-copy-gap);
 }
 
+/* this is breaking
 main .flex-group > .section.flex:has(.columns.narrow-copy) {
   flex: 0 0 var(--columns-narrow-copy-max-width);
+}
+  */
+
+/* tips layout mirrors the source's 6/6 grid: the form fills the left half and
+   the tips card (fixed to its shape-banner width) is right-aligned in the right
+   half, leaving a wide gutter between them. margin-left:auto absorbs the slack
+   so the card sits flush to the container's right edge. Only applied from 992px,
+   where the container is wide enough; below this the two share the width. */
+main .flex-group:has(> .section.tips) > .section.flex:not(.tips) {
+  flex: 0 0 calc(50% - (var(--flex-group-gap) / 2));
+}
+
+main .flex-group > .section.tips.flex {
+  flex: 0 0 var(--section-tips-width);
+  margin-left: auto;
+}
+
+/* the tips card only reaches its full 444px width here, so the roomier source
+   padding + icon gutter (56px/45px, 34px gap) apply from this breakpoint; below
+   this the tighter mobile values keep the narrower card's copy from cramping. */
+main .section.tips > .columns-wrapper {
+  padding: 20px 45px 48px 56px;
+}
+
+main .section.tips .columns p:has(picture) {
+  padding-left: 61px;
 }
 
   main .section.accent > div { /* @libs */
@@ -1003,5 +1521,11 @@ main .flex-group > .section.flex:has(.columns.narrow-copy) {
 
   main .section.stats-callout > div:not(.bg-image) {
     max-width: 1140px;
+  }
+
+  main .section.video-accent {
+    > div {
+    max-width: 730px;
+  }
   }
 }
