@@ -36,6 +36,9 @@
   --brand-teal-muted: #41748d; /* @libs */
   --brand-rose: #c02c57; /* @libs */
   --brand-rose-dark: #9a2346; /* @libs */
+  --brand-rose-light: #b81d4a;
+  --border-gray-light: #e0e0e0; 
+  --brand-dark:#000000;
   
   /* libs brand colors */
   --brand-primary: var(--brand-teal);
@@ -48,9 +51,11 @@
 
   /* semantic colors */
   --background-color: #fff; /* @libs */
+  --background-color-variant-02: #f8f9fa;
   --light-color: #e1f0f6; /* @libs */
   --dark-color: #046183; /* @libs */
-  --text-color: #333; /* @libs */
+   --dark-color-variant-02: #3c7790;
+  --text-color: #333333; /* @libs */
   --text-color-light: #666; /* @libs */
   --link-color: #046183; /* @libs */
   --link-hover-color: #7ebcc6; /* @libs */
@@ -64,6 +69,8 @@
   --border-color-light-gray: #8c8c8c;
   --section-padding: 24px;
   --flex-group-gap: 24px;
+  --border-color-dark: #484848;
+  --border-color-light-gray: #8c8c8c;
   --flex-group-narrow-copy-gap: 60px;
   --section-tips-width: 444px;
   --div-width-margin: auto;
@@ -1382,6 +1389,19 @@ main .section.stats-callout h4 {
       max-width: 100%;
      }
    }
+    /* flex sections — equal-width columns side-by-side; section-level only.
+       At tablet the container is too narrow for the desktop fixed-width
+       narrow-copy split, so both columns share the width evenly here; the
+       fixed 540px copy column is applied at 992px+ where it fits. */
+    main .flex-group {
+      flex-direction: row;
+      align-items: stretch;
+    }
+
+    main .flex-group > .section.flex {
+      flex: 1 1 0;
+      min-width: 0;
+    }
   }
 
 @media (width >= 992px) { /* @libs */
@@ -1440,6 +1460,8 @@ main .section.video-accent {
 
 main .section.stats-callout .columns-wrapper {
   padding-top: 16px;
+main .section.stats-callout > div:not(.bg-image) {
+  max-width: 960px;
 }
 
 /* narrow-copy flex-group (what-to-expect "Choosing a location" + "Prepare for
