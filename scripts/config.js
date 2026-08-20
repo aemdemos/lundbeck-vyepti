@@ -1,7 +1,3 @@
-/* eslint-disable browser-security/detect-mixed-content */
-/* eslint-disable browser-security/no-http-urls */
-/* eslint-disable sonarjs/no-clear-text-protocols */
-
 // Function for the brightcove script tag integration for the video rendering
 export function getBrightcoveScriptTag(accountId, playerId) {
   const script = document.createElement('script');
