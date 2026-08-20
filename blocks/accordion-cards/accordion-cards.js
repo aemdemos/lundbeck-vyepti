@@ -82,6 +82,8 @@ function buildCard(imageCol, bodyCol) {
 
   const body = document.createElement('div');
   if (bodyCol instanceof Element) {
+    // The loop removes one child per iteration and is therefore finite.
+    // eslint-disable-next-line secure-coding/no-unchecked-loop-condition
     while (bodyCol.firstElementChild) body.append(bodyCol.firstElementChild);
   }
   styleCardBody(body);

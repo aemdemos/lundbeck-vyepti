@@ -69,7 +69,6 @@ export function addMarker(location, title, info) {
 
 export async function geocodeZip(zip) {
 
-  console.log("ZIP:", zip);
   if (!map) {
     throw new Error("Map has not been initialized.");
   }

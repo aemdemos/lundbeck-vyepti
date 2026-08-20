@@ -39,6 +39,7 @@ export default async function searchLocations(
 
     return data.results || data.providers || data || [];
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error(error);
     return [];
   }
