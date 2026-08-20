@@ -298,6 +298,7 @@ p.signup-form-required-note {
   box-shadow: none;
   color: var(--link-color, #046183);
 }
+
 .form-field-info-btn:focus-visible {
   box-shadow: 0 0 0 3px rgb(0 94 184 / 35%);
 }
@@ -562,6 +563,7 @@ p.signup-form-required-note {
   line-height: var(--body-line-height, 1.4);
   color: var(--text-color, #333);
 }
+
 .form-consent-legal a {
   color: var(--link-color, #046183);
   font-weight: var(--font-weight-bold, 700);
