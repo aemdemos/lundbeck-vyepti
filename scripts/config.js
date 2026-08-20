@@ -9,13 +9,13 @@ export default function getBrightcoveScriptTag(accountId, playerId) {
 // Doctor Discussion Guide API Configuration
 export const DOCTOR_DISCUSSION_CONFIGS = {
   // Real API endpoint used to generate and download the guide as a PDF.
-  PDF_DOWNLOAD_API_URL: 'http://localhost:8010/proxy/api/doctordiscussionguide',
-  // Real API endpoint used to email the guide to the patient.
-  EMAIL_SUBMIT_API_URL: 'http://localhost:8010/proxy/api/doctordiscussionguide',
-  // Basic Auth credentials required by the stage API (see security note above).
+  PDF_DOWNLOAD_API_URL: 'https://vyepti-stage.d.lundbeckus.com/api/doctordiscussionguide',
+  // Real API endpoint used to email the guide to the patient. NOTE: this was
+  EMAIL_SUBMIT_API_URL: 'https://www.vyepti.com/api/sendemail',
+  // Basic Auth credentials required by the stage API.
   PDF_DOWNLOAD_API_USERNAME: 'lundbeck-admin',
   PDF_DOWNLOAD_API_PASSWORD: 'pH6Uuj5k9w8i',
+  // Static values the sendemail API expects on every request.
+  EMAIL_FORM_TYPE: 'ddg',
+  EMAIL_JOBCODE: 'EPT-B-101058',
 };
-
-
-

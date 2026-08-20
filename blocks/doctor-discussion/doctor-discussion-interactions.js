@@ -1,6 +1,6 @@
 import {
   createEl, setAnswer, EMAIL_SUBMIT_API_URL, THANKYOU_MODAL_ID,
-  setModalController, getModalController,
+  setModalController, getModalController, buildLegacyAnswersPayload,
 } from './doctor-discussion-utils.js';
 import createEmailModalController from './doctor-discussion-email-modal.js';
 import createThankYouModalController from './doctor-discussion-thankyou-modal.js';
@@ -257,9 +257,16 @@ function buildEmailModalMarkup() {
   };
 }
 
-// Builds the email modal (once) and returns its controller, reusing the
-// existing modal/controller across opens instead of rebuilding it each time.
-export function getOrCreateEmailModal(answers) {
+/**
+ * Builds the email modal (once) and returns its controller, reusing the
+ * existing modal/controller across opens instead of rebuilding it each time.
+ *
+ * @param {Object} answers - the shared answers store from decorate.js
+ * @param {Array} steps - the parsed/default steps array, needed to derive the
+ *                         legacy q{N}a{M} field names the sendemail API expects
+ * @param {string|null} nameFieldName - field name of the "My name is" text input, if any
+ */
+export function getOrCreateEmailModal(answers, steps, nameFieldName) {
   const modalEl = document.getElementById('mq-modal');
   if (modalEl) return getModalController(modalEl);
 
@@ -271,7 +278,8 @@ export function getOrCreateEmailModal(answers) {
   const controller = createEmailModalController({
     modalId: 'mq-modal',
     formId: 'emailForm',
-    quizData: answers,
+    // Flattened to the legacy { fname, q1a1, q2a1, ... }
+    quizData: buildLegacyAnswersPayload(answers, steps, nameFieldName),
   });
 
   closeBtn.addEventListener('click', () => controller.close());

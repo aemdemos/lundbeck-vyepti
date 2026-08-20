@@ -170,10 +170,13 @@ export default function decorate(block) {
 
     // steps + nameFieldName are passed through so the controller can derive
     // the legacy qNaM field names/indices the PDF API expects — see
-    // buildLegacyFormPayload() in doctor-discussion-download-pdf.js.
+    // buildLegacyAnswersPayload() in doctor-discussion-utils.js.
     downloadBtn.addEventListener('click', () => pdfController.download(answers, steps, nameFieldName));
     emailBtn.addEventListener('click', () => {
-      const emailModal = getOrCreateEmailModal(answers);
+      // steps + nameFieldName are passed through here too, so the email
+      // modal can build the same legacy qNaM payload the sendemail API
+      // expects — see buildLegacyAnswersPayload() in doctor-discussion-utils.js.
+      const emailModal = getOrCreateEmailModal(answers, steps, nameFieldName);
       emailModal.open();
     });
     body.append(actionsWrapper);

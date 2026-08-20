@@ -13,6 +13,8 @@ export const {
   EMAIL_SUBMIT_API_URL,
   PDF_DOWNLOAD_API_USERNAME,
   PDF_DOWNLOAD_API_PASSWORD,
+  EMAIL_FORM_TYPE,
+  EMAIL_JOBCODE,
 } = DOCTOR_DISCUSSION_CONFIGS;
 
 export const PDF_ERROR_ELEMENT_ID = 'dg-pdf-error-msg';
@@ -77,4 +79,52 @@ export function setModalController(modalEl, controller) {
 
 export function getModalController(modalEl) {
   return modalControllers.get(modalEl);
+}
+
+// ---------------------------------------------------------------------------
+// Legacy answers payload (shared by PDF + Email APIs)
+// ---------------------------------------------------------------------------
+
+/**
+ * Transforms the shared answers store into the flat, legacy q{N}a{M} shape
+ * both the PDF and Email APIs expect. Extracted here (rather than living
+ * only in the PDF controller) so the two never drift apart
+ *
+ * @param {Object} answers - the shared answers store from decorate.js
+ * @param {Array} steps - the parsed/default steps array (for field order/type)
+ * @param {string|null} nameFieldName - field name of the "My name is" input
+ * @returns {Object} plain object of legacy keys, e.g. { fname, q1a1, q2a1, ... }
+ */
+export function buildLegacyAnswersPayload(answers, steps, nameFieldName) {
+  const payload = {};
+
+  // fname is lowercase in the confirmed live payload (e.g. "rohan").
+  if (nameFieldName && answers[nameFieldName]) {
+    payload.fname = String(answers[nameFieldName]).toLowerCase();
+  }
+
+  let questionIndex = 0;
+  (steps || []).forEach((step) => {
+    step.fields.forEach((field) => {
+      if (field.type !== 'checkbox' && field.type !== 'radio') return;
+      questionIndex += 1; // qN
+
+      const value = answers[field.name];
+      const selected = Array.isArray(value) ? value : [value];
+
+      selected.filter(Boolean).forEach((answerText) => {
+        let answerNumber = 1; // radio: always a1
+
+        if (field.type === 'checkbox') {
+          const optionIndex = field.options.findIndex((o) => o.text === answerText);
+          if (optionIndex === -1) return; // guards against a stale/unrecognized value
+          answerNumber = optionIndex + 1; // checkbox: aM = option's 1-based index
+        }
+
+        payload[`q${questionIndex}a${answerNumber}`] = answerText;
+      });
+    });
+  });
+
+  return payload;
 }

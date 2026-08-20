@@ -1,3 +1,5 @@
+import { buildLegacyAnswersPayload } from './doctor-discussion-utils.js';
+
 /**
  * @param {Object} config - Configuration object.
  * @param {string} config.apiUrl - API endpoint used to generate the PDF.
@@ -40,49 +42,6 @@ export default function createPdfDownloadController({
       headers.Authorization = `Basic ${btoa(`${username}:${password}`)}`;
     }
     return headers;
-  }
-
-  /**
-   * Transforms our internal answers store into the
-   * flat, form-encoded shape the PDF API expects:
-
-   * @param {Object} answers - the shared answers store from decorate.js
-   * @param {Array} steps - the parsed/default steps array (for field order/type)
-   * @param {string|null} nameFieldName - field name of the "My name is" input
-   * @returns {URLSearchParams}
-   */
-  function buildLegacyFormPayload(answers, steps, nameFieldName) {
-    const params = new URLSearchParams();
-
-    // fname is lowercase in the confirmed live payload (e.g. "rohan").
-    if (nameFieldName && answers[nameFieldName]) {
-      params.set('fname', String(answers[nameFieldName]).toLowerCase());
-    }
-
-    let questionIndex = 0;
-    (steps || []).forEach((step) => {
-      step.fields.forEach((field) => {
-        if (field.type !== 'checkbox' && field.type !== 'radio') return;
-        questionIndex += 1; // qN
-
-        const value = answers[field.name];
-        const selected = Array.isArray(value) ? value : [value];
-
-        selected.filter(Boolean).forEach((answerText) => {
-          let answerNumber = 1; // radio: always a1
-
-          if (field.type === 'checkbox') {
-            const optionIndex = field.options.findIndex((o) => o.text === answerText);
-            if (optionIndex === -1) return; // guards against a stale/unrecognized value
-            answerNumber = optionIndex + 1; // checkbox: aM = option's 1-based index
-          }
-
-          params.append(`q${questionIndex}a${answerNumber}`, answerText);
-        });
-      });
-    });
-
-    return params;
   }
 
   /**
@@ -161,8 +120,9 @@ export default function createPdfDownloadController({
     const popupWasBlocked = !pdfWindow;
 
     try {
-      // Build the legacy form-encoded payload the PDF API expects.
-      const formPayload = buildLegacyFormPayload(quizData, steps, nameFieldName);
+      // Build the legacy form-encoded payload the PDF API expects, using
+      // the shared builder also used by the Email API (see doctor-discussion-utils.js).
+      const formPayload = new URLSearchParams(buildLegacyAnswersPayload(quizData, steps, nameFieldName));
 
       // Send quiz data to the PDF generation API.
       const response = await fetch(apiUrl, {
