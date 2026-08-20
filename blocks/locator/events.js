@@ -35,6 +35,8 @@ export default function registerEvents({
   );
 
   ui.zipInput.addEventListener('keydown', (e) => {
+    // Keyboard key names are public event values, not secrets.
+    // eslint-disable-next-line secure-coding/no-insecure-comparison
     if (e.key === 'Enter') {
       handleSearch({
         locator,

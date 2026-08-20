@@ -1,4 +1,3 @@
-
 // Function for the brightcove script tag integration for the video rendering
 export function getBrightcoveScriptTag(accountId, playerId) {
   const script = document.createElement('script');
@@ -29,6 +28,7 @@ export const FACILITY_TYPES = [
 /**
 * Parses a table/div-based DOM structure into a configuration object.
 */
+/* eslint-disable secure-coding/detect-object-injection -- Keys come from authored configuration. */
 export function readConfig(block) {
   const rows = block.querySelectorAll(':scope > div');
   const config = {};
@@ -85,6 +85,8 @@ export function getSettings(locator) {
       : DEFAULT_DISTANCES,
   };
 }
+
+/* eslint-enable secure-coding/detect-object-injection */
 
 
  

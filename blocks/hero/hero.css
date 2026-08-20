@@ -12,7 +12,7 @@ main > .section.hero-container {
 
 main > .section > div:not(.bg-image) {
     margin: auto;
-    padding: 0 0;
+    padding: 0;
 }
 
 

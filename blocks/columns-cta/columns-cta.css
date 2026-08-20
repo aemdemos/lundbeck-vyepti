@@ -10,7 +10,7 @@ main > .section > .columns-cta-wrapper {
 }
 
 .columns-cta-wrapper{
-  margin: 40px 0 40px 0;
+  margin: 40px 0;
 }
 
 /* clearance so bg-wide's overflow:hidden doesn't clip the card's box-shadow */
@@ -32,7 +32,7 @@ main .columns-cta-1-cols a.button {
   display: flex;
   flex-direction: column;
   gap: var(--columns-cta-gap);
-  margin: 40px 0 40px 0;
+  margin: 40px 0;
 }
 
 /* Each column - styled as a shadow card */

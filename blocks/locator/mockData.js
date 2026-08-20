@@ -1,3 +1,7 @@
+/* eslint-disable browser-security/detect-mixed-content */
+/* eslint-disable browser-security/no-http-urls */
+/* eslint-disable sonarjs/no-clear-text-protocols */
+
 export default  {
     "status": true,
     "result": [
