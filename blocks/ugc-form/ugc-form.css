@@ -509,6 +509,7 @@ label {
   display: none;
 }
 
+/* stylelint-disable-next-line selector-id-pattern */
 .thismomentugc:has(#media_error) .upload-preview{
   border: 3px solid var(--brand-rose);
 }

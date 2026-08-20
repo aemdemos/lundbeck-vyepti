@@ -79,7 +79,7 @@
 
 .locator-input-group:focus-within {
   outline: 0;
-  box-shadow: 0 0 0 .2rem rgba(0, 123, 255, .25);
+  box-shadow: 0 0 0 .2rem rgb(0 123 255 / 25%);
   border-radius: 10px;
 }
 
@@ -167,7 +167,7 @@
 .locator-select-group .dropdown-items {
   top: 52px;
   border-radius: 10px;
-  border: 1px solid rgba(0, 0, 0, 0.15);
+  border: 1px solid rgb(0 0 0 / 15%);
   padding: 0.5rem 0;
 }
 
@@ -309,7 +309,7 @@
   padding: 0 15px;
   line-height: 20px;
   margin-bottom: -10px;
-  font-family: "proxima-nova";
+  font-family: proxima-nova, 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 /* --- Results Panel & Map Layout --- */
@@ -347,7 +347,7 @@
 
 .locator-results .locator-results-list .locator-result-item {
   border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 2px 10px rgb(0 0 0 / 25%);
   padding: 5px;
   margin: 16px 0;
   overflow: hidden;
@@ -413,10 +413,10 @@
 }
 
 .locator-result-right h3 {
-  margin-top: 0px;
+  margin-top: 0;
   color: var(--brand-teal-muted);
   max-width: 100% !important;
-  word-break: break-word;
+  overflow-wrap: anywhere;
   font-size: 18px;
   padding-bottom: 8px;
   line-height: 18px;
@@ -441,6 +441,7 @@
   color: var(--brand-teal-muted);
   font-style: italic;
 }
+
 .locator-results .milesText {
     font-size: 16px;
     line-height: 16px;
@@ -451,7 +452,7 @@
 .locator-result-address {
     display: block;
     padding-bottom: 8px;
-    font-family: "proxima-nova", sans-serif;
+    font-family: proxima-nova, sans-serif;
     font-size: 16px;
     line-height: 19px;
     padding-right: 88px;
@@ -459,11 +460,11 @@
     color: var(--brand-teal-muted);
     text-decoration: underline;
     text-underline-position: under;
-    margin-top: 0px;
+    margin-top: 0;
 }
 
 .locator-result-phone {
-  margin: 0px;
+  margin: 0;
   float: left;
 }
 
@@ -498,7 +499,6 @@
   text-align: left;
   line-height: 22px;
   font-size: 18px !important;
-  text-align: left;
   margin-bottom: 24px;
   color: var(--text-color);
 }
@@ -512,7 +512,7 @@
   line-height: 20px;
   text-align: center;
   color: var(--border-color-dark);
-  margin: 0 0 12px 0;
+  margin: 0 0 12px;
   font-weight: 700;
 }
 
@@ -526,7 +526,7 @@
 }
 
 /* --- Responsive Adjustments --- */
-@media (max-width: 991px) {
+@media (width <= 991px) {
   .locator-form {
     flex-direction: column;
     align-items: stretch;
@@ -541,7 +541,6 @@
 
   .locator-search-btn {
     width: 100%;
-    border-radius: 8px;
     font-size: 14px;
     background-image: none;
     height: 48px;
@@ -573,7 +572,7 @@
 
 .section.locator-container .facility-types {
   background: var(--card-bg-light);
-  padding: 14px 0 25px 0;
+  padding: 14px 0 25px;
 }
 
 .section.locator-container .facility-types h2 {
@@ -601,7 +600,7 @@
   min-width: 31px;
 }
 
-@media (max-width: 991px) {
+@media (width <= 991px) {
   .section.locator-container .facility-types .facility-types-list {
     flex-direction: column;
     padding: 20px 13px;
