@@ -159,6 +159,7 @@
   z-index: 10;
 }
 
+/* stylelint-disable-next-line selector-class-pattern */
 .selectHide {
   display: none;
 }
@@ -182,6 +183,7 @@
   transition: background-color 0.15s ease;
 }
 
+/* stylelint-disable-next-line selector-class-pattern */
 .locator-select-group .dropdown-items .item:hover,
 .locator-select-group .dropdown-items .item.selectedMiles {
   background-color: var(--background-color-variant-02);
@@ -355,6 +357,7 @@
   background: var(--background-color);
 }
 
+/* stylelint-disable-next-line selector-class-pattern */
 .locator-results .locator-results-list .locator-result-item.gradientBorder {
   background: linear-gradient(to right, #f16464, #c02c57);
 }
@@ -367,6 +370,7 @@
   padding: 11px 24px 21px 11px;
 }
 
+/* stylelint-disable-next-line selector-class-pattern */
 .locator-results .locator-results-list .locator-result-item:hover,
 .locator-results .locator-results-list .locator-result-item:hover .locator-result-item-inner,
 .locator-results .locator-results-list .locator-result-item.gradientBorder:hover .locator-result-item-inner {
@@ -403,6 +407,7 @@
   line-height: 20px;
 }
 
+/* stylelint-disable-next-line selector-class-pattern */
 .locator-result-item.gradientBorder .locator-result-left::before {
   background-image: url("https://www.vyepti.com/etc.clientlibs/vyepti-picl/clientlibs/clientlib-site/resources/icons/Pin_Red_Solid.svg");
 }
@@ -435,13 +440,15 @@
   color: var(--brand-dark);
 }
 
-.locator-results  .typeText {
+/* stylelint-disable-next-line selector-class-pattern */
+.locator-results .typeText {
   font-size: 16px;
   line-height: 16px;
   color: var(--brand-teal-muted);
   font-style: italic;
 }
 
+/* stylelint-disable-next-line selector-class-pattern */
 .locator-results .milesText {
     font-size: 16px;
     line-height: 16px;
