@@ -396,10 +396,7 @@
 
 .locator-result-left span {
   position: absolute;
-  top: 7px;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 7px 0 0;
   text-align: center;
   color: var(--background-color);
   font-weight: bold;
