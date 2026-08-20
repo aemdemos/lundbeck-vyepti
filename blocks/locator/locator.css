@@ -184,8 +184,8 @@
 }
 
 /* stylelint-disable-next-line selector-class-pattern */
-.locator-select-group .dropdown-items .item:hover,
-.locator-select-group .dropdown-items .item.selectedMiles {
+.locator-select-group .dropdown-items .item.selectedMiles,
+.locator-select-group .dropdown-items .item:hover{
   background-color: var(--background-color-variant-02);
   color: var(--brand-rose-light);
 }
@@ -371,9 +371,9 @@
 }
 
 /* stylelint-disable-next-line selector-class-pattern */
+.locator-results .locator-results-list .locator-result-item.gradientBorder:hover .locator-result-item-inner,
 .locator-results .locator-results-list .locator-result-item:hover,
-.locator-results .locator-results-list .locator-result-item:hover .locator-result-item-inner,
-.locator-results .locator-results-list .locator-result-item.gradientBorder:hover .locator-result-item-inner {
+.locator-results .locator-results-list .locator-result-item:hover .locator-result-item-inner {
   background-color: var(--card-bg-light);
 }
 
