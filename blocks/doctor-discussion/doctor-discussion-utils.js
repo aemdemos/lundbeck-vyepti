@@ -86,6 +86,44 @@ export function getModalController(modalEl) {
 // ---------------------------------------------------------------------------
 
 /**
+ * Resolves the legacy aM suffix for one selected answer.
+ * Radio fields are always a1; checkbox fields use the option's 1-based
+ * index within field.options so aM stays stable regardless of selection order.
+ *
+ * @param {Object} field
+ * @param {string} answerText
+ * @returns {number|null} the aM number, or null if the value is a stale/
+ *                         unrecognized checkbox option and should be skipped.
+ */
+function resolveAnswerNumber(field, answerText) {
+  if (field.type !== 'checkbox') return 1; // radio: always a1
+
+  const optionIndex = field.options.findIndex((o) => o.text === answerText);
+  return optionIndex === -1 ? null : optionIndex + 1; // checkbox: aM = option's 1-based index
+}
+
+/**
+ * Writes every selected answer for one checkbox/radio field into payload
+ * as q{questionIndex}a{M} entries. Extracted from buildLegacyAnswersPayload
+ * to keep that function's forEach nesting shallow.
+ *
+ * @param {Map} payload
+ * @param {Object} answers
+ * @param {Object} field
+ * @param {number} questionIndex
+ */
+function addFieldAnswers(payload, answers, field, questionIndex) {
+  const value = getAnswer(answers, field.name);
+  const selected = Array.isArray(value) ? value : [value];
+
+  selected.filter(Boolean).forEach((answerText) => {
+    const answerNumber = resolveAnswerNumber(field, answerText);
+    if (answerNumber === null) return; // guards against a stale/unrecognized value
+    payload.set(`q${questionIndex}a${answerNumber}`, answerText);
+  });
+}
+
+/**
  * Transforms the shared answers store into the flat, legacy q{N}a{M} shape
  * both the PDF and Email APIs expect. Extracted here (rather than living
  * only in the PDF controller) so the two never drift apart
@@ -96,11 +134,15 @@ export function getModalController(modalEl) {
  * @returns {Object} plain object of legacy keys, e.g. { fname, q1a1, q2a1, ... }
  */
 export function buildLegacyAnswersPayload(answers, steps, nameFieldName) {
-  const payload = {};
+  // Built as a Map (rather than assigning dynamic keys straight onto a plain
+  // object) so property writes below can't be mistaken for prototype-polluting
+  // object injection. Converted to a plain object only at the very end.
+  const payload = new Map();
 
   // fname is lowercase in the confirmed live payload (e.g. "rohan").
-  if (nameFieldName && answers[nameFieldName]) {
-    payload.fname = String(answers[nameFieldName]).toLowerCase();
+  const nameValue = nameFieldName ? getAnswer(answers, nameFieldName) : undefined;
+  if (nameValue) {
+    payload.set('fname', String(nameValue).toLowerCase());
   }
 
   let questionIndex = 0;
@@ -108,23 +150,9 @@ export function buildLegacyAnswersPayload(answers, steps, nameFieldName) {
     step.fields.forEach((field) => {
       if (field.type !== 'checkbox' && field.type !== 'radio') return;
       questionIndex += 1; // qN
-
-      const value = answers[field.name];
-      const selected = Array.isArray(value) ? value : [value];
-
-      selected.filter(Boolean).forEach((answerText) => {
-        let answerNumber = 1; // radio: always a1
-
-        if (field.type === 'checkbox') {
-          const optionIndex = field.options.findIndex((o) => o.text === answerText);
-          if (optionIndex === -1) return; // guards against a stale/unrecognized value
-          answerNumber = optionIndex + 1; // checkbox: aM = option's 1-based index
-        }
-
-        payload[`q${questionIndex}a${answerNumber}`] = answerText;
-      });
+      addFieldAnswers(payload, answers, field, questionIndex);
     });
   });
 
-  return payload;
+  return Object.fromEntries(payload);
 }

@@ -228,7 +228,8 @@ export default function createEmailModalController({ modalId = "mq-modal", formI
     // Stage proxy requires the same Basic Auth as the PDF endpoint
     const headers = { "Content-Type": "application/x-www-form-urlencoded" };
     if (PDF_DOWNLOAD_API_USERNAME && PDF_DOWNLOAD_API_PASSWORD) {
-      headers.Authorization = `Basic ${btoa(`${PDF_DOWNLOAD_API_USERNAME}:${PDF_DOWNLOAD_API_PASSWORD}`)}`;
+      const credentials = `${PDF_DOWNLOAD_API_USERNAME}:${PDF_DOWNLOAD_API_PASSWORD}`;
+      headers.Authorization = `Basic ${btoa(credentials)}`;
     }
 
     try {

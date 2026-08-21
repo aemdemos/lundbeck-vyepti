@@ -39,7 +39,8 @@ export default function createPdfDownloadController({
   function buildHeaders() {
     const headers = { 'Content-Type': 'application/x-www-form-urlencoded' };
     if (username && password) {
-      headers.Authorization = `Basic ${btoa(`${username}:${password}`)}`;
+      const credentials = `${username}:${password}`;
+      headers.Authorization = `Basic ${btoa(credentials)}`;
     }
     return headers;
   }
