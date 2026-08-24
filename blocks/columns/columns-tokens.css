@@ -2,32 +2,21 @@
 :root { /* @boilerplate */
   --columns-gap: var(--spacing-m, 24px); /* @boilerplate */
   --columns-divider-width: 1px;
-  --columns-divider-spacing: var(--spacing-l, 32px);
+  --columns-divider-spacing: var(--spacing-xl, 32px);
+  --columns-divider-spacing-tablet: var(--spacing-s, 16px);
   --columns-divider-color: #7ebcc6;
-
-  /* narrow-copy variant — single-column readable measure matching the source's
-     left content column on vyepti.com/what-to-expect (~540px; the source's
-     two-column split is not an even 50/50 — the copy column is the narrower
-     side). Left-aligned, flush to the section's leading edge; full width mobile. */
-  --columns-narrow-copy-max-width: 540px;
+  --columns-narrow-copy-max-width: var( --max-width-site);
   --columns-narrow-copy-heading-gap: 16px;
   --columns-narrow-copy-para-gap: 16px;
   --columns-narrow-copy-para-line-height: 22px;
+  --columns-divider-image-col: 33%;
+  --columns-divider-copy-col: 63%;
 
   /* mobile: the emphasized lead-in line ("Depending on your insurance…") is
      capped to a narrower measure and centered so it wraps sooner, as the source. */
   --columns-narrow-copy-lead-max-width-mobile: 70%;
-
-  /* locations variant — row of icon-above-label option cards (vyepti.com
-     /what-to-expect "choose from" group). Icon 108px, small centred label.
-     Constrained to the same readable measure as narrow-copy so the cards sit
-     within the text column rather than spreading the full section width. */
   --columns-locations-icon-size: 108px;
   --columns-locations-icon-size-mobile: 80px;
-
-  /* the hospital/outpatient icon artwork is more tightly cropped than the
-     others, so the source renders it at a smaller box to keep the optical
-     sizing even across the row (81px desktop, 65px mobile). */
   --columns-locations-icon-size-dense: 81px;
   --columns-locations-icon-size-dense-mobile: 65px;
 
@@ -48,4 +37,431 @@
   /* desktop (992px+) cards pack at their natural content width, left-aligned,
      with this gap between them — matching the ~20px spacing on the source. */
   --columns-locations-gap: 20px;
+  --columns-statistic-accent-icon-size: 150px;
+  --columns-statistic-accent-gap: 24px;
+  --columns-error-page-icon-size: 159px;
+  --columns-error-page-icon-size-mobile: 100px;
+  --columns-error-page-icon-size-768: 149px;
+  --columns-error-page-icon-size-992: 135px;
+  --columns-notfound-icon-size: 177px;
+  --columns-notfound-icon-size-mobile: 72px;
+  --columns-section-divider-hr-color: #e0e0e0;
+  --columns-section-divider-hr-margin: 56px;
+  --columns-section-divider-hr-margin-desktop: 53px;
+  --columns-intro-icon-size: 98px;
+  --columns-intro-gap-mobile: 12px;
+  --columns-intro-gap: 60px;
+  --columns-intro-text-max-width: 795px;
+
+  /* vertical rhythm around the section (source: 48px above, 32px below). */
+  --columns-intro-margin: 36px auto;
+  --columns-intro-body-font-size: 20px;
+  --columns-intro-body-line-height: 1.5;
+  --columns-intro-lead-color: var(--brand-primary);
+  --columns-intro-lead-line-height: 1.2;
+  --columns-intro-lead-font-weight: var(--heading-font-weight, 800);
+  --columns-intro-lead-gap: 6px;
+  --columns-intro-heading-lead-gap: 24px;
+  --columns-intro-subhead-font-weight: 600;
+
+  /* callout variant */
+  --columns-callout-bg: var(--card-bg-light);
+  --columns-callout-radius: 12px;
+  --columns-callout-padding: 25px;
+  --columns-callout-padding-desktop: 48px 15px;
+  --columns-callout-bar-height: 10px;
+  --columns-callout-bar: linear-gradient(to right, #a3d3dd 33.33%, #f06161 33.33% 66.66%, #b72c57 66.66%);
+  --columns-callout-logo-size: 60px;
+  --columns-callout-logo-size-desktop: 48px;
+  --columns-callout-list-color: var(--text-color-light);
+
+  /* columns-wide variant (tv-concert-commercial "Understanding VYEPTI side effects" +
+     "Wondering if VYEPTI…" rows). The source renders these edge-to-edge on a powder-blue
+     field: each row is a 50/50 split where the image fills its half flush to the viewport
+     edge (its natural per-breakpoint crop sets the height) and the copy is vertically
+     centered in the other half. These tokens carry the copy inset, which widens with the
+     viewport to track the source's Bootstrap-container gutters. */
+  --columns-wide-text-padding-mobile: 24px 34px;
+  --columns-wide-text-padding: 24px 40px;
+  --columns-wide-text-padding-l: 32px 96px;
+  --columns-wide-text-padding-xl: 40px 120px;
+
+  /* Copy measure — the source insets the text a further ~48px on the right so the
+     heading and paragraphs all wrap at the same narrower width (~432px) inside the
+     480px half. Only bites once the text half is wide enough (desktop); narrower
+     breakpoints keep the copy full within its padded column. */
+  --columns-wide-text-measure: 432px;
+
+  /* Heading + body type. The source heading is a heavy 32px (mobile) / 28px
+     (768–1399) / 32px (1400+) at weight 900; the copy is 16px/20px. These
+     override the global columns heading (24px/800) for this section only. */
+  --columns-wide-heading-font-size: 32px;
+  --columns-wide-heading-line-height: 38px;
+  --columns-wide-heading-font-weight: 900;
+  --columns-wide-body-font-size: 16px;
+  --columns-wide-body-line-height: 20px;
+
+  /* Vertical rhythm. The source runs the heading flush against the first
+     paragraph (0 gap), separates consecutive paragraphs by 16px, and puts a
+     single larger gap before the button: 24px on mobile, 32px at 768px+. */
+  --columns-wide-para-gap: 16px;
+  --columns-wide-button-gap: 24px;
+}
+
+.columns.intro {
+   text-align: center;
+   margin: var(--columns-intro-margin);
+
+   p {
+   font-size: var(--columns-intro-body-font-size);
+   line-height: 1.5;
+   margin-bottom: 16px;
+   }
+
+   p > picture {
+      vertical-align: text-top;
+   }
+
+   .columns-img-col {
+      display: inline-block;
+      margin: auto;
+   }
+}
+
+.section.nurse {
+   --columns-divider-color: #e0e0e0;
+
+   margin: 16px auto;
+
+   .columns.divider > div {
+      > div:first-child {
+         padding-bottom: 16px;
+         border-bottom: 1px solid var(--columns-divider-color);
+      }
+   }
+
+.columns.accent {
+   background-color: var(--card-bg-light);
+   margin: 22px 0 0;
+   padding: 16px 30px 20px 22px;
+   border-radius: 12px;
+
+   > div {
+      flex-direction: row;
+      gap: 24px;
+      align-items: flex-start;
+   }
+
+   .columns-img-col img{
+      padding: 16px 4px;
+      height: 26px;
+      width: auto;
+   }
+ }
+}
+
+.section.statistic-accent .columns > div {
+  padding-top: 27px;
+  padding-bottom: 27px;
+}
+
+.section.statistic-accent .columns-img-col {
+  flex: 0 0 auto;
+  max-width: var(--columns-statistic-accent-icon-size);
+  margin: 0 auto;
+}
+
+.section.statistic-accent .columns-img-col img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: contain;
+}
+
+.section.statistic-accent .columns > div > div:not(.columns-img-col) {
+  text-align: center;
+}
+
+.section.animation {
+   padding: 8px 0 30px;
+   
+   h2 {
+      font-weight: 700;
+   }
+
+   .columns > div > div {
+   order: 1;
+ }
+}
+
+.section.animation .columns ul.icon-bullets {
+   display: flex;
+   gap: 24px;
+   margin-top: 16px;
+
+   li {
+      flex-direction: row;
+      align-items: end;
+      color: #666;
+   }
+}
+
+.section.animation .columns-img-col  img {
+   border-bottom: var(--divider-width) solid var(--divider-color);
+}
+
+ main .section.dark.find-out p.button-wrapper {
+   text-align: center;
+   margin: 24px 0;
+ }
+
+@media (width >= 768px) {
+   :root {
+      --columns-statistic-accent-icon-size: 178px;
+
+      /* source drops the columns-wide heading to 28px/34px between 768–1399px */
+      --columns-wide-heading-font-size: 28px;
+      --columns-wide-heading-line-height: 34px;
+
+      /* source widens the pre-button gap to 32px at desktop */
+      --columns-wide-button-gap: 32px;
+   }
+
+   main .columns blockquote {
+      margin-left: 0;
+      margin-right: 0;
+      
+      p {
+   font-size: 24px;
+   line-height: 1.1;
+     }
+     
+     sup {
+      vertical-align:top;
+     }
+   }
+
+   .columns.intro > div {
+      flex-direction: column;
+   }
+
+   .section.statistic-accent .columns > div {
+      gap: var(--columns-statistic-accent-gap);
+      padding-top: 22px;
+      padding-bottom: 22px;
+    }
+  
+    .section.statistic-accent .columns-img-col {
+      flex: 0 0 var(--columns-statistic-accent-icon-size);
+      max-width: none;
+      margin: 0;
+    }
+  
+    .section.statistic-accent .columns > div > div:not(.columns-img-col) {
+      text-align: left;
+      max-width: 610px;
+    }
+
+    .section.animation {
+      display: flex;
+      padding: 24px calc((100% - var(--max-width-site)) / 2);
+
+      > div.default-content-wrapper {
+         max-width: 49%;
+      }
+
+    .columns > div {
+      display: block;
+    }
+   }
+
+   .section.nurse {
+      margin: 32px auto 0;
+   
+      .columns.divider > div {
+         flex-direction: column;
+         align-items: flex-start;
+
+         .columns-img-col {
+            flex: 0 1 auto;
+         }
+      }
+
+      .columns.divider.columns-2-cols > div > :nth-child(2)
+       {
+              border-inline-start: 0;
+              padding-inline-start: 0;
+          }
+      }
+
+      main .section.find-out {
+         h2 {
+            font-size: 32px;
+         }
+      
+      .columns.divider {
+         margin: 24px 0 48px;
+
+         h2:has(.hide-desktop), p:has(.hide-desktop) {
+            display: none;
+         }
+      }
+   }
+
+      main .section.find-out .columns.divider.columns-2-cols > div > :first-child {
+         flex: 0 0 var(--columns-divider-image-col);
+         max-width: var(--columns-divider-image-col);
+         padding-right: 30px;
+         margin-top: 60px;
+       }
+     
+       main .section.find-out .columns.divider.columns-2-cols > div > :nth-child(2) {
+         flex: 0 0 var(--columns-divider-copy-col);
+         max-width: var(--columns-divider-copy-col);
+         padding-left: 30px;
+       }
+
+       main .section.dark.find-out p.button-wrapper {
+         float: left;
+         margin-right: 10px;
+         margin-bottom: 60px;
+       }
+
+       main .section.dark.find-out a.button.primary {
+         clear: both;
+       padding: 19px 16px;
+       }
+     
+       /* the callback paragraph clears the floats so it sits below both buttons. */
+       main .section.find-out .columns.divider > div > div:nth-child(2) > p:has(> a.button:only-child) ~ p:not(:has(> a.button:only-child)) {
+         clear: both;
+       }
+     }
+
+
+@media (width >= 992px) {
+   :root {
+   --columns-intro-body-font-size: 24px;
+   --columns-divider-image-col: 40%;
+   --columns-divider-copy-col: 50%;
+   }
+
+   .columns.intro > div {
+      gap: var(--columns-intro-gap);
+      flex-direction: row;
+    }
+  
+    .columns.intro .columns-img-col {
+      flex: 0 0 auto;
+      order: unset;
+      text-align: left;
+      margin: unset;
+    }
+  
+    .columns.intro > div > div:not(.columns-img-col) {
+      text-align: left;
+    }
+
+    .columns.intro > div > div:nth-child(2) {
+      max-width: 850px;
+    }
+
+    .section.statistic-accent .columns > div {
+      padding-bottom: 45px;
+    }
+  
+    .section.statistic-accent .columns h2 {
+      font-size: 32px;
+      line-height: 36px;
+    }
+
+    .section.nurse {
+      --columns-divider-spacing: 48px;
+
+      .columns.divider > div {
+         flex-direction: row;
+         align-items: flex-start;
+
+         > div:first-child {
+            border-bottom: 0;
+      }
+   }
+
+   .columns.divider.columns-2-cols > div > :nth-child(2) {
+            border-inline-start: var(--columns-divider-width) solid var(--columns-divider-color);
+            padding-inline-start: var(--columns-divider-spacing);
+        }
+    }
+
+    main .section.find-out .columns.divider.columns-2-cols > div > :first-child {
+      margin-top: 1em;
+    }
+
+    main .section.dark.find-out a.button.primary {
+    padding: 19px 32px;
+   }
+}
+
+@media (width >= 1200px) {
+   :root {
+      --columns-statistic-accent-icon-size: 260px;
+      --columns-divider-image-col: 42%;
+      --columns-divider-copy-col: 44%;
+   }
+
+   .section.animation {
+      display: flex;
+      padding: 0 calc((100% - var(--max-width-site)) / 2);
+
+      > div.default-content-wrapper {
+         max-width: 40%;
+      }
+
+    .columns > div {
+      display: flex;
+    }
+
+    .columns > div > div {
+      flex: auto;
+    }
+
+    .columns ul.icon-bullets {
+      display: block;
+
+      li {
+         text-align: left;
+      }
+    }
+
+    .columns-img-col picture {
+      line-height: 0;
+    display: block;
+    }
+   }
+
+   .section.statistic-accent .columns > div {
+      padding-top: 45px;
+   }
+
+   .section.statistic-accent .columns > div > div:not(.columns-img-col) {
+     text-align: left;
+     max-width: 740px;
+   }
+
+   main .columns.divider > div > div:first-child > p:has(> picture) + p {
+     padding-inline-end: 0;
+     margin-inline-end: calc(-1 * var(--columns-divider-spacing));
+     white-space: nowrap;
+   }
+  
+   main .columns.divider > div > div:first-child > p:has(> picture) + p br {
+     display: none;
+   }
+}
+
+/* source bumps the columns-wide heading back up to 32px/38px at 1400px+ */
+@media (width >= 1400px) {
+   :root {
+     --columns-wide-heading-font-size: 32px;
+     --columns-wide-heading-line-height: 38px;
+   }
 }

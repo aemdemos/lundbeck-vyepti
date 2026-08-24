@@ -1,5 +1,9 @@
 /* accordion design tokens — typography/spacing from vyepti.com/vyepti-faq */
 :root { /* @libs */
+  /* block spacing — matches source .vyepti-insurance-accordion outer margins */
+  --accordion-margin-top: 28px; /* @libs — mobile */
+  --accordion-margin-bottom: 32px; /* @libs — mobile bottom separation */
+
   /* item card */
   --accordion-item-bg: var(--card-bg-light); /* @libs */
   --accordion-item-radius: 12px; /* @libs */
@@ -12,6 +16,7 @@
   --accordion-label-font-size: 24px; /* @libs */
   --accordion-label-font-weight: 600; /* @libs */
   --accordion-label-strong-weight: 600; /* @libs */
+  --accordion-label-detail-weight: 400; /* @libs — trailing descriptive phrase is regular, not bold */
   --accordion-label-line-height: 26px; /* @libs — vyepti-faq mobile, not 31.2px */
   --accordion-label-line-height-active: 24px; /* @libs — expanded title, mobile */
 
@@ -50,6 +55,24 @@
   --accordion-scroll-duration: 500ms; /* @libs */
 }
 
+/* outer block spacing — matches source top/bottom margins */
+.accordion { /* @libs */
+  margin-top: var(--accordion-margin-top); /* @libs */
+  margin-bottom: var(--accordion-margin-bottom); /* @libs */
+}
+
+.accordion h3 {
+  font-size: var(--accordion-label-font-size);
+  font-weight: var(--accordion-label-font-weight);
+  line-height: var(--accordion-label-line-height);
+}
+
+/* split lead/detail accordions (e.g. financial-assistance) use a tighter 16px
+   row gap on mobile; FAQ-style accordions keep the default 24px */
+.accordion:has(.accordion-item-label-detail) { /* @libs */
+  --accordion-item-gap: 16px; /* @libs */
+}
+
 .accordion > ul > li { /* @libs */
   scroll-margin-top: var(--accordion-scroll-offset); /* @libs */
 }
@@ -64,6 +87,12 @@
 .accordion > ul > li.active .accordion-item-label { /* @libs */
   line-height: var(--accordion-label-line-height-active); /* @libs */
   padding-top: 2px; /* @libs — vyepti-faq expanded header offset */
+}
+
+/* trailing descriptive phrase: regular weight so only the lead reads as bold.
+   Below tablet the detail stays hidden (accordion.css), so only the lead shows. */
+.accordion > ul > li .accordion-item-label-detail { /* @libs */
+  font-weight: var(--accordion-label-detail-weight); /* @libs */
 }
 
 /* chevron stays teal when expanded; title still uses --accordion-label-active-color via accordion.css */
@@ -138,10 +167,21 @@
   padding-bottom: var(--accordion-body-panel-padding-bottom); /* @libs */
 }
 
+.accordion .accordion-item-label :is(h1, h2, h3, h4, h5, h6) { /* @libs */
+  margin: 0; /* @libs */
+}
+
+.accordion li.active .accordion-item-label, /* @libs */
+.accordion li.active .accordion-item-label :is(h1, h2, h3, h4, h5, h6) {
+  color: var(--accordion-label-active-color); /* @libs */
+}
+
 /* tablet+ scale-ups — vyepti-faq keeps mobile card padding until 992px */
 
 @media (width >= 992px) { /* @libs */
   :root { /* @libs */
+    --accordion-margin-top: 40px; /* @libs — desktop */
+    --accordion-margin-bottom: 32px; /* @libs — desktop */
     --accordion-item-padding: 32px 57px 32px 41px; /* @libs */
     --accordion-label-font-size: 24px; /* @libs — vyepti-faq title stays 24px */
     --accordion-label-line-height: 22px; /* @libs */
@@ -155,8 +195,24 @@
     --accordion-body-panel-padding-bottom: 13px; /* @libs */
   }
 
+  /* desktop row gap returns to 24px for the split lead/detail accordions */
+  .accordion:has(.accordion-item-label-detail) { /* @libs */
+    --accordion-item-gap: 24px; /* @libs */
+  }
+
   .accordion > ul > li.active .accordion-item-label { /* @libs */
     padding-top: 0; /* @libs */
+  }
+
+  /* desktop: lead + detail collapse onto one line — drop the author's line break
+     and separate the two phrases with a single space instead */
+  .accordion > ul > li .accordion-item-label-detail br { /* @libs */
+    display: none; /* @libs */
+  }
+
+  .accordion > ul > li .accordion-item-label-detail::before { /* @libs */
+    content: ' '; /* @libs */
+    white-space: pre; /* @libs */
   }
 
   .accordion > ul > li .accordion-item-body p, /* @libs */

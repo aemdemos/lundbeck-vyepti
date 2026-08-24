@@ -60,13 +60,6 @@ main .cards.feature > ul > li:not(:has(.cards-card-body > p:last-child a)) {
   gap: var(--cards-feature-badge-gap);
 }
 
-/* badge block (how-vyepti-works: no card has a CTA) carries the source's
-   section spacing above and below the row; the home CTA block is untouched */
-main .cards.feature:not(:has(.cards-card-body > p:last-child a)) {
-  padding-top: var(--cards-feature-badge-section-pt);
-  padding-bottom: var(--cards-feature-badge-section-pb);
-}
-
 /* the flex gap alone sets the badge-to-heading distance; the heading's default
    top margin would otherwise stack on top of it and double the gap */
 main .cards.feature > ul > li:not(:has(.cards-card-body > p:last-child a)) .cards-card-body > :first-child {
@@ -117,13 +110,6 @@ main .cards.feature > ul > li .cards-card-body > p:last-child:has(a) {
 
   main .cards.feature > ul > li:not(:has(.cards-card-body > p:last-child a)) .cards-card-body {
     flex: 1;
-  }
-
-  /* tighter section spacing in the tablet band (source uses 17/21 here, not the
-     larger desktop 48/64) */
-  main .cards.feature:not(:has(.cards-card-body > p:last-child a)) {
-    padding-top: var(--cards-feature-badge-section-pt-tablet);
-    padding-bottom: var(--cards-feature-badge-section-pb-tablet);
   }
 
   /* CTA cards only: flip to an icon-left row; the icon top-aligns with the
@@ -349,6 +335,50 @@ main .cards.feature > ul > li .cards-card-body > p:last-child:has(a) {
   height: 11px;
 }
 
+.cards.statistics ul {
+  display: flex;
+  flex-direction: column;
+}
+
+.cards.statistics li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cards.statistics li h3 {
+  text-align: center;
+}
+
+.cards.statistics .cards-card-image img {
+  height: 169px;
+  max-width: none;
+  aspect-ratio: 1 / 1;
+}
+
+.cards.statistics .cards-card-body h3 {
+  padding: 0 22px 7px;
+  color: var(--brand-primary);
+  line-height: 1.2;
+  font-size: 24px;
+  font-weight: 900;
+}
+
+.section:has(.cards.statistics) h2 {
+  text-align: center;
+  padding: 20px 0;
+}
+
+@media (width >= 575px) {
+  .cards.statistics li {
+    flex-direction: row;
+  }
+
+  .cards.statistics li h3 {
+    text-align: left;
+  }
+}
+
 @media (width >= 768px) {
   .cards.resources .cards-card-body .button-wrapper .button .icon[class*="mail"] {
     width: 20px;
@@ -386,6 +416,18 @@ main .cards.feature > ul > li .cards-card-body > p:last-child:has(a) {
   .cards.resources .cards-card-body .button-wrapper:last-of-type {
     margin-bottom: 0;
   }
+
+  .cards.statistics .cards-card-image img {
+    height: 223px;
+  }
+
+  .cards.statistics .cards-card-body h3 {
+    font-size: 20px;
+  }
+
+  .section:has(.cards.statistics) h2 {
+    text-align: left;
+  }
 }
 
 @media (width >= 992px) {
@@ -397,5 +439,23 @@ main .cards.feature > ul > li .cards-card-body > p:last-child:has(a) {
 
   .cards.resources .cards-card-body .button-wrapper:not(.button-wrapper + .button-wrapper) {
     margin-left: 0;
+  }
+
+  .cards.statistics ul {
+    flex-direction: row;
+  }
+
+  .cards.statistics .cards-card-image img {
+    height: 156px;
+  }
+}
+
+@media (width >= 1200px) {
+  .cards.statistics .cards-card-image img {
+    height: 223px;
+  }
+
+  .cards.statistics .cards-card-body h3 {
+    font-size: 22px;
   }
 }

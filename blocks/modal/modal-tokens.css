@@ -12,7 +12,7 @@
   --modal-close-icon-thickness: 2px; /* @boilerplate */
 
   /* entrance modal — top-aligned prompt shell (source: vyepti.com) */
-  --modal-entrance-background: #eff6f9;
+  --modal-entrance-background: var(--card-bg-light);
   --modal-entrance-backdrop-background: rgb(72 72 72 / 50%);
   --modal-entrance-max-width: 1080px;
   --modal-entrance-border-radius: 12px;
@@ -69,7 +69,7 @@
   --modal-exit-max-width: 535px;
   --modal-exit-radius: 12px;
   --modal-exit-shadow: none;
-  --modal-exit-background: #eff6f9;
+  --modal-exit-background: var(--card-bg-light);
 
   /* source vyepti.com dims the page with grey/50%, not the near-black/75%
      boilerplate default — that's why the default looked too dark */

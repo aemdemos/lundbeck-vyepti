@@ -60,8 +60,8 @@
   --patient-stories-plus-offset-bottom: 6px;
 
   /* detail panel — the source's expanded panel sits on a powder-blue section
-     background (#eff6f9), lighter than the site's --accent-bg */
-  --patient-stories-detail-bg: #eff6f9;
+     background (var(--card-bg-light)), lighter than the site's --accent-bg */
+  --patient-stories-detail-bg: var(--card-bg-light);
   --patient-stories-detail-radius: 0;
   --patient-stories-detail-padding-desktop: 2.5rem;
 

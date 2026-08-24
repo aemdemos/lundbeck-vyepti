@@ -2,7 +2,6 @@
 
 .video { /* @boilerplate */
   text-align: center; /* @boilerplate */
-  max-width: var(--video-max-width); /* @boilerplate */
   margin: var(--video-margin); /* @boilerplate */
 }
 
@@ -47,14 +46,37 @@
   object-fit: cover; /* @boilerplate */
 }
 
-.video .video-placeholder-play button { /* @boilerplate */
-  position: relative; /* @boilerplate */
-  display: block; /* @boilerplate */
-  width: var(--video-placeholder-play-size); /* @boilerplate */
-  height: var(--video-placeholder-play-size); /* @boilerplate */
-  border-radius: 50%; /* @boilerplate */
-  outline: var(--video-placeholder-play-outline-width) solid; /* @boilerplate */
-  padding: 0; /* @boilerplate */
+.video .video-placeholder-overlay {
+  flex-direction: column;
+  gap: var(--video-placeholder-overlay-gap);
+}
+
+.video .video-placeholder-title {
+  margin: 0;
+  max-width: 80%;
+  color: var(--video-placeholder-title-color);
+  font-family: var(--heading-font-family);
+  font-weight: var(--heading-font-weight);
+  font-size: var(--video-placeholder-title-font-size);
+  text-align: center;
+  text-shadow: var(--video-placeholder-title-text-shadow);
+  line-height: unset;
+}
+
+.video .video-placeholder-play button {
+  position: relative;
+  display: block;
+  width: var(--video-placeholder-play-size);
+  height: var(--video-placeholder-play-size);
+  border: none;
+  border-radius: 50%;
+  background-color: var(--brand-primary);
+  outline: none;
+  padding: 0;
+
+  &:hover {
+    box-shadow: none;
+  }
 }
 
 .video .video-placeholder-play button::before { /* @boilerplate */
@@ -70,4 +92,5 @@
   top: 50%; /* @boilerplate */
   left: calc(50% + var(--video-placeholder-play-left-offset)); /* @boilerplate */
   transform: translate(-50%, -50%); /* @boilerplate */
+  color: var(--video-placeholder-title-color);
 }

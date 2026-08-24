@@ -23,6 +23,7 @@ export default async function decorate(block) {
   const thead = document.createElement('thead');
   const tbody = document.createElement('tbody');
   const header = !block.classList.contains('no-header');
+  const isDosing = block.classList.contains('dosing');
 
   [...block.children].forEach((row, i) => {
     const tr = document.createElement('tr');
@@ -33,6 +34,7 @@ export default async function decorate(block) {
 
       if (i === 0) td.setAttribute('scope', 'column');
       td.innerHTML = window.DOMPurify.sanitize(cell.innerHTML, DOMPURIFY);
+      if (isDosing && td.querySelector('h3')) td.setAttribute('colspan', '3');
       tr.append(td);
     });
     if (i === 0 && header) thead.append(tr);

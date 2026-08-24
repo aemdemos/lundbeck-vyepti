@@ -1,0 +1,623 @@
+.thismomentugc {
+  margin-top: 32px;
+}
+
+.thismomentugc #title {
+  text-align: center;
+  padding-bottom: 12px;
+}
+
+.thismomentugc #description {
+  margin-bottom: 12px;
+  color: var(--text-color);
+  line-height: 22px;
+  margin-top:4px;
+}
+
+.thismomentugc #description .sub {
+  display: inline;
+  padding-bottom: 12px;
+  font-size: var(--body-font-size-s);
+}
+
+.thismomentugc #description b {
+  font-size: var(--body-font-size-s);
+  text-align: center;
+  padding-bottom: 12px;
+  display: block;
+  font-weight: var(--button-font-weight);
+  line-height: 22px;
+  color: var(--text-color);
+}
+
+.thismomentugc #description br:nth-of-type(1),
+.thismomentugc #description br:nth-of-type(2),
+.thismomentugc #description br:nth-of-type(3),
+.thismomentugc #description br:nth-of-type(4),
+.thismomentugc #description br:nth-of-type(5),
+.thismomentugc #description br:nth-of-type(6) {
+  display: none;
+}
+
+.thismomentugc .formly-field label {
+  color:  var(--brand-primary);
+  font-size: var(--body-font-size-ms);
+  font-weight: 600;
+  text-align: left;
+  line-height: 24px;
+  margin-bottom: 8px;
+  margin-top: 22px;
+}
+
+.thismomentugc .formly-field input {
+  height: 47px;
+  border: 1px solid var(--text-color);
+  background-color:  var(--background-color);
+}
+
+.thismomentugc .formly-field input[aria-invalid="true"],
+.thismomentugc .formly-field textarea[aria-invalid="true"] {
+  border: 1px solid #bf2c58;
+}
+
+.thismomentugc .formly-field textarea {
+  height: 173px;
+  border-radius: 9.5px;
+  border: 1px solid  var(--text-color);
+  background-color:  var(--background-color);
+}
+
+.thismomentugc .formly-field .label-help-text {
+  font-size: var(--body-font-size-xs);
+  line-height: 18px;
+  float: right;
+  margin-top: 22px;
+}
+
+.thismomentugc .formly-field .formly-field-textarea {
+  margin-bottom: 24px;
+}
+
+.thismomentugc .formly-field .upload-filename label {
+  color:  var(--text-color);
+  font-size: var(--body-font-size-s);
+  font-weight: 600;
+  letter-spacing: 0;
+  text-align: left;
+  margin-top: 4px;
+  margin-bottom: 8px;
+  line-height: 22px;
+}
+
+.thismomentugc .formly-field .upload-filename a {
+  font-size: var(--body-font-size-s);
+}
+
+.thismomentugc .formly-field .upload-button input {
+  width: 100%;
+  height: auto;
+  border: none;
+  border-radius: 0;
+  color:  var(--text-color);
+  font-weight: 400;
+}
+
+.thismomentugc .formly-field .upload-button input::file-selector-button {
+  border: 1px solid #000;
+  border-radius: 0;
+}
+
+.thismomentugc .formly-field .upload-button .btn-tm {
+  padding: 4px 8px 4px 28px;
+  border-radius: 0;
+  font-weight: 400;
+  text-transform: capitalize;
+  margin-top: 6px;
+  margin-left: 0;
+  background: #efefef no-repeat 9px 12.2px / 9.5px;
+}
+
+.file-uploader .upload-remove .glyphicon-remove {
+  width: 14px;
+  height: 14px;
+  float: right;
+  min-width: 100%;
+  min-height: 100%;
+  background: url('/icons/modal-cross-30-desktop.svg') no-repeat center;
+  cursor: pointer;
+  margin-left: 20px
+}
+
+
+.file-uploader:first-child .upload-remove .glyphicon-remove {
+  display: none
+}
+
+.thismomentugc .formly-field-html-read-only {
+  font-size: var(--body-font-size-xs);
+  margin-top: 16px;
+}
+
+.thismomentugc .formly-field-html-read-only .form-group {
+  margin-bottom: -8px;
+}
+
+.thismomentugc .formly-field-html-read-only div {
+  line-height: 18px;
+}
+
+.thismomentugc .formly-field-html-read-only b {
+  color: var(--brand-primary);
+  font-size: var(--body-font-size-ms);
+  font-weight: 600;
+  text-align: center;
+}
+
+.thismomentugc .formly-field-html-read-only br:nth-of-type(1),
+.thismomentugc .formly-field-html-read-only br:nth-of-type(2),
+.thismomentugc .formly-field-html-read-only br:nth-of-type(3) {
+  display: none;
+}
+
+.thismomentugc .formly-field-checkbox label {
+  position: relative;
+  padding-left: 42px;
+  margin-top: 19px;
+  font-size: var(--body-font-size-xs);
+  line-height: 18px;
+}
+
+.thismomentugc .formly-field-checkbox label .label-asterisk {
+  display: none;
+}
+
+.thismomentugc .formly-field-checkbox input {
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  left: 0;
+  top: 6px;
+  border-radius: 3.5px;
+}
+
+.thismomentugc .formly-field-checkbox span {
+  color: #333;
+  font-size: var(--body-font-size-xs);
+  font-weight: 400;
+  text-align: left;
+  line-height: 18px;
+}
+
+.thismomentugc .formly-field-checkbox span a {
+  font-size: var(--body-font-size-xs);
+  text-decoration: underline;
+  line-height: 18px;
+}
+
+.thismomentugc .formly-field-checkbox span a:hover {
+  color:  var(--brand-teal-light);
+}
+
+.thismomentugc .formly-field-file-upload {
+  margin-bottom: 24px;
+  margin-top: -14px;
+}
+
+.upload-button {
+  display: flex;
+}
+
+.thismomentugc .form-row-wrapper {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.thismomentugc .form-row-wrapper button {
+  height: 60px;
+  width: 113px;
+  border-radius: 30px;
+  border: 2px solid  var(--brand-primary);
+}
+
+.thismomentugc .form-row-wrapper .btn-cancel {
+  display: none;
+}
+
+.thismomentugc .form-row-wrapper .btn-save {
+  background-color:  var(--brand-primary);
+  color:  var(--background-color);
+  margin-left: 0;
+}
+
+.thismomentugc .form-row-wrapper .btn-save:hover {
+  background-color:  var(--brand-teal-light) !important;
+  border-color:  var(--brand-teal-light);
+  color:  var(--background-color) !important;
+  text-decoration: none
+}
+
+.thismomentugc .form-row-wrapper .btn-save .button-text {
+  font-size: var(--body-font-size-ms);
+  font-weight: var(--button-font-weight);
+}
+
+.thismomentugc .validation {
+  color:  var(--brand-rose);
+  font-size: var(--body-font-size-xs);
+  font-weight: 400;
+  text-align: left;
+  line-height: 14px;
+}
+
+.thismomentugc .tm-embed {
+  display: flex;
+  justify-content: center;
+}
+
+.thismomentugc .embed-success h2 {
+  color:  var(--brand-primary);
+  font-weight: 800;
+  padding-bottom: 12px;
+}
+
+.thismomentugc .embed-success p {
+  text-align: center;
+  font-size: 22px;
+  line-height: 27px;
+  font-weight: 400;
+  color:  var(--text-color);
+}
+
+.thismomentugc .embed-success .btn-primary {
+  display: none;
+}
+
+.share-your-migraine-story input[type="checkbox"] {
+  accent-color:  var(--brand-primary);
+}
+
+.share-your-migraine-story:has(.embed-success) .col-lg-6 {
+  flex: 0 0 100%;
+  max-width: 100%;
+}
+
+.ugc {
+  font-family: var(--body-font-family);
+}
+
+.ugc h2 {
+  font-weight: 800;
+  font-size: 24px;
+  line-height: 19px;
+}
+
+.ugc #description {
+  font-weight: 400;
+  line-height: 22px;
+  margin-bottom: -6px;
+  text-align: center;
+}
+
+.ugc #description p {
+  margin-top: 20px !important;
+  text-align: left;
+}
+
+.ugc #description .sub {
+  font-weight: var(--button-font-weight);
+}
+
+.ugc #description .small {
+  font-size: var(--body-font-size-s);
+}
+
+.ugc .control-label {
+  text-transform: none;
+}
+
+.ugc label {
+  color:  var(--brand-primary);
+  font-size: var(--body-font-size-ms);
+  font-weight: var(--button-font-weight);
+}
+
+.ugc .label-asterisk {
+  margin-left: -5px;
+}
+
+.ugc .form-control {
+  border-radius: 9.5px;
+  font-size: var(--body-font-size-ms);
+  font-weight: 400;
+  padding: 10px 12px;
+  min-height: 45px;
+}
+
+.ugc textarea.form-control {
+  height: auto;
+  min-height: 175px;
+}
+
+.ugc .form-text-title {
+  color:  var(--brand-primary);
+  font-size: var(--body-font-size-ms);
+  font-weight: 600;
+  display: block;
+  padding-bottom: 5px;
+}
+
+.ugc .form-text-body, .ugc .form-text-body-small {
+  font-size: var(--body-font-size-xs);
+  font-weight: 400;
+  line-height: 22px;
+  margin-bottom: 30px;
+  color:  var(--text-color);
+}
+
+.ugc .form-text-body a {
+  color:  var(--brand-primary);
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.ugc .upload-control {
+  font-size: var(--body-font-size-s);
+}
+
+.ugc .btn-tm {
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-s);
+  padding: 4px 8px;
+  border-radius: 0;
+  background-color: #eee;
+  border: 1px solid  var(--text-color);
+  text-transform: capitalize;
+  font-weight: 400;
+  color: black;
+}
+
+.ugc .buttons {
+  margin-top: 16px;
+  text-align: center;
+}
+
+label[for="file-picker"] {
+  color:  var(--text-color);
+  font-size: var(--body-font-size-s);
+}
+
+label[for="file-picker"] .invalid-type {
+  color:  var(--brand-rose);
+  font-size: var(--body-font-size-xs);
+  font-weight: 400;
+}
+
+.file-uploader {
+  float: left;
+  width: 100%;
+  padding: 8px 0 12px;
+}
+
+.file-uploader .upload-remove {
+  float: right;
+}
+
+.upload-control, .upload-preview-wrap {
+  display: block;
+  float: none;
+}
+
+.upload-preview-wrap {
+  float: left;
+}
+
+.file-uploader .upload-preview {
+  border: 3px solid #e0e0e0;
+  margin: 0 12px 5px 0;
+  background:  var(--background-color);
+  height: 80px;
+  width: 80px;
+  overflow: hidden;
+  position: relative;
+  text-align: center;
+  white-space: nowrap;
+}
+
+
+.file-uploader .upload-preview .glyphicon-ban-circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  min-width: 100%;
+  min-height: 100%;
+  background: url('/icons/wrong-40-desktop.svg') no-repeat center;
+}
+
+.share-your-migraine-story:has([id="media_error"]) [id="media_error"] {
+  left: 30%;
+  bottom: 41.2%;
+}
+
+.label-maxlength {
+  display: inline-block;
+}
+
+::after {
+  /* Pulls the text content from a custom attribute if available */
+  display: block;
+}
+
+.thismomentugc .formly-field .checkbox input[aria-invalid="true"] {
+  border: 1px solid #bf2c58;
+  appearance: none;
+  border-radius: 3.5px;
+}
+
+[id="age_gate_error"] {
+  padding-left: 42px;
+}
+
+label {
+  display: inline-block;
+  margin-bottom: 0.5rem;
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #495057;
+  background: var(--background-color) padding-box;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-control:focus {
+  color: #495057;
+  background-color:  var(--background-color);
+  border-color: #80bdff;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 25%);
+}
+
+.form-group {
+  margin-bottom: 8px;
+}
+
+*,
+::after,
+::before {
+  box-sizing: border-box;
+}
+
+.btn {
+  display: inline-block;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  user-select: none;
+  line-height: 1.5;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+  border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.grecaptcha-badge {
+  display: none;
+}
+
+/* stylelint-disable-next-line selector-id-pattern */
+.thismomentugc:has(#media_error) .upload-preview{
+  border: 3px solid var(--brand-rose);
+}
+
+@media (width >= 768px) {
+  .thismomentugc .formly-field .label-help-text {
+    float: unset;
+    margin-left: -5px;
+  }
+
+  .thismomentugc .formly-field .upload-button input {
+    width: auto;
+  }
+
+  .thismomentugc .formly-field .upload-button .btn-tm {
+    background-position: 8px 12.2px;
+  }
+
+  .upload-control, .upload-preview-wrap {
+    float: left;
+  }
+
+  .upload-control {
+    width: 70%;
+  }
+
+  .ugc .buttons {
+    margin-top: 24px;
+  }
+
+  .thismomentugc .form-row-wrapper .btn-save {
+    margin-left: 0;
+  }
+
+  .ugc #description {
+    text-align: left;
+  }
+
+  .thismomentugc .formly-field-html-read-only {
+    margin-top: 24px;
+  }
+
+  .thismomentugc .formly-field-html-read-only .form-group {
+    margin-bottom: 1rem;
+  }
+
+  .thismomentugc .formly-field-checkbox label {
+    margin-top: 12px;
+  }
+
+  .ugc .form-text-title {
+    padding-bottom: 8px;
+  }
+
+  .share-your-migraine-story:has([id="media_error"]) [id="media_error"] {
+    left: 19%;
+    bottom: 34.6%;
+  }
+
+  .file-uploader {
+    padding: 8px 0;
+  }
+  
+  main .flex-group{
+    flex-direction: column;
+  }
+}
+
+@media (width >= 992px) {
+  .thismomentugc {
+    margin-top: 48px;
+  }
+
+  .thismomentugc #title {
+    text-align: left;
+  }
+
+  .thismomentugc #description b {
+    text-align: left;
+  }
+
+  .thismomentugc .formly-field .upload-button .btn-tm {
+    background: 11px 10.6px / 10.5px;
+  }
+
+  .thismomentugc .tm-embed {
+    justify-content: unset;
+  }
+
+  .thismomentugc .embed-success h2 {
+   font-size: 24px;
+    line-height: 28px;
+  }
+
+  .thismomentugc .embed-success p {
+    text-align: left;
+  }
+
+  label[for="file-picker"] .invalid-type {
+    text-wrap: nowrap;
+  }
+
+  .ugc .buttons {
+    text-align: left;
+    margin-top: 24px;
+  }
+
+  main .flex-group{
+    flex-direction: row;
+  }
+}

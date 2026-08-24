@@ -360,6 +360,24 @@
     ]
   },
   {
+    "id": "search-results",
+    "fields": [
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "searchUrl",
+        "label": "Index URL",
+        "description": "Optional path to the query-index.json to search. Defaults to /query-index.json."
+      },
+      {
+        "component": "text",
+        "name": "searchUrlText",
+        "label": "Index URL Text",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
     "id": "search",
     "fields": [
       {

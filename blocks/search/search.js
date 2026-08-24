@@ -5,7 +5,7 @@ import {
 
 const searchParams = new URLSearchParams(window.location.search);
 
-function findNextHeading(el) {
+export function findNextHeading(el) {
   let preceedingEl = el.parentElement.previousElement || el.parentElement.parentElement;
   let h = 'H2';
   while (preceedingEl) {
@@ -82,20 +82,22 @@ export async function fetchData(source) {
   return json.data;
 }
 
-function renderResult(result, searchTerms, titleTag) {
+export function renderResult(result, searchTerms, titleTag, classNames = {}) {
+  const imageClass = classNames.image || 'search-result-image';
+  const titleClass = classNames.title || 'search-result-title';
   const li = document.createElement('li');
   const a = document.createElement('a');
   a.href = result.path;
   if (result.image) {
     const wrapper = document.createElement('div');
-    wrapper.className = 'search-result-image';
+    wrapper.className = imageClass;
     const pic = createOptimizedPicture(result.image, '', false, [{ width: '375' }]);
     wrapper.append(pic);
     a.append(wrapper);
   }
   if (result.title) {
     const title = document.createElement(titleTag);
-    title.className = 'search-result-title';
+    title.className = titleClass;
     const link = document.createElement('a');
     link.href = result.path;
     link.textContent = result.title;
@@ -151,7 +153,7 @@ function compareFound(hit1, hit2) {
   return hit1.minIdx - hit2.minIdx;
 }
 
-function filterData(searchTerms, data) {
+export function filterData(searchTerms, data) {
   const foundInHeader = [];
   const foundInMeta = [];
 
@@ -219,8 +221,8 @@ function searchInput(block, config) {
   input.setAttribute('type', 'search');
   input.className = 'search-input';
 
-  input.placeholder = 'Search...';
-  input.setAttribute('aria-label', 'Search...');
+  input.placeholder = 'Search';
+  input.setAttribute('aria-label', 'Search');
 
   input.addEventListener('input', (e) => {
     handleSearch(e, block, config);
