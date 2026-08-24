@@ -1,8 +1,39 @@
+export function createDropdown(block, mileBlock) {
+// Custom Select dropdown start
+  const radiusValues = [...block.querySelectorAll('#form-radius option')]
+    .map((option) => option.value);
 
-/**
- * Reusable Custom Dropdown Component Initializer
- */
-export default function initCustomDropdown(dropdownContainer, type = 'select', onSelectCallback = null) {
+  
+  mileBlock.className = 'locator-select-group mile-block';
+  mileBlock.dataset.value = '25';
+
+  const selected = document.createElement('div');
+  selected.className = 'select';
+  selected.append('25 miles ');
+
+  const arrow = document.createElement('span');
+  arrow.className = 'select-arrow';
+  selected.append(arrow);
+
+  const dropdown = document.createElement('div');
+  dropdown.id = 'locator-distance';
+  dropdown.className = 'dropdown-items selectHide';
+
+  radiusValues.forEach((distance) => {
+    const item = document.createElement('div');
+    item.className = 'item';
+    if (String(distance) === '25') {
+      item.classList.add('selectedMiles');
+    }
+    item.dataset.value = distance;
+    item.textContent = `${distance} miles`;
+    dropdown.append(item);
+  });
+
+  mileBlock.append(selected, dropdown); 
+}
+
+export function initCustomDropdown(dropdownContainer, type = 'select', onSelectCallback = null) {
   if (!dropdownContainer) return null;
 
   const selectTrigger = dropdownContainer.querySelector('.select');

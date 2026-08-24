@@ -1,10 +1,11 @@
-import handleSearch  from './search.js';
+import handleSearch from './search.js';
 
 export default function registerEvents({
-  locator,
+  block,
   ui,
   settings,
-  dropdowns,
+  apiInfo,
+  allLocations,
 }) {
 
   // Handle CSS class toggles on floating element input labels
@@ -19,29 +20,42 @@ export default function registerEvents({
 
   }
 
-  // Unified global event handling listener closure
-  document.addEventListener('click', () => {
-    dropdowns.distance?.close();
-    dropdowns.filter?.close();
-  });
+  if (ui.infoIcon) {
+    ui.infoIcon.addEventListener('click', (el) => {
+      el.preventDefault();
+      ui.filterDescpTwo.classList.toggle('selectHide');
+      ui.filterDescpOne.classList.toggle('selectHide');
+    });
+  }
 
+  /*
+   * Search button
+   */
   ui.searchBtn.addEventListener(
     'click',
-    () => handleSearch({
-      locator,
-      ui,
-      settings,
-    }),
-  );
-
-  ui.zipInput.addEventListener('keydown', (e) => {
-    // Keyboard key names are public event values, not secrets.
-    // eslint-disable-next-line secure-coding/no-insecure-comparison
-    if (e.key === 'Enter') {
+    (el) => {
+      el.preventDefault();
       handleSearch({
-        locator,
+        block,
         ui,
         settings,
+        apiInfo,
+        allLocations,
+      });
+    }
+  );
+
+  /*
+   * Search when pressing Enter
+   */
+  ui.zipInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      handleSearch({
+        block,
+        ui,
+        settings,
+        apiInfo,
+        allLocations,
       });
     }
   });

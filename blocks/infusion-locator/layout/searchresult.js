@@ -1,3 +1,4 @@
+import { centerMapOnMarker } from "../map.js";
 
 function getFacilityIcon(result) {
   const combinedImage = 'https://www.vyepti.com/etc.clientlibs/vyepti-picl/clientlibs/clientlib-site/resources/icons/Combined-Image.svg';
@@ -21,17 +22,20 @@ function getFacilityIcon(result) {
   return iconHospital;
 }
 
-
 export function noResult(resultsContainer) {
+  const noResultsImg = document.createElement('img');
+  noResultsImg.src = 'https://www.vyeptihcp.com/etc.clientlibs/vyepti-picl/clientlibs/clientlib-site/resources/icons/search-plus.png';
+ noResultsImg.className ='noResults-icon-img';
+
   const title = document.createElement('h2');
   title.className = 'locator-no-results';
   title.textContent = 'No results found';
 
   const message = document.createElement('p');
   message.textContent =
-    'Try expanding your search radius or entering a different location.';
+    'There are no results available at this time. Please edit your search filters or check back often, as more locations are periodically added.';
 
-  resultsContainer.append(title, message);
+  resultsContainer.append(noResultsImg, title, message);
 }
 
 export function searchResult(result, index, settings) {
@@ -43,10 +47,12 @@ export function searchResult(result, index, settings) {
   const phone = result.phone || result.phoneNumber || '';
   const website = result.website || '';
   const typeText = result.type || '';
+  const enrollmentForm = result.enrollmentForm || '';
   const fullAddress = [address, city, state, zip]
     .filter(Boolean)
     .join(', ');
 
+  //  PreferredIC means which is true Vyepti infussion locator
   const gradientClass =
     result.preferredIc === 'TRUE' ? 'gradientBorder' : '';
 
@@ -96,14 +102,20 @@ export function searchResult(result, index, settings) {
   type.textContent = typeText;
 
   // Miles
-  const miles = document.createElement('p');
-  miles.className = 'milesText';
-  miles.textContent = '0.9 miles away';
+const miles = document.createElement('p');
+miles.className = 'milesText';
+
+if (result.miles !== null && result.miles !== undefined) {
+  miles.textContent = `${result.miles} miles away`;
+}
 
   // Address
-  const addressP = document.createElement('p');
-  addressP.className = 'locator-result-address';
-  addressP.textContent = fullAddress;
+  const addressLink = document.createElement('a');
+  addressLink.className = 'locator-result-address';
+  addressLink.target = '_blank';
+  addressLink.rel = 'noopener noreferrer';
+  addressLink.href = `https://maps.google.com/?q=${encodeURIComponent(fullAddress)}`;
+  addressLink.textContent = fullAddress;
 
   // Contact wrapper
   const contactWrap = document.createElement('div');
@@ -124,6 +136,16 @@ export function searchResult(result, index, settings) {
     contactWrap.append(phoneP);
   }
 
+   if (enrollmentForm) {
+    const enrollmentFormLink = document.createElement('a');
+    enrollmentFormLink.href = enrollmentForm;
+    enrollmentFormLink.target = "_blank";
+    enrollmentFormLink.className = 'weblink';
+    enrollmentFormLink.textContent = "Patient Referral Form";
+
+    contactWrap.append(enrollmentFormLink);
+  }
+
   if (website) {
     const websiteLink = document.createElement('a');
     websiteLink.href = website;
@@ -135,9 +157,21 @@ export function searchResult(result, index, settings) {
     contactWrap.append(websiteLink);
   }
 
-  right.append(type, miles, addressP, contactWrap);
+ 
+
+  right.append(type, miles, addressLink, contactWrap);
   itemInner.append(left, right);
   listItem.append(itemInner);
+
+
+  // Event handler for the focus on specific card
+  listItem.addEventListener('click', (event) => {
+  if (event.target.closest('a')) {
+    return;
+  }
+
+  centerMapOnMarker(index);
+});
 
   return listItem;
 }
