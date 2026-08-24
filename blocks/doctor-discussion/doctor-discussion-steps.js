@@ -247,7 +247,7 @@ export function parseOptions(raw) {
 }
 
 // Row-type keys with dedicated parsing below. Any row whose key isn't in
-// this set is treated as Thank You content (see below) — regardless of
+// this set is treated as Thank You content — regardless of
 // what the author typed as its label, and regardless of where in the
 // table it sits.
 const KNOWN_ROW_KEYS = new Set([
@@ -264,7 +264,7 @@ export function parseSteps(block) {
   const steps = [];
   // Live DOM nodes making up the Thank You content, accumulated (in table
   // order) from every row that isn't one of the known step/question types
-  // — see below. Moved into the Thank You modal later (see decorate.js /
+  // Moved into the Thank You modal later (see decorate.js /
   // buildThankYouModal()).
   const thankYouContent = [];
 
