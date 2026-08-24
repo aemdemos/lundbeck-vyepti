@@ -1,5 +1,5 @@
-import { addMarker } from './map.js';
-import { searchResult, noResult } from './createTemplate/searchresult.js';
+import { searchResult, noResult } from './layout/searchresult.js';
+
 
 export default function renderResults(results, resultsContainer, settings) {
   resultsContainer.replaceChildren();
@@ -12,6 +12,7 @@ export default function renderResults(results, resultsContainer, settings) {
   // Header
   const header = document.createElement('div');
   header.className = 'locator-title-wrap';
+
 
   const title = document.createElement('h2');
   title.className = 'locator-title';
@@ -45,44 +46,11 @@ export default function renderResults(results, resultsContainer, settings) {
   const list = document.createElement('ul');
   list.className = 'locator-results-list';
 
+
+
   results.forEach((result, index) => {
     const item = searchResult(result, index, settings);
     list.append(item);
-
-    // Marker data
-    const name =
-      result.name ||
-      result.facilityName ||
-      `Location ${index + 1}`;
-
-    const address =
-      result.address ||
-      result.streetAddress ||
-      '';
-
-    const city = result.city || '';
-    const state = result.state || '';
-    const zip = result.zip || result.zipCode || '';
-
-    const fullAddress = [
-      address,
-      city,
-      state,
-      zip,
-    ]
-      .filter(Boolean)
-      .join(', ');
-
-    if (result.latitude && result.longitude) {
-      addMarker(
-        {
-          lat: Number.parseFloat(result.latitude),
-          lng: Number.parseFloat(result.longitude),
-        },
-        name,
-        `<strong>${name}</strong><br>${fullAddress}`,
-      );
-    }
   });
 
   resultsContainer.append(header, list);
