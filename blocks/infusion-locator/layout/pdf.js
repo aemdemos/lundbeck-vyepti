@@ -203,6 +203,7 @@ export async function downloadResultsPdf(
     options = {},
 ) {
     if (!Array.isArray(results) || results.length === 0) {
+        /* eslint-disable-next-line no-console */
         console.warn(
             'No results available for PDF.',
         );
@@ -574,6 +575,7 @@ export async function downloadResultsPdf(
                 'vyepti-infusion-locator-results.pdf',
             );
     } catch (error) {
+         /* eslint-disable-next-line no-console */
         console.error(
             'Failed to generate PDF:',
             error,

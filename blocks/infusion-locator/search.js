@@ -78,14 +78,14 @@ export default async function handleSearch({
 
   if (!zip) {
     ui.errorLabel.classList.remove(
-      'selectHide',
+      'select-hide',
     );
 
     return;
   }
 
   ui.errorLabel.classList.add(
-    'selectHide',
+    'select-hide',
   );
 
   clearMarkers();

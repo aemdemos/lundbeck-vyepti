@@ -48,15 +48,21 @@ export default function registerEvents({
   /*
    * Search when pressing Enter
    */
-  ui.zipInput.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') {
-      handleSearch({
-        block,
-        ui,
-        settings,
-        apiInfo,
-        allLocations,
-      });
+  const ENTER_KEYS = new Set(['Enter']);
+  const doSearch = () => {
+    handleSearch({
+      block,
+      ui,
+      settings,
+      apiInfo,
+      allLocations,
+    });
+  };
+
+  ui.zipInput.addEventListener('keydown', (event) => {
+    const { key } = event;
+    if (ENTER_KEYS.has(key)) {
+      doSearch();
     }
   });
 }

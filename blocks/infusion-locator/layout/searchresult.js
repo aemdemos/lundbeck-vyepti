@@ -25,7 +25,7 @@ function getFacilityIcon(result) {
 export function noResult(resultsContainer) {
   const noResultsImg = document.createElement('img');
   noResultsImg.src = 'https://www.vyeptihcp.com/etc.clientlibs/vyepti-picl/clientlibs/clientlib-site/resources/icons/search-plus.png';
- noResultsImg.className ='noResults-icon-img';
+ noResultsImg.className ='no-result-icon-img';
 
   const title = document.createElement('h2');
   title.className = 'locator-no-results';
@@ -54,7 +54,7 @@ export function searchResult(result, index, settings) {
 
   //  PreferredIC means which is true Vyepti infussion locator
   const gradientClass =
-    result.preferredIc === 'TRUE' ? 'gradientBorder' : '';
+    result.preferredIc === 'TRUE' ? 'gradient-border' : '';
 
   const listItem = document.createElement('li');
   listItem.className = `locator-result-item ${gradientClass}`.trim();
@@ -98,12 +98,12 @@ export function searchResult(result, index, settings) {
 
   // Type
   const type = document.createElement('p');
-  type.className = 'typeText';
+  type.className = 'type-text';
   type.textContent = typeText;
 
   // Miles
 const miles = document.createElement('p');
-miles.className = 'milesText';
+miles.className = 'miles-text';
 
 if (result.miles !== null && result.miles !== undefined) {
   miles.textContent = `${result.miles} miles away`;
@@ -136,14 +136,17 @@ if (result.miles !== null && result.miles !== undefined) {
     contactWrap.append(phoneP);
   }
 
+   const websiteLinkWrap = document.createElement('div');
+   websiteLinkWrap.className = 'locator-result-website-wrap';
+
    if (enrollmentForm) {
     const enrollmentFormLink = document.createElement('a');
     enrollmentFormLink.href = enrollmentForm;
     enrollmentFormLink.target = "_blank";
     enrollmentFormLink.className = 'weblink';
     enrollmentFormLink.textContent = "Patient Referral Form";
-
-    contactWrap.append(enrollmentFormLink);
+    websiteLinkWrap.append(enrollmentFormLink);
+    contactWrap.append(websiteLinkWrap);
   }
 
   if (website) {
@@ -153,8 +156,8 @@ if (result.miles !== null && result.miles !== undefined) {
     websiteLink.rel = 'noopener noreferrer';
     websiteLink.className = 'weblink';
     websiteLink.textContent = 'Visit website';
-
-    contactWrap.append(websiteLink);
+    websiteLinkWrap.append(websiteLink);
+    contactWrap.append(websiteLinkWrap);
   }
 
  

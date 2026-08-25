@@ -33,6 +33,7 @@ export default async function decorate(block) {
   const apiInfo = getApiInfo(block);
 
   if (!apiInfo) {
+  /* eslint-disable-next-line no-console */
   console.error('API configuration is missing');
   return;
   }
@@ -48,8 +49,6 @@ export default async function decorate(block) {
   const allLocations = await loadLocations(
     apiInfo
   );
-
-  console.log("ALL locations", allLocations)
 
    /*
    * 5. Create layout
