@@ -19,10 +19,8 @@ function convertSearchInputToButton(form) {
     return;
   }
 
-  // Create the new button
   const button = document.createElement('button');
 
-  // Copy existing attributes except input-specific/accessibility attributes
   Array.from(input.attributes).forEach((attribute) => {
     if (
       attribute.name !== 'value'
@@ -36,12 +34,13 @@ function convertSearchInputToButton(form) {
 
   button.type = 'button';
 
-  // Text
+  // Explicit accessible name
+  button.setAttribute('aria-label', 'Search');
+
   const buttonText = document.createElement('span');
   buttonText.className = 'btn-text';
   buttonText.textContent = input.value || 'SEARCH';
 
-  // Icon
   const buttonIcon = document.createElement('span');
   buttonIcon.className = 'btn-icon';
   buttonIcon.setAttribute('aria-hidden', 'true');
@@ -51,7 +50,6 @@ function convertSearchInputToButton(form) {
     buttonIcon,
   );
 
-  // Replace the original input
   input.replaceWith(button);
 }
 
