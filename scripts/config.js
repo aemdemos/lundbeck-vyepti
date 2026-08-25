@@ -76,13 +76,6 @@ export function parseBool(value, fallback) {
 
 export const DEFAULT_DISTANCES = ['5', '10', '25', '50','100', '200', '400'];
 
-export const UGC_CONFIGS = Object.freeze({
-  UGC_GREY_CAPTCHA_KEY: '',
-  UGC_GOOGLE_RECAPTCHA_SCRIPT: 'https://www.google.com/recaptcha/api.js',
-  UGC_TMSDK_SCRIPT: '',
-  UGC_EMBED_SCRIPT: '',
-});
-
 export function getSettings(locator) {
   const config = readConfig(locator);
 
@@ -96,12 +89,12 @@ export function getSettings(locator) {
 }
 
 // UGC Form Configurations
-export const UGC_CONFIGS = {
+export const UGC_CONFIGS = Object.freeze({
   UGC_GREY_CAPTCHA_KEY: '6Lc7d2QkAAAAAP71NP_FtK8GM-YfsGIwzM7MRlIj',
   UGC_GOOGLE_RECAPTCHA_SCRIPT: 'https://www.google.com/recaptcha/api.js?render=6Lc7d2QkAAAAAP71NP_FtK8GM-YfsGIwzM7MRlIj',
   UGC_TMSDK_SCRIPT: 'https://d1v58eqpqo0kww.cloudfront.net/assets/sdk/2.35.11/tmsdk.min.js',
   UGC_EMBED_SCRIPT: 'https://d1v58eqpqo0kww.cloudfront.net/assets/sdk/2.35.11/embed.min.js',
-};
+});
 
 
  
