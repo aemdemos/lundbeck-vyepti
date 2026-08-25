@@ -22,9 +22,14 @@ function convertSearchInputToButton(form) {
   // Create the new button
   const button = document.createElement('button');
 
-  // Copy existing attributes
+  // Copy existing attributes except input-specific/accessibility attributes
   Array.from(input.attributes).forEach((attribute) => {
-    if (attribute.name !== 'value' && attribute.name !== 'type') {
+    if (
+      attribute.name !== 'value'
+      && attribute.name !== 'type'
+      && attribute.name !== 'placeholder'
+      && attribute.name !== 'aria-labelledby'
+    ) {
       button.setAttribute(attribute.name, attribute.value);
     }
   });
