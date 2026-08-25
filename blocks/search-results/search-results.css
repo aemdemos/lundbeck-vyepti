@@ -1,0 +1,222 @@
+@import url('./search-results-tokens.css');
+
+/*
+ * search-results — dedicated search results page block for Vyepti.
+ * Reads ?searchText=<query>&p=<page>&rp=<results-per-page> and renders the
+ * matching pages from query-index.json client-side, with a "N results found"
+ * count and pagination controls (shown only when results span multiple pages).
+ * Matches the vyepti.com /search-results design.
+ */
+
+/*
+ * NOTE: the "Search Results" banner is authored as a separate hero block on
+ * the page, so it is styled by blocks/hero — not here. This block owns only
+ * the results list, count, pagination, and the no-results empty state.
+ */
+
+.search-results {
+  /* 48px top gap below the banner matches the source (.results-wrapper) */
+  padding: 48px 0 40px;
+}
+
+/* no-results: drop the wrapper padding so the powder-blue band sits flush
+   against the banner (source has 0 gap; the band supplies its own padding) */
+.search-results:has(.search-results-empty) {
+  padding: 0;
+}
+
+/* "N results found" summary line — matches source: 16px, regular, grey */
+.search-results .search-results-count {
+  margin: 0;
+  padding-bottom: 16px; /* matches source: 16px gap below count before results */
+  color: var(--search-results-count-color);
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  line-height: var(--search-results-text-line-height);
+}
+
+/* results list */
+.search-results ul.search-results-list {
+  display: block;
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+}
+
+.search-results ul.search-results-list > li {
+  padding: 0;
+  margin: 0;
+}
+
+/* each result is a link with a divider below and 32px vertical padding,
+   matching the source's result-wrapper spacing */
+.search-results ul.search-results-list > li > a {
+  display: block;
+  padding: 32px 0;
+  border-bottom: 1px solid #333;
+  background-color: transparent;
+  color: currentcolor;
+  cursor: pointer;
+}
+
+.search-results ul.search-results-list > li > a:hover,
+.search-results ul.search-results-list > li > a:focus {
+  text-decoration: none;
+}
+
+.search-results ul.search-results-list > li .search-results-result-title {
+  margin: 0;
+  padding: 0 0 8px;
+  color: var(--search-results-title-color);
+  font-family: var(--heading-font-family);
+  font-size: var(--search-results-title-size);
+  font-weight: 600;
+  line-height: 27px;
+}
+
+.search-results ul.search-results-list > li .search-results-result-title a {
+  color: var(--search-results-title-color);
+  font-weight: inherit;
+  text-decoration: none;
+}
+
+/* hovering anywhere in the result (title or description) shifts the title to
+   the lighter teal, no underline — matches the source, where the whole result
+   is one link */
+.search-results ul.search-results-list > li > a:hover .search-results-result-title,
+.search-results ul.search-results-list > li > a:hover .search-results-result-title a {
+  color: var(--link-hover-color);
+  text-decoration: none;
+}
+
+.search-results ul.search-results-list > li > a:hover .search-results-result-title mark {
+  color: var(--link-hover-color);
+}
+
+.search-results ul.search-results-list > li p {
+  margin: 0;
+  color: var(--search-results-text-color);
+  font-family: var(--body-font-family);
+  font-size: var(--heading-font-size-xs);
+  font-weight: 400;
+  line-height: var(--search-results-text-line-height);
+}
+
+/* matched search terms (wrapped in <mark> by the block JS) */
+.search-results ul.search-results-list > li mark {
+  background-color: transparent;
+  color: var(--search-results-title-color);
+  font-weight: 700;
+}
+
+/* source shows text-only results — hide the thumbnail image */
+.search-results ul.search-results-list > li .search-results-result-image {
+  display: none;
+}
+
+/* no results / empty state — the results list is hidden and a centred
+   "No results found for <query>" message is shown instead (matches source) */
+.search-results ul.search-results-list.no-results {
+  display: none;
+}
+
+/* full-bleed powder-blue band behind the empty-state message (matches source:
+   #eff6f9, edge-to-edge, 64px/78px vertical padding). The block lives inside a
+   max-width wrapper, so break out to the full viewport width. */
+.search-results .search-results-empty {
+  position: relative;
+  left: 50%;
+  width: 100vw;
+  margin-left: -50vw;
+  padding: 64px 0 78px;
+  background-color: var(--accent-bg); /* powder blue #eff6f9 */
+  text-align: center;
+}
+
+.search-results .search-results-empty-heading {
+  margin: 0;
+  color: var(--brand-secondary); /* rose #c02c57 */
+  font-family: var(--heading-font-family);
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 40px;
+}
+
+/* the searched query sits on its own line under the label */
+.search-results .search-results-empty-query {
+  display: block;
+}
+
+.search-results .search-results-empty-note {
+  margin: 0;
+  padding-top: 25px;
+  color: var(--text-color);
+  font-family: var(--body-font-family);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 22px;
+}
+
+@media (width >= 900px) {
+  .search-results .search-results-empty-heading {
+    font-size: 56px;
+    line-height: 60px;
+  }
+
+  .search-results .search-results-empty-note {
+    padding-top: 31px;
+  }
+}
+
+/* pagination — connected segmented control, centered */
+.search-results .search-results-pagination {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0;
+  margin-top: 32px;
+}
+
+.search-results .search-results-page {
+  min-width: 44px;
+  height: 40px;
+  margin: 0;
+  padding: 0 14px;
+  border: 1px solid var(--search-results-border-color);
+  border-left-width: 0;
+  border-radius: 0; /* reset the site's default pill button radius */
+  background: var(--background-color);
+  color: var(--search-results-page-color);
+  font-family: var(--body-font-family);
+  font-size: var(--heading-font-size-xs);
+  cursor: pointer;
+}
+
+/* first/last buttons get the outer left/right edges */
+.search-results .search-results-page:first-child {
+  border-left-width: 1px;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+
+.search-results .search-results-page:last-child {
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+.search-results .search-results-page:hover:not(:disabled, .is-current) {
+  background: var(--light-color);
+}
+
+.search-results .search-results-page.is-current {
+  background: var(--search-results-page-current-bg);
+  border-color: var(--search-results-page-current-bg);
+  color: var(--search-results-page-current-color);
+  font-weight: 700;
+}
+
+.search-results .search-results-page:disabled {
+  color: var(--text-color-light);
+  cursor: default;
+}
+

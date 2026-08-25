@@ -1,0 +1,972 @@
+.infusion-locator-container {
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 15px;
+  padding-right: 15px;
+  width: 100%;
+}
+
+.infusion-locator {
+  font-family: proxima-nova, sans-serif;
+  margin: 0 auto 24px;
+  border: 1px solid #979797;
+  border-radius: 10px;
+  padding: 35px 0 0;
+  max-width: 1140px;
+}
+
+
+
+/* ------------------------------------------------------------------
+   Header
+------------------------------------------------------------------- */
+
+.locator-header {
+  margin: 8px 0;
+  text-align: center;
+  padding-bottom: 28px;
+}
+
+.locator-header #form-subtitle {
+  font-weight: 700;
+  padding: 0 30px;
+  font-size: 18px;
+  color: var(--text-color);
+  line-height: 22px;
+  padding-bottom: 8px;
+}
+
+#form-requiredtext {
+  font-style: normal;
+  font-weight: 400;
+  line-height: 18px;
+  padding: 0;
+  margin: 0;
+}
+
+/* ------------------------------------------------------------------
+   Search
+------------------------------------------------------------------- */
+
+.locator-search {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex-flow: column wrap;
+  padding: 0 15px;
+  margin-bottom: 48px;
+  margin-left: 0;
+}
+
+.locator-search .field-wrapper {
+  width: 100%;
+}
+
+.locator-search .field-wrapper.text-wrapper {
+  flex: 1;
+  max-width: 100%;
+  display: flex;
+  position: relative;
+}
+
+.locator-search .field-wrapper.text-wrapper label {
+  position: absolute;
+  top: 0;
+  margin-top: 10px;
+  transition: all 0.4s ease;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 4px 15px 0;
+  display: inline;
+  width: auto;
+  pointer-events: none;
+}
+
+
+.locator-search .field-wrapper.text-wrapper label.focus {
+  margin-top: 3px;
+  font-size: 10px;
+  font-weight: 400;
+}
+
+.locator-filters input,
+.locator-search input,
+.locator-search select {
+  width: 100%;
+  padding: 0 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.locator-filters input#form-zipcode,
+.locator-search input#form-zipcode {
+  border: 1px solid var(--text-color);
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 700;
+  max-height: 48px;
+  line-height: 24px;
+  padding: 16px;
+  margin-top: 0;
+  z-index: 2;
+  background: transparent;
+  color: var(--text-color);
+  font-family: open-sans, sans-serif;
+}
+
+.locator-select-group.mile-block {
+  max-width: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  height: 56px;
+}
+
+.locator-select-group.mile-block .select {
+  border: 1px solid var(--text-color);
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 14px 0 14px 16px;
+  line-height: 24px;
+  cursor: pointer;
+  height: 100%;
+  user-select: none;
+  background-color: var(--background-color);
+  position: relative;
+}
+
+.locator-select-group.mile-block .select .select-arrow {
+  background-color: #3c7790;
+  display: inline-block;
+  position: absolute;
+  right: 0;
+  top: 0;
+  height:stretch;
+  border-top-right-radius: 9px;
+  border-bottom-right-radius: 9px;
+  padding: 9px 20px;
+}
+
+.locator-select-group.mile-block .select .select-arrow::after {
+  display: inline-block;
+  vertical-align: middle;
+  content: "";
+  border-right: 2px solid var(--background-color);
+  border-bottom: 2px solid var(--background-color);
+  width: 12px;
+  height: 12px;
+  transform: rotate(45deg) scale(1);
+  transition: transform 0.2s ease, margin-top 0.2s ease;
+}
+
+.locator-select-group.mile-block .select-hide {
+  display: none;
+}
+
+.locator-select-group.mile-block .dropdown-items {
+  top: 8px;
+  border-radius: 10px;
+  border: 1px solid var(--text-color);
+  padding: 0.5rem 0;
+  position: relative;
+  background: var(--background-color);
+  z-index: 2;
+}
+
+.locator-select-group.mile-block .dropdown-items .item {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 700;
+  padding: 4px 8px;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  white-space: normal;
+  color: #212529;
+  cursor: pointer;
+  user-select: none;
+  font-family: open-sans, sans-serif;
+}
+
+.locator-select-group.mile-block .dropdown-items .item.selected-miles,
+.locator-select-group.mile-block .dropdown-items .item:hover {
+  background-color: var(--link-color);
+  color: var(--background-color);
+}
+
+.locator-filters .button-wrapper input,
+.locator-search .button-wrapper input {
+  width: 100%;
+  height: 44px;
+  background: var(--brand-rose);
+  color: var(--background-color);
+  cursor: pointer;
+  font-weight: 700;
+  text-transform: uppercase;
+  border: 2px solid var(--background-color);
+  border-radius: 75pt;
+  display: inline-block;
+  font-family: open-sans, sans-serif;
+  padding: 14px;
+  transition: all .2s ease-in-out;
+  position: relative;
+}
+
+
+.button-wrapper {
+  max-width: 44px;
+}
+
+.locator-search .button-wrapper :hover {
+  background-color: var(--background-color);
+  border-color: var(--brand-rose);
+  color: var(--brand-rose);
+  text-decoration: none;
+}
+
+@media (width >=450px) and (width <=991px) {
+  .field-wrapper.button-wrapper {
+    text-align: center;
+  }
+
+  .locator-filters .button-wrapper input {
+    max-width: 260px;
+    margin: auto;
+  }
+}
+
+@media (width >=989px) {
+  .locator-search {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    flex-flow: row wrap;
+  }
+
+  .locator-search .select-wrapper {
+    width: 180px;
+  }
+
+  .locator-search .field-wrapper.text-wrapper {
+    max-width: 41%;
+  }
+
+  .locator-search .button-wrapper input {
+    max-width: 345px;
+  }
+
+  .locator-select-group.mile-block {
+    max-width: 16%;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Filters
+------------------------------------------------------------------- */
+
+.locator-filters {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%
+}
+
+.locator-filters .selection-wrapper {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  position: relative;
+}
+
+#form-hidehospital-label {
+  margin-left: 33px;
+}
+
+.filter-description-one,
+.filter-descp-two {
+  margin-left: -33px;
+}
+
+.locator-filters label span {
+  color: #484848;
+  font-weight: 700;
+}
+
+.locator-filters label img {
+  width: 17px;
+  position: relative;
+  vertical-align: middle;
+  bottom: 3px;
+}
+
+
+
+.locator-filters .filter-description-one img,
+.locator-filters .filter-descp-two img {
+  width: 17px;
+  position: relative;
+  vertical-align: middle;
+  bottom: 3px;
+
+}
+
+.select-hide {
+  display: none;
+}
+
+.locator-legend .error {
+  text-align: center;
+  color: var(--brand-rose);
+  margin: 24px 0 0;
+  width: 100%;
+  padding: 0 15px;
+  line-height: 24px;
+  position: relative;
+  font-family: open-sans, sans-serif;
+}
+
+@media (width >=989px) {
+  .locator-filters {
+    width: 33%;
+  }
+
+  .filter-description-one,
+  .filter-descp-two {
+    margin-left: 0;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Legend
+------------------------------------------------------------------- */
+.locator-legend {
+  background: var(--card-bg-light);
+  padding: 12px 0 12px 9px;
+  border-bottom: 1px solid var(--text-color);
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  text-align: center;
+  position: relative;
+}
+
+.legend-title-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.legend-title {
+  display: inline;
+  font-family: proxima-nova, sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 28px;
+}
+
+
+.locator-legend .select-icon {
+  cursor: pointer;
+  position: absolute;
+  top: 5px;
+  right: 20%;
+  width: 22px;
+  height: 22px;
+  background-image: url('https://www.vyepti.com/etc.clientlibs/vyepti-picl/clientlibs/clientlib-site/resources/icons/icon-plus.svg');
+  background-size: 100%;
+}
+
+.legendcardswrap {
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+  padding-top: 25px;
+}
+
+.legendcardswrap .field-wrapper {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  font-family: open-sans, sans-serif;
+  max-width: 100%;
+  padding-bottom: 16px;
+}
+
+.locator-legend .field-wrapper img {
+  height: 60px;
+  margin-right: 8px;
+}
+
+@media (width <=987px) {
+  .legendcardswrap.mobile-hide {
+    display: none;
+  }
+}
+
+@media (width >=989px) {
+  .locator-legend {
+    border-top-left-radius: 0;
+    flex-direction: row;
+  }
+
+  .locator-legend .select-icon {
+    display: none;
+  }
+
+  .legendcardswrap {
+    flex-direction: row;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Map & Results
+------------------------------------------------------------------- */
+
+.locator-main {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--text-color);
+  border-radius: 10px;
+}
+
+.locator-map {
+  min-height: 420px;
+  border: 1px solid var(--text-color);
+  overflow: hidden;
+  background: #f5f5f5;
+  padding: 0;
+}
+
+.locator-results {
+  padding: 20px;
+  background: var(--background-color);
+  text-align: center;
+  overflow: scroll;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+
+}
+
+.print-results {
+  font-weight: 700;
+  line-height: 24px;
+  border-bottom: 1px solid var(--link-color);
+  color: var(--link-color);
+  font-size: 16px;
+  text-decoration: none;
+  margin-bottom: 6px;
+}
+
+.locator-results .no-result-icon-img {
+  width: 96px;
+  height: 96px;
+  margin-bottom: 8px;
+}
+
+.locator-results .locator-no-results {
+  font-size: 18px;
+  line-height: 26px;
+  color: var(--text-color);
+  margin: 0;
+  padding-bottom: 8px;
+}
+
+/* ------------------------------------------------------------------
+  Desktop
+------------------------------------------------------------------- */
+
+@media (width >=989px) {
+  .locator-main {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) 555px;
+    gap: 0;
+    align-items: start;
+    border: 0;
+  }
+
+  .locator-map,
+  .locator-results-wrap {
+    border-left: 0;
+    max-height: 692px;
+    overflow-y: scroll;
+  }
+
+  .locator-map {
+    max-width: 555px;
+    border-left: 1px solid var(--text-color);
+    border-bottom: 1px solid var(--text-color);
+    border-top: 1px solid var(--text-color);
+    border-bottom-left-radius: 10px;
+    height: 100%;
+  }
+
+  .locator-results-wrap {
+    border-bottom-right-radius: 10px;
+  }
+
+  .locator-header h2 {
+    font-size: 36px;
+  }
+}
+
+/* --- Results Panel & Map Layout --- */
+.locator-results .locator-results-list {
+  padding: 16px 0;
+}
+
+
+.locator-results .locator-results-list .locator-result-item {
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgb(0 0 0 / 25%);
+  padding: 5px;
+  margin: 16px 0;
+  overflow: hidden;
+  cursor: pointer;
+  background: var(--background-color);
+}
+
+.locator-results .locator-results-list .locator-result-item.gradient-border {
+  background: linear-gradient(to right, #f16464, var(--brand-rose));
+}
+
+.locator-result-item-inner {
+  display: flex;
+  justify-content: space-between;
+  background: var(--background-color);
+  border-radius: 10px;
+  padding: 11px 24px 21px 11px;
+}
+
+.locator-results .locator-results-list .locator-result-item:hover,
+.locator-results .locator-results-list .locator-result-item:hover .locator-result-item-inner,
+.locator-results .locator-results-list .locator-result-item.gradient-border:hover .locator-result-item-inner {
+  background-color: var(--card-bg-light);
+}
+
+.locator-result-left {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  margin-right: 10px;
+}
+
+.locator-result-left::before {
+  content: "";
+  width: 32px;
+  height: 40px;
+  background-image: url("https://www.vyepti.com/etc.clientlibs/vyepti-picl/clientlibs/clientlib-site/resources/icons/Pin_Teal_Solid.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.locator-result-left span {
+  position: absolute;
+  inset: 7px 0 0;
+  text-align: center;
+  color: var(--background-color);
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 20px;
+}
+
+.locator-result-item.gradient-border .locator-result-left::before {
+  background-image: url("https://www.vyepti.com/etc.clientlibs/vyepti-picl/clientlibs/clientlib-site/resources/icons/Pin_Red_Solid.svg");
+}
+
+.locator-result-right {
+  text-align: left;
+  width: 100%;
+}
+
+.locator-result-right h3 {
+  margin-top: 0;
+  color: var(--brand-teal-muted);
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  font-size: 18px;
+  padding-bottom: 8px;
+  line-height: 18px;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+.locator-result-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.locator-results .locator-title-wrap .locator-title {
+  text-align: center;
+  color: var(--brand-dark);
+}
+
+.locator-results .type-text {
+  font-size: 16px;
+  line-height: 16px;
+  color: var(--brand-teal-muted);
+  font-style: italic;
+}
+
+.locator-results .miles-text {
+  font-size: 16px;
+  line-height: 16px;
+  padding-bottom: 8px;
+  font-style: italic;
+}
+
+.locator-result-address {
+  display: block;
+  padding-bottom: 8px;
+  font-family: proxima-nova, sans-serif;
+  font-size: 16px;
+  line-height: 19px;
+  font-weight: 700;
+  color: var(--brand-teal-muted);
+  text-decoration: underline;
+  text-underline-position: under;
+  margin-top: 0;
+}
+
+.locator-result-phone-wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 8px;
+}
+
+.locator-result-phone {
+  margin: 0;
+  float: left;
+}
+
+.locator-result-phone a {
+  font-weight: 700;
+  color: #41748d;
+  text-decoration: underline;
+}
+
+.locator-result-phone span {
+  text-decoration: none;
+  font-weight: normal;
+  font-size: 16px;
+  color: var(--border-color-dark);
+}
+
+.locator-result-website-wrap {
+  display: flex;
+  flex-direction: column;
+  text-align: end;
+}
+
+.locate-result-phone-wrap {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 8px;
+  align-items: flex-start;
+}
+
+.weblink {
+  position: relative;
+  font-weight: bold;
+  float: right;
+  padding-right: 30px;
+  background-size: 20px 20px;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.weblink::after {
+  content: "";
+  width: 18px;
+  height: 18px;
+  background-image: url('https://www.vyepti.com/etc.clientlibs/vyepti-picl/clientlibs/clientlib-site/resources/icons/Global_Icon_External_Link_Alt_Teal.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  position: absolute;
+  right: 0;
+}
+
+.locator-results .locator-title-wrap .locator-result-disclaimer {
+  line-height: 22px;
+  font-size: 18px;
+  text-align: left;
+  margin-bottom: 24px;
+  color: var(--text-color);
+}
+
+.locator-results .locator-title-wrap .locator-result-disclaimer .red-color {
+  color: var(--brand-rose);
+}
+
+.locator-welcome-title {
+  font-size: 18px;
+  line-height: 20px;
+  text-align: center;
+  color: var(--border-color-dark);
+  margin: 0 0 12px;
+  font-weight: 700;
+}
+
+.locator-welcome-text {
+  font-size: 16px;
+  line-height: 22px;
+  text-align: center;
+  color: var(--border-color-dark);
+  font-weight: normal;
+  margin: 0;
+}
+
+
+@media (width >=989px) {
+  .locator-results .locator-results-list {
+    padding: 16px 36px 0 2px;
+  }
+
+  .print-result-btn {
+    display: flex;
+    justify-content: end;
+  }
+
+  .locator-result-address {
+    padding-right: 88px;
+  }
+
+  .locate-result-phone-wrap {
+    flex-direction: row;
+    padding-bottom: 8px;
+    justify-content: space-between;
+    align-items: normal;
+  }
+  
+}
+
+.locator-search input[type="text"]:focus {
+  background-color: #fff;
+  border-color: #80bdff;
+  box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 25%);
+  color: #495057;
+  outline: 0;
+}
+
+/* New css for filter */
+.filter-block {
+  position: relative;
+  width: 100%;
+}
+
+.custom-dropdown {
+  position: relative;
+  width: 100%;
+  max-width: 710px;
+}
+
+/* Show only header */
+.custom-dropdown .select {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 56px;
+  padding: 0 24px;
+  background: #fff;
+  border: 1px solid #484848;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  box-sizing: border-box;
+  box-shadow: 0 2px 15px rgb(0 0 0 / 50%);
+}
+
+.custom-dropdown .select.open {
+  border-bottom: 0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+/* Icon */
+.custom-dropdown .select-icon {
+  display: inline-block;
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  right: 10px;
+  top: 15px;
+  background-image: url('https://www.vyepti.com/etc.clientlibs/vyepti-picl/clientlibs/clientlib-site/resources/icons/icon-plus.svg');
+  background-size: 100%;
+  vertical-align: text-top;
+}
+
+.custom-dropdown .select.open .select-icon {
+  background-image: url('https://www.vyepti.com/etc.clientlibs/vyepti-picl/clientlibs/clientlib-site/resources/icons/icon-minus.svg');
+}
+
+/* Dropdown panel */
+.custom-dropdown .dropdown-items {
+  position: absolute;
+  top: calc(100% - 2px);
+  left: 0;
+  width: 100%;
+  padding: 5px 20px 15px 16px;
+  background: #fff;
+  border: 1px solid #4c4c4c;
+  border-radius: 0 0 18px 18px;
+  z-index: 100;
+  box-sizing: border-box;
+  border-top: 0;
+}
+
+/* Hide dropdown */
+.custom-dropdown .dropdown-items.select-hide {
+  display: none;
+}
+
+/* Each filter */
+.custom-dropdown label {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  cursor: pointer;
+  margin-bottom: 8px;
+}
+
+/* Hide actual checkbox */
+.custom-dropdown .filter-checkbox {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+}
+
+/* Visible checkbox */
+.custom-dropdown .checkmark {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  min-width: 18px;
+  margin-right: 8px;
+  border: 2px solid #4382a0;
+  border-radius: 4px;
+  box-sizing: border-box;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%;
+}
+
+/* Checked checkbox */
+.custom-dropdown .filter-checkbox:checked+.checkmark {
+  background-image: url('https://www.vyepti.com/etc.clientlibs/vyepti-picl/clientlibs/clientlib-site/resources/icons/checkbox-checked.svg');
+  background-size: 100%;
+}
+
+/* Filter title */
+.custom-dropdown .label-text {
+  display: block;
+  font-size: 14px;
+  line-height: 17px;
+  font-weight: 700;
+  flex: 1;
+}
+
+/* Description */
+.custom-dropdown .child-info {
+  display: block;
+  margin-left: 28px;
+  font-size: 14px;
+  line-height: 17px;
+  font-style: italic;
+}
+
+/* Second item */
+.custom-dropdown .item.mt-2 {
+  margin-top: 28px;
+}
+
+
+#form-zipcodesubmit {
+  height: 44px;
+  min-width: 44px;
+  font-size: 16px;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+  color: #fff;
+  background-color: #c02c57;
+  border: 1px solid #c02c57;
+  width: 44px;
+  padding-top: 3px;
+}
+
+#form-zipcodesubmit:hover {
+  background-color: #fff;
+}
+
+
+
+#form-zipcodesubmit .btn-text {
+  display: inline;
+}
+
+#form-zipcodesubmit .btn-icon {
+  display: none;
+}
+
+
+/* Desktop */
+@media (width >=768px) {
+  #form-zipcodesubmit .btn-text {
+    display: none;
+  }
+
+  #form-zipcodesubmit .btn-icon {
+    display: inline-block;
+    width: 10px;
+    height: 17px;
+    background-image: url('https://www.assets.lundbeck-tools.com/content/dam/lundbeck/vyepti/overhaul/images/chevron-quote-white-right-10-mobile.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+  }
+}
+
+/* Mobile */
+@media (width <=989px) {
+  .field-wrapper.button-wrapper {
+    max-width: 100%;
+  }
+
+  #form-zipcodesubmit {
+    font-size: 16px;
+    min-width: 270px !important;
+    padding: 15px 40px;
+    height: auto;
+    margin: 0 auto;
+    display: block;
+  }
+
+  #form-zipcodesubmit .btn-text {
+    display: inline;
+  }
+
+  #form-zipcodesubmit .btn-icon {
+    display: none;
+  }
+}
+
+#form-zipcodesubmit:hover .btn-icon {
+  background-image: url('https://www.assets.lundbeck-tools.com/content/dam/lundbeck/vyepti/overhaul/images/chevron-right-10-mobile.svg');
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-size: cover;
+}
+
+@media (width >=991.5px) {
+  .locator-filters {
+    max-width: 33%;
+  }
+}

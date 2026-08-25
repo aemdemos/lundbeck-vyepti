@@ -1,0 +1,40 @@
+{
+  "definitions": [
+    {
+      "title": "Search Results",
+      "id": "search-results",
+      "model": "search-results",
+      "plugins": {
+        "da": {
+          "rows": 1,
+          "columns": 1,
+          "fields": [
+            { "name": "searchUrl", "selector": "div>div>p>a[href]" },
+            { "name": "searchUrlText", "selector": "div>div>p>a" }
+          ]
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "search-results",
+      "fields": [
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "searchUrl",
+          "label": "Index URL",
+          "description": "Optional path to the query-index.json to search. Defaults to /query-index.json."
+        },
+        {
+          "component": "text",
+          "name": "searchUrlText",
+          "label": "Index URL Text",
+          "valueType": "string"
+        }
+      ]
+    }
+  ],
+  "filters": []
+}

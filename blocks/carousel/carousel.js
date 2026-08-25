@@ -62,6 +62,13 @@ export default async function decorate(block) {
     const { indicatorsNav, buttonsContainer } = createSliderControls(rows.length);
     block.append(indicatorsNav);
     container.append(buttonsContainer);
+
+    if (isTestimonial) {
+      const swipeHint = document.createElement('p');
+      swipeHint.classList.add('carousel-swipe-hint');
+      swipeHint.textContent = 'Swipe for more';
+      block.append(swipeHint);
+    }
   }
 
   rows.forEach((row, idx) => {

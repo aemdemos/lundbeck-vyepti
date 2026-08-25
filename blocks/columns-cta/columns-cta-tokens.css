@@ -13,7 +13,7 @@
      the bottom, matching www.vyepti.com/how-vyepti-works) */
   --columns-cta-card-shadow: rgb(46 50 51 / 20%) 0 2px 8px 0;
   --columns-cta-card-radius: 8px 8px 0 0;
-  --columns-cta-card-padding: 24px 32px 34px;
+  --columns-cta-card-padding: 20px 32px 34px;
   --columns-cta-card-padding-tablet: 24px 32px 50px;
   --columns-cta-card-padding-desktop: 42px 66px 64px;
 
@@ -24,6 +24,34 @@
   /* decorative bottom callout border */
   --columns-cta-callout-height: 10px;
   --columns-cta-callout-image: url("/icons/half-callout.svg");
+
+  /* single-column desktop variant: corner shard graphic (left, vertically
+     centered) + horizontal layout. Matches www.vyepti.com/how-vyepti-works
+     single columns-cta. Symmetric vertical padding gives the band enough height
+     for the graphic to keep white margin above and below (not edge-to-edge). */
+  --columns-cta-corner-image: url("/icons/cta-corner-shape.svg");
+  --columns-cta-corner-width: 100px;
+
+  /* sized to match source's 186px card height */
+  --columns-cta-single-padding: 36px 16px 39px 100px;
+  --columns-cta-single-row-gap-desktop: 28px;
+  --columns-cta-single-padding-mobile: 52px 32px 88px;
+  --columns-cta-single-button-margin-top-mobile: 32px;
+
+  /* breathing room below the eyebrow (its <strong> can't carry the spacing) */
+  --columns-cta-single-eyebrow-gap: 8px;
+
+  /* CTA button sized to ~260x62 at desktop (matches the source) */
+  --columns-cta-single-button-padding: 18px 24px;
+
+  /* single-column card has all four corners rounded (the stacked variant only
+     rounds the top because its striped callout sits flush at the bottom) */
+  --columns-cta-single-card-radius: 8px;
+
+  /* single-column description copy is larger/airier than the stacked variant
+     (18px / 1.5), matching the source text block */
+  --columns-cta-single-text-font-size: var(--body-font-size-ms);
+  --columns-cta-single-text-line-height: 1.5;
 
   /* eyebrow (teal) */
   --columns-cta-eyebrow-color: var(--brand-primary);
@@ -37,7 +65,7 @@
   --columns-cta-heading-font-size: var(--heading-font-size-xl);
   --columns-cta-heading-font-weight: var(--font-weight-bold);
   --columns-cta-heading-line-height: 1;
-  --columns-cta-heading-padding: 0 42px 16px;
+  --columns-cta-heading-padding: 6px 16px 16px;
 
   /* description */
   --columns-cta-text-color: var(--text-color);
@@ -53,7 +81,7 @@
   --columns-cta-button-padding: 19px;
   --columns-cta-button-border-width: var(--button-border-width);
   --columns-cta-button-border-radius: 30px;
-  --columns-cta-button-margin-top: 32px;
+  --columns-cta-button-margin-top: 24px;
 
   /* horizontal right-arrow icon (matches the source cta buttons) */
   --columns-cta-chevron-size: 10px;
@@ -105,6 +133,16 @@
 @media (width >= 768px) {
   main .columns-cta > div > div {
     padding: var(--columns-cta-card-padding-tablet);
+  }
+
+  /* restore the generic tablet values over the mobile single-col defaults */
+  main .columns-cta-1-cols > div > div {
+    padding: var(--columns-cta-card-padding-tablet);
+  }
+
+  main .columns-cta-1-cols a,
+  main .columns-cta-1-cols a.button {
+    margin-top: var(--columns-cta-button-margin-top);
   }
 }
 

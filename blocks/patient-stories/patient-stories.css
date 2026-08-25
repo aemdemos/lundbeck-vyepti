@@ -70,6 +70,32 @@
   background: url("https://www.assets.lundbeck-tools.com/content/dam/lundbeck/vyepti/overhaul/images/mvp-indicator-20-mobile.svg") no-repeat center / contain;
 }
 
+/* Same legend line when authored inline (star image + bold text in one `p`,
+   rather than a `p.patient-stories-legend`). Lay it out as a left-aligned row so
+   the star stays fixed to the left and the text sits in a column beside it —
+   matching the source — instead of the text wrapping back underneath the icon.
+   Beats the intro `p` sizing above (higher specificity via `:has()`). */
+.patient-stories-intro p:has(picture) {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 0;
+  font-size: var(--patient-stories-intro-legend-size);
+  font-weight: var(--patient-stories-intro-legend-weight);
+  line-height: var(--patient-stories-intro-legend-line-height);
+  color: var(--patient-stories-intro-legend-color);
+}
+
+/* The star-flag artwork sits in the top ~40% of its box (the ribbon "tail"
+   fills the lower part), so centering the box leaves the visible star riding
+   high above the text. Nudge the icon down so the star — not the box — reads
+   as vertically centered against the text, matching the source. */
+.patient-stories-intro p:has(picture) picture {
+  position: relative;
+  top: 5px;
+  flex: none;
+}
+
 .patient-stories-card {
   position: relative;
   display: block;
