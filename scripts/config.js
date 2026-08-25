@@ -14,10 +14,6 @@ export const DOCTOR_DISCUSSION_CONFIGS = {
   EMAIL_SUBMIT_API_URL: 'https://vyepti-stage.d.lundbeckus.com/api/sendemail',
   // Basic Auth credentials required by the stage API.
   // NOTE: known stage-only credential, intentionally committed here for now.
-  // TODO: move Basic Auth to a server-side proxy and drop this from the
-  // client bundle entirely (tracked separately) — do not treat this value as
-  // a production secret; rotate before promoting to prod, and rotate sooner
-  // if this repo is or becomes public, since it's now committed to history.
   PDF_DOWNLOAD_API_USERNAME: 'lundbeck-admin',
   // eslint-disable-next-line sonarjs/no-hardcoded-passwords, secure-coding/no-hardcoded-credentials
   PDF_DOWNLOAD_API_PASSWORD: 'pH6Uuj5k9w8i',
