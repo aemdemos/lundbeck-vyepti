@@ -81,10 +81,11 @@ export async function loadLocations(apiInfo) {
 
     return data.result || data.providers || data || [];
   } catch (error) {
-    console.error(
-      'Failed to load locator records:',
-      error,
-    );
+    // Log error in development only (avoid console output in production)
+    if (typeof window !== 'undefined' && window.location && window.location.hostname === 'localhost') {
+      /* eslint-disable-next-line no-console */
+      console.error('Failed to load locator records:', error);
+    }
 
     return [];
   }

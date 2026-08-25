@@ -106,11 +106,11 @@ function createDropdown() {
   select.append(selectIcon);
 
   const dropdownItems = document.createElement('div');
-  dropdownItems.className = 'dropdown-items selectHide';
+  dropdownItems.className = 'dropdown-items select-hide';
 
   select.addEventListener('click', () => {
     select.classList.toggle('open');
-    dropdownItems.classList.toggle('selectHide');
+    dropdownItems.classList.toggle('select-hide');
   });
 
   customDropdown.append(
