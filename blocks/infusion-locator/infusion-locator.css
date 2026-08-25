@@ -7,8 +7,7 @@
 }
 
 .infusion-locator {
-  font-family: "proxima-nova", sans-serif;
-  border: 1px solid #484848;
+  font-family: proxima-nova, sans-serif;
   margin: 0 auto 24px;
   border: 1px solid #979797;
   border-radius: 10px;
@@ -25,17 +24,16 @@
 .locator-header {
   margin: 8px 0;
   text-align: center;
-  padding-bottom: 28px
+  padding-bottom: 28px;
 }
 
 .locator-header #form-subtitle {
   font-weight: 700;
-  padding: 0px 30px;
+  padding: 0 30px;
   font-size: 18px;
   color: var(--text-color);
   line-height: 22px;
   padding-bottom: 8px;
-  ;
 }
 
 #form-requiredtext {
@@ -54,12 +52,8 @@
   display: flex;
   align-items: center;
   gap: 15px;
-  margin-bottom: 20px;
-  flex-wrap: wrap;
-  flex-direction: column;
-  padding-top: 0;
-  padding-right: 15px;
-  padding-left: 15px;
+  flex-flow: column wrap;
+  padding: 0 15px;
   margin-bottom: 48px;
   margin-left: 0;
 }
@@ -118,7 +112,7 @@
   z-index: 2;
   background: transparent;
   color: var(--text-color);
-  font-family: 'open-sans', sans-serif;
+  font-family: open-sans, sans-serif;
 }
 
 .locator-select-group.mile-block {
@@ -150,7 +144,7 @@
   position: absolute;
   right: 0;
   top: 0;
-  height: stretch;
+  height:stretch;
   border-top-right-radius: 9px;
   border-bottom-right-radius: 9px;
   padding: 9px 20px;
@@ -168,7 +162,7 @@
   transition: transform 0.2s ease, margin-top 0.2s ease;
 }
 
-.locator-select-group.mile-block .selectHide {
+.locator-select-group.mile-block .select-hide {
   display: none;
 }
 
@@ -193,10 +187,10 @@
   color: #212529;
   cursor: pointer;
   user-select: none;
-  font-family: 'open-sans', sans-serif;
+  font-family: open-sans, sans-serif;
 }
 
-.locator-select-group.mile-block .dropdown-items .item.selectedMiles,
+.locator-select-group.mile-block .dropdown-items .item.selected-miles,
 .locator-select-group.mile-block .dropdown-items .item:hover {
   background-color: var(--link-color);
   color: var(--background-color);
@@ -206,17 +200,13 @@
 .locator-search .button-wrapper input {
   width: 100%;
   height: 44px;
-  border: 0;
-  border-radius: 4px;
   background: var(--brand-rose);
   color: var(--background-color);
   cursor: pointer;
   font-weight: 700;
   text-transform: uppercase;
-  background-color: var(--brand-rose);
   border: 2px solid var(--background-color);
   border-radius: 75pt;
-  color: var(--background-color);
   display: inline-block;
   font-family: open-sans, sans-serif;
   padding: 14px;
@@ -236,7 +226,7 @@
   text-decoration: none;
 }
 
-@media only screen and (min-width: 450px) and (max-width: 991px) {
+@media (width >=450px) and (width <=991px) {
   .field-wrapper.button-wrapper {
     text-align: center;
   }
@@ -247,30 +237,21 @@
   }
 }
 
-@media (min-width: 989px) {
+@media (width >=989px) {
   .locator-search {
     display: flex;
     align-items: center;
     gap: 15px;
     margin-bottom: 20px;
-    flex-wrap: wrap;
-    flex-direction: row;
+    flex-flow: row wrap;
   }
-
-  /* .locator-search .button-wrapper {
-    width: 25%;
-    font-size: 16px;
-    margin: 0;
-    text-align: center;
-    line-height: 20px;
-  } */
 
   .locator-search .select-wrapper {
     width: 180px;
   }
 
   .locator-search .field-wrapper.text-wrapper {
-    max-width: 41%
+    max-width: 41%;
   }
 
   .locator-search .button-wrapper input {
@@ -300,40 +281,14 @@
   position: relative;
 }
 
-/* .locator-filters input[type='checkbox'] {
-  position: absolute;
-  top: 0;
-  left: 0;
-  opacity: 0;
-  background-image: url('https://www.vyeptihcp.com/etc.clientlibs/vyepti-picl/clientlibs/clientlib-site/resources/icons/checkbox.svg');
-  background-size: 100%;
-}
-
-.locator-filters .checkmark {
-  position: absolute;
-  height: 18px;
-  width: 18px;
-  background-image: url('https://www.vyeptihcp.com/etc.clientlibs/vyepti-picl/clientlibs/clientlib-site/resources/icons/checkbox.svg');
-  background-size: 100%;
-} */
-
-.labelWraper,
 #form-hidehospital-label {
   margin-left: 33px;
 }
 
-.filterDescpOne,
-.filterDescpTwo {
+.filter-description-one,
+.filter-descp-two {
   margin-left: -33px;
 }
-
-/* .locator-filters label {
-  display: inline-block;
-  cursor: pointer;
-  line-height: 1.5;
-  font-weight: 700;
-  margin-bottom: 16px;
-} */
 
 .locator-filters label span {
   color: #484848;
@@ -349,8 +304,8 @@
 
 
 
-.locator-filters .filterDescpOne img,
-.locator-filters .filterDescpTwo img {
+.locator-filters .filter-description-one img,
+.locator-filters .filter-descp-two img {
   width: 17px;
   position: relative;
   vertical-align: middle;
@@ -358,7 +313,7 @@
 
 }
 
-.selectHide {
+.select-hide {
   display: none;
 }
 
@@ -370,17 +325,16 @@
   padding: 0 15px;
   line-height: 24px;
   position: relative;
-  font-family: 'open-sans', sans-serif;
+  font-family: open-sans, sans-serif;
 }
 
-@media (min-width: 989px) {
-
+@media (width >=989px) {
   .locator-filters {
     width: 33%;
   }
 
-  .filterDescpOne,
-  .filterDescpTwo {
+  .filter-description-one,
+  .filter-descp-two {
     margin-left: 0;
   }
 }
@@ -405,12 +359,10 @@
 
 .legend-title {
   display: inline;
-  font-family: "proxima-nova";
+  font-family: proxima-nova, sans-serif;
   font-size: 22px;
   font-weight: 700;
   line-height: 28px;
-
-
 }
 
 
@@ -421,7 +373,7 @@
   right: 20%;
   width: 22px;
   height: 22px;
-  background-image: url(https://www.vyepti.com/etc.clientlibs/vyepti-picl/clientlibs/clientlib-site/resources/icons/icon-plus.svg);
+  background-image: url('https://www.vyepti.com/etc.clientlibs/vyepti-picl/clientlibs/clientlib-site/resources/icons/icon-plus.svg');
   background-size: 100%;
 }
 
@@ -436,7 +388,7 @@
   display: flex;
   align-items: center;
   font-size: 14px;
-  font-family: 'open-sans', sans-serif;
+  font-family: open-sans, sans-serif;
   max-width: 100%;
   padding-bottom: 16px;
 }
@@ -446,13 +398,13 @@
   margin-right: 8px;
 }
 
-@media (max-width: 987px) {
-  .legendcardswrap.mobileHide {
+@media (width <=987px) {
+  .legendcardswrap.mobile-hide {
     display: none;
   }
 }
 
-@media (min-width: 989px) {
+@media (width >=989px) {
   .locator-legend {
     border-top-left-radius: 0;
     flex-direction: row;
@@ -506,7 +458,7 @@
   margin-bottom: 6px;
 }
 
-.locator-results .noResults-icon-img {
+.locator-results .no-result-icon-img {
   width: 96px;
   height: 96px;
   margin-bottom: 8px;
@@ -520,33 +472,15 @@
   padding-bottom: 8px;
 }
 
-.locator-welcome-title {
-  font-size: 18px;
-  line-height: 26px;
-  text-align: center;
-  color: var(--text-color);
-  margin: 0;
-  padding-bottom: 8px;
-}
-
-.locator-welcome-text {
-  font-size: 16px;
-  line-height: 24px;
-  text-align: center;
-  color: var(--text-color);
-  font-weight: normal;
-}
-
 /* ------------------------------------------------------------------
   Desktop
 ------------------------------------------------------------------- */
 
-@media (min-width: 989px) {
-
+@media (width >=989px) {
   .locator-main {
     display: grid;
     grid-template-columns: minmax(0, 2fr) 555px;
-    gap: 0px;
+    gap: 0;
     align-items: start;
     border: 0;
   }
@@ -556,9 +490,7 @@
     border-left: 0;
     max-height: 692px;
     overflow-y: scroll;
-
   }
-
 
   .locator-map {
     max-width: 555px;
@@ -569,7 +501,6 @@
     height: 100%;
   }
 
-
   .locator-results-wrap {
     border-bottom-right-radius: 10px;
   }
@@ -579,16 +510,15 @@
   }
 }
 
-/* Locator results */
 /* --- Results Panel & Map Layout --- */
 .locator-results .locator-results-list {
-  padding: 16px 0px 16px 0px;
+  padding: 16px 0;
 }
 
 
 .locator-results .locator-results-list .locator-result-item {
   border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 2px 10px rgb(0 0 0 / 25%);
   padding: 5px;
   margin: 16px 0;
   overflow: hidden;
@@ -596,7 +526,7 @@
   background: var(--background-color);
 }
 
-.locator-results .locator-results-list .locator-result-item.gradientBorder {
+.locator-results .locator-results-list .locator-result-item.gradient-border {
   background: linear-gradient(to right, #f16464, var(--brand-rose));
 }
 
@@ -610,7 +540,7 @@
 
 .locator-results .locator-results-list .locator-result-item:hover,
 .locator-results .locator-results-list .locator-result-item:hover .locator-result-item-inner,
-.locator-results .locator-results-list .locator-result-item.gradientBorder:hover .locator-result-item-inner {
+.locator-results .locator-results-list .locator-result-item.gradient-border:hover .locator-result-item-inner {
   background-color: var(--card-bg-light);
 }
 
@@ -633,10 +563,7 @@
 
 .locator-result-left span {
   position: absolute;
-  top: 7px;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 7px 0 0;
   text-align: center;
   color: var(--background-color);
   font-weight: bold;
@@ -644,7 +571,7 @@
   line-height: 20px;
 }
 
-.locator-result-item.gradientBorder .locator-result-left::before {
+.locator-result-item.gradient-border .locator-result-left::before {
   background-image: url("https://www.vyepti.com/etc.clientlibs/vyepti-picl/clientlibs/clientlib-site/resources/icons/Pin_Red_Solid.svg");
 }
 
@@ -654,10 +581,10 @@
 }
 
 .locator-result-right h3 {
-  margin-top: 0px;
+  margin-top: 0;
   color: var(--brand-teal-muted);
   max-width: 100%;
-  word-break: break-word;
+  overflow-wrap: anywhere;
   font-size: 18px;
   padding-bottom: 8px;
   line-height: 18px;
@@ -676,14 +603,14 @@
   color: var(--brand-dark);
 }
 
-.locator-results .typeText {
+.locator-results .type-text {
   font-size: 16px;
   line-height: 16px;
   color: var(--brand-teal-muted);
   font-style: italic;
 }
 
-.locator-results .milesText {
+.locator-results .miles-text {
   font-size: 16px;
   line-height: 16px;
   padding-bottom: 8px;
@@ -693,23 +620,31 @@
 .locator-result-address {
   display: block;
   padding-bottom: 8px;
-  font-family: "proxima-nova", sans-serif;
+  font-family: proxima-nova, sans-serif;
   font-size: 16px;
   line-height: 19px;
-  padding-right: 88px;
   font-weight: 700;
   color: var(--brand-teal-muted);
   text-decoration: underline;
   text-underline-position: under;
-  margin-top: 0px;
+  margin-top: 0;
+}
+
+.locator-result-phone-wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 8px;
 }
 
 .locator-result-phone {
-  margin: 0px;
+  margin: 0;
   float: left;
 }
 
 .locator-result-phone a {
+  font-weight: 700;
+  color: #41748d;
   text-decoration: underline;
 }
 
@@ -720,9 +655,27 @@
   color: var(--border-color-dark);
 }
 
+.locator-result-website-wrap {
+  display: flex;
+  flex-direction: column;
+  text-align: end;
+}
+
+.locate-result-phone-wrap {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 8px;
+  align-items: flex-start;
+}
+
 .weblink {
   position: relative;
+  font-weight: bold;
   float: right;
+  padding-right: 30px;
+  background-size: 20px 20px;
+  font-size: 16px;
+  line-height: 24px;
 }
 
 .weblink::after {
@@ -734,10 +687,10 @@
   background-position: center;
   background-size: contain;
   position: absolute;
+  right: 0;
 }
 
 .locator-results .locator-title-wrap .locator-result-disclaimer {
-  text-align: left;
   line-height: 22px;
   font-size: 18px;
   text-align: left;
@@ -754,7 +707,7 @@
   line-height: 20px;
   text-align: center;
   color: var(--border-color-dark);
-  margin: 0 0 12px 0;
+  margin: 0 0 12px;
   font-weight: 700;
 }
 
@@ -768,7 +721,7 @@
 }
 
 
-@media(min-width:989px) {
+@media (width >=989px) {
   .locator-results .locator-results-list {
     padding: 16px 36px 0 2px;
   }
@@ -777,20 +730,29 @@
     display: flex;
     justify-content: end;
   }
+
+  .locator-result-address {
+    padding-right: 88px;
+  }
+
+  .locate-result-phone-wrap {
+    flex-direction: row;
+    padding-bottom: 8px;
+    justify-content: space-between;
+    align-items: normal;
+  }
+  
 }
 
 .locator-search input[type="text"]:focus {
   background-color: #fff;
   border-color: #80bdff;
-  box-shadow: 0 0 0 .2rem rgba(0, 123, 255, .25);
+  box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 25%);
   color: #495057;
   outline: 0;
 }
 
-
-
 /* New css for filter */
-
 .filter-block {
   position: relative;
   width: 100%;
@@ -817,15 +779,14 @@
   font-weight: 700;
   cursor: pointer;
   box-sizing: border-box;
-  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 2px 15px rgb(0 0 0 / 50%);
 }
 
 .custom-dropdown .select.open {
   border-bottom: 0;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
-} 
-
+}
 
 /* Icon */
 .custom-dropdown .select-icon {
@@ -835,13 +796,13 @@
   height: 22px;
   right: 10px;
   top: 15px;
-  background-image: url(https://www.vyepti.com/etc.clientlibs/vyepti-picl/clientlibs/clientlib-site/resources/icons/icon-plus.svg);
+  background-image: url('https://www.vyepti.com/etc.clientlibs/vyepti-picl/clientlibs/clientlib-site/resources/icons/icon-plus.svg');
   background-size: 100%;
   vertical-align: text-top;
 }
 
 .custom-dropdown .select.open .select-icon {
-  background-image: url(https://www.vyepti.com/etc.clientlibs/vyepti-picl/clientlibs/clientlib-site/resources/icons/icon-minus.svg);
+  background-image: url('https://www.vyepti.com/etc.clientlibs/vyepti-picl/clientlibs/clientlib-site/resources/icons/icon-minus.svg');
 }
 
 /* Dropdown panel */
@@ -851,17 +812,16 @@
   left: 0;
   width: 100%;
   padding: 5px 20px 15px 16px;
-  background: #ffffff;
+  background: #fff;
   border: 1px solid #4c4c4c;
   border-radius: 0 0 18px 18px;
-  /* box-shadow: 0 8px 25px rgb(0 0 0 / 18%); */
   z-index: 100;
   box-sizing: border-box;
   border-top: 0;
 }
 
 /* Hide dropdown */
-.custom-dropdown .dropdown-items.selectHide {
+.custom-dropdown .dropdown-items.select-hide {
   display: none;
 }
 
@@ -904,12 +864,6 @@
   background-size: 100%;
 }
 
-/* Label text */
-.custom-dropdown .label-text {
-  display: inline-block;
-  line-height: 18px;
-}
-
 /* Filter title */
 .custom-dropdown .label-text {
   display: block;
@@ -946,7 +900,6 @@
   border: 1px solid #c02c57;
   width: 44px;
   padding-top: 3px;
-  background-color: #c02c57;
 }
 
 #form-zipcodesubmit:hover {
@@ -965,7 +918,7 @@
 
 
 /* Desktop */
-@media (min-width: 768px) {
+@media (width >=768px) {
   #form-zipcodesubmit .btn-text {
     display: none;
   }
@@ -982,7 +935,7 @@
 }
 
 /* Mobile */
-@media (max-width: 989px) {
+@media (width <=989px) {
   .field-wrapper.button-wrapper {
     max-width: 100%;
   }
@@ -1012,11 +965,7 @@
   background-size: cover;
 }
 
-/* For tab styles */
-@media only screen and (max-width: 991.5px) {}
-
-
-@media only screen and (min-width: 991.5px) {
+@media (width >=991.5px) {
   .locator-filters {
     max-width: 33%;
   }

@@ -13,6 +13,8 @@ import renderResults from './template.js';
 import { downloadResultsPdf } from './layout/pdf.js';
 
 
+
+
 /**
  * Apply the same filtering behaviour as the live site.
  */
@@ -78,14 +80,14 @@ export default async function handleSearch({
 
   if (!zip) {
     ui.errorLabel.classList.remove(
-      'selectHide',
+      'select-hide',
     );
 
     return;
   }
 
   ui.errorLabel.classList.add(
-    'selectHide',
+    'select-hide',
   );
 
   clearMarkers();

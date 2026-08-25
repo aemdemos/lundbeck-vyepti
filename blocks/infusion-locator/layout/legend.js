@@ -3,7 +3,7 @@ import renderDescription from "./regex.js";
 function createErrorMessage() {
   const error = document.createElement('p');
 
-  error.className = 'error selectHide';
+  error.className = 'error select-hide';
   error.textContent = 'Please enter a valid city, state, or ZIP code, and try again.';
 
   return error;
@@ -29,7 +29,7 @@ selectIcon.className = 'select-icon';
 legendTitleWrap.append(selectIcon);
 
 const legendcardswrap = document.createElement('div');
-legendcardswrap.className = 'legendcardswrap mobileHide';
+legendcardswrap.className = 'legendcardswrap mobile-hide';
 legend.append(legendcardswrap);
 
   [
@@ -49,7 +49,7 @@ legend.append(legendcardswrap);
   
 if (selectIcon && legendcardswrap) {
   selectIcon.addEventListener('click', () => {
-    legendcardswrap.classList.toggle('mobileHide');
+    legendcardswrap.classList.toggle('mobile-hide');
   });
 }
 
