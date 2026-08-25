@@ -99,5 +99,15 @@ export function getSettings(locator) {
   };
 }
 
+// UGC Form Configurations
+export const UGC_CONFIGS = {
+  UGC_GREY_CAPTCHA_KEY: '6Lc7d2QkAAAAAP71NP_FtK8GM-YfsGIwzM7MRlIj',
+  UGC_GOOGLE_RECAPTCHA_SCRIPT: 'https://www.google.com/recaptcha/api.js?render=6Lc7d2QkAAAAAP71NP_FtK8GM-YfsGIwzM7MRlIj',
+  UGC_TMSDK_SCRIPT: 'https://d1v58eqpqo0kww.cloudfront.net/assets/sdk/2.35.11/tmsdk.min.js',
+  UGC_EMBED_SCRIPT: 'https://d1v58eqpqo0kww.cloudfront.net/assets/sdk/2.35.11/embed.min.js',
+};
+
 
  
+
+

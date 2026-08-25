@@ -39,7 +39,7 @@
   --brand-rose-light: #b81d4a;
   --border-gray-light: #e0e0e0; 
   --brand-dark:#000;
-  
+
   /* libs brand colors */
   --brand-primary: var(--brand-teal);
   --brand-primary-light: var(--brand-teal-light);
@@ -87,7 +87,7 @@
      the Approved Use / ISI section is excluded and keeps plain bullets. */
   --list-bullet-color: var(--brand-secondary);
   --list-bullet-indent: 1.2em;
-  
+
   /* fonts */
   --body-font-family: proxima-nova, proxima-nova-fallback, sans-serif; /* @libs */
   --heading-font-family: proxima-nova, proxima-nova-fallback, sans-serif; /* @libs */
@@ -1261,32 +1261,32 @@ main .section.stats-callout h4 {
 
   .center-desktop {
     text-align: center;
-  
+
     &.columns .columns-img-col img {
       display: inline-block;
     }
-  
+
     ol, ul {
       margin-left: auto;
       margin-right: auto;
     }
-  
+
     &:not(.cards) li {
       text-align: left;
     }
   }
-  
+
   .left-desktop {
     text-align: left;
-  
+
     &.columns .columns-img-col img {
       display: inline-block;
     }
   }
-  
+
   .right-desktop {
     text-align: right;
-  
+
     &.columns .columns-img-col img {
       display: inline-block;
     }
