@@ -5,7 +5,7 @@ import { getApiInfo, loadLocations } from './api.js';
 import registerEvents from './events.js';
 import { initCustomDropdown } from './dropdown.js';
 import getElements from './ui.js';
-import { loadPdfMake } from './layout/pdf.js';
+
 
 async function renderForm(block) {
   const formModule = await import('../form/form.js');
@@ -19,7 +19,7 @@ function initializeDropdowns(ui) {
   );
 }
 
-await loadPdfMake();
+
 
 export default async function decorate(block) {
   /*
@@ -43,12 +43,6 @@ export default async function decorate(block) {
    */
   const settings = getSettings(block);
 
-   /*
-   * 4. Load all facility data on page load
-   */
-  const allLocations = await loadLocations(
-    apiInfo
-  );
 
    /*
    * 5. Create layout
@@ -81,12 +75,21 @@ export default async function decorate(block) {
    */
   initializeDropdowns(ui);
 
+  let allLocationsPromise;
+  const loadAllLocations = () => {
+  if (!allLocationsPromise) {
+    allLocationsPromise = loadLocations(apiInfo);
+  }
+
+  return allLocationsPromise;
+};
+
   registerEvents({
     block,
     ui,
     settings,
     apiInfo,
-    allLocations,
+    loadAllLocations,
   });
 }
 

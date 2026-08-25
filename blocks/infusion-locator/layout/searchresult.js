@@ -1,9 +1,9 @@
 import { centerMapOnMarker } from "../map.js";
 
 function getFacilityIcon(result) {
-  const combinedImage = 'https://www.vyepti.com/etc.clientlibs/vyepti-picl/clientlibs/clientlib-site/resources/icons/Combined-Image.svg';
-  const iconHome = 'https://www.vyepti.com/etc.clientlibs/vyepti-picl/clientlibs/clientlib-site/resources/icons/icon_home_40px.svg';
-  const iconHospital = 'https://www.vyepti.com/etc.clientlibs/vyepti-picl/clientlibs/clientlib-site/resources/icons/icon_hospital_40px.svg';
+  const combinedImage = 'icons/Combined-Image.svg';
+  const iconHome = 'icons/icon_home_40px.svg';
+  const iconHospital = 'icons/icon_hospital_40px.svg';
 
   if (
     result.preferredIc === 'TRUE' &&
@@ -24,7 +24,7 @@ function getFacilityIcon(result) {
 
 export function noResult(resultsContainer) {
   const noResultsImg = document.createElement('img');
-  noResultsImg.src = 'https://www.vyeptihcp.com/etc.clientlibs/vyepti-picl/clientlibs/clientlib-site/resources/icons/search-plus.png';
+  noResultsImg.src = 'icons/search-plus.png';
  noResultsImg.className ='no-result-icon-img';
 
   const title = document.createElement('h2');
