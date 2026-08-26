@@ -483,7 +483,6 @@ document.addEventListener('click', (e) => {
 });
 
 document.addEventListener('keydown', (e) => {
-  // eslint-disable-next-line secure-coding/no-insecure-comparison
   if (e.key !== 'Escape') return;
   closeAllPopovers();
 });
@@ -1548,20 +1547,16 @@ function initializeAddressAutocomplete() {
   addressInput.addEventListener('keydown', (e) => {
     if (list.hidden || !currentSuggestions.length) return;
 
-    // eslint-disable-next-line secure-coding/no-insecure-comparison -- comparing a keyboard event key name, not a secret
     if (e.key === 'ArrowDown') {
       e.preventDefault();
       setActive(Math.min(activeIndex + 1, currentSuggestions.length - 1));
-      // eslint-disable-next-line secure-coding/no-insecure-comparison -- comparing a keyboard event key name, not a secret
     } else if (e.key === 'ArrowUp') {
       e.preventDefault();
       setActive(Math.max(activeIndex - 1, 0));
-      // eslint-disable-next-line secure-coding/no-insecure-comparison -- comparing a keyboard event key name, not a secret
     } else if (e.key === 'Enter' && activeIndex >= 0) {
       e.preventDefault();
       // eslint-disable-next-line secure-coding/detect-object-injection -- activeIndex is a bounds-checked numeric index, not user-controlled input
       selectSuggestion(currentSuggestions[activeIndex].placePrediction);
-      // eslint-disable-next-line secure-coding/no-insecure-comparison -- comparing a keyboard event key name, not a secret
     } else if (e.key === 'Escape') {
       closeList();
     }
@@ -1589,7 +1584,6 @@ export default function decorate(block) {
     if (cols.length === 2) {
       const label = cols[0].textContent.trim();
       const value = cols[1].textContent.trim();
-// eslint-disable-next-line secure-coding/no-insecure-comparison
       if (label === 'Google Maps API Key') {
         googleApiKey = value;
       }
