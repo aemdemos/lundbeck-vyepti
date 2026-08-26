@@ -60,6 +60,7 @@ async function playInPage(wrapper, facade, videoId) {
   video.setAttribute('data-embed', 'default');
   video.setAttribute('data-video-id', videoId);
   video.setAttribute('controls', '');
+  video.setAttribute('playsinline', '');
   video.classList.add('vjs-fluid');
   // Insert the player behind the still-visible facade (facade stays last child).
   wrapper.insertBefore(video, facade);
@@ -68,6 +69,7 @@ async function playInPage(wrapper, facade, videoId) {
     const bc = await loadBrightcoveScript();
     const player = bc(video);
     player.ready(() => {
+      player.playsinline(true);
       // Remove our facade only once real playback begins.
       player.one('playing', () => facade.remove());
       const p = player.play();
