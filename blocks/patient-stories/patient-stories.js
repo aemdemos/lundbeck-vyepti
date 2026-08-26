@@ -22,7 +22,7 @@ function fragmentPathFor(assetId) {
 
 function buildBrightcoveIframe(videoId) {
   const iframe = document.createElement('iframe');
-  iframe.src = `https://players.brightcove.net/${BRIGHTCOVE_ACCOUNT}/${BRIGHTCOVE_PLAYER}_default/index.html?videoId=${videoId}`;
+  iframe.src = `https://players.brightcove.net/${BRIGHTCOVE_ACCOUNT}/${BRIGHTCOVE_PLAYER}_default/index.html?videoId=${videoId}&playsinline=true`;
   iframe.allow = 'autoplay; encrypted-media; fullscreen; picture-in-picture';
   iframe.allowFullscreen = true;
   iframe.loading = 'lazy';
