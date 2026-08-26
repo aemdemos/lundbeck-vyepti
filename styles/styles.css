@@ -39,6 +39,7 @@
   --brand-rose-light: #b81d4a;
   --border-gray-light: #e0e0e0; 
   --brand-dark:#000;
+  --brand-color-white: #ffffff;
 
   /* libs brand colors */
   --brand-primary: var(--brand-teal);
@@ -81,6 +82,9 @@
   --doctor-discussion-bg: #eef3f6;
   --doctor-discussion-input-color: #495057;
   --doctor-disussion-divider: #d1d1d1;
+  --doctor-discussion-step-progress-active: #f16464;
+  --doctor-discussion-step-progress: #d1d1d1;
+  --doctor-discussion-text-input: #484848;
 
   /* branded body bullets — large rose dot in a hanging indent (matches
      vyepti.com body lists). Applied globally to authored content lists;
