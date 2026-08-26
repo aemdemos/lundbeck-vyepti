@@ -87,13 +87,13 @@ main .section div.doctor-discussion-wrapper {
 }
 
 .dg-progress-segment {
-  background: var(--brand-grey-light);
+  background: var(--doctor-discussion-step-progress);
   flex: 1;
   height: 5px;
 }
 
 .dg-progress-segment.is-complete {
-  background: var(--brand-rose-light);
+  background: var(--doctor-discussion-step-progress-active);
 }
 
 /* ---------- Form layout ---------- */
@@ -144,7 +144,7 @@ main .section div.doctor-discussion-wrapper {
 }
 
 .dg-text-input {
-  border: 1px solid var(--brand-grey-dark);
+  border: 1px solid var(--doctor-discussion-text-input);
   border-radius: 9.5px;
   box-sizing: border-box;
   font: 18px/24px var(--body-font-family);
@@ -794,7 +794,7 @@ body.modal-open {
   border-radius: 10px;
   color: var(--doctor-discussion-input-color);
   padding: 25px 15px 21px;
-  border: 1px solid var(--brand-grey-dark);
+  border: 1px solid var(--doctor-discussion-text-input);
   box-sizing: border-box;
   height: 0;
 }
@@ -802,12 +802,12 @@ body.modal-open {
 
 .dg-modal-input:focus {
   outline: none;
-  border: 1px solid var(--form-input-outline);
+  border: 1px solid var(--doctor-discussion-text-input);
   box-shadow: 0 0 0 .2rem rgb(0 123 255 / 25%);
 }
 
 .dg-modal-input.is-invalid {
-  border: 1px solid var(--form-input-outline);
+  border: 1px solid var(--doctor-discussion-text-input);
 }
 
 .dg-modal-field-error {
