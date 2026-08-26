@@ -61,6 +61,7 @@ async function playInPage(wrapper, facade, videoId) {
   video.setAttribute('data-video-id', videoId);
   video.setAttribute('controls', '');
   video.setAttribute('playsinline', '');
+  video.setAttribute('webkit-playsinline', '');
   video.classList.add('vjs-fluid');
   // Insert the player behind the still-visible facade (facade stays last child).
   wrapper.insertBefore(video, facade);
