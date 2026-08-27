@@ -22,7 +22,7 @@ function fragmentPathFor(assetId) {
 
 function buildBrightcoveIframe(videoId) {
   const iframe = document.createElement('iframe');
-  iframe.src = `https://players.brightcove.net/${BRIGHTCOVE_ACCOUNT}/${BRIGHTCOVE_PLAYER}_default/index.html?videoId=${videoId}`;
+  iframe.src = `https://players.brightcove.net/${BRIGHTCOVE_ACCOUNT}/${BRIGHTCOVE_PLAYER}_default/index.html?videoId=${videoId}&playsinline=true`;
   iframe.allow = 'autoplay; encrypted-media; fullscreen; picture-in-picture';
   iframe.allowFullscreen = true;
   iframe.loading = 'lazy';
@@ -60,6 +60,8 @@ async function playInPage(wrapper, facade, videoId) {
   video.setAttribute('data-embed', 'default');
   video.setAttribute('data-video-id', videoId);
   video.setAttribute('controls', '');
+  video.setAttribute('playsinline', '');
+  video.setAttribute('webkit-playsinline', '');
   video.classList.add('vjs-fluid');
   // Insert the player behind the still-visible facade (facade stays last child).
   wrapper.insertBefore(video, facade);
@@ -68,6 +70,7 @@ async function playInPage(wrapper, facade, videoId) {
     const bc = await loadBrightcoveScript();
     const player = bc(video);
     player.ready(() => {
+      player.playsinline(true);
       // Remove our facade only once real playback begins.
       player.one('playing', () => facade.remove());
       const p = player.play();
