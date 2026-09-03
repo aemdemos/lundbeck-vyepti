@@ -11,8 +11,6 @@ export const TOTAL_STEPS_DEFAULT = 9;
 export const {
   PDF_DOWNLOAD_API_URL,
   EMAIL_SUBMIT_API_URL,
-  PDF_DOWNLOAD_API_USERNAME,
-  PDF_DOWNLOAD_API_PASSWORD,
   EMAIL_FORM_TYPE,
   EMAIL_JOBCODE,
 } = DOCTOR_DISCUSSION_CONFIGS;
@@ -42,6 +40,15 @@ export function setAnswer(answers, key, value) {
   Object.defineProperty(answers, key, {
     value, writable: true, enumerable: true, configurable: true,
   });
+}
+
+export function capitalizeName(name) {
+  return (name || '')
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((word) => word[0].toUpperCase() + word.slice(1).toLowerCase())
+    .join(' ');
 }
 
 /**
@@ -134,15 +141,14 @@ function addFieldAnswers(payload, answers, field, questionIndex) {
  * @returns {Object} plain object of legacy keys, e.g. { fname, q1a1, q2a1, ... }
  */
 export function buildLegacyAnswersPayload(answers, steps, nameFieldName) {
-  // Built as a Map (rather than assigning dynamic keys straight onto a plain
-  // object) so property writes below can't be mistaken for prototype-polluting
-  // object injection. Converted to a plain object only at the very end.
+// Uses a Map instead of a plain object so dynamic key writes below can't be
+// mistaken for prototype-pollution; converted to a plain object only at the end.
   const payload = new Map();
 
-  // fname is lowercase in the confirmed live payload (e.g. "rohan").
+  // fname must be title-cased here — Download PDF.
   const nameValue = nameFieldName ? getAnswer(answers, nameFieldName) : undefined;
   if (nameValue) {
-    payload.set('fname', String(nameValue).toLowerCase());
+    payload.set('fname', capitalizeName(String(nameValue)));
   }
 
   let questionIndex = 0;

@@ -69,7 +69,7 @@ main .section div.doctor-discussion-wrapper {
   width: 23px;
 }
 
-.dg-header-title {
+.dg-header h2{
   color: var(--brand-color-white);
   font-size: 18px;
   font-weight: 600;
@@ -187,6 +187,7 @@ main .section div.doctor-discussion-wrapper {
   height: 22px;
   flex-shrink: 0;
   font-size: 1.1rem;
+  object-fit: contain;
   text-align: center;
   width: 25px;
 }
@@ -272,7 +273,6 @@ main .section div.doctor-discussion-wrapper {
   color: var(--brand-teal);
 }
 
-
 .dg-option-input:not([type='radio'], [data-exclusive='true']):checked + .dg-option-control::after {
   border: solid var(--brand-color-white);
   border-width: 0 2px 2px 0;
@@ -283,7 +283,6 @@ main .section div.doctor-discussion-wrapper {
   transform: rotate(45deg);
   width: 7px;
 }
-
 
 .dg-option-input[type='radio']:checked + .dg-option-control,
 .dg-option-input[data-exclusive='true']:checked + .dg-option-control {
@@ -312,9 +311,8 @@ main .section div.doctor-discussion-wrapper {
   padding-top: 16px;
 }
 
-
-.dg-actions .dg-next-btn,
-.dg-actions  .dg-back-btn {
+.dg-next-btn,
+.dg-back-btn {
   align-items: center;
   border-radius: 30px;
   cursor: pointer;
@@ -326,8 +324,8 @@ main .section div.doctor-discussion-wrapper {
   margin-top: 0;
 }
 
-.dg-actions  .dg-next-btn,
-.dg-actions  .dg-next-btn:focus {
+.dg-next-btn,
+.dg-next-btn:focus {
   background: var(--brand-teal);
   border: 2px solid var(--brand-teal);
   color: var(--brand-color-white);
@@ -351,11 +349,51 @@ main .section div.doctor-discussion-wrapper {
   opacity: 0.5;
 }
 
-.dg-next-arrow {
-  background: url('/icons/cta-button-arrow-20-global-white.svg');
-  background-repeat: no-repeat;
+/*
+ * Back/Next/Finish arrow icons.
+ *
+ * Same span-vs-img scoping as the Download/Email/Retake icons below (see
+ * that comment block for the full rationale) — the background-image rules
+ * are scoped to `span` only, the CSS-driven fallback rendered by
+ * buildActionIcon() in doctor-discussion-form-wizard.js when no icon has
+ * been authored. When an icon IS authored (via the button row's
+ * Placeholder column, or a "[icon](url)" tag in its Label), that same
+ * function renders a real <img class="dg-next-arrow">/<img
+ * class="dg-back-arrow"> instead. If these rules applied to the class name
+ * generally (not scoped to `span`), the authored <img>'s own src would be
+ * squashed by this fixed-size background-image rule instead of sizing
+ * naturally via object-fit.
+ */
+.dg-next-arrow,
+.dg-back-arrow {
+  flex-shrink: 0;
   height: 10px;
   width: 21px;
+}
+
+span.dg-next-arrow {
+  background: url('/icons/cta-button-arrow-20-global-white.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+span.dg-back-arrow {
+  background: url('/icons/cta-button-arrow-20-global-blue.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  transform: rotate(180deg);
+}
+
+/* Authored icon <img> — same box as the span above, no background painted. */
+img.dg-next-arrow,
+img.dg-back-arrow {
+  object-fit: contain;
+}
+
+img.dg-back-arrow {
+  transform: rotate(180deg);
 }
 
 .dg-back-btn,
@@ -371,14 +409,6 @@ main .section div.doctor-discussion-wrapper {
   background-color: var(--background-color);
   border-color: var(--brand-teal-light);
   color: var(--brand-teal-light);
-}
-
-.dg-back-arrow {
-  background: url('/icons/cta-button-arrow-20-global-blue.svg');
-  background-repeat: no-repeat;
-  transform: rotate(180deg);
-  height: 10px;
-  width: 21px;
 }
 
 .dg-back-btn:hover .dg-back-arrow {
@@ -554,22 +584,47 @@ main .section div.doctor-discussion-wrapper {
   border-color: var(--brand-teal);
 }
 
+/*
+ * Download/Email button icons.
+ *
+ * IMPORTANT: the background-image rules below are scoped to `span` only
+ * — the CSS-driven fallback element built by buildButtonIcon() in
+ * doctor-discussion-results-builders.js when no icon has been authored.
+ * When an icon IS authored (see the "Download Button Icon"/"Email Button
+ * Icon" config rows in doctor-discussion-sheet.js), that same function
+ * renders a real <img class="dg-download-icon">/<img class="dg-email-icon">
+ * instead. If these rules applied to the class name generally (not scoped
+ * to `span`), the authored <img>'s own src AND this background-image
+ * would both paint on the same element — the bug seen when an icon was
+ * authored and the old icon showed doubled-up behind the new one. Sizing
+ * stays shared between both cases; only the *fallback* icon-drawing rule
+ * is span-scoped.
+ */
 .dg-download-icon,
 .dg-email-icon {
-  background-position: center;
-  background-size: contain;
-  background-repeat: no-repeat;
   flex-shrink: 0;
   height: 19px;
   width: 18px;
 }
 
-.dg-download-icon {
+span.dg-download-icon {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
   background-image: url('/icons/download-white-20-desktop.svg');
 }
 
-.dg-email-icon {
+span.dg-email-icon {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
   background-image: url('/icons/ddg-mail-white-20-mobile.svg');
+}
+
+/* Authored icon <img> — same box as the span above, no background painted. */
+img.dg-download-icon,
+img.dg-email-icon {
+  object-fit: contain;
 }
 
 .dg-results-note {
@@ -619,14 +674,27 @@ main .section div.doctor-discussion-wrapper {
   text-decoration: none;
 }
 
+/*
+ * Retake button icon. Same span-vs-img scoping as the Download/Email
+ * icons above — see that comment block for why. buildRetakeIcon() in
+ * doctor-discussion-results-builders.js renders the same fallback
+ * <span>/authored <img> shape.
+ */
 .dg-retake-icon {
-  background-image: url('/icons/icon-retake-21-mobile.svg');
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: contain;
   flex-shrink: 0;
   height: 16px;
   width: 21px;
+}
+
+span.dg-retake-icon {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-image: url('/icons/icon-retake-21-mobile.svg');
+}
+
+img.dg-retake-icon {
+  object-fit: contain;
 }
 
 .dg-results-retake-btn:hover .dg-retake-icon,
@@ -1055,7 +1123,7 @@ body.modal-open {
     padding: 16px 49px 20px 30px;
   }
 
-  .dg-header-title {
+  .dg-header h2 {
     margin: 3px 0 0;
     font: 600 20px/24px var(--body-font-family);
   }

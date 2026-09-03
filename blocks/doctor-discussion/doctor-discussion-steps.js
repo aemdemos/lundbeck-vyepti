@@ -1,4 +1,5 @@
 import { TOTAL_STEPS_DEFAULT } from './doctor-discussion-utils.js';
+import { extractIconMarkdown } from './doctor-discussion-markdown.js';
 
 // ---------------------------------------------------------------------------
 // Default step data
@@ -237,19 +238,22 @@ export const DEFAULT_STEPS = [
 // ---------------------------------------------------------------------------
 
 
-// Splits an authored comma-separated options cell into individual option objects.
+// Splits a comma-separated options cell into option objects, pulling an
+// authored "[icon](url)" tag (same syntax as extractIconMarkdown()) off each
+// option's text so options carry their own icon instead of hardcoded CSS.
 export function parseOptions(raw) {
   return raw
     .split(',')
     .map((entry) => entry.trim())
     .filter(Boolean)
-    .map((entry) => ({ text: entry }));
+    .map((entry) => {
+      const { icon, text } = extractIconMarkdown(entry);
+      return { text, icon };
+    });
 }
 
-// Row-type keys with dedicated parsing below. Any row whose key isn't in
-// this set is treated as Thank You content — regardless of
-// what the author typed as its label, and regardless of where in the
-// table it sits.
+// Row keys with dedicated parsing below. Any row whose key isn't in this set
+// is treated as Thank You content, regardless of its label or table position.
 const KNOWN_ROW_KEYS = new Set([
   'step-title', 'step-number', 'total-steps',
   'did-you-know', 'text-question', 'checkbox-question', 'radio-question',
@@ -343,11 +347,8 @@ export function parseSteps(block) {
     state.fieldIndex += 1;
   }
 
-  // Dispatch table replacing the old switch statement. A Map (rather than a
-  // plain object) is used so looking a row up by its dynamic `key` can't be
-  // mistaken for prototype-polluting object injection. Explicit step-number
-  // rows are no longer required (steps are numbered by their position), but
-  // a no-op handler keeps parsing harmless if authored.
+  // Dispatch table (Map, not object, to avoid prototype-pollution risk from
+  // a dynamic key). Explicit step-number rows are now a harmless no-op.
   const rowHandlers = new Map([
     ['step-title', handleStepTitle],
     ['step-number', () => {}],
@@ -363,10 +364,8 @@ export function parseSteps(block) {
     const key = cells[0]?.textContent?.trim().toLowerCase();
     const rest = cells.slice(1).map((c) => c.textContent.trim());
 
-    // Thank You rows are identified by exclusion — any row whose key isn't a
-    // recognized step/question type is treated as Thank You content. cells[0]
-    // is free-form author notes (unread by the parser); cells[1] from each
-    // such row is appended in order to build the combined message.
+  // Unrecognized rows are treated as Thank You content (identified by
+  // exclusion). cells[1] from each is appended in order to build the message.
     if (!KNOWN_ROW_KEYS.has(key)) {
       // cells[1] is the authored rich-content cell (image, heading, copy),
       // captured as live DOM nodes rather than as text so it can be

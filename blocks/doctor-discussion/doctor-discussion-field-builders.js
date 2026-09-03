@@ -55,13 +55,19 @@ export function buildOptionControl(inputType) {
 }
 
 /**
- * Build the icon element shown at the start of an option row.
+ * Builds an option's leading icon: an authored icon URL (option.icon)
+ * renders as an <img>; else falls back to legacy CSS icons for Step 1 only.
+ *
  * @param {number} stepNumber 1-based step number the option belongs to.
  * @param {number} optionIndex 0-based index of the option within its field.
+ * @param {string|null} [icon] Authored icon URL for this option, if any.
  * @returns {HTMLElement|null}
  */
-export function buildOptionIcon(stepNumber, optionIndex) {
-  // Decorative option icons are only used on Step 1's options.
+export function buildOptionIcon(stepNumber, optionIndex, icon = null) {
+  if (icon) {
+    return createEl('img', { className: 'dg-option-icon', src: icon, alt: '' });
+  }
+  // Legacy fallback is only used for Step 1's un-authored options.
   if (stepNumber !== 1) return null;
   return createEl('span', {
     className: `dg-option-icon dg-step1-icon${optionIndex + 1}`,
@@ -95,7 +101,7 @@ export function buildCheckboxQuestion(fieldDef, countLabel, savedValues, stepNum
   const optionList = createEl('div', { className: 'dg-option-list' });
   const selected = new Set(savedValues || []);
 
-  options.forEach(({ text }, index) => {
+  options.forEach(({ text, icon }, index) => {
     const optionId = `${name}-${index}`;
     // "None of the above" is rendered as a radio so it auto-clears the other checkboxes.
     const isExclusive = /none of the above/i.test(text);
@@ -114,7 +120,7 @@ export function buildCheckboxQuestion(fieldDef, countLabel, savedValues, stepNum
       className: `dg-option ${isExclusive ? 'dg-option--radio' : 'dg-option--checkbox'}`,
       for: optionId,
     },
-      buildOptionIcon(stepNumber, index),
+      buildOptionIcon(stepNumber, index, icon),
       createEl('span', { className: 'dg-option-text' }, text),
       input,
       buildOptionControl(isExclusive ? 'radio' : 'checkbox'),
@@ -152,7 +158,7 @@ export function buildRadioQuestion(fieldDef, countLabel, savedValue, stepNumber)
 
   const optionList = createEl('div', { className: 'dg-option-list dg-option-list--radio' });
 
-  options.forEach(({ text }, index) => {
+  options.forEach(({ text, icon }, index) => {
     const optionId = `${name}-${index}`;
 
     const input = createEl('input', {
@@ -165,7 +171,7 @@ export function buildRadioQuestion(fieldDef, countLabel, savedValue, stepNumber)
     if (savedValue === text) input.checked = true;
 
     const optionLabel = createEl('label', { className: 'dg-option dg-option--radio', for: optionId },
-      buildOptionIcon(stepNumber, index),
+      buildOptionIcon(stepNumber, index, icon),
       createEl('span', { className: 'dg-option-text' }, text),
       input,
       buildOptionControl('radio'),
