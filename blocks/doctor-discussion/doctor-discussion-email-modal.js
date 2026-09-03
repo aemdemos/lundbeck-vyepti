@@ -1,7 +1,5 @@
 import { lockBodyScroll, unlockBodyScroll } from './doctor-discussion-modal-utils.js';
-import {
-  EMAIL_FORM_TYPE, EMAIL_JOBCODE, PDF_DOWNLOAD_API_USERNAME, PDF_DOWNLOAD_API_PASSWORD,
-} from './doctor-discussion-utils.js';
+import { EMAIL_FORM_TYPE, EMAIL_JOBCODE } from './doctor-discussion-utils.js';
 
 /**
  * Returns the right error message (empty vs. invalid) using the
@@ -26,9 +24,16 @@ function getFieldErrorMessage(input, errorEl) {
  * @param {Object} config.quizData - Flattened legacy answers payload (e.g. { fname, q1a1, ... }),
  *                                   already built via buildLegacyAnswersPayload() — see
  *                                   getOrCreateEmailModal() in doctor-discussion-interactions.js.
+ * @param {string|null} [config.apiUsername] - authored da.live "API Username" override (see
+ *                                   parseDoctorDiscussionConfig() in doctor-discussion-sheet.js),
+ *                                   forwarded here via getOrCreateEmailModal(). When either this
+ *                                   or apiPassword is missing, no Authorization header is sent.
+ * @param {string|null} [config.apiPassword] - authored da.live "API Password" override; see above.
  * @returns {{ open: Function, close: Function, handleSubmit: Function }}
  */
-export default function createEmailModalController({ modalId = "mq-modal", formId = "emailForm", quizData = {} } = {}) {
+export default function createEmailModalController({
+  modalId = "mq-modal", formId = "emailForm", quizData = {}, apiUsername = null, apiPassword = null,
+} = {}) {
   const modal = document.getElementById(modalId);
   const form = document.getElementById(formId);
 
@@ -225,10 +230,12 @@ export default function createEmailModalController({ modalId = "mq-modal", formI
 
     const submitUrl = form.getAttribute("data-submit");
 
-    // Stage proxy requires the same Basic Auth as the PDF endpoint
+    // Stage proxy needs the same Basic Auth as the PDF endpoint.
+    // apiUsername/apiPassword are authored overrides — if either is
+    // missing, no Authorization header is sent (same as before).
     const headers = { "Content-Type": "application/x-www-form-urlencoded" };
-    if (PDF_DOWNLOAD_API_USERNAME && PDF_DOWNLOAD_API_PASSWORD) {
-      const credentials = `${PDF_DOWNLOAD_API_USERNAME}:${PDF_DOWNLOAD_API_PASSWORD}`;
+    if (apiUsername && apiPassword) {
+      const credentials = `${apiUsername}:${apiPassword}`;
       headers.Authorization = `Basic ${btoa(credentials)}`;
     }
 

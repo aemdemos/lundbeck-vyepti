@@ -1,7 +1,9 @@
 import {
   createEl, setAnswer, EMAIL_SUBMIT_API_URL, THANKYOU_MODAL_ID,
-  setModalController, getModalController, buildLegacyAnswersPayload,
+  setModalController, getModalController,
 } from './doctor-discussion-utils.js';
+import { renderInlineLinks } from './doctor-discussion-markdown.js';
+import { DEFAULT_EMAIL_MODAL_CONFIG } from './doctor-discussion-email-config.js';
 import createEmailModalController from './doctor-discussion-email-modal.js';
 import createThankYouModalController from './doctor-discussion-thankyou-modal.js';
 
@@ -116,8 +118,12 @@ function refreshFieldValidity(input, errorEl) {
   errorEl.style.display = 'block';
 }
 
-// Build the DOM markup the email modal controller attaches its behavior to.
-function buildEmailModalMarkup() {
+// Builds the email modal's DOM markup. `emailUrl` is an authored endpoint
+// override (defaults to EMAIL_SUBMIT_API_URL); `modalConfig` supplies the
+// authorable copy, while field identity/validation stay fixed in code.
+function buildEmailModalMarkup(emailUrl, modalConfig = DEFAULT_EMAIL_MODAL_CONFIG) {
+  const { errors } = modalConfig;
+
   // Letters, spaces, apostrophes, hyphens only. NOTE: hyphen must stay
   // escaped (\\-) or it's a silent no-op under the "v"-flag regex engine.
   const NAME_PATTERN = "[A-Za-z\\s'\\-]+";
@@ -145,24 +151,24 @@ function buildEmailModalMarkup() {
     id: 'FirstName-error',
     className: 'dg-modal-field-error',
     style: 'display:none;',
-    'data-empty-message': 'Please enter your first name',
-    'data-invalid-message': 'Please enter a valid first name',
-  }, 'Please enter your first name');
+    'data-empty-message': errors.firstNameEmpty,
+    'data-invalid-message': errors.firstNameInvalid,
+  }, errors.firstNameEmpty);
   const lastNameError = createEl('p', {
     id: 'LastName-error',
     className: 'dg-modal-field-error',
     style: 'display:none;',
-    'data-empty-message': 'Please enter your last name',
-    'data-invalid-message': 'Please enter a valid last name',
-  }, 'Please enter your last name');
+    'data-empty-message': errors.lastNameEmpty,
+    'data-invalid-message': errors.lastNameInvalid,
+  }, errors.lastNameEmpty);
   const emailError = createEl('p', {
     id: 'Email-error',
     className: 'dg-modal-field-error',
     style: 'display:none;',
-    'data-empty-message': 'Please enter your email address',
-    'data-invalid-message': 'Please enter a valid email address',
-  }, 'Please enter your email address');
-  const consentError = createEl('p', { id: 'Consent-error', className: 'dg-modal-field-error', style: 'display:none;' }, 'Please check the box');
+    'data-empty-message': errors.emailEmpty,
+    'data-invalid-message': errors.emailInvalid,
+  }, errors.emailEmpty);
+  const consentError = createEl('p', { id: 'Consent-error', className: 'dg-modal-field-error', style: 'display:none;' }, errors.consent);
 
   // Validate on input AND blur, so leaving an empty field shows its
   // error immediately, without needing a submit first.
@@ -181,58 +187,50 @@ function buildEmailModalMarkup() {
   });
 
   const submitBtn = createEl('button', { type: 'submit', className: 'dg-modal-send-btn send-email' },
-    createEl('span', {}, 'Send'),
+    createEl('span', {}, modalConfig.sendLabel),
     createEl('span', { className: 'dg-modal-send-arrow', 'aria-hidden': 'true' }),
   );
   const closeBtn = createEl('button', { type: 'button', className: 'dg-modal-close-btn close', 'aria-label': 'Close' });
 
-  const requiredNote = createEl('p', { className: 'dg-modal-required-note' }, 'All fields are required');
+  const requiredNote = createEl('p', { className: 'dg-modal-required-note' }, modalConfig.requiredNote);
+
+  // Each authored paragraph may contain zero or more "[label](url)" links
+  // (e.g. Terms of Use / Privacy Policy) — see renderInlineLinks() in
+  // doctor-discussion-markdown.js.
+  const consentTextEl = createEl('span', { className: 'dg-modal-consent-text' });
+  modalConfig.consentParagraphs.forEach((paragraph) => {
+    consentTextEl.append(createEl(
+      'span',
+      { className: 'dg-modal-consent-paragraph' },
+      ...renderInlineLinks(paragraph, 'dg-modal-legal-link'),
+    ));
+  });
 
   const consentRow = createEl('label', { className: 'dg-modal-consent-row', for: 'Consent' },
     consentInput,
     createEl('div', { className: 'dg-modal-consent-content' },
-      createEl('span', { className: 'dg-modal-consent-text' },
-        createEl('span', { className: 'dg-modal-consent-paragraph' },
-          'By submitting this form, I agree to receive email updates about migraine and migraine treatment with VYEPTI. '
-          + 'I authorize Lundbeck, its affiliates, its employees, and its agents to use the information I am providing in order to enroll me in the email program.',
-        ),
-        createEl('span', { className: 'dg-modal-consent-paragraph' },
-          'Lundbeck will not sell your provided data to any third party, at any time. By clicking "Send," you signify that you have read and agree to our ',
-          createEl('a', {
-            href: 'https://www.lundbeck.com/us/terms-of-use',
-            target: '_blank',
-            rel: 'noopener noreferrer',
-            className: 'dg-modal-legal-link',
-          }, 'Terms of Use'),
-          ' and ',
-          createEl('a', {
-            href: 'https://www.lundbeck.com/us/privacy-policy',
-            target: '_blank',
-            rel: 'noopener noreferrer',
-            className: 'dg-modal-legal-link',
-          }, 'Privacy Policy'),
-          '.',
-        ),
-      ),
+      consentTextEl,
       consentError,
     ),
   );
 
-  // The email submit endpoint lives on the form as data-submit, read by the modal controller at submit time.
-  const form = createEl('form', { id: 'emailForm', className: 'dg-modal-form', 'data-submit': EMAIL_SUBMIT_API_URL, novalidate: '' },
+  // The email submit endpoint lives on the form as data-submit, read by the
+  // modal controller at submit time. Prefers the authored da.live override
+  // over the hardcoded config constant, same as Download PDF's config.pdfUrl.
+  const form = createEl('form', { id: 'emailForm', className: 'dg-modal-form', 'data-submit': emailUrl || EMAIL_SUBMIT_API_URL, novalidate: '' },
     requiredNote,
     createEl('div', { className: 'dg-modal-field' },
-      createEl('label', { className: 'dg-modal-field-label', for: 'FirstName' }, 'First Name'),
+      createEl('label', { className: 'dg-modal-field-label', for: 'FirstName' }, modalConfig.firstNameLabel),
       firstNameInput,
       firstNameError,
     ),
     createEl('div', { className: 'dg-modal-field' },
-      createEl('label', { className: 'dg-modal-field-label', for: 'LastName' }, 'Last Name'),
+      createEl('label', { className: 'dg-modal-field-label', for: 'LastName' }, modalConfig.lastNameLabel),
       lastNameInput,
       lastNameError,
     ),
     createEl('div', { className: 'dg-modal-field' },
-      createEl('label', { className: 'dg-modal-field-label', for: 'Email' }, 'Email address'),
+      createEl('label', { className: 'dg-modal-field-label', for: 'Email' }, modalConfig.emailLabel),
       emailInput,
       emailError,
     ),
@@ -240,8 +238,8 @@ function buildEmailModalMarkup() {
     submitBtn,
   );
 
-  const headerTitle = createEl('h2', { className: 'header-title dg-modal-title' }, 'Email me this information');
-  const errorMsg = createEl('div', { className: 'error-message d-none' }, 'Something went wrong. Please try again.');
+  const headerTitle = createEl('h2', { className: 'header-title dg-modal-title' }, modalConfig.title);
+  const errorMsg = createEl('div', { className: 'error-message d-none' }, errors.generic);
   const patientFormContainer = createEl('div', { className: 'patient-form-container' }, form);
 
   // No "success" view here — on submit, this modal closes and the
@@ -261,25 +259,46 @@ function buildEmailModalMarkup() {
  * Builds the email modal (once) and returns its controller, reusing the
  * existing modal/controller across opens instead of rebuilding it each time.
  *
- * @param {Object} answers - the shared answers store from decorate.js
- * @param {Array} steps - the parsed/default steps array, needed to derive the
- *                         legacy q{N}a{M} field names the sendemail API expects
- * @param {string|null} nameFieldName - field name of the "My name is" text input, if any
+ * @param {Object} quizData - the already-flattened legacy payload (e.g.
+ *                             { fname, q1a1, q2a1, ... }) to send alongside the
+ *                             visitor's name/email/consent on submit. Callers
+ *                             that already have this shape (e.g. the wizard's
+ *                             own collectAnswers()) should pass it directly —
+ *                             this used to be rebuilt here from steps/
+ *                             nameFieldName via buildLegacyAnswersPayload(),
+ *                             but callers were passing steps=[]/nameFieldName=
+ *                             null, which silently produced an empty payload
+ *                             (no answers, no fname) every time.
+ * @param {string|null} [emailUrl] - authored "Form Submission Endpoint" override from
+ *                                   da.live (see parseDoctorDiscussionConfig()); falls
+ *                                   back to the hardcoded EMAIL_SUBMIT_API_URL when omitted.
+ * @param {string|null} [apiUsername] - authored da.live "API Username" override (see
+ *                                   parseDoctorDiscussionConfig()); forwarded to the email
+ *                                   modal controller for the sendemail API's Basic Auth
+ *                                   header. When either this or apiPassword is missing, no
+ *                                   Authorization header is sent.
+ * @param {string|null} [apiPassword] - authored da.live "API Password" override; see above.
+ * @param {Object} [modalConfig] - authorable modal copy (title/labels/consent
+ *                                 text/errors), from the sheet's "email-modal"
+ *                                 tab via fetchEmailModalConfigFromSheet() in
+ *                                 doctor-discussion-sheet.js, or
+ *                                 DEFAULT_EMAIL_MODAL_CONFIG when unauthored.
  */
-export function getOrCreateEmailModal(answers, steps, nameFieldName) {
+export function getOrCreateEmailModal(quizData, emailUrl, apiUsername, apiPassword, modalConfig) {
   const modalEl = document.getElementById('mq-modal');
   if (modalEl) return getModalController(modalEl);
 
   const {
     modal, closeBtn, submitBtn,
-  } = buildEmailModalMarkup();
+  } = buildEmailModalMarkup(emailUrl, modalConfig);
   document.body.append(modal);
 
   const controller = createEmailModalController({
     modalId: 'mq-modal',
     formId: 'emailForm',
-    // Flattened to the legacy { fname, q1a1, q2a1, ... }
-    quizData: buildLegacyAnswersPayload(answers, steps, nameFieldName),
+    quizData,
+    apiUsername,
+    apiPassword,
   });
 
   closeBtn.addEventListener('click', () => controller.close());
